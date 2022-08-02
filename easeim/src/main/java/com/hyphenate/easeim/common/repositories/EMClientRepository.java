@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.common.db.EaseDbHelper;
@@ -25,6 +26,7 @@ import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.util.EMLog;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -138,52 +140,24 @@ public class EMClientRepository extends BaseEMRepository{
     }
 
     /**
-     * 极狐APP登录获取token/im账号密码
+     * 极狐APP登录
      * @param username
      * @param password
      * @param callBack
      */
     public void loginWithCustomer(String username, String password, EMCallBack callBack){
-        try {
-            MediaType JSON = MediaType.get("application/json; charset=utf-8");
-            OkHttpClient client = new OkHttpClient();
-            JSONObject json = new JSONObject();
-            json.put("username", username);
-            json.put("password", password);
-            RequestBody body = RequestBody.create(json.toString(), JSON);
-            Request request = new Request.Builder()
-                    .url(EaseIMHelper.getInstance().getServerHost()+"/v1/gov/arcfox/login")
-                    .post(body)
-                    .build();
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
-                }
+        loginToServer(username, password, new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                getServiceGroups(callBack);
 
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    String responseBody = response.body().string();
-                    if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
-                        try {
-                            JSONObject result = new JSONObject(responseBody);
-                            JSONObject entity = result.getJSONObject("entity");
-                            String token = entity.getString("token");
-                            EaseIMHelper.getInstance().getModel().setAppToken(token);
-                            loginToServer(username, password, callBack);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
-                        }
-                    } else {
-                        callBack.onError(EMError.USER_AUTHENTICATION_FAILED, "user login failed,username or password error.");
-                    }
-                }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-            callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
-        }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                callBack.onError(i, s);
+            }
+        });
     }
 
     /**
@@ -192,7 +166,7 @@ public class EMClientRepository extends BaseEMRepository{
      * @param pwd
      * @param callBack
      */
-    public void loginToServer(String userName, String pwd, EMCallBack callBack) {
+    private void loginToServer(String userName, String pwd, EMCallBack callBack) {
         EMClient.getInstance().login(userName, pwd, new EMCallBack() {
             @Override
             public void onSuccess() {
@@ -236,48 +210,6 @@ public class EMClientRepository extends BaseEMRepository{
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//                String responseBody = response.body().string();
-//                if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
-//                    callBack.onSuccess();
-//                } else {
-//                    EaseIMHelper.getInstance().logoutSuccess();
-//                }
-                EaseIMHelper.getInstance().logoutSuccess();
-                callBack.onSuccess();
-            }
-        });
-    }
-
-    /**
-     * 极狐APP端退出登录
-     * @param callBack
-     */
-    public void logoutWithCustomer(EMCallBack callBack){
-        OkHttpClient client = new OkHttpClient();
-        Headers headers = new Headers.Builder()
-                .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())
-                .add("username", EaseIMHelper.getInstance().getCurrentUser())
-                .build();
-        Request request = new Request.Builder()
-                .url(EaseIMHelper.getInstance().getServerHost()+"/v1/gov/arcfox/user/"+ EaseIMHelper.getInstance().getCurrentUser() + "/logout")
-                .headers(headers)
-                .get()
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                EaseIMHelper.getInstance().logoutSuccess();
-                callBack.onSuccess();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//                String responseBody = response.body().string();
-//                if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
-//                    callBack.onSuccess();
-//                } else {
-//                    EaseIMHelper.getInstance().logoutSuccess();
-//                }
                 EaseIMHelper.getInstance().logoutSuccess();
                 callBack.onSuccess();
             }
@@ -292,11 +224,11 @@ public class EMClientRepository extends BaseEMRepository{
         EMClient.getInstance().logout(true, new EMCallBack() {
             @Override
             public void onSuccess() {
-//                EaseIMHelper.getInstance().logoutSuccess();
                 if(EaseIMHelper.getInstance().isAdmin()){
                     logoutWithAdmin(callBack);
                 } else {
-                    logoutWithCustomer(callBack);
+                    EaseIMHelper.getInstance().logoutSuccess();
+                    callBack.onSuccess();
                 }
             }
 
@@ -305,11 +237,11 @@ public class EMClientRepository extends BaseEMRepository{
                 EMClient.getInstance().logout(false, new EMCallBack() {
                     @Override
                     public void onSuccess() {
-//                        EaseIMHelper.getInstance().logoutSuccess();
                         if(EaseIMHelper.getInstance().isAdmin()){
                             logoutWithAdmin(callBack);
                         } else {
-                            logoutWithCustomer(callBack);
+                            EaseIMHelper.getInstance().logoutSuccess();
+                            callBack.onSuccess();
                         }
                     }
 
@@ -387,5 +319,61 @@ public class EMClientRepository extends BaseEMRepository{
 
     private void closeDb() {
         EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).closeDb();
+    }
+
+    /**
+     * 极狐app获取专属服务群列表
+     * @param callBack
+     */
+    private void getServiceGroups(EMCallBack callBack){
+        OkHttpClient client = new OkHttpClient();
+        Headers headers = new Headers.Builder()
+                .add("Authorization", EMClient.getInstance().getAccessToken())
+                .add("username", EaseIMHelper.getInstance().getCurrentUser())
+                .build();
+        Request request = new Request.Builder()
+                .url(EaseIMHelper.getInstance().getServerHost()+"/v2/group/chatgroups/users/"+ EaseIMHelper.getInstance().getCurrentUser() + "/action")
+                .headers(headers)
+                .get()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String responseBody = response.body().string();
+                if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
+                    try {
+                        JSONObject result = new JSONObject(responseBody);
+                        JSONArray entity = result.getJSONArray("entity");
+                        if(entity.length() > 0){
+                            for(int i = 0; i < entity.length(); i ++){
+                                JSONObject item = entity.getJSONObject(i);
+                                String groupId = item.getString("groupId");
+                                EMConversation conversation = EaseIMHelper.getInstance().getChatManager().getConversation(groupId, EMConversation.EMConversationType.GroupChat, true);
+                                String ext = conversation.getExtField();
+                                JSONObject extJson;
+                                if(!TextUtils.isEmpty(ext)){
+                                    extJson = new JSONObject(ext);
+                                } else {
+                                    extJson = new JSONObject();
+                                }
+                                extJson.put(EaseConstant.IS_EXCLUSIVE, 1);
+                                conversation.setExtField(extJson.toString());
+                            }
+                        }
+                        callBack.onSuccess();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                    }
+                } else {
+                    callBack.onError(EMError.GENERAL_ERROR, "fetch service groups failed");
+                }
+            }
+        });
     }
 }

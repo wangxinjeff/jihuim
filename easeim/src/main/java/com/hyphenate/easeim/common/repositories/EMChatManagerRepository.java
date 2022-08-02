@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
@@ -320,14 +321,14 @@ public class EMChatManagerRepository extends BaseEMRepository{
                     JSONObject json = new JSONObject();
 //                    json.put("aid", EaseIMHelper.getInstance().getCurrentUser());
 //                    json.put("type", type);
-//                    json.put("token", EaseIMHelper.getInstance().getModel().getAppToken());
+//                    json.put("token", EaseIMHelper.getInstance().getModel().getAccessToken());
                     json.put("aid", "222510");
                     json.put("orderType", type);
                     json.put("token", "ad8s8d9adhka");
                     RequestBody body = RequestBody.create(json.toString(), JSON);
 
                     Headers headers = new Headers.Builder()
-                            .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())
+                            .add("Authorization", EMClient.getInstance().getAccessToken())
                             .add("username", EaseIMHelper.getInstance().getCurrentUser())
                             .build();
                     Request request = new Request.Builder()

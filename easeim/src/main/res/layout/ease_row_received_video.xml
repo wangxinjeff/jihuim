@@ -27,9 +27,9 @@
             style="@style/chat_text_name_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/chat_nick_margin_left"
+            android:layout_marginStart="@dimen/chat_nick_margin_left"
             android:textSize="@dimen/chat_nick_text_size"
-            android:layout_toRightOf="@id/iv_userhead"
+            android:layout_toEndOf="@id/iv_userhead"
             android:visibility="gone" />
 
         <RelativeLayout
@@ -37,8 +37,8 @@
             android:layout_width="130dp"
             android:layout_height="145dp"
             android:layout_below="@+id/tv_userid"
-            android:layout_marginLeft="@dimen/margin_chat_activity"
-            android:layout_toRightOf="@id/iv_userhead">
+            android:layout_marginStart="@dimen/margin_chat_activity"
+            android:layout_toEndOf="@id/iv_userhead">
 
             <com.hyphenate.easeui.widget.EaseImageView
                 android:id="@+id/chatting_content_iv"
@@ -51,7 +51,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/ease_chat_video_mask_to"
                 android:gravity="bottom"
                 android:orientation="horizontal" >
 
@@ -68,7 +67,7 @@
                     android:id="@+id/chatting_length_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:textColor="@android:color/white"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -80,7 +79,7 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:layout_centerInParent="true"
-                 android:background="@drawable/ease_video_play_btn_small_nor" />
+                 android:src="@drawable/em_icon_video_play" />
         </RelativeLayout>
     </RelativeLayout>
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Pair;
 import android.view.MotionEvent;
@@ -15,7 +16,11 @@ import android.widget.Scroller;
 
 import androidx.annotation.Nullable;
 
+import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.util.EMLog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -44,7 +49,7 @@ public class EaseCallMemberViewGroup extends ViewGroup {
 
    private static final String TAG = "EaseViewGroup1";
 
-   private static final int MAX_SIZE_PER_PAGE = 15;
+   private static final int MAX_SIZE_PER_PAGE = 4;
 
    private OnItemClickListener onItemClickListener;
    private OnScreenModeChangeListener onScreenModeChangeListener;
@@ -95,8 +100,17 @@ public class EaseCallMemberViewGroup extends ViewGroup {
 
    @Override
    public void addView(View child) {
-       super.addView(child);
-       //calculatePageCount();
+       EaseCallMemberView view = (EaseCallMemberView)child;
+       if(TextUtils.equals(view.getUserAccount(), EaseIMHelper.getInstance().getCurrentUser())){
+           addView(child, 0);
+       } else {
+           if(getChildCount() > 1){
+               addView(child, 1);
+           } else {
+               addView(child, -1);
+           }
+       }
+       calculatePageCount();
        if (isFullScreenMode()) {
            EMLog.i(TAG, "addView, isFullScreenMode: " + isFullScreenMode());
            // 全屏模式下不进行子view的大小设置和滑动
@@ -105,17 +119,18 @@ public class EaseCallMemberViewGroup extends ViewGroup {
        if (pageCount == 1) {
            calculateChildrenParamsAndSet();
        } else {
-           int viewBorder = pageWidth / 3;
+           int viewBorder = pageWidth / 2;
            setViewParams(child, viewBorder,viewBorder);
        }
-       int index = pageCount - 1;
+//       int index = pageCount - 1;
        // Always scroll to the last page.
-       scrollTo(index, false);
+//       scrollTo(index, false);
    }
 
    @Override
    public void removeView(View view) {
        super.removeView(view);
+       calculatePageCount();
        calculateChildrenParamsAndSet();
    }
 
@@ -454,28 +469,28 @@ public class EaseCallMemberViewGroup extends ViewGroup {
    }
 
    private void calculateChildrenParamsAndSet() {
-       int childCount = getChildCount();
+//       int childCount = getChildCount();
        int itemWidth = pageWidth;
-       if (childCount > 6) { // 3 * 3
-           itemWidth = pageWidth / 3;
-       } else if (childCount > 1) { // 2 x 2
+//       if (childCount > 6) { // 3 * 3
+//           itemWidth = pageWidth / 3;
+//       } else if (childCount > 1) { // 2 x 2
            itemWidth = pageWidth / 2;
-       }
+//       }
 
-       int lastheight = itemWidth;
+//       int lastheight = itemWidth;
 //       if(childCount > 1 &&childCount <7){
 //           lastheight = Math.min(itemWidth,screenHeight - itemWidth * 2);
 //       }else if(childCount >= 7){
 //           lastheight = Math.min(itemWidth,screenHeight - itemWidth * 3);
 //       }
        int height = 0;
-       if(getChildCount() > 6 && getChildCount()  <= 15){
-           height = screenHeight/5;
-       }else if(getChildCount() > 4 && getChildCount() <= 6){
-           height = screenHeight/3;
-       }else{
+//       if(getChildCount() > 6 && getChildCount()  <= 15){
+//           height = screenHeight/5;
+//       }else if(getChildCount() > 4 && getChildCount() <= 6){
+//           height = screenHeight/3;
+//       }else{
            height = itemWidth;
-       }
+//       }
 
        for (int i = 0; i < getChildCount(); i++) {
            setViewParams(getChildAt(i), itemWidth,height);
@@ -598,7 +613,7 @@ public class EaseCallMemberViewGroup extends ViewGroup {
            int start = pageIndex * MAX_SIZE_PER_PAGE;
            int end = getChildCount() - start > MAX_SIZE_PER_PAGE ? start + MAX_SIZE_PER_PAGE : getChildCount();
 
-           int itemWidth = pageWidth / 3;
+           int itemWidth = pageWidth / 2;
 
            for (int i = start; i < end; i++) {
                setViewParams(getChildAt(i), itemWidth,itemWidth);

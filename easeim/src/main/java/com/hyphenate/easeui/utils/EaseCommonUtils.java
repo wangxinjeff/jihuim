@@ -318,6 +318,7 @@ public class EaseCommonUtils {
             timestamp = Long.parseLong(time);
         } catch (NumberFormatException e) {
             e.printStackTrace();
+            return false;
         }
         return timestamp > 0;
     }

@@ -241,7 +241,12 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
                     @Override
                     public void onSaveClick(View view, String content) {
                         groupName = content;
-                        itemGroupName.getTvTitle().setText(groupName);
+                        if(TextUtils.isEmpty(groupName)){
+                            itemGroupName.getTvContent().setHint(getString(R.string.group_name));
+                        } else {
+                            itemGroupName.getTvContent().setText(groupName);
+                        }
+
                     }
                 });
     }

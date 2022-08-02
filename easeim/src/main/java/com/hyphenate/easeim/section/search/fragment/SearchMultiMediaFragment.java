@@ -73,14 +73,10 @@ public class SearchMultiMediaFragment extends BaseInitFragment {
                     EMLog.e("Tag", "big image uri: " + imgUri + "  exist: "+EaseFileUtils.isFileExistByUri(getContext(), imgUri));
                     if(EaseFileUtils.isFileExistByUri(getContext(), imgUri)) {
                         intent.putExtra("uri", imgUri);
-                    } else{
-                        // The local full size pic does not exist yet.
-                        // ShowBigImage needs to download it from the server
-                        // first
-                        String msgId = message.getMsgId();
-                        intent.putExtra("messageId", msgId);
-                        intent.putExtra("filename", imgBody.getFileName());
                     }
+                    String msgId = message.getMsgId();
+                    intent.putExtra("messageId", msgId);
+                    intent.putExtra("filename", imgBody.getFileName());
                     getContext().startActivity(intent);
                 } else if(message.getType() == EMMessage.Type.VIDEO){
                     Intent intent = new Intent(getContext(), EaseShowVideoActivity.class);

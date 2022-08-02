@@ -56,14 +56,10 @@ public class EaseImageViewHolder extends EaseChatRowViewHolder {
         EMLog.e("Tag", "big image uri: " + imgUri + "  exist: "+EaseFileUtils.isFileExistByUri(getContext(), imgUri));
         if(EaseFileUtils.isFileExistByUri(getContext(), imgUri)) {
             intent.putExtra("uri", imgUri);
-        } else{
-            // The local full size pic does not exist yet.
-            // ShowBigImage needs to download it from the server
-            // first
-            String msgId = message.getMsgId();
-            intent.putExtra("messageId", msgId);
-            intent.putExtra("filename", imgBody.getFileName());
         }
+        String msgId = message.getMsgId();
+        intent.putExtra("messageId", msgId);
+        intent.putExtra("filename", imgBody.getFileName());
         if(!EaseIM.getInstance().getConfigsManager().enableSendChannelAck()) {
             //此处不再单独发送read_ack消息，改为进入聊天页面发送channel_ack
             //新消息在聊天页面的onReceiveMessage方法中，排除视频，语音和文件消息外，发送read_ack消息

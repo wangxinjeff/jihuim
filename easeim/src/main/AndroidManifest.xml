@@ -315,14 +315,17 @@
         <!--转发好友列表-->
         <!--群组详情-->
         <activity android:name=".section.group.activity.GroupDetailActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <!--聊天室详情-->
         <!--群分享文件-->
         <!--邀请群成员-->
         <activity android:name=".section.group.activity.GroupPickContactsActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <!--群成员身份统计-->
         <activity android:name=".section.group.activity.GroupMemberTypeActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <!--新建群组-->
         <activity android:name=".section.group.activity.NewGroupActivity"
@@ -330,9 +333,11 @@
             android:screenOrientation="portrait"/>
         <!--下载并展示文件-->
         <activity android:name="com.hyphenate.easeui.ui.EaseShowNormalFileActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <!--聊天信息-->
         <activity android:name=".section.chat.activity.SingleChatSetActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <!--聊天历史-->
         <!--选择用户名片 -->
@@ -347,7 +352,9 @@
             android:launchMode="singleTask"/>
         <!--创群预选成员-->
         <!--WebView加载网页-->
-        <activity android:name=".section.base.WebViewActivity" />
+        <activity android:name=".section.base.WebViewActivity"
+            android:launchMode="singleTask"
+            />
 
         <activity android:name=".section.chat.activity.OrderListActivity"
             android:launchMode="singleTask"
@@ -357,17 +364,21 @@
         <activity
             android:name="com.hyphenate.mediapicker.camera.CameraActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|layoutDirection"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <!--知乎图片选择器-->
         <activity
             android:name="com.zhihu.matisse.ui.MatisseActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.zhihu.matisse.internal.ui.AlbumPreviewActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.zhihu.matisse.internal.ui.SelectedPreviewActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity android:name=".section.chat.activity.FileDetailsActivity"

@@ -1051,6 +1051,11 @@ public class EaseIMHelper {
         callBack.onSuccess(result);
     }
 
+    /**
+     * 启动聊天
+     * @param context
+     * @param conversationType
+     */
     public void startChat(Context context, int conversationType){
         if(isAdmin()){
             ConversationListActivity.actionStart(context, EaseConstant.CON_TYPE_ADMIN);
@@ -1074,6 +1079,11 @@ public class EaseIMHelper {
         }
     }
 
+    /**
+     * 判断是否是专属群
+     * @param conversation
+     * @return
+     */
     public boolean isExclusiveGroup(EMConversation conversation){
         String ext = conversation.getExtField();
         if(!ext.isEmpty() && conversation.getType() == EMConversation.EMConversationType.GroupChat){
@@ -1090,6 +1100,10 @@ public class EaseIMHelper {
         return false;
     }
 
+    /**
+     * 消息发送前统一设置ext
+     * @param message
+     */
     public void addMsgAttrsBeforeSend(EMMessage message){
         try {
             JSONObject userInfo = new JSONObject();
