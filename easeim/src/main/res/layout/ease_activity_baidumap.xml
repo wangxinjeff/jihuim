@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:animateLayoutChanges="true"
+    >
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/result_view"/>
+
+    <com.hyphenate.easeui.widget.EaseTitleBar
+        android:id="@+id/title_bar_map"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ease_common_title_bar_height"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleBarLeftImage="@drawable/em_icon_map_close"
+        />
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/result_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="?attr/themeFloatBgColor"
+        >
+
+        <include layout="@layout/ease_layout_search"
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/search_view_height"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="20dp"
+            />
+        
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/search_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintHeight_max="400dp"
+            android:padding="10dp"
+            />
+        
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

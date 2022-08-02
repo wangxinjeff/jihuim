@@ -1,0 +1,384 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Easemob</string>
+
+    <string name="location_recv">[%1$s\'s location]</string>
+    <string name="location_prefix">[My location]</string>
+    <string name="picture">[Image]</string>
+    <string name="video">[Video]</string>
+    <string name="file">[File]</string>
+    <string name="custom">[Custom message]</string>
+    <string name="voice_prefix">[Voice]</string>
+    <string name="voice_call">[Voice call]</string>
+    <string name="video_call">[Video call]</string>
+    <string name="dynamic_expression">[Animoji]</string>
+
+    <string name="were_mentioned">[@Mentioning me]</string>
+    <string name="were_not_send_msg">[Draft]</string>
+
+    <string name="text_ack_msg">Read</string>
+    <string name="text_delivered_msg">Delivered</string>
+    <string name="not_download">Not downloaded:</string>
+    <string name="have_downloaded">Downloaded</string>
+    <string name="did_not_download">Not downloaded</string>
+    <string name="have_uploaded">Uploaded</string>
+    <string name="downwaiting">Downloading file, please wait.</string>
+    <string name="Failed_to_download_file">Failed to download file: </string>
+    <string name="File_expired">File expired:</string>
+    <string name="Image_expired">Image expired!</string>
+    <string name="Video_expired">Video expired!</string>
+    <string name="button_send">Send</string>
+    <string name="Network_error">Network error</string>
+    <string name="please_check">Key verification error! Please check key settings in the AndroidManifest.xml file.</string>
+    <string name="Is_download_voice_click_later">Downloading audio, click when done. </string>
+    <string name="button_pushtotalk">Press and hold to speak</string>
+    <string name="button_pushtotalk_pressed">Release to send message</string>
+    <string name="Recording_without_permission">No recording permission</string>
+    <string name="send_failure_please">Failed to send message, please check the server connection. </string>
+    <string name="Send_voice_need_sdcard_support">You need an SD card to send voice messages</string>
+    <string name="move_up_to_cancel">Swipe up \u0020\u0020 to cancel message sending</string>
+    <string name="release_to_cancel">Release \u0020\u0020 to cancel message sending</string>
+    <string name="recoding_fail">Recording failed, please try again!</string>
+    <string name="attach_picture">Album</string>
+    <string name="attach_take_pic">Camera</string>
+    <string name="attach_location">Location</string>
+    <string name="attach_file">Files</string>
+    <string name="attach_media_call">Audio and Video </string>
+    <string name="attach_order">Order</string>
+    <string name="unable_to_get_loaction">Can\'t obtain your location info!</string>
+    <string name="alert_during_typing">Entering &#8230;</string>
+    <string name="all_members">All members</string>
+
+    <string name="msg_recall_by_self">You recalled a message</string>
+    <string name="msg_recall_by_user">%1$s recalled a message</string>
+
+    <string name="recording_video">Record video</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="prompt">Prompt</string>
+
+    <string name="call_duration">Call duration</string>
+    <string name="switch_camera">Change camera</string>
+    <string name="mute">Mute</string>
+    <string name="Hands_free">Hands-free</string>
+    <string name="hang_up">Hang up</string>
+    <string name="answer">Answer</string>
+
+    <!-- For group ack start -->
+    <string name="group_ack_read_count">%1$d read</string>
+
+    <string name="has_been_send">Sent</string>
+
+    <string name="ease_search_text_hint">Search</string>
+
+    <string name="ease_list_no_data_text">No data</string>
+
+    <string name="custom_message">Custom message: %1$s</string>
+
+    <string name="ease_conversation_menu_delete">Delete conversation</string>
+    <string name="ease_delete_conversation_error">Failed to delete conversion or this conversation does not exist</string>
+
+    <string name="ease_conversation_delete_item_fail">Failed to delete conversation!</string>
+    <string name="ease_conversation_system_message">System message</string>
+
+    <string name="action_copy">Copy</string>
+    <string name="action_recall">Recall</string>
+    <string name="action_delete">Delete</string>
+    <string name="delete_voice">Delete voice</string>
+    <string name="delete_video">Delete video </string>
+
+    <string name="contact_send_message">You have %2$s message(s) from %1$s contact(s)</string>
+    <string name="unsupported_message_body">Unsupported message body</string>
+    <string name="can_not_find_app_open_file">Can\'t find proper app to open this file</string>
+    <string name="action_translate">Translate</string>
+    <string name="action_reTranslate">Retranslate</string>
+    <string name="action_hide">Hide</string>
+
+    <string name="my_exclusive_service">My Exclusive Service</string>
+    <string name="my_chat">My Chat</string>
+    <string name="my_conversations">My Conversations</string>
+    <string name="not_add_service_group">You are not currently enrolled in any service group</string>
+    <string name="say_what">Say what</string>
+    <string name="new_message">New Message</string>
+
+    <string name="confirm">OK</string>
+    <string name="loading">Loading&#8230;</string>
+    <string name="finish">Done</string>
+
+    <string name="em_dialog_default_title">Prompt</string>
+
+    <string name="em_login_name_hint">Username</string>
+    <string name="em_login_password_hint">Password</string>
+    <string name="em_login_token_hint">Token</string>
+    <string name="em_login_btn">Log in \u0020</string>
+    <string name="em_login_tv_register">Register</string>
+    <string name="em_login_tv_token">Log in with token</string>
+    <string name="em_login_tv_pwd">Log in with password</string>
+    <string name="em_login_tv_server_set">Server configuration</string>
+    <string name="em_login_btn_info_incomplete">Username or password cannot be empty.</string>
+    <string name="em_login_agreement">I agree to the Easemob Terms of Service and Easemob Privacy Policy</string>
+
+    <string name="em_error_network_error">Network unavailable</string>
+    <string name="em_error_not_login">You haven\'t logged in to Easemob</string>
+    <string name="em_error_parse_error">Parsing error</string>
+    <string name="em_error_err_unknown">Network error, please try again later. </string>
+    <string name="em_err_image_android_min_version">Image upload only supported in v4.4 and above</string>
+    <string name="em_err_file_not_exist">File does not exist</string>
+    <string name="em_add_self_error">You can\'t add yourself</string>
+    <string name="em_friend_error">This user is already your friend</string>
+    <string name="em_friend_black_error">This user is already your friend (on blocklist). Please remove this user from the blocklist. </string>
+    <string name="em_delete_sys_msg_error">Failed to delete message or this message does not exist</string>
+    <string name="em_error_group_no_members">No group members</string>
+    <string name="em_error_user_already_exist">Username already exists, please enter another one. </string>
+
+    <string name="demo_error_user_authentication_failed">Incorrect username or password</string>
+
+    <string name="demo_system_other_decline_received_remote_user_invitation">%1$s has declined your invitation to the group</string>
+
+    <string name="em_chat_pick_user_title">Select contact</string>
+
+    <string name="em_single_set_title">Chat details</string>
+    <string name="em_single_search_history">Find chat history</string>
+    <string name="em_single_clear_history">Clear chat history</string>
+    <string name="em_single_conversation_top">Pin conversation to top</string>
+
+    <string name="em_chat_delete_conversation">Are you sure you want to clear all chat history?</string>
+    <string name="em_chat_group_detail_title">Group info</string>
+    <string name="em_chat_group_detail_group_member">Group members</string>
+    <string name="em_chat_group_detail_member_num">%1$d</string>
+    <string name="em_chat_group_detail_name">Group name</string>
+    <string name="em_chat_group_detail_announcement">Group announcement</string>
+    <string name="em_chat_group_detail_announcement_hint">Enter the group announcement</string>
+    <string name="em_chat_group_detail_name_hint">Enter the group name</string>
+    <string name="em_chat_group_detail_history">Find chat history</string>
+    <string name="em_chat_group_detail_introduction">Group intro</string>
+    <string name="em_chat_group_detail_introduction_hint">Enter the group introduction</string>
+    <string name="em_chat_group_detail_not_disturb">Do not disturb</string>
+    <string name="em_chat_group_save">Save</string>
+    <string name="em_chat_group_select_contact">Select user</string>
+
+    <string name="em_group_member_type_title">Group members</string>
+
+    <string name="demo_group_member_add_admin">%1$s\'s already an administrator</string>
+    <string name="demo_group_member_remove_admin">%1$s\'s no longer an administrator</string>
+    <string name="demo_group_member_add_black">%1$s already added to blocklist</string>
+    <string name="demo_group_member_remove_black">%1$s already removed from blocklist</string>
+    <string name="demo_group_member_mute">%1$s already muted</string>
+    <string name="demo_group_member_remove_mute">%1$s already unmuted</string>
+
+    <string name="demo_group_member_remove">%1$s already removed</string>
+
+    <string name="em_group_new_title">Create group</string>
+    <string name="em_group_new_save">Done</string>
+
+    <string name="em_notify_agree">Approve</string>
+    <string name="em_notify_refuse">Decline</string>
+    <string name="em_notify_delete">Delete</string>
+
+    <string name="group_name">Group name</string>
+    <string name="group_owner">Owner</string>
+
+    <string name="em_account_logoff_notification">Offline notification</string>
+    <string name="em_account_connect_conflict">This account is already logged in on another device</string>
+    <string name="em_account_user_remove">This user is already removed</string>
+    <string name="em_account_user_forbidden">User connection restricted by server</string>
+
+    <string name="em_push_message_style_title">Message Details</string>
+    <string name="push_settings">Do not disturb</string>
+
+
+    <string name="Select_the_contact">Select contact</string>
+    <string name="tips_select_contacts_first">Select a contact first</string>
+
+    <string name="search">Search</string>
+
+    <string name="delete">Delete</string>
+    <string name="delete_conversation">Delete conversation</string>
+
+    <string name="Invite_you_to_join_a_group_chat">invited you to join a group chat</string>
+
+    <string name="Has_agreed_to">You\'ve approved the request from %1$s</string>
+    <string name="Has_refused_to">Rejected</string>
+
+
+    <string name="demo_group_listener_onInvitationReceived">%1$s invited you to join 「%2$s」</string>
+    <string name="demo_group_listener_onRequestToJoinReceived">%1$s requested to join 「%2$s」</string>
+    <string name="demo_group_listener_onRequestToJoinAccepted">%1$s approved your request to join 「%2$s」</string>
+    <string name="demo_group_listener_onRequestToJoinDeclined">%1$s rejected your request to join 「%2$s」</string>
+    <string name="demo_group_listener_onInvitationAccepted">Your request to join the group has been accepted by %1$s</string>
+    <string name="demo_group_listener_onUserRemoved">The group administrator removed you from 「%1$s」</string>
+    <string name="demo_group_listener_onGroupDestroyed">The group 「%1$s」 has been disbanded</string>
+    <string name="demo_group_listener_onMuteListAdded">%1$s has been muted by the group owner</string>
+    <string name="demo_group_listener_onMuteListRemoved">%1$s has been unmuted by the group owner</string>
+    <string name="demo_group_listener_onWhiteListAdded">%1$s has been added to the allowlist by the group owner</string>
+    <string name="demo_group_listener_onWhiteListRemoved">%1$s has been removed from the allowlist by the group owner</string>
+    <string name="demo_group_listener_onAllMemberMuteStateChanged_mute">Group owner has muted all members</string>
+    <string name="demo_group_listener_onAllMemberMuteStateChanged_not_mute">Group owner has unmuted all members</string>
+    <string name="demo_group_listener_onAdminAdded">%1$s has been made a group administrator by the group owner</string>
+    <string name="demo_group_listener_onAdminRemoved">%1$s\'s administrator permission has been canceled by the group owner</string>
+    <string name="demo_group_listener_onOwnerChanged">%1$s has transferred group ownership to %2$s</string>
+    <string name="demo_group_listener_onMemberJoined">%1$s has joined the group</string>
+    <string name="demo_group_listener_onMemberExited">%1$s has left the group</string>
+    <string name="demo_group_listener_onAnnouncementChanged">Group announcement updated.</string>
+    <string name="demo_group_listener_onSharedFileAdded">Group file %1$s uploaded.</string>
+    <string name="demo_group_listener_onSharedFileDeleted">Group file %1$s deleted.</string>
+
+    <string name="multi_device_contact_accept">Accept friend request from %s [remote]</string>
+    <string name="multi_device_contact_decline">Decline friend request from %s [remote]</string>
+    <string name="multi_device_contact_add">Send friend request to %s [remote]</string>
+    <string name="multi_device_contact_ban">Add %s to blocklist [remote]</string>
+    <string name="multi_device_contact_allow">Remove %s from blocklist [remote]</string>
+
+    <string name="multi_device_group_create">Create group [remote]</string>
+    <string name="multi_device_group_destroy">Disband group [remote]</string>
+    <string name="multi_device_group_join">Join group [remote]</string>
+    <string name="multi_device_group_leave">Leave group [remote]</string>
+    <string name="multi_device_group_apply">Apply to join group [remote]</string>
+    <string name="multi_device_group_apply_accept">Accept %s\'s request to join group [remote]</string>
+    <string name="multi_device_group_apply_decline">Reject %s\'s request to join group [remote]</string>
+    <string name="multi_device_group_invite">Invite %s to join group [remote]</string>
+    <string name="multi_device_group_invite_accept">Accept %s\'s request to join group [remote]</string>
+    <string name="multi_device_group_invite_decline">Reject %s\'s request to join group [remote]</string>
+    <string name="multi_device_group_kick">Remove %s from group [remote]</string>
+    <string name="multi_device_group_ban">Add %s to group blocklist [remote]</string>
+    <string name="multi_device_group_allow">Remove %s from group blocklist [remote]</string>
+    <string name="multi_device_group_block">Stop receiving group messages [remote]</string>
+    <string name="multi_device_group_unblock">Receive group messages [remote]</string>
+    <string name="multi_device_group_assign_owner">Transfer group ownership to %1$s [remote]</string>
+    <string name="multi_device_group_add_admin">Add %s as group administrator [remote]</string>
+    <string name="multi_device_group_remove_admin">Remove %s\'s administrator role [remote]</string>
+    <string name="multi_device_group_add_mute">Mute %s in group [remote]</string>
+    <string name="multi_device_group_remove_mute">Unmute %s in group [remote]</string>
+
+    <string name="demo_chat_room_listener_onChatRoomDestroyed">Chat room %1$s already disbanded</string>
+    <string name="demo_chat_room_listener_onMemberJoined">%1$s joined chat room</string>
+    <string name="demo_chat_room_listener_onMemberExited">%1$s left chat room</string>
+    <string name="demo_chat_room_listener_onRemovedFromChatRoom">%1$s left chat room</string>
+    <string name="demo_chat_room_listener_onMuteListAdded">%1$s already muted</string>
+    <string name="demo_chat_room_listener_onMuteListRemoved">%1$s already unmuted</string>
+    <string name="demo_chat_room_listener_onWhiteListAdded">%1$s added to allowlist</string>
+    <string name="demo_chat_room_listener_onWhiteListRemoved">%1$s removed from allowlist</string>
+    <string name="demo_chat_room_listener_onAllMemberMuteStateChanged_mute">All members are muted</string>
+    <string name="demo_chat_room_listener_onAllMemberMuteStateChanged_note_mute">All members are unmuted</string>
+    <string name="demo_chat_room_listener_onAdminAdded">%1$s\'s now an administrator</string>
+    <string name="demo_chat_room_listener_onAdminRemoved">%1$s\'s no longer an administrator</string>
+    <string name="demo_chat_room_listener_onOwnerChanged">%1$s has transferred chat room to %2$s</string>
+    <string name="demo_chat_room_listener_onAnnouncementChanged">Chat room announcement has been updated.</string>
+
+    <string name="demo_contact_listener_onContactAdded">You\'ve added %1$s as a friend</string>
+    <string name="demo_contact_listener_onContactDeleted">You\'ve deleted your friend %1$s</string>
+    <string name="demo_contact_listener_onContactDeleted_by_other">%1$s has unfriended you</string>
+    <string name="demo_contact_listener_onContactInvited">%1$s wants to be your friend. Please accept the request. </string>
+    <string name="demo_contact_listener_onFriendRequestAccepted">Your friend request has been accepted</string>
+    <string name="demo_contact_listener_onFriendRequestDeclined">%1$s has declined your friend request</string>
+
+    <string name="demo_contact_get_userInfo_failed">Failed to get user properties</string>
+
+    <string name="demo_activity_label_video_call">video_call</string>
+    <string name="demo_activity_label_multi_call">multi_call</string>
+    <string name="no_image_resource">No image resources exist</string>
+    <string name="headset_insert">Headphones connected:  %1$b, with microphone: %2$b</string>
+    <string name="you">You</string>
+    <string name="intent_to_service">Jump to Terms of Service</string>
+    <string name="intent_to_privacy_protocol">Jump to Privacy Policy</string>
+    <string name="retracting_message">Recall message</string>
+
+    <string name="unable_translate">Unable to Translate</string>
+    <string name="using_translate">Using Translate</string>
+    <string name="retranslate_prompt">Each translation can be retranslated only once. The translation provided is for reference only.</string>
+    <string name="pull_down">drop-down refresh</string>
+    <string name="refreshing">Is refreshing...</string>
+    <string name="be_loading">Being loaded...</string>
+    <string name="release_refresh">Release the refresh</string>
+    <string name="refresh_finish">Refresh to complete</string>
+    <string name="refresh_failed">Refresh the failure</string>
+    <string name="last_update">M-d HH:mm</string>
+    <string name="loaded">Loaded</string>
+    <string name="load_failed">Load failed</string>
+
+
+    <string name="change_voice">Audio</string>
+    <string name="The_other_is_recived">Call answered on another device</string>
+    <string name="The_other_is_refused">Call ended on another device</string>
+    <string name="The_other_is_busy">The other party is busy</string>
+    <string name="alert_window_permission_denied">The current app does not have floating window permission. </string>
+
+    <string name="wait_calling">Wait for the other party to answer</string>
+    <string name="alert_request_video">%1$s initiated a video call invitation</string>
+    <string name="alert_request_voice">%1$s initiated a voice call invitation</string>
+    <string name="alert_request_multiple_video">%1$s initiated a multi-user video call invitation</string>
+    <!-- The representation of a time duration when negative. An example is -1:14. This can be used with a countdown timer for example.-->
+    <string name="negative_duration">\u2212<xliff:g id="time" example="1:14">%1$s</xliff:g></string>
+
+    <string name="em_invited_to_join_video_call">invited you to a video call</string>
+    <string name="em_camera">Camera</string>
+    <string name="em_waiting_for_accept">Waiting for the other party to accept the invitation</string>
+    <string name="em_make_sure_leave">Are you sure you want to leave the current conversation?</string>
+    <string name="em_invited_to_make_multi_party_call">invited you to a voice/video conference call</string>
+    <string name="em_invite_you_for_audio_and_video_call">invited you to a voice/video call</string>
+    <string name="em_in_the_call">Call in progress</string>
+    <string name="em_invite_you_for_video_call">invited you to a video call</string>
+    <string name="em_invite_you_for_audio_call">invited you to a voice call</string>
+
+    <string name="em_group_head">Group of head</string>
+    <string name="em_add_member">Add</string>
+    <string name="em_show_more_member">Show more group members</string>
+    <string name="em_selected_user">The selected user</string>
+    <string name="em_search_result">The search results</string>
+    <string name="em_service_personnel">The serivce personnel</string>
+    <string name="em_customer">The customer</string>
+    <string name="em_invite_user_toast">After the group leader agrees, the members you invite will automatically join the group chat</string>
+    <string name="em_can_not_select_again">You can\'t double select</string>
+    <string name="em_search_no_result">No search results</string>
+    <string name="em_countdown_send">A voice message will be sent directly after %s second</string>
+
+    <string name="em_permission_request_denied">Corresponding permissions are required</string>
+    <string name="em_error_gif">Not more than %1$dpx long, not more than %2$dpx wide, and not more than %3$sM in size.</string>
+    <string name="em_error_video">Video length does not exceed %1$d seconds.</string>
+    <string name="em_error_size">File size should not exceed %1$dM.</string>
+    <string name="em_file_details">File Details</string>
+    <string name="em_open_file">Open file</string>
+    <string name="em_start_download">Start download</string>
+    <string name="em_try_again_later">Network connection failed. Please try again later</string>
+    <string name="em_search_message">Message</string>
+    <string name="em_search_file">File</string>
+    <string name="em_image_and_video">Photos and videos</string>
+    <string name="em_show_chat_history">Displaying chat History</string>
+    <string name="em_initiated_call">made an call</string>
+    <string name="em_call_over">Call over</string>
+    <string name="em_message_notify">Message notify</string>
+    <string name="em_search_group">Search group</string>
+    <string name="em_create_group">Create group</string>
+    <string name="em_group_apply">Group apply</string>
+
+    <string name="em_order_id">Order id</string>
+    <string name="em_phone_number">Phone num</string>
+    <string name="em_win_code">WIN code</string>
+    <string name="em_open_notify">Open notify</string>
+    <string name="em_close_notify">Close notify</string>
+    <string name="em_call_join_group">Please join the group</string>
+    <string name="em_must_be_no_less_than_2_members">Must be no less than 2 members</string>
+
+    <string name="em_action_edit">Edit</string>
+    <string name="em_group_mute">Group mute</string>
+    <string name="em_group_note">Group note</string>
+    <string name="em_system_note">System note</string>
+    <string name="em_service_note">Service note</string>
+    <string name="em_group_note_hint">Please enter service remarks</string>
+    <string name="em_group_mute_set">Group mute setting</string>
+    <string name="em_group_add_mute">Add mute member</string>
+    <string name="em_group_mute_member">Mute member</string>
+    <string name="em_group_remove_mute">Lifting the ban</string>
+    <string name="em_group_mute_failed">Mute failed</string>
+    <string name="em_group_remove_member_failed">Remove member failed</string>
+    <string name="em_group_yourself_mute">You\'ve been silenced by the group leader</string>
+    <string name="em_group_yourself_un_mute">Your gag order has been lifted</string>
+    <string name="em_group_create_success">%s create success</string>
+    <string name="em_welcome_to_login">Welcome to login</string>
+    <string name="em_please_enter_phone">Please enter phone</string>
+    <string name="em_please_enter_password">Please enter password</string>
+    <string name="em_group_name_is_not_empty">The group name cannot be empty</string>
+    <string name="em_image_load_failed">Download image failed</string>
+    <string name="em_video_load_failed">Download video failed</string>
+    <string name="em_my_order">My order</string>
+    <string name="em_send_to_group">Send to Group</string>
+</resources>

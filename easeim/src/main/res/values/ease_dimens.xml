@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="em_toolbar_title_size">18sp</dimen>
+    <dimen name="ease_common_title_bar_height">44dp</dimen>
+
+    <dimen name="margin_chat_activity">10dp</dimen>
+    <dimen name="size_avatar">42dp</dimen>
+    <dimen name="chat_nick_margin_left">12dp</dimen>
+    <dimen name="chat_nick_text_size">13sp</dimen>
+
+    <dimen name="ease_chat_file_icon_margin">8dp</dimen>
+    <dimen name="ease_chat_file_bubble_min_height">80dp</dimen>
+
+    <dimen name="ease_chat_primary_menu_icon_size">34dp</dimen>
+    <dimen name="ease_chat_primary_menu_send_icon_height_size">30dp</dimen>
+
+    <dimen name="ease_chat_image_corner_radius">8dp</dimen>
+    <dimen name="ease_chat_primary_margin_right">16dp</dimen>
+
+    <dimen name="ease_chat_text_min_height">22dp</dimen>
+
+    <!--头像距离左边或者右边的距离-->
+    <dimen name="ease_chat_avatar_margin">18dp</dimen>
+    <!--内容布局距离头像的距离-->
+    <dimen name="ease_chat_bubble_margin_avatar">10dp</dimen>
+    <!--已送达距离bubble的距离-->
+    <dimen name="ease_chat_ack_margin_bubble">5dp</dimen>
+
+    <dimen name="em_common_title_bar_height">48dp</dimen>
+    <dimen name="em_common_item_height">66dp</dimen>
+
+    <dimen name="em_size_min">10sp</dimen>
+    <dimen name="em_size_small">12sp</dimen>
+    <dimen name="em_size_normal">14sp</dimen>
+    <dimen name="em_size_big">16sp</dimen>
+
+    <dimen name="em_login_bg_radius">57dp</dimen>
+    <dimen name="em_login_margin_left">33dp</dimen>
+    <dimen name="em_login_margin_right">33dp</dimen>
+    <dimen name="em_login_padding_left">18dp</dimen>
+    <dimen name="em_login_padding_right">18dp</dimen>
+
+    <dimen name="em_login_text_size">@dimen/em_size_big</dimen>
+
+    <dimen name="em_margin_15">15dp</dimen>
+    <dimen name="em_margin_10">10dp</dimen>
+    <dimen name="em_margin_20">20dp</dimen>
+    <dimen name="em_margin_30">30dp</dimen>
+
+    <dimen name="em_padding_15">15dp</dimen>
+    <dimen name="em_padding_10">10dp</dimen>
+
+    <dimen name="padding_search_bar">5dp</dimen>
+
+
+    <dimen name="adaptive_12dp">10dp</dimen>
+    <dimen name="adaptive_40dp">33dp</dimen>
+    <dimen name="adaptive_44dp">37dp</dimen>
+    <dimen name="adaptive_56dp">47dp</dimen>
+    <dimen name="adaptive_59dp">49dp</dimen>
+    <dimen name="adaptive_60dp">50dp</dimen>
+
+    <dimen name="adaptive_11sp">9sp</dimen>
+    <dimen name="adaptive_16sp">13sp</dimen>
+    <dimen name="adaptive_18sp">15sp</dimen>
+
+    <dimen name="search_view_height">48dp</dimen>
+    <dimen name="search_view_padding_v">8dp</dimen>
+    <dimen name="search_view_padding_h">16dp</dimen>
+    <dimen name="member_item_avatar_size">38dp</dimen>
+    <dimen name="member_item_height">64dp</dimen>
+    <dimen name="member_item_start_padding">16dp</dimen>
+    <dimen name="icon_normal_size">24dp</dimen>
+    <dimen name="normal_height">48dp</dimen>
+    <dimen name="margin_start_normal">8dp</dimen>
+    <dimen name="margin_start">16dp</dimen>
+    <dimen name="height_small">24dp</dimen>
+    <dimen name="icon_size_small">13dp</dimen>
+    <dimen name="margin_small">5dp</dimen>
+    <dimen name="call_float_size">88dp</dimen>
+    <dimen name="next_size">28dp</dimen>
+    <dimen name="read_ack_navigation_height">64dp</dimen>
+</resources>

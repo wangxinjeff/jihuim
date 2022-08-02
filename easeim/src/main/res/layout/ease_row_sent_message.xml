@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingTop="13dp">
+
+    <TextView
+        android:id="@+id/timestamp"
+        style="@style/chat_text_date_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_chat_activity" >
+
+        <com.hyphenate.easeui.widget.EaseImageView
+            android:id="@+id/iv_userhead"
+            style="@style/ease_row_sent_iv_userhead_style"/>
+
+        <com.hyphenate.easeim.common.widget.ChatView
+            android:id="@+id/bubble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_chat_activity"
+            android:layout_toStartOf="@id/iv_userhead"
+            android:minWidth="30dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp"
+            android:layout_marginTop="2dp"
+            android:layout_below="@id/tv_userid"
+            app:arrow_direction="right"
+            app:fill_color="?attr/msgBubbleBg"
+            app:stroke_color="?attr/msgBubbleBg"
+            app:conner_radius="8dp"
+            app:arrow_up_distance="10dp"
+            >
+
+            <TextView
+                android:id="@+id/tv_chatcontent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:autoLink="web"
+                android:gravity="center|left"
+                android:lineSpacingExtra="2dp"
+                android:maxWidth="225.0dip"
+                android:minHeight="@dimen/ease_chat_text_min_height"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:textColor="?attr/msgTextColor"
+                android:textSize="15sp"
+                tools:text="环信" />
+        </com.hyphenate.easeim.common.widget.ChatView>
+
+       <!--  <TextView
+            android:id="@+id/tv_userid"
+            android:visibility="gone"
+            style="@style/chat_text_name_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/iv_userhead"
+            android:text="xxx" /> -->
+
+        <ImageView
+            android:id="@+id/msg_status"
+            android:layout_toStartOf="@id/bubble"
+            style="@style/ease_row_sent_iv_fail_style"/>
+
+        <ImageView
+            android:id="@+id/tv_ack_bg"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/em_read_num_bg"
+            android:layout_toStartOf="@id/bubble"
+            android:layout_alignBottom="@+id/bubble"
+            android:layout_marginEnd="@dimen/ease_chat_ack_margin_bubble"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/tv_ack"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_toStartOf="@id/bubble"
+            android:layout_alignBottom="@+id/bubble"
+            android:layout_marginEnd="@dimen/ease_chat_ack_margin_bubble"
+            android:gravity="center"
+            tools:text="99"
+            android:textColor="@color/read_num"
+            android:textSize="8sp"
+            android:visibility="invisible"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:id="@+id/tv_delivered"
+            style="@style/chat_text_name_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/bubble"
+            android:layout_marginRight="@dimen/ease_chat_ack_margin_bubble"
+            android:text="@string/text_delivered_msg"
+            android:textSize="12sp"
+            android:visibility="invisible" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:indeterminateDrawable="@drawable/ease_chat_loading_progress_bar"
+            android:layout_toStartOf="@id/bubble"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/tv_userid"
+            style="@style/chat_text_name_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/chat_nick_margin_left"
+            android:textSize="@dimen/chat_nick_text_size"
+            android:layout_toLeftOf="@id/iv_userhead"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_chat_activity"
+        android:gravity="end"
+        >
+    </RelativeLayout>
+
+</LinearLayout>

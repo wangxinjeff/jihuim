@@ -1,0 +1,391 @@
+package com.hyphenate.easeim.common.repositories;
+
+import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.hyphenate.EMCallBack;
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMGroup;
+import com.hyphenate.easeim.EaseIMHelper;
+import com.hyphenate.easeim.common.db.EaseDbHelper;
+import com.hyphenate.easeim.common.db.entity.EmUserEntity;
+import com.hyphenate.easeim.common.livedatas.LiveDataBus;
+import com.hyphenate.easeim.common.net.ErrorCode;
+import com.hyphenate.easeim.common.net.Resource;
+import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
+import com.hyphenate.easeim.common.utils.PreferenceManager;
+import com.hyphenate.easeui.EaseIM;
+import com.hyphenate.easeui.constants.EaseConstant;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.model.EaseEvent;
+import com.hyphenate.util.EMLog;
+
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+/**
+ * 作为EMClient的repository,处理EMClient相关的逻辑
+ */
+public class EMClientRepository extends BaseEMRepository{
+
+    private static final String TAG = EMClientRepository.class.getSimpleName();
+
+    /**
+     * 登录过后需要加载的数据
+     * @return
+     */
+    public LiveData<Resource<Boolean>> loadAllInfoFromHX() {
+        return new NetworkOnlyResource<Boolean>() {
+
+            @Override
+            protected void createCall(ResultCallBack<LiveData<Boolean>> callBack) {
+                if(isAutoLogin()) {
+                    runOnIOThread(() -> {
+                        if(isLoggedIn()) {
+                            loadAllConversationsAndGroups();
+                            callBack.onSuccess(createLiveData(true));
+                        }else {
+                            callBack.onError(ErrorCode.EM_NOT_LOGIN);
+                        }
+
+                    });
+                }else {
+                    callBack.onError(ErrorCode.EM_NOT_LOGIN);
+                }
+
+            }
+        }.asLiveData();
+    }
+
+    /**
+     * 从本地数据库加载所有的对话及群组
+     */
+    private void loadAllConversationsAndGroups() {
+        // 初始化数据库
+        initDb();
+        // 从本地数据库加载所有的对话及群组
+        getChatManager().loadAllConversations();
+        getGroupManager().loadAllGroups();
+    }
+
+    /**
+     * 运管端登录获取token/im账号密码
+     * @param phone
+     * @param password
+     * @param callBack
+     */
+    public void loginWithAdmin(String phone, String password, EMCallBack callBack){
+        try {
+            MediaType JSON = MediaType.get("application/json; charset=utf-8");
+            OkHttpClient client = new OkHttpClient();
+            JSONObject json = new JSONObject();
+            json.put("phone", phone);
+            json.put("password", password);
+            RequestBody body = RequestBody.create(json.toString(), JSON);
+            Request request = new Request.Builder()
+                    .url(EaseIMHelper.getInstance().getServerHost()+"/v2/gov/arcfox/login")
+                    .post(body)
+                    .build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String responseBody = response.body().string();
+                    if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
+                        try {
+                            JSONObject result = new JSONObject(responseBody);
+                            JSONObject entity = result.getJSONObject("entity");
+                            String token = entity.getString("token");
+                            EaseIMHelper.getInstance().getModel().setAppToken(token);
+                            JSONObject imUser = entity.getJSONObject("imUserToken");
+                            String username = imUser.getString("username");
+                            String password = imUser.getString("password");
+                            loginToServer(username, password, callBack);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                        }
+                    } else {
+                        callBack.onError(EMError.USER_AUTHENTICATION_FAILED, "user login failed,username or password error.");
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+            callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+        }
+    }
+
+    /**
+     * 极狐APP登录获取token/im账号密码
+     * @param username
+     * @param password
+     * @param callBack
+     */
+    public void loginWithCustomer(String username, String password, EMCallBack callBack){
+        try {
+            MediaType JSON = MediaType.get("application/json; charset=utf-8");
+            OkHttpClient client = new OkHttpClient();
+            JSONObject json = new JSONObject();
+            json.put("username", username);
+            json.put("password", password);
+            RequestBody body = RequestBody.create(json.toString(), JSON);
+            Request request = new Request.Builder()
+                    .url(EaseIMHelper.getInstance().getServerHost()+"/v1/gov/arcfox/login")
+                    .post(body)
+                    .build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String responseBody = response.body().string();
+                    if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
+                        try {
+                            JSONObject result = new JSONObject(responseBody);
+                            JSONObject entity = result.getJSONObject("entity");
+                            String token = entity.getString("token");
+                            EaseIMHelper.getInstance().getModel().setAppToken(token);
+                            loginToServer(username, password, callBack);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                        }
+                    } else {
+                        callBack.onError(EMError.USER_AUTHENTICATION_FAILED, "user login failed,username or password error.");
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+            callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+        }
+    }
+
+    /**
+     * 登录环信
+     * @param userName
+     * @param pwd
+     * @param callBack
+     */
+    public void loginToServer(String userName, String pwd, EMCallBack callBack) {
+        EMClient.getInstance().login(userName, pwd, new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                EaseIMHelper.getInstance().getModel().setCurrentUserName(userName);
+                EaseIMHelper.getInstance().getModel().setCurrentUserPwd(pwd);
+                loginSuccess();
+                setAutoLogin(true);
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                callBack.onError(i, s);
+                closeDb();
+            }
+        });
+    }
+
+
+    /**
+     * 运管端退出登录
+     * @param callBack
+     */
+    public void logoutWithAdmin(EMCallBack callBack){
+        OkHttpClient client = new OkHttpClient();
+        Headers headers = new Headers.Builder()
+                .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())
+                .add("username", EaseIMHelper.getInstance().getCurrentUser())
+                .build();
+        Request request = new Request.Builder()
+                .url(EaseIMHelper.getInstance().getServerHost()+"/v2/gov/arcfox/transport/"+ EaseIMHelper.getInstance().getCurrentUser() + "/logout")
+                .headers(headers)
+                .get()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                EaseIMHelper.getInstance().logoutSuccess();
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                String responseBody = response.body().string();
+//                if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
+//                    callBack.onSuccess();
+//                } else {
+//                    EaseIMHelper.getInstance().logoutSuccess();
+//                }
+                EaseIMHelper.getInstance().logoutSuccess();
+                callBack.onSuccess();
+            }
+        });
+    }
+
+    /**
+     * 极狐APP端退出登录
+     * @param callBack
+     */
+    public void logoutWithCustomer(EMCallBack callBack){
+        OkHttpClient client = new OkHttpClient();
+        Headers headers = new Headers.Builder()
+                .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())
+                .add("username", EaseIMHelper.getInstance().getCurrentUser())
+                .build();
+        Request request = new Request.Builder()
+                .url(EaseIMHelper.getInstance().getServerHost()+"/v1/gov/arcfox/user/"+ EaseIMHelper.getInstance().getCurrentUser() + "/logout")
+                .headers(headers)
+                .get()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                EaseIMHelper.getInstance().logoutSuccess();
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                String responseBody = response.body().string();
+//                if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
+//                    callBack.onSuccess();
+//                } else {
+//                    EaseIMHelper.getInstance().logoutSuccess();
+//                }
+                EaseIMHelper.getInstance().logoutSuccess();
+                callBack.onSuccess();
+            }
+        });
+    }
+
+    /**
+     * sdk 退出登录
+     * @param callBack
+     */
+    public void logout(EMCallBack callBack){
+        EMClient.getInstance().logout(true, new EMCallBack() {
+            @Override
+            public void onSuccess() {
+//                EaseIMHelper.getInstance().logoutSuccess();
+                if(EaseIMHelper.getInstance().isAdmin()){
+                    logoutWithAdmin(callBack);
+                } else {
+                    logoutWithCustomer(callBack);
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                EMClient.getInstance().logout(false, new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+//                        EaseIMHelper.getInstance().logoutSuccess();
+                        if(EaseIMHelper.getInstance().isAdmin()){
+                            logoutWithAdmin(callBack);
+                        } else {
+                            logoutWithCustomer(callBack);
+                        }
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+                        callBack.onError(i, s);
+                    }
+                });
+
+            }
+        });
+    }
+
+    /**
+     * 设置本地标记，是否自动登录
+     * @param autoLogin
+     */
+    public void setAutoLogin(boolean autoLogin) {
+        PreferenceManager.getInstance().setAutoLogin(autoLogin);
+    }
+
+    private void successForCallBack(@NonNull ResultCallBack<LiveData<EaseUser>> callBack) {
+        // ** manually load all local groups and conversation
+        loadAllConversationsAndGroups();
+        //从服务器拉取加入的群，防止进入会话页面只显示id
+        getAllJoinGroup();
+        // get contacts from server
+        getContactsFromServer();
+        // get current user id
+        String currentUser = EMClient.getInstance().getCurrentUser();
+        EaseUser user = new EaseUser(currentUser);
+        callBack.onSuccess(new MutableLiveData<>(user));
+    }
+
+    public void loginSuccess(){
+        // ** manually load all local groups and conversation
+        loadAllConversationsAndGroups();
+        //从服务器拉取加入的群，防止进入会话页面只显示id
+        getAllJoinGroup();
+    }
+
+    private void getContactsFromServer() {
+        new EMContactManagerRepository().getContactList(new ResultCallBack<List<EaseUser>>() {
+            @Override
+            public void onSuccess(List<EaseUser> value) {
+                if(getUserDao() != null) {
+                    getUserDao().clearUsers();
+                    getUserDao().insert(EmUserEntity.parseList(value));
+                }
+            }
+
+            @Override
+            public void onError(int error, String errorMsg) {
+
+            }
+        });
+    }
+
+    private void getAllJoinGroup() {
+        new EMGroupManagerRepository().getAllGroups(new ResultCallBack<List<EMGroup>>() {
+            @Override
+            public void onSuccess(List<EMGroup> value) {
+                //加载完群组信息后，刷新会话列表页面，保证展示群组名称
+                EMLog.i("ChatPresenter", "login isGroupsSyncedWithServer success");
+                EaseEvent event = EaseEvent.create(EaseConstant.GROUP_CHANGE, EaseEvent.TYPE.GROUP);
+                LiveDataBus.get().with(EaseConstant.GROUP_CHANGE).postValue(event);
+            }
+
+            @Override
+            public void onError(int error, String errorMsg) {
+
+            }
+        });
+    }
+
+    private void closeDb() {
+        EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).closeDb();
+    }
+}
