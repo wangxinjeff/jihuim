@@ -4,11 +4,20 @@ public class GroupApplyBean {
 
     private String userName;
     private String groupId;
+    private String groupName;
     private String state;
     private String inviterName;
     private String role;
     private boolean isOperated;
     private String operatedResult;
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 
     public String getRole() {
         return role;

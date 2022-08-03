@@ -87,30 +87,39 @@
 
         <RadioGroup
             android:id="@+id/rb_group"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@+id/user_avatar"
             >
 
             <RadioButton
+                android:id="@+id/rb_service"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/em_service_personnel"
                 android:textColor="?attr/checkNameColor"
                 style="@style/EaseRadioButton"
+                android:paddingStart="4dp"
                 />
 
             <RadioButton
+                android:id="@+id/rb_customer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/em_customer"
                 android:textColor="?attr/checkNameColor"
                 style="@style/EaseRadioButton"
-                android:layout_marginStart="@dimen/margin_start_normal"
+                android:layout_marginStart="16dp"
+                android:paddingStart="4dp"
                 />
         </RadioGroup>
-
+        <View
+            android:id="@+id/view_group_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/rb_group"
+            android:layout_marginTop="@dimen/em_margin_15"
+            android:background="@drawable/demo_default_divider_list"/>
     </RelativeLayout>
-
 </LinearLayout>

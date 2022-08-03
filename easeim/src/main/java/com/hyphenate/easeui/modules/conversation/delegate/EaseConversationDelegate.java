@@ -121,7 +121,7 @@ public class EaseConversationDelegate extends EaseDefaultConversationDelegate {
             }
         }
 
-        if(item.getAllMsgCount() != 0) {
+        if(item.getAllMessages().size() > 0) {
             EMMessage lastMessage = item.getLastMessage();
             holder.message.setText(EaseSmileUtils.getSmiledText(context, EaseCommonUtils.getMessageDigest(lastMessage, context)));
             holder.time.setText(EaseDateUtils.getTimestampString(context, new Date(lastMessage.getMsgTime())));

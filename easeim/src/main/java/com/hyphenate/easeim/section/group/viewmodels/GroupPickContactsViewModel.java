@@ -52,16 +52,24 @@ public class GroupPickContactsViewModel extends AndroidViewModel {
         return addMembersObservable;
     }
 
-    public void addGroupMembers(boolean isOwner, String groupId, List<String> customers, List<String> waiters) {
-        addMembersObservable.setSource(repository.addMembers(isOwner, groupId, customers, waiters));
+    public void addGroupMembersWithAdmin(boolean isOwner, String groupId, List<String> customers, List<String> waiters) {
+        addMembersObservable.setSource(repository.addMembersWithAdmin(groupId, customers, waiters));
+    }
+
+    public void addGroupMembersWithCustomer(boolean isOwner, String groupId, List<String> customers, List<String> waiters) {
+        addMembersObservable.setSource(repository.addMembersWithCustomer(groupId, customers, waiters));
     }
 
     public LiveData<Resource<List<String>>> getSearchContactsObservable() {
         return searchContactsObservable;
     }
 
-    public void  getSearchContacts(String keyword) {
-        searchContactsObservable.setSource(contactRepository.getSearchContacts(keyword));
+    public void  searchUserWithCustomer(String keyword) {
+        searchContactsObservable.setSource(contactRepository.searchUserWithCustomer(keyword));
+    }
+
+    public void  searchUserWithAdmin(String keyword) {
+        searchContactsObservable.setSource(contactRepository.searchUserWithAdmin(keyword));
     }
 
 }

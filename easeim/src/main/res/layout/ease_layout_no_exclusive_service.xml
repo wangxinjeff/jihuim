@@ -6,15 +6,15 @@
               android:gravity="center">
 
     <ImageView
-        android:layout_width="138dp"
-        android:layout_height="106dp"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
         android:src="@drawable/icon_no_service" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:textSize="@dimen/em_size_small"
         android:textColor="?attr/conContentTimeColor"
         android:text="@string/not_add_service_group"/>
 

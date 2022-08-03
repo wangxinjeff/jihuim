@@ -62,7 +62,6 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 		image = (EasePhotoView) findViewById(R.id.image);
 		loadView = findViewById(R.id.load_view);
 		loadFailedView = findViewById(R.id.load_failed_view);
-		default_res = getIntent().getIntExtra("default_image", R.drawable.ease_default_avatar);
 		Uri uri = getIntent().getParcelableExtra("uri");
 		filename = getIntent().getExtras().getString("filename");
 		String msgId = getIntent().getExtras().getString("messageId");
@@ -79,8 +78,6 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
             Glide.with(this).load(uri).into(image);
 		} else if(msgId != null) {
 		    downloadImage(msgId);
-		}else {
-			image.setImageResource(default_res);
 		}
 
 		image.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
@@ -113,7 +110,6 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 							Uri localUrlUri = ((EMImageMessageBody) msg.getBody()).getLocalUri();
 							Glide.with(EaseShowBigImageActivity.this)
 									.load(localUrlUri)
-									.apply(new RequestOptions().error(default_res))
 									.into(image);
 						}
 					}
@@ -128,7 +124,6 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 						if (EaseShowBigImageActivity.this.isFinishing() || EaseShowBigImageActivity.this.isDestroyed()) {
 						    return;
 						}
-                        image.setImageResource(default_res);
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {

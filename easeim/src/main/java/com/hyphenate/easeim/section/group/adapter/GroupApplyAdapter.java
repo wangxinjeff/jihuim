@@ -53,7 +53,7 @@ public class GroupApplyAdapter extends EaseBaseRecyclerViewAdapter<GroupApplyBea
         @Override
         public void setData(GroupApplyBean item, int position) {
             customerName.setText(item.getUserName());
-            groupName.setText(item.getGroupId());
+            groupName.setText(item.getGroupName());
             inviterName.setText(item.getInviterName());
             if(item.isOperated()){
                 btnRefused.setVisibility(View.GONE);
@@ -86,11 +86,21 @@ public class GroupApplyAdapter extends EaseBaseRecyclerViewAdapter<GroupApplyBea
                     }
                 }
             });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null){
+                        listener.onItemClick(item);
+                    }
+                }
+            });
         }
     }
 
     public interface OnGroupApplyListener{
         void onRefused(GroupApplyBean bean);
         void onAgreed(GroupApplyBean bean);
+        void onItemClick(GroupApplyBean bean);
     }
 }

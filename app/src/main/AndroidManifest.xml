@@ -117,14 +117,18 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <!--华为 HMS Config-->
-        <service android:name=".common.service.HMSPushService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.huawei.push.action.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <!-- huawei push end -->
+
+        <meta-data
+            android:name="com.vivo.push.api_key"
+            android:value="1c1230bc2c54a6d078bc69a8b6d7807d" />
+        <meta-data
+            android:name="com.vivo.push.app_id"
+            android:value="104510674" />
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="3ecea51f560650b1ed8a4b99808f52e8" />
+        <!-- 设置环信应用的AppKey -->
+        <meta-data android:name="EASEMOB_APPKEY"  android:value="1100220704109048#arcfox-server" />
 
     </application>
 

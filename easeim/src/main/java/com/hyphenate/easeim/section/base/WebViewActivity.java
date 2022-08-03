@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
@@ -43,6 +44,11 @@ public class WebViewActivity extends BaseInitActivity {
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         titleBar = findViewById(R.id.title_bar);
+        if(EaseIMHelper.getInstance().isAdmin()){
+            titleBar.setLeftImageResource(R.drawable.icon_back_admin);
+        } else {
+            titleBar.setLeftImageResource(R.drawable.icon_back);
+        }
         webview = findViewById(R.id.webview);
         progressBar = findViewById(R.id.progress_bar);
 

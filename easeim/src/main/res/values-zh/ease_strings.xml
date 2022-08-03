@@ -29,8 +29,8 @@
     <string name="Network_error">网络出错</string>
     <string name="please_check">key 验证出错! 请在 AndroidManifest.xml 文件中检查 key 设置</string>
     <string name="Is_download_voice_click_later">正在下载语音，稍后点击</string>
-    <string name="button_pushtotalk">按住说话</string>
-    <string name="button_pushtotalk_pressed">松开发送</string>
+    <string name="button_pushtotalk">按住 说话</string>
+    <string name="button_pushtotalk_pressed">松开 发送</string>
     <string name="Recording_without_permission">无录音权限</string>
     <string name="send_failure_please">发送失败，请检测服务器是否连接</string>
     <string name="Send_voice_need_sdcard_support">发送语音需要sdcard支持</string>
@@ -135,7 +135,7 @@
 
     <string name="demo_system_other_decline_received_remote_user_invitation">%1$s拒绝了您的入群邀请</string>
 
-    <string name="em_chat_pick_user_title">选择联系人</string>
+    <string name="em_chat_pick_user_title">成员列表</string>
 
     <string name="em_single_set_title">聊天详情</string>
     <string name="em_single_search_history">查找聊天内容</string>

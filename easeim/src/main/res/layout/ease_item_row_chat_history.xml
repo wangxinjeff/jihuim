@@ -25,18 +25,23 @@
     <TextView
         android:id="@+id/unread_msg_number"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="14dp"
         app:layout_constraintCircle="@id/avatar"
         app:layout_constraintCircleAngle="45"
-        app:layout_constraintCircleRadius="30dp"
+        app:layout_constraintCircleRadius="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/ease_unread_count_bg"
+        android:background="@drawable/em_unread_bg"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="12sp"
+        android:textSize="10sp"
         tools:text="4"
-        android:visibility="gone"/>
+        android:paddingStart="3dp"
+        android:paddingEnd="3dp"
+        android:minWidth="14dp"
+        tools:ignore="SmallSp"
+        android:visibility="gone"
+        />
 
     <TextView
         android:id="@+id/name"
@@ -50,7 +55,7 @@
         android:layout_marginTop="12dp"
         android:maxLines="1"
         android:ellipsize="end"
-        android:textSize="17sp"
+        android:textSize="16sp"
         android:textColor="?attr/normalTextColor"
         tools:text="聊天室"/>
     
@@ -72,6 +77,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/name"
+        app:layout_constraintBottom_toBottomOf="@+id/name"
         android:layout_marginEnd="18dp"
         android:textColor="?attr/conContentTimeColor"
         android:textSize="12sp"

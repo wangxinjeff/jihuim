@@ -6,18 +6,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="13dp">
+    android:paddingTop="@dimen/margin_chat_row_normal_top">
 
     <TextView
         android:id="@+id/timestamp"
         style="@style/chat_text_date_style"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_chat_activity" >
+        android:layout_marginTop="@dimen/margin_chat_row_normal_top" >
 
         <com.hyphenate.easeui.widget.EaseImageView
             android:id="@+id/iv_userhead"
@@ -34,12 +35,11 @@
             android:paddingEnd="10dp"
             android:paddingTop="9dp"
             android:paddingBottom="9dp"
-            android:layout_marginTop="2dp"
             android:layout_below="@id/tv_userid"
             app:arrow_direction="right"
             app:fill_color="?attr/msgBubbleBg"
             app:stroke_color="?attr/msgBubbleBg"
-            app:conner_radius="8dp"
+            app:conner_radius="2dp"
             app:arrow_up_distance="10dp"
             >
 
@@ -104,8 +104,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/bubble"
-            android:layout_marginRight="@dimen/ease_chat_ack_margin_bubble"
+            android:layout_toStartOf="@id/bubble"
+            android:layout_marginEnd="@dimen/ease_chat_ack_margin_bubble"
             android:text="@string/text_delivered_msg"
             android:textSize="12sp"
             android:visibility="invisible" />
@@ -124,18 +124,10 @@
             style="@style/chat_text_name_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/chat_nick_margin_left"
-            android:textSize="@dimen/chat_nick_text_size"
-            android:layout_toLeftOf="@id/iv_userhead"
+            android:layout_marginEnd="@dimen/chat_nick_margin_left"
+            android:textSize="@dimen/em_size_small"
+            android:layout_toStartOf="@id/iv_userhead"
             android:visibility="gone" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_chat_activity"
-        android:gravity="end"
-        >
     </RelativeLayout>
 
 </LinearLayout>

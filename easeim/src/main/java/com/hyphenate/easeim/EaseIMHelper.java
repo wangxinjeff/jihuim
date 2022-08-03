@@ -1116,4 +1116,24 @@ public class EaseIMHelper {
             e.printStackTrace();
         }
     }
+
+    public void setServerHost(String host){
+        serverHost = host;
+    }
+
+    /**
+     * 设置极狐 aid
+     * @param aid
+     */
+    public void setAid(String aid){
+        getModel().setAid(aid);
+    }
+
+    /**
+     * 设置极狐 token
+     * @param token
+     */
+    public void setAidToken(String token){
+        getModel().setAidToken(token);
+    }
 }

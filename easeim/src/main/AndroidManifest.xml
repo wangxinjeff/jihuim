@@ -90,8 +90,6 @@
         <!--android 9.0要求-->
         <!--<uses-library android:name="org.apache.http.legacy" android:required="false"/>-->
 
-        <!-- 设置环信应用的AppKey -->
-        <meta-data android:name="EASEMOB_APPKEY"  android:value="${EASEMOB_APPKEY}" />
         <!-- 声明SDK所需的service SDK核心功能-->
         <service
             android:name="com.hyphenate.chat.EMChatService"
@@ -142,13 +140,6 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!--推送配置项-->
-        <meta-data
-            android:name="com.vivo.push.api_key"
-            android:value="${VIVO_PUSH_APPKEY}" />
-        <meta-data
-            android:name="com.vivo.push.app_id"
-            android:value="${VIVO_PUSH_APPID}" />
 
         <receiver android:name="com.hyphenate.push.platform.vivo.EMVivoMsgReceiver" >
             <intent-filter>
@@ -253,14 +244,20 @@
         </receiver>
         <!-- Mi推送配置 end-->
 
+        <!--华为 HMS Config-->
+        <service android:name=".common.service.HMSPushService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.huawei.push.action.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!-- huawei push end -->
+
         <!-- 百度地图所需的service -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="${BAIDU_LOCATION_APPKEY}" />
         <!--主页-->
         <activity
             android:name=".section.conversation.ConversationListActivity"

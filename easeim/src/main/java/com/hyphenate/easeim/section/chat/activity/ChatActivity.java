@@ -44,6 +44,11 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
 
     @Override
     protected int getLayoutId() {
+        if(EaseIMHelper.getInstance().isAdmin()){
+            setTheme(R.style.AdminChatTheme);
+        } else {
+            setTheme(R.style.CustomerChatTheme);
+        }
         return R.layout.demo_activity_chat;
     }
 

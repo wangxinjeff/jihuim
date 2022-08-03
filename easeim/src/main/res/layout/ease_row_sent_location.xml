@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="13dp">
+    android:paddingTop="@dimen/margin_chat_row_normal_top">
 
     <TextView
         android:id="@+id/timestamp"
@@ -17,7 +17,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_chat_activity" >
+        android:layout_marginTop="@dimen/margin_chat_row_normal_top" >
 
         <com.hyphenate.easeui.widget.EaseImageView
             android:id="@+id/iv_userhead"
@@ -27,15 +27,15 @@
             android:id="@+id/bubble"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/margin_chat_activity"
-            android:layout_toLeftOf="@id/iv_userhead"
-            android:layout_marginLeft="3dp"
+            android:layout_marginEnd="@dimen/margin_chat_activity"
+            android:layout_toStartOf="@id/iv_userhead"
+            android:layout_marginStart="3dp"
             android:layout_below="@id/tv_userid"
             app:arrow_direction="right"
             app:fill_color="?attr/msgBubbleBg"
             app:stroke_color="?attr/msgBubbleBg"
-            app:conner_radius="8dp"
-            android:paddingEnd="13dp"
+            app:conner_radius="2dp"
+            android:paddingEnd="15dp"
             android:paddingStart="10dp"
             app:arrow_up_distance="10dp"
             >
@@ -45,8 +45,8 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/em_icon_location_admin"
-                android:layout_marginTop="13dp"
-                android:layout_marginBottom="13dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
                 />
 
             <TextView
@@ -56,8 +56,8 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:layout_toEndOf="@+id/icon_location"
-                android:layout_marginStart="3dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="9dp"
                 tools:text="数码大厦A座（北京市海淀区）"
                 android:textSize="@dimen/em_size_normal"
                 android:textColor="?attr/msgTextColor"/>
@@ -134,7 +134,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/chat_nick_margin_left"
-            android:textSize="@dimen/chat_nick_text_size"
+            android:textSize="@dimen/em_size_small"
             android:layout_toLeftOf="@id/iv_userhead"
             android:visibility="gone" />
     </RelativeLayout>

@@ -26,11 +26,6 @@ import com.hyphenate.easeui.widget.EaseImageView;
 public class InviteSelectedAdapter extends EaseBaseRecyclerViewAdapter<String> {
 
     @Override
-    public int getEmptyLayoutId() {
-        return EaseIMHelper.getInstance().isAdmin() ? R.layout.ease_layout_default_no_search_result_admin : R.layout.ease_layout_default_no_search_result;
-    }
-
-    @Override
     public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
         return new InviteViewHolder(LayoutInflater.from(mContext).inflate(R.layout.invite_selected_item, parent, false));
     }

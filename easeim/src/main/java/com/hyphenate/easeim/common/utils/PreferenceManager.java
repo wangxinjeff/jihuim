@@ -84,6 +84,8 @@ public class PreferenceManager {
 	private static String SHARED_KEY_MODE = "shared_key_app_mode";
 
 	private static String SHARED_KEY_TOKEN = "shared_key_app_token";
+	private static String SHARED_KEY_AID = "shared_key_app_aid";
+	private static String SHARED_KEY_AID_TOKEN = "shared_key_app_aid_token";
 
 	@SuppressLint("CommitPrefEdits")
 	private PreferenceManager(Context cxt) {
@@ -604,5 +606,23 @@ public class PreferenceManager {
 
 	public String getAppToken(){
 		return mSharedPreferences.getString(SHARED_KEY_TOKEN, "");
+	}
+
+	public void setAid(String token){
+		editor.putString(SHARED_KEY_AID, token);
+		editor.apply();
+	}
+
+	public String getAid(){
+		return mSharedPreferences.getString(SHARED_KEY_AID, "");
+	}
+
+	public void setAidToken(String token){
+		editor.putString(SHARED_KEY_AID_TOKEN, token);
+		editor.apply();
+	}
+
+	public String getAidToken(){
+		return mSharedPreferences.getString(SHARED_KEY_AID_TOKEN, "");
 	}
 }

@@ -64,6 +64,11 @@ public class PickAtUserActivity extends BaseInitActivity implements OnItemClickL
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         mTitleBarPick = findViewById(R.id.title_bar_pick);
+        if(EaseIMHelper.getInstance().isAdmin()){
+            mTitleBarPick.setLeftImageResource(R.drawable.icon_back_admin);
+        } else {
+            mTitleBarPick.setLeftImageResource(R.drawable.icon_back);
+        }
         mRvPickUserList = findViewById(R.id.rv_pick_user_list);
 
         mRvPickUserList.setLayoutManager(new LinearLayoutManager(mContext));

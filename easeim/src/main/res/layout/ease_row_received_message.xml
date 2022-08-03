@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:paddingTop="13dp">
+    android:paddingTop="@dimen/margin_chat_row_normal_top">
 
     <TextView
         android:id="@+id/timestamp"
@@ -17,7 +17,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_chat_activity" >
+        android:layout_marginTop="@dimen/margin_chat_row_normal_top" >
 
         <com.hyphenate.easeui.widget.EaseImageView
             android:id="@+id/iv_userhead"
@@ -35,11 +35,10 @@
             android:paddingEnd="10dp"
             android:paddingTop="9dp"
             android:paddingBottom="9dp"
-            android:layout_marginTop="2dp"
             app:arrow_direction="left"
             app:fill_color="?attr/rmsgBubbleBg"
             app:stroke_color="?attr/rmsgBubbleBg"
-            app:conner_radius="8dp"
+            app:conner_radius="2dp"
             app:arrow_up_distance="10dp">
 
             <TextView
@@ -64,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/chat_nick_margin_left"
-            android:textSize="@dimen/chat_nick_text_size"
+            android:textSize="@dimen/em_size_small"
             tools:text="som"
             android:layout_toRightOf="@id/iv_userhead"
             android:visibility="gone" />

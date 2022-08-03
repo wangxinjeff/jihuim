@@ -171,6 +171,14 @@
         <item name="btnUnClick">@color/btn_un_clicked</item>
     </style>
 
+    <style name="CustomerChatTheme" parent="CustomerTheme">
+        <item name="android:navigationBarColor">@color/input_view_bg_color</item>
+    </style>
+
+    <style name="AdminChatTheme" parent="AdminTheme">
+        <item name="android:navigationBarColor">@color/input_view_bg</item>
+    </style>
+
     <style name="NoActionBar.SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!--<item name="android:windowBackground">@android:color/transparent</item>-->
         <item name="android:windowBackground">@color/blue</item>

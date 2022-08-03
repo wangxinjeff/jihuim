@@ -781,6 +781,21 @@ public class EaseModel {
         PreferenceManager.getInstance().setAppToken(token);
     }
 
+    public void setAid(String aid){
+        PreferenceManager.getInstance().setAid(aid);
+    }
+
+    public String getAid(){
+        return PreferenceManager.getInstance().getAid();
+    }
+
+    public void setAidToken(String token){
+        PreferenceManager.getInstance().setAidToken(token);
+    }
+
+    public String getAidToken(){
+        return PreferenceManager.getInstance().getAidToken();
+    }
 
     enum Key{
         VibrateAndPlayToneOn,

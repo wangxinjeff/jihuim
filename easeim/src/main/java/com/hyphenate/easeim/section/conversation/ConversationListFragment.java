@@ -44,7 +44,7 @@ public class ConversationListFragment extends EaseConversationListFragment{
     @Override
     public void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
-        if(conversationsType != EaseConstant.CON_TYPE_EXCLUSIVE){
+        if(conversationsType == EaseConstant.CON_TYPE_MY_CHAT){
             //添加搜索会话布局
             SearchBar searchBar = new SearchBar(getContext());
             searchBar.init(false);

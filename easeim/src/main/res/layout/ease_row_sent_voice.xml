@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="13dp">
+    android:paddingTop="@dimen/margin_chat_row_normal_top">
 
     <TextView
         android:id="@+id/timestamp"
@@ -17,7 +17,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_chat_activity" >
+        android:layout_marginTop="@dimen/margin_chat_row_normal_top" >
 
         <com.hyphenate.easeui.widget.EaseImageView
             android:id="@+id/iv_userhead"
@@ -129,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/chat_nick_margin_left"
-            android:textSize="@dimen/chat_nick_text_size"
+            android:textSize="@dimen/em_size_small"
             android:layout_toLeftOf="@id/iv_userhead"
             android:visibility="gone" />
     </RelativeLayout>

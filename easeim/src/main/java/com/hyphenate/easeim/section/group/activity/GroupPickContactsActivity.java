@@ -49,6 +49,8 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
     private AppCompatTextView userName;
     private RelativeLayout resultView;
     private RadioGroup radioGroup;
+    private RadioButton rbService;
+    private RadioButton rbCustomer;
     private String result = "";
     private boolean isOwner;
 
@@ -100,6 +102,8 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
         userName = findViewById(R.id.user_name);
         resultView = findViewById(R.id.result_view);
         radioGroup = findViewById(R.id.rb_group);
+        rbService = findViewById(R.id.rb_service);
+        rbCustomer = findViewById(R.id.rb_customer);
 
         titleBar.getRightText().setTextColor(ContextCompat.getColor(mContext, R.color.search_close_color));
 
@@ -145,7 +149,12 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
                 radioGroup.setOnCheckedChangeListener(null);
                 radioGroup.clearCheck();
                 addRadioGroupListener();
-                viewModel.getSearchContacts(text);
+                if(EaseIMHelper.getInstance().isAdmin()){
+                    viewModel.searchUserWithAdmin(text);
+                } else {
+                    viewModel.searchUserWithCustomer(text);
+                }
+
             }
         });
     }
@@ -164,7 +173,11 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
                 }
                 for(EaseUser item : selectedList){
                     if(TextUtils.equals(item.getUsername(), user.getUsername())){
-                        ToastUtils.showCenterToast("", getString(R.string.em_can_not_select_again), 0, Toast.LENGTH_SHORT);
+                        int index = selectedList.indexOf(item);
+                        selectedList.remove(item);
+                        selectedList.add(index, user);
+                        adapter.setData(selectedList);
+                        refreshSelectedView();
                         return;
                     }
                 }
@@ -248,19 +261,27 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
     public void onRightClick(View view) {
         if(isCreate){
             NewGroupActivity.actionStart(mContext, (ArrayList<EaseUser>) selectedList);
+            finish();
         } else {
-            List<String> customers = new ArrayList<>();
-            List<String> waiters = new ArrayList<>();
-            for (EaseUser user : selectedList) {
-                if(user.isCustomer()){
-                    customers.add(user.getUsername());
-                } else {
-                    waiters.add(user.getUsername());
+            if(selectedList.size() > 0){
+                List<String> customers = new ArrayList<>();
+                List<String> waiters = new ArrayList<>();
+                for (EaseUser user : selectedList) {
+                    if(user.isCustomer()){
+                        customers.add(user.getUsername());
+                    } else {
+                        waiters.add(user.getUsername());
+                    }
                 }
+                if(EaseIMHelper.getInstance().isAdmin()){
+                    viewModel.addGroupMembersWithAdmin(isOwner, groupId, customers, waiters);
+                } else {
+                    viewModel.addGroupMembersWithCustomer(isOwner, groupId, customers, waiters);
+                }
+            } else {
+                onBackPressed();
             }
-            viewModel.addGroupMembers(isOwner, groupId, customers, waiters);
         }
-        onBackPressed();
     }
 
     @Override
@@ -271,6 +292,11 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
     @Override
     public void onMemberRemove(EaseUser item) {
         selectedList.remove(item);
+        if(TextUtils.equals(result, item.getUsername())){
+            radioGroup.setOnCheckedChangeListener(null);
+            radioGroup.clearCheck();
+            addRadioGroupListener();
+        }
         refreshSelectedView();
         adapter.setData(selectedList);
     }

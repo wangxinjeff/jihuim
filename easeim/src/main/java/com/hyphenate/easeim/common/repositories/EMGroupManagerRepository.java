@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.EMValueCallBack;
+import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMGroupInfo;
@@ -835,47 +836,12 @@ public class EMGroupManagerRepository extends BaseEMRepository{
     }
 
     /**
-     * 邀请群成员
+     * 运管端邀请群成员
      */
-    public LiveData<Resource<Boolean>> addMembers(boolean isOwner, String groupId, List<String> customerList, List<String> waiterList) {
+    public LiveData<Resource<Boolean>> addMembersWithAdmin(String groupId, List<String> customerList, List<String> waiterList) {
         return new NetworkOnlyResource<Boolean>() {
             @Override
             protected void createCall(@NonNull ResultCallBack<LiveData<Boolean>> callBack) {
-//                if(isOwner) {
-//                    getGroupManager().asyncAddUsersToGroup(groupId, members, new EMCallBack() {
-//                        @Override
-//                        public void onSuccess() {
-//                            callBack.onSuccess(createLiveData(true));
-//                        }
-//
-//                        @Override
-//                        public void onError(int code, String error) {
-//                            callBack.onError(code, error);
-//                        }
-//
-//                        @Override
-//                        public void onProgress(int progress, String status) {
-//
-//                        }
-//                    });
-//                }else {
-//                    getGroupManager().asyncInviteUser(groupId, members, null, new EMCallBack() {
-//                        @Override
-//                        public void onSuccess() {
-//                            callBack.onSuccess(createLiveData(true));
-//                        }
-//
-//                        @Override
-//                        public void onError(int code, String error) {
-//                            callBack.onError(code, error);
-//                        }
-//
-//                        @Override
-//                        public void onProgress(int progress, String status) {
-//
-//                        }
-//                    });
-//                }
                 try{
                     MediaType JSON = MediaType.get("application/json; charset=utf-8");
                     OkHttpClient client = new OkHttpClient();
@@ -900,6 +866,71 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             .build();
                     Request request = new Request.Builder()
                             .url(EaseIMHelper.getInstance().getServerHost()+"/v4/users/" + EaseIMHelper.getInstance().getCurrentUser() + "/group/"+groupId+"/addUsers/inviter/"+EaseIMHelper.getInstance().getCurrentUser())
+                            .headers(headers)
+                            .post(body)
+                            .build();
+                    client.newCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                        }
+
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            String responseBody = response.body().string();
+                            if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
+                                try {
+                                    JSONObject result = new JSONObject(responseBody);
+                                    callBack.onSuccess(createLiveData(true));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                                }
+                            } else {
+                                callBack.onError(EMError.GENERAL_ERROR, "");
+                            }
+                        }
+                    });
+                }catch(JSONException e){
+                    e.printStackTrace();
+                    callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                }
+            }
+        }.asLiveData();
+    }
+
+    /**
+     * 极狐app邀请群成员
+     */
+    public LiveData<Resource<Boolean>> addMembersWithCustomer(String groupId, List<String> customerList, List<String> waiterList) {
+        return new NetworkOnlyResource<Boolean>() {
+            @Override
+            protected void createCall(@NonNull ResultCallBack<LiveData<Boolean>> callBack) {
+                try{
+                    MediaType JSON = MediaType.get("application/json; charset=utf-8");
+                    OkHttpClient client = new OkHttpClient();
+                    JSONObject json = new JSONObject();
+                    JSONArray customers = new JSONArray();
+                    for(String customer : customerList){
+                        customers.put(customer);
+                    }
+                    json.put("customerAids", customers);
+
+                    JSONArray waiters = new JSONArray();
+                    for(String waiter : waiterList){
+                        waiters.put(waiter);
+                    }
+                    json.put("waiterAids", waiters);
+
+                    RequestBody body = RequestBody.create(json.toString(), JSON);
+
+                    Headers headers = new Headers.Builder()
+                            .add("Authorization", EMClient.getInstance().getAccessToken())
+                            .add("username", EaseIMHelper.getInstance().getCurrentUser())
+                            .build();
+                    Request request = new Request.Builder()
+                            .url(EaseIMHelper.getInstance().getServerHost()+"/v4/users/" + EaseIMHelper.getInstance().getCurrentUser()
+                                    + "/group/"+groupId+"/addUsers/inviter/"+EaseIMHelper.getInstance().getCurrentUser() + "/APP")
                             .headers(headers)
                             .post(body)
                             .build();
@@ -1117,6 +1148,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                             GroupApplyBean bean = new GroupApplyBean();
                                             bean.setUserName(item.optString("userName"));
                                             bean.setGroupId(item.optString("groupId"));
+                                            bean.setGroupName(item.optString("groupName"));
                                             if(TextUtils.equals(item.optString("state"), "wait")){
                                                 bean.setOperated(false);
                                             } else {

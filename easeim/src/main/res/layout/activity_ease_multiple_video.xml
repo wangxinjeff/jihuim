@@ -7,59 +7,64 @@
     android:background="?attr/themeBgColor"
     >
     <RelativeLayout
+        android:id="@+id/call_title"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="wrap_content"
         >
 
         <ImageView
             android:id="@+id/btn_float"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:paddingTop="9dp"
-            android:paddingBottom="9dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="23dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="@dimen/em_margin_10"
+            android:layout_marginBottom="@dimen/em_margin_10"
             android:src="@drawable/call_mini" />
-        <TextView
-            android:id="@+id/tv_call_time"
-            android:layout_width="wrap_content"
-            android:layout_height="22dp"
-            android:layout_centerInParent="true"
-            android:textColor="#4C4C4C"
-            android:text="00:00"
-            android:gravity="center"
-            android:textSize="@dimen/adaptive_16sp"
-            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/btn_invite"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:layout_alignParentRight="true"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="@dimen/em_margin_10"
+            android:layout_marginBottom="@dimen/em_margin_10"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="24dp"
             android:src="@drawable/call_invite" />
     </RelativeLayout>
 
 
     <!--多人会议时显示成员画面控件容器-->
-        <com.hyphenate.easecallkit.base.EaseCallMemberViewGroup
-            android:id="@+id/surface_view_group"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="44dp"
-            android:layout_marginBottom="222dp"
-            android:animateLayoutChanges="true" />
+
+    <com.hyphenate.easecallkit.base.EaseCallMemberViewGroup
+        android:id="@+id/surface_view_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/call_title"
+        android:layout_above="@+id/tv_call_time"
+        android:animateLayoutChanges="true" />
+
+    <TextView
+        android:id="@+id/tv_call_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/normal_text_color"
+        android:text="00:00"
+        android:gravity="center"
+        android:textSize="@dimen/adaptive_16sp"
+        android:layout_above="@+id/call_bottom"
+        android:textStyle="bold" />
 
     <RelativeLayout
+        android:id="@+id/call_bottom"
         android:layout_width="match_parent"
         android:layout_height="222dp"
+        android:layout_marginTop="20dp"
         android:layout_alignParentBottom="true">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
             android:layout_height="100dp">
 
             <ImageButton
@@ -72,10 +77,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_below="@+id/btn_mic_switch"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/mute"
                 android:layout_marginLeft="@dimen/adaptive_59dp"
-                android:textColor="@android:color/white"
+                android:textColor="@color/normal_text_color"
                 android:textSize="14sp"
                 android:textAlignment="center"
                 android:gravity="center"/>
@@ -89,9 +94,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_below="@+id/btn_speaker_switch"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/Hands_free"
-                android:textColor="@android:color/white"
+                android:textColor="@color/normal_text_color"
                 android:textSize="14sp"
                 android:layout_centerHorizontal="true"
                 android:textAlignment="center"
@@ -108,11 +113,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_below="@+id/btn_camera_switch"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/em_camera"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="51dp"
-                android:textColor="@android:color/white"
+                android:textColor="@color/normal_text_color"
                 android:textSize="14sp"
                 android:textAlignment="center"
                 android:gravity="center"/>
@@ -138,6 +143,7 @@
             android:textColor="@android:color/white"
             android:textSize="14sp"
             android:textAlignment="center"
+            android:visibility="gone"
             android:gravity="center"/>
         <ImageButton
             android:id="@+id/btn_change_camera_switch"
@@ -159,6 +165,7 @@
             android:layout_marginRight="31dp"
             android:textAlignment="center"
             android:layout_marginBottom="10dp"
+            android:visibility="gone"
             android:gravity="center"/>
     </RelativeLayout>
     <com.hyphenate.easecallkit.ui.EaseCommingCallView

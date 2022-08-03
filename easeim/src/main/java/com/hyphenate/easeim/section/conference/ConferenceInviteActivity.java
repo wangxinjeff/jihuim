@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +29,7 @@ import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.manager.EaseThreadManager;
 import com.hyphenate.easeui.model.EaseEvent;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
 import java.util.ArrayList;
@@ -67,6 +71,15 @@ public class ConferenceInviteActivity extends BaseInitActivity implements View.O
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         mTitleBar = findViewById(R.id.title_bar);
+        mTitleBar.getRightText().setTextColor(ContextCompat.getColor(this, R.color.white));
+        mTitleBar.getRightText().setBackgroundResource(R.drawable.ease_title_bar_invite_call_right_selector);
+        int left = (int) EaseCommonUtils.dip2px(this, 10);
+        int top = (int) EaseCommonUtils.dip2px(this, 5);
+        mTitleBar.getRightText().setPadding(left, top, left, top);
+        ViewGroup.LayoutParams layoutParams = mTitleBar.getRightLayout().getLayoutParams();
+        if(layoutParams instanceof ViewGroup.MarginLayoutParams) {
+            ((ViewGroup.MarginLayoutParams) layoutParams).setMargins(0, 0, left, 0);
+        }
         selectedView = findViewById(R.id.selected_view);
         selectedView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         selectedAdapter = new InviteSelectedAdapter();

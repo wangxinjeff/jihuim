@@ -544,7 +544,73 @@ public class EMContactManagerRepository extends BaseEMRepository{
         }.asLiveData();
     }
 
-    public LiveData<Resource<List<String>>> getSearchContacts(String keyword) {
+    /**
+     * 极狐app搜索用户
+     * @param keyword
+     * @return
+     */
+    public LiveData<Resource<List<String>>> searchUserWithCustomer(String keyword) {
+        return new NetworkOnlyResource<List<String>>() {
+            @Override
+            protected void createCall(@NonNull ResultCallBack<LiveData<List<String>>> callBack) {
+                try{
+                    MediaType JSON = MediaType.get("application/json; charset=utf-8");
+                    OkHttpClient client = new OkHttpClient();
+                    JSONObject json = new JSONObject();
+                    json.put("username", keyword);
+                    RequestBody body = RequestBody.create(json.toString(), JSON);
+
+                    Headers headers = new Headers.Builder()
+                            .add("Authorization", EMClient.getInstance().getAccessToken())
+                            .add("username", EaseIMHelper.getInstance().getCurrentUser())
+                            .build();
+                    Request request = new Request.Builder()
+                            .url(EaseIMHelper.getInstance().getServerHost()+"/v1/gov/arcfox/user/"+EaseIMHelper.getInstance().getCurrentUser())
+                            .headers(headers)
+                            .post(body)
+                            .build();
+                    client.newCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                        }
+
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            String responseBody = response.body().string();
+                            if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
+                                try {
+                                    JSONObject result = new JSONObject(responseBody);
+                                    JSONArray entities = result.getJSONArray("entities");
+                                    List<String> list = new ArrayList<>();
+                                    if(entities.length() > 0){
+                                        JSONObject item = entities.getJSONObject(0);
+                                        list.add(item.optString("userName"));
+                                    }
+                                    callBack.onSuccess(createLiveData(list));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                                }
+                            } else {
+                                callBack.onError(EMError.GENERAL_ERROR, "");
+                            }
+                        }
+                    });
+                }catch(JSONException e){
+                    e.printStackTrace();
+                    callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                }
+            }
+        }.asLiveData();
+    }
+
+    /**
+     * 运管端搜索用户
+     * @param keyword
+     * @return
+     */
+    public LiveData<Resource<List<String>>> searchUserWithAdmin(String keyword) {
         return new NetworkOnlyResource<List<String>>() {
             @Override
             protected void createCall(@NonNull ResultCallBack<LiveData<List<String>>> callBack) {
@@ -560,7 +626,7 @@ public class EMContactManagerRepository extends BaseEMRepository{
                             .add("username", EaseIMHelper.getInstance().getCurrentUser())
                             .build();
                     Request request = new Request.Builder()
-                            .url(EaseIMHelper.getInstance().getServerHost()+"/v1/gov/arcfox/user/"+EaseIMHelper.getInstance().getCurrentUser())
+                            .url(EaseIMHelper.getInstance().getServerHost()+"/v2/gov/arcfox/user/"+EaseIMHelper.getInstance().getCurrentUser())
                             .headers(headers)
                             .post(body)
                             .build();

@@ -6,6 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/view_group_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/demo_default_divider_list"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_extend_menu"
         android:layout_width="match_parent"
