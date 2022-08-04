@@ -40,6 +40,7 @@ public class GroupDetailViewModel extends AndroidViewModel {
     private SingleSourceLiveData<Boolean> offPushObservable;
     private SingleSourceLiveData<Resource<List<EaseUser>>> groupMemberObservable;
     private SingleSourceLiveData<Resource<String>> serviceNoteObservable;
+    private SingleSourceLiveData<Resource<List<String>>> noteObservable;
     private SingleSourceLiveData<Resource<List<SearchResult>>> searchObservable;
 
 
@@ -58,6 +59,7 @@ public class GroupDetailViewModel extends AndroidViewModel {
         groupMemberObservable = new SingleSourceLiveData<>();
         serviceNoteObservable = new SingleSourceLiveData<>();
         searchObservable = new SingleSourceLiveData<>();
+        noteObservable = new SingleSourceLiveData<>();
     }
 
     public LiveDataBus getMessageChangeObservable() {
@@ -173,8 +175,12 @@ public class GroupDetailViewModel extends AndroidViewModel {
         return serviceNoteObservable;
     }
 
+    public LiveData<Resource<List<String>>> getNoteObservable(){
+        return noteObservable;
+    }
+
     public void getServiceNote(String groupId){
-        serviceNoteObservable.setSource(repository.getServiceNote(groupId));
+        noteObservable.setSource(repository.getServiceNote(groupId));
     }
 
     public void changeServiceNote(String groupId, String note){

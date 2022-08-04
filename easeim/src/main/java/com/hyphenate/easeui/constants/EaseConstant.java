@@ -177,8 +177,13 @@ public interface EaseConstant {
     String NEW_GROUP_APPLY = "newGroupApply";
 
     String MESSAGE_ATTR_EVENT_TYPE = "eventType";
+
     String MESSAGE_ATTR_NO_PUSH = "noPush";
     String MESSAGE_ATTR_NO_PUSH_ID = "id";
     String EVENT_TYPE_GROUP_NO_PUSH = "groupNoPush";
-    String EVENT_TYPE_USER_NO_PUSH = "groupNoPush";
+    String EVENT_TYPE_USER_NO_PUSH = "userNoPush";
+
+    String EVENT_TYPE_GROUP_INTRO = "groupIntro";
+    String MESSAGE_ATTR_GROUP_ID = "groupId";
+    String MESSAGE_ATTR_GROUP_INTRO = "introduction";
 }

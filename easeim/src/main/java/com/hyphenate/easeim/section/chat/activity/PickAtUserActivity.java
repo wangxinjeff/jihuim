@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ConcatAdapter;
@@ -111,8 +112,15 @@ public class PickAtUserActivity extends BaseInitActivity implements OnItemClickL
                 }
 
                 @Override
+                public void onLoading(@Nullable List<EaseUser> data) {
+                    super.onLoading(data);
+                    showLoading();
+                }
+
+                @Override
                 public void hideLoading() {
                     super.hideLoading();
+                    dismissLoading();
                 }
             });
         });

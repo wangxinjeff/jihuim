@@ -358,7 +358,7 @@
     <string name="em_open_notify">打开消息提醒</string>
     <string name="em_close_notify">关闭消息提醒</string>
     <string name="em_call_join_group">请联系同事入群</string>
-    <string name="em_must_be_no_less_than_2_members">群成员不得少于2人</string>
+    <string name="em_must_be_no_less_than_2_members">客户不得少于1人</string>
 
     <string name="em_action_edit">编辑</string>
     <string name="em_group_mute">群禁言</string>
@@ -374,7 +374,7 @@
     <string name="em_group_remove_member_failed">禁言失败</string>
     <string name="em_group_yourself_mute">你已被群主禁言</string>
     <string name="em_group_yourself_un_mute">你的禁言已解除</string>
-    <string name="em_group_create_success">%s创建成功</string>
+    <string name="em_group_create_success">群「%s」创建成功</string>
     <string name="em_welcome_to_login">欢迎登录</string>
     <string name="em_please_enter_phone">请输入手机号</string>
     <string name="em_please_enter_password">请输入密码</string>
@@ -383,4 +383,5 @@
     <string name="em_video_load_failed">下载视频失败</string>
     <string name="em_my_order">我的订单</string>
     <string name="em_send_to_group">发送到服务群</string>
+    <string name="em_add_user_toast">添加成功</string>
 </resources>

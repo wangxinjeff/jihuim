@@ -320,6 +320,29 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
                 }
             });
         });
+
+        viewModel.getNoteObservable().observe(this, response -> {
+            parseResource(response, new OnResourceParseCallback<List<String>>() {
+                @Override
+                public void onSuccess(@Nullable List<String> data) {
+                    systemNote = data.get(0);
+                    serviceNote = data.get(1);
+                }
+
+                @Override
+                public void onLoading(@Nullable List<String> data) {
+                    super.onLoading(data);
+                    showLoading();
+                }
+
+                @Override
+                public void hideLoading() {
+                    super.hideLoading();
+                    dismissLoading();
+                }
+            });
+        });
+
         viewModel.getServiceNote(groupId);
     }
 
@@ -357,7 +380,7 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
             GroupMuteActivity.startAction(mContext, groupId);
         } else if (id == R.id.item_group_note) {
             GroupEditActivity.startNoteForResult(mContext, getString(R.string.em_group_note),
-                    "",
+                    systemNote,
                     serviceNote,
                     getString(R.string.em_group_note_hint),
                     REQUEST_CODE_GROUP_NOTE

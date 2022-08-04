@@ -10,10 +10,12 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMGroupInfo;
 import com.hyphenate.chat.EMGroupOptions;
+import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMucSharedFile;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
@@ -23,6 +25,7 @@ import com.hyphenate.easeim.common.model.GroupApplyBean;
 import com.hyphenate.easeim.common.model.SearchResult;
 import com.hyphenate.easeim.common.net.ErrorCode;
 import com.hyphenate.easeim.common.net.Resource;
+import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.manager.EaseThreadManager;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
@@ -701,6 +704,16 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                 getGroupManager().asyncChangeGroupDescription(groupId, description, new EMCallBack() {
                     @Override
                     public void onSuccess() {
+                        EMMessage message = EMMessage.createSendMessage(EMMessage.Type.CMD);
+                        EMCmdMessageBody body = new EMCmdMessageBody("event");
+                        body.deliverOnlineOnly(true);
+                        message.addBody(body);
+                        message.setTo(groupId);
+                        message.setChatType(EMMessage.ChatType.GroupChat);
+                        message.setAttribute(EaseConstant.MESSAGE_ATTR_EVENT_TYPE, EaseConstant.EVENT_TYPE_GROUP_INTRO);
+                        message.setAttribute(EaseConstant.MESSAGE_ATTR_GROUP_ID, groupId);
+                        message.setAttribute(EaseConstant.MESSAGE_ATTR_GROUP_INTRO, description);
+                        EMClient.getInstance().chatManager().sendMessage(message);
                         callBack.onSuccess(createLiveData(description));
                     }
 
@@ -1550,11 +1563,11 @@ public class EMGroupManagerRepository extends BaseEMRepository{
     /**
      * 获取服务备注
      */
-    public LiveData<Resource<String>> getServiceNote(String groupId){
-        return new NetworkOnlyResource<String>(){
+    public LiveData<Resource<List<String>>> getServiceNote(String groupId){
+        return new NetworkOnlyResource<List<String>>(){
 
             @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<String>> callBack) {
+            protected void createCall(@NonNull ResultCallBack<LiveData<List<String>>> callBack) {
                     OkHttpClient client = new OkHttpClient();
                     Headers headers = new Headers.Builder()
                             .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())
@@ -1578,8 +1591,12 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                 try {
                                     JSONObject result = new JSONObject(responseBody);
                                     JSONObject entity = result.getJSONObject("data");
-                                    String note = entity.optString("businessRemark");
-                                    callBack.onSuccess(createLiveData(note));
+                                    String businessRemark = entity.optString("businessRemark");
+                                    String sysDesc = entity.optString("sysDesc");
+                                    List<String> list = new ArrayList<>();
+                                    list.add(sysDesc);
+                                    list.add(businessRemark);
+                                    callBack.onSuccess(createLiveData(list));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 
 import com.hyphenate.chat.EMGroupOptions;
@@ -17,11 +18,13 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.common.widget.ArrowItemView;
 
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 
+import com.hyphenate.easeim.section.chat.activity.ChatActivity;
 import com.hyphenate.easeim.section.dialog.SimpleDialogFragment;
 import com.hyphenate.easeim.section.group.viewmodels.NewGroupViewModel;
 
@@ -65,6 +68,8 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
 
     private String groupName = "";
     private String groupIntroduction = "";
+    List<String> customers;
+    List<String> waiters;
 
     public static void actionStart(Context context,  ArrayList<EaseUser> members) {
         Intent intent = new Intent(context, NewGroupActivity.class);
@@ -143,14 +148,25 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
         data.addAll(members);
         memberAdapter.setData(data);
 
-        if(members.size() <  2){
-            confirmBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.btn_gray_pressed));
-            confirmBtn.setEnabled(false);
-            confirmBtn.setText(getString(R.string.em_must_be_no_less_than_2_members));
-        } else {
+        customers = new ArrayList<>();
+        waiters = new ArrayList<>();
+
+        for (EaseUser easeUser : members) {
+            if(easeUser.isCustomer()){
+                customers.add(easeUser.getUsername());
+            } else {
+                waiters.add(easeUser.getUsername());
+            }
+        }
+
+        if(customers.size() >  0){
             confirmBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.search_close));
             confirmBtn.setEnabled(true);
             confirmBtn.setText(getString(R.string.em_group_new_save));
+        } else {
+            confirmBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.btn_gray_pressed));
+            confirmBtn.setEnabled(false);
+            confirmBtn.setText(getString(R.string.em_must_be_no_less_than_2_members));
         }
 
         tvGroupMemberNum.setText(members.size() + "人");
@@ -160,7 +176,19 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
             parseResource(response, new OnResourceParseCallback<String>() {
                 @Override
                 public void onSuccess(String groupId) {
-                    runOnUiThread(NewGroupActivity.this::finish);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            EMMessage message = EMMessage.createTextSendMessage("groupEvent", groupId);
+                            message.setChatType(EMMessage.ChatType.GroupChat);
+                            message.setAttribute(EaseConstant.CREATE_GROUP_PROMPT, true);
+                            message.setAttribute(EaseConstant.CREATE_GROUP_NAME, groupName);
+                            message.setStatus(EMMessage.Status.SUCCESS);
+                            EMClient.getInstance().chatManager().saveMessage(message);
+                            ChatActivity.actionStart(mContext, groupId, EaseConstant.CHATTYPE_GROUP);
+                            finish();
+                        }
+                    });
                 }
 
                 @Override
@@ -204,15 +232,6 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
             }
             EMGroupOptions option = new EMGroupOptions();
             option.style = EMGroupStylePrivateOnlyOwnerInvite;
-            List<String> customers = new ArrayList<>();
-            List<String> waiters = new ArrayList<>();
-            for (EaseUser user : members) {
-                if(user.isCustomer()){
-                    customers.add(user.getUsername());
-                } else {
-                    waiters.add(user.getUsername());
-                }
-            }
             viewModel.createGroup(groupName, groupIntroduction, customers, waiters);
         }
     }

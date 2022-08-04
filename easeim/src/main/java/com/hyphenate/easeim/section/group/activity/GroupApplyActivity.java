@@ -159,7 +159,6 @@ public class GroupApplyActivity extends BaseInitActivity implements OnRefreshLoa
             @Override
             public void onItemClick(GroupApplyBean bean) {
                 ChatActivity.actionStart(mContext, bean.getGroupId(), EaseConstant.CHATTYPE_GROUP);
-                finish();
             }
         });
     }

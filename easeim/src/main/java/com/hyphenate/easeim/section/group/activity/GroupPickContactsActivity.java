@@ -199,6 +199,8 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
                 public void onSuccess(Boolean data) {
                     if(!isOwner){
                         ToastUtils.showCenterToast("", getString(R.string.em_invite_user_toast), 0, Toast.LENGTH_SHORT);
+                    } else {
+                        ToastUtils.showCenterToast("", getString(R.string.em_add_user_toast), 0, Toast.LENGTH_SHORT);
                     }
                     setResult(RESULT_OK);
                     finish();
@@ -237,6 +239,7 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
                             } else {
                                 resultView.setVisibility(View.GONE);
                                 result = "";
+                                ToastUtils.showCenterToast("", "搜索无结果", 0, Toast.LENGTH_SHORT);
                             }
                         }
                     });

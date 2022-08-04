@@ -381,4 +381,5 @@
     <string name="em_video_load_failed">Download video failed</string>
     <string name="em_my_order">My order</string>
     <string name="em_send_to_group">Send to Group</string>
+    <string name="em_add_user_toast">Add success</string>
 </resources>

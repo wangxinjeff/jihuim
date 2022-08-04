@@ -134,6 +134,7 @@ public class EaseChatMessagePresenterImpl extends EaseChatMessagePresenter {
                     public void onSuccess(EMCursorResult<EMMessage> value) {
                         //需要从数据将下载的数据放到缓存中
                         conversation.loadMoreMsgFromDB("", pageSize);
+                        conversation.markAllMessagesAsRead();
                         runOnUI(() -> {
                             if(isActive()) {
                                 mView.loadServerMsgSuccess(value.getData());

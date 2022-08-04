@@ -27,6 +27,7 @@ import com.hyphenate.easeim.common.model.EMOrder;
 import com.hyphenate.easeim.section.chat.activity.OrderListActivity;
 import com.hyphenate.easeim.section.chat.activity.PickAtUserActivity;
 import com.hyphenate.easeim.section.conference.ConferenceInviteActivity;
+import com.hyphenate.easeim.section.group.viewmodels.GroupDetailViewModel;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseEvent;

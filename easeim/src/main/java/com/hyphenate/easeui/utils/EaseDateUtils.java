@@ -14,7 +14,7 @@ import java.util.Locale;
 
 public class EaseDateUtils {
 
-	private static final long INTERVAL_IN_MILLISECONDS = 30 * 1000;
+	private static final long INTERVAL_IN_MILLISECONDS = 5 * 60 * 1000;
 
 	public static String getTimestampString(Context context, Date messageDate) {
 	    String format = null;

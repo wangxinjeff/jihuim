@@ -701,6 +701,7 @@ public class ChatPresenter extends EaseChatPresenter {
 
         @Override
         public void onAnnouncementChanged(String groupId, String announcement) {
+            LiveDataBus.get().with(EaseConstant.GROUP_CHANGE).postValue(EaseEvent.create(EaseConstant.GROUP_CHANGE, EaseEvent.TYPE.GROUP, groupId));
             EMLog.i(TAG, context.getString(R.string.demo_group_listener_onAnnouncementChanged));
         }
 
