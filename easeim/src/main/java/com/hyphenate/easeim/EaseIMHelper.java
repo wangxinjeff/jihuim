@@ -169,8 +169,8 @@ public class EaseIMHelper {
             mzAppkey = props.getProperty("MEIZU_PUSH_APPKEY");
             mzAppId = props.getProperty("MEIZU_PUSH_APPID");
 
-            oppoAppkey = props.getProperty("OPPO_PUSH_APPKEY");
-            oppoAppSecret = props.getProperty("OPPO_PUSH_APPSECRET");
+//            oppoAppkey = props.getProperty("OPPO_PUSH_APPKEY");
+//            oppoAppSecret = props.getProperty("OPPO_PUSH_APPSECRET");
 
 //            fcmSenderId = props.getProperty("FCM_SENDERID");
         } catch (IOException e) {
@@ -189,7 +189,7 @@ public class EaseIMHelper {
                 // set Call options
                 setCallOptions(application);
                 //初始化推送
-                initPush(application);
+//                initPush(application);
                 //初始化ease ui相关
                 initEaseUI(application);
                 //注册对话类型

@@ -116,12 +116,8 @@ MEIZU_PUSH_APPID=xxx
 MEIZU_PUSH_APPKEY=xxx
 MI_PUSH_APPID=xxx
 MI_PUSH_APPKEY=xxx
-OPPO_PUSH_APPKEY=xxx
-OPPO_PUSH_APPSECRET=xxx
 ```
-
 华为推送需要在项目里导入agconnect-services.json
-oppo推送需要在项目里导入3.0版本的oppo push sdk
 
 如果报错Manifest冲突在gradle.properties里添加
 android.useNewApkCreator=false

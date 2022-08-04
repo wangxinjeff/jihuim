@@ -72,9 +72,9 @@ dependencies {
     //oppo push
 //    implementation (name:'oppo_push_3.0.0',ext:'aar')
     //oppo push需添加以下依赖
-    implementation 'com.google.code.gson:gson:2.6.2'
-    implementation 'commons-codec:commons-codec:1.6'
-    implementation 'androidx.annotation:annotation:1.1.0'
+//    implementation 'com.google.code.gson:gson:2.6.2'
+//    implementation 'commons-codec:commons-codec:1.6'
+//    implementation 'androidx.annotation:annotation:1.1.0'
     // fresh and load more
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
