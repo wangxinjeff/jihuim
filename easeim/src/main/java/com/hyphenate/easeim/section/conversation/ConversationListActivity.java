@@ -138,7 +138,8 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
         mTitleBar.setRightLayoutClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupWindow.showAsDropDown(mTitleBar, xoff, 0);
+                int yoff = (int)EaseCommonUtils.dip2px(mContext, 9);
+                popupWindow.showAsDropDown(mTitleBar, xoff, -yoff);
             }
         });
         notifyView.setOnClickListener(this);

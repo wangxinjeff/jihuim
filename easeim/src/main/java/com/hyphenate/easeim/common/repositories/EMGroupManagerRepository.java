@@ -1561,7 +1561,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             .add("username", EaseIMHelper.getInstance().getCurrentUser())
                             .build();
                     Request request = new Request.Builder()
-                            .url(EaseIMHelper.getInstance().getServerHost()+"/v2/group/chatgroups/"+groupId+"/users/note")
+                            .url(EaseIMHelper.getInstance().getServerHost()+"/v4/users/" + EaseIMHelper.getInstance().getCurrentUser() + "/group/"+groupId+"/getGroupInfo")
                             .headers(headers)
                             .get()
                             .build();
@@ -1577,8 +1577,8 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
                                 try {
                                     JSONObject result = new JSONObject(responseBody);
-                                    JSONObject entity = result.getJSONObject("entity");
-                                    String note = entity.getString("noteAdmin");
+                                    JSONObject entity = result.getJSONObject("data");
+                                    String note = entity.optString("businessRemark");
                                     callBack.onSuccess(createLiveData(note));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -1604,7 +1604,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     MediaType JSON = MediaType.get("application/json; charset=utf-8");
                     OkHttpClient client = new OkHttpClient();
                     JSONObject json = new JSONObject();
-                    json.put("note", note);
+                    json.put("businessRemark", note);
                     RequestBody body = RequestBody.create(json.toString(), JSON);
 
                     Headers headers = new Headers.Builder()
@@ -1612,7 +1612,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             .add("username", EaseIMHelper.getInstance().getCurrentUser())
                             .build();
                     Request request = new Request.Builder()
-                            .url(EaseIMHelper.getInstance().getServerHost()+"/v2/group/chatgroups/"+groupId+"/users/"+ EaseIMHelper.getInstance().getCurrentUser() + "/note")
+                            .url(EaseIMHelper.getInstance().getServerHost()+"/v4/users/"+EaseIMHelper.getInstance().getCurrentUser()+"/group/"+groupId+"/modGroup")
                             .headers(headers)
                             .post(body)
                             .build();
