@@ -146,6 +146,27 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
         searchView.setOnClickListener(this);
         createView.setOnClickListener(this);
         applyView.setOnClickListener(this);
+
+        mTitleBar.getTitle().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showLoading("退出登录");
+                EaseIMHelper.getInstance().logoutChat(new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        ToastUtils.showCenterToast("", "退出登录成功，请杀掉app重新进入", 0, Toast.LENGTH_SHORT);
+                        dismissLoading();
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+                        ToastUtils.showCenterToast("", "退出登录失败：" + i + "," + s, 0, Toast.LENGTH_SHORT);
+                        dismissLoading();
+                    }
+                });
+                return false;
+            }
+        });
     }
 
     @Override

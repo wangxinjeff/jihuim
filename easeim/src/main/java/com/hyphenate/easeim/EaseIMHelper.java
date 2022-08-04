@@ -451,13 +451,19 @@ public class EaseIMHelper {
          */
         EMPushConfig.Builder builder = new EMPushConfig.Builder(context);
 
-        builder.enableVivoPush() // 需要在AndroidManifest.xml中配置appId和appKey
-                .enableMeiZuPush(mzAppId, mzAppkey)
-                .enableMiPush(miAppId, miAppkey)
-                .enableOppoPush(oppoAppkey,
-                        oppoAppSecret)
-                .enableHWPush() // 需要在AndroidManifest.xml中配置appId
-                .enableFCM(fcmSenderId);
+        builder.enableVivoPush(); // 需要在AndroidManifest.xml中配置appId和appKey
+        if(miAppId != null && miAppkey != null && TextUtils.isEmpty(miAppId) && TextUtils.isEmpty(miAppkey)){
+            builder.enableMiPush(miAppId, miAppkey);
+        }
+        if(mzAppId != null && mzAppkey != null && TextUtils.isEmpty(mzAppId) && TextUtils.isEmpty(mzAppkey)){
+            builder.enableMeiZuPush(mzAppId, mzAppkey);
+        }
+        if(oppoAppkey != null && oppoAppSecret != null && TextUtils.isEmpty(oppoAppkey) && TextUtils.isEmpty(oppoAppSecret)){
+            builder.enableOppoPush(oppoAppkey,
+                    oppoAppSecret);
+        }
+
+        builder.enableHWPush(); // 需要在AndroidManifest.xml中配置appId
         options.setPushConfig(builder.build());
 
         return options;
@@ -474,73 +480,6 @@ public class EaseIMHelper {
             //OPPO SDK升级到2.1.0后需要进行初始化
             HeytapPushManager.init(context, true);
         }
-    }
-
-    /**
-     * logout
-     *
-     * @param unbindDeviceToken
-     *            whether you need unbind your device token
-     * @param callback
-     *            callback
-     */
-    public void logoutChat(boolean unbindDeviceToken, final EMCallBack callback) {
-        Log.d(TAG, "logout: " + unbindDeviceToken);
-        if(fetchUserTread != null && fetchUserRunnable != null){
-            fetchUserRunnable.setStop(true);
-        }
-        if(EaseCallKit.getInstance().getCallState() == EaseCallState.CALL_ANSWERED){
-            CallCancelEvent cancelEvent = new CallCancelEvent();
-            EaseCallKit.getInstance().sendCmdMsg(cancelEvent, EaseCallKit.getInstance().getFromUserId(), new EMCallBack() {
-                @Override
-                public void onSuccess() {
-                    logout(unbindDeviceToken, callback);
-                }
-
-                @Override
-                public void onError(int code, String error) {
-                    logout(unbindDeviceToken, callback);
-                }
-
-                @Override
-                public void onProgress(int progress, String status) {
-
-                }
-            });
-        } else {
-            logout(unbindDeviceToken, callback);
-        }
-    }
-
-    private void logout(boolean unbindDeviceToken, final EMCallBack callback){
-        EMClient.getInstance().logout(unbindDeviceToken, new EMCallBack() {
-
-            @Override
-            public void onSuccess() {
-                logoutSuccess();
-                //reset();
-                if (callback != null) {
-                    callback.onSuccess();
-                }
-
-            }
-
-            @Override
-            public void onProgress(int progress, String status) {
-                if (callback != null) {
-                    callback.onProgress(progress, status);
-                }
-            }
-
-            @Override
-            public void onError(int code, String error) {
-                Log.d(TAG, "logout: onSuccess");
-                //reset();
-                if (callback != null) {
-                    callback.onError(code, error);
-                }
-            }
-        });
     }
 
     /**
@@ -998,15 +937,64 @@ public class EaseIMHelper {
     //登录
     public void loginChat(String username, String password, EMCallBack callBack){
         if(isAdmin){
-            clientRepository.loginWithAdmin(username, password, callBack);
+            clientRepository.loginWithAdmin(username, password, new EMCallBack() {
+                @Override
+                public void onSuccess() {
+                    if(fetchUserTread != null && fetchUserRunnable != null){
+                        fetchUserRunnable.setStop(false);
+                    }
+                    callBack.onSuccess();
+                }
+
+                @Override
+                public void onError(int i, String s) {
+                    callBack.onError(i,s);
+                }
+            });
         } else {
-            clientRepository.loginWithCustomer(username, password, callBack);
+            clientRepository.loginWithCustomer(username, password, new EMCallBack() {
+                @Override
+                public void onSuccess() {
+                    if(fetchUserTread != null && fetchUserRunnable != null){
+                        fetchUserRunnable.setStop(false);
+                    }
+                    callBack.onSuccess();
+                }
+
+                @Override
+                public void onError(int i, String s) {
+                    callBack.onError(i,s);
+                }
+            });
         }
     }
 
     //登出
     public void logoutChat(EMCallBack callBack){
-        clientRepository.logout(callBack);
+        if(fetchUserTread != null && fetchUserRunnable != null){
+            fetchUserRunnable.setStop(true);
+        }
+        if(EaseCallKit.getInstance().getCallState() == EaseCallState.CALL_ANSWERED){
+            CallCancelEvent cancelEvent = new CallCancelEvent();
+            EaseCallKit.getInstance().sendCmdMsg(cancelEvent, EaseCallKit.getInstance().getFromUserId(), new EMCallBack() {
+                @Override
+                public void onSuccess() {
+                    clientRepository.logout(callBack);
+                }
+
+                @Override
+                public void onError(int code, String error) {
+                    clientRepository.logout(callBack);
+                }
+
+                @Override
+                public void onProgress(int progress, String status) {
+
+                }
+            });
+        } else {
+            clientRepository.logout(callBack);
+        }
     }
 
     public void loginSuccess(){

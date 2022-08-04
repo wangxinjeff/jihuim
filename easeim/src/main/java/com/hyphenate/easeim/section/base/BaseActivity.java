@@ -78,7 +78,7 @@ public class BaseActivity extends AppCompatActivity {
             if(TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_REMOVED) ||
                 TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD) ||
                 TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_KICKED_BY_OTHER_DEVICE)) {
-                EaseIMHelper.getInstance().logoutChat(false, new EMCallBack() {
+                EaseIMHelper.getInstance().logoutChat(new EMCallBack() {
                     @Override
                     public void onSuccess() {
                         finishOtherActivities();
@@ -100,7 +100,7 @@ public class BaseActivity extends AppCompatActivity {
             }else if(TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_CONFLICT)
                     || TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_REMOVED)
                     || TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_FORBIDDEN)) {
-                EaseIMHelper.getInstance().logoutChat(false, null);
+                EaseIMHelper.getInstance().logoutChat(null);
                 showExceptionDialog(accountEvent);
             }
         });

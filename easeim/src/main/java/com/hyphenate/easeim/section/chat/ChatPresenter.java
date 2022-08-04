@@ -858,60 +858,7 @@ public class ChatPresenter extends EaseChatPresenter {
 
         @Override
         public void onContactEvent(int event, String target, String ext) {
-            EMLog.i(TAG, "onContactEvent event"+event);
-            EaseDbHelper dbHelper = EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication());
-            String message = null;
-            switch (event) {
-                case CONTACT_REMOVE: //好友已经在其他机子上被移除
-                    EMLog.i("ChatMultiDeviceListener", "CONTACT_REMOVE");
-                    message = EaseConstant.CONTACT_REMOVE;
-                    if(dbHelper.getUserDao() != null) {
-                        dbHelper.getUserDao().deleteUser(target);
-                    }
-                    removeTargetSystemMessage(target, EaseConstant.SYSTEM_MESSAGE_FROM);
-                    // TODO: 2020/1/16 0016 确认此处逻辑，是否是删除当前的target
-                    EaseIMHelper.getInstance().getChatManager().deleteConversation(target, false);
 
-                    break;
-                case CONTACT_ACCEPT: //好友请求已经在其他机子上被同意
-                    EMLog.i("ChatMultiDeviceListener", "CONTACT_ACCEPT");
-                    message = EaseConstant.CONTACT_ACCEPT;
-                    EmUserEntity  entity = new EmUserEntity();
-                    entity.setUsername(target);
-                    if(dbHelper.getUserDao() != null) {
-                        dbHelper.getUserDao().insert(entity);
-                    }
-                    updateContactNotificationStatus(target, "", InviteMessageStatus.MULTI_DEVICE_CONTACT_ACCEPT);
-
-                    break;
-                case CONTACT_DECLINE: //好友请求已经在其他机子上被拒绝
-                    EMLog.i("ChatMultiDeviceListener", "CONTACT_DECLINE");
-                    message = EaseConstant.CONTACT_DECLINE;
-                    updateContactNotificationStatus(target, "", InviteMessageStatus.MULTI_DEVICE_CONTACT_DECLINE);
-
-                    break;
-                case CONTACT_BAN: //当前用户在其他设备加某人进入黑名单
-                    EMLog.i("ChatMultiDeviceListener", "CONTACT_BAN");
-                    message = EaseConstant.CONTACT_BAN;
-                    if(dbHelper.getUserDao() != null) {
-                        dbHelper.getUserDao().deleteUser(target);
-                    }
-                    removeTargetSystemMessage(target, EaseConstant.SYSTEM_MESSAGE_FROM);
-                    EaseIMHelper.getInstance().getChatManager().deleteConversation(target, false);
-                    updateContactNotificationStatus(target, "", InviteMessageStatus.MULTI_DEVICE_CONTACT_BAN);
-
-                    break;
-                case CONTACT_ALLOW: // 好友在其他设备被移出黑名单
-                    EMLog.i("ChatMultiDeviceListener", "CONTACT_ALLOW");
-                    message = EaseConstant.CONTACT_ALLOW;
-                    updateContactNotificationStatus(target, "", InviteMessageStatus.MULTI_DEVICE_CONTACT_ALLOW);
-
-                    break;
-            }
-            if(!TextUtils.isEmpty(message)) {
-                EaseEvent easeEvent = EaseEvent.create(message, EaseEvent.TYPE.CONTACT);
-                messageChangeLiveData.with(message).postValue(easeEvent);
-            }
         }
 
         @Override
@@ -1136,16 +1083,6 @@ public class ChatPresenter extends EaseChatPresenter {
     }
 
     private void saveGroupNotification(String groupId, String groupName, String inviter, String reason, InviteMessageStatus status) {
-        Map<String, Object> ext = EaseSystemMsgManager.getInstance().createMsgExt();
-        ext.put(EaseConstant.SYSTEM_MESSAGE_FROM, groupId);
-        ext.put(EaseConstant.SYSTEM_MESSAGE_GROUP_ID, groupId);
-        ext.put(EaseConstant.SYSTEM_MESSAGE_REASON, reason);
-        ext.put(EaseConstant.SYSTEM_MESSAGE_NAME, groupName);
-        ext.put(EaseConstant.SYSTEM_MESSAGE_INVITER, inviter);
-        ext.put(EaseConstant.SYSTEM_MESSAGE_STATUS, status.name());
-        EMMessage message = EaseSystemMsgManager.getInstance().createMessage(PushAndMessageHelper.getSystemMessage(ext), ext);
-
-        notifyNewInviteMessage(message);
     }
 
     private class ChatRoomListener implements EMChatRoomChangeListener {
