@@ -136,40 +136,6 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
         });
 
         confirmBtn.setOnClickListener(this);
-    }
-
-    @Override
-    protected void initData() {
-        super.initData();
-        List<EaseUser> data = new ArrayList<>();
-        EaseUser user = new EaseUser("em_editUser");
-        user.setNickname(getString(R.string.em_action_edit));
-        data.add(user);
-        data.addAll(members);
-        memberAdapter.setData(data);
-
-        customers = new ArrayList<>();
-        waiters = new ArrayList<>();
-
-        for (EaseUser easeUser : members) {
-            if(easeUser.isCustomer()){
-                customers.add(easeUser.getUsername());
-            } else {
-                waiters.add(easeUser.getUsername());
-            }
-        }
-
-        if(customers.size() >  0){
-            confirmBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.search_close));
-            confirmBtn.setEnabled(true);
-            confirmBtn.setText(getString(R.string.em_group_new_save));
-        } else {
-            confirmBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.btn_gray_pressed));
-            confirmBtn.setEnabled(false);
-            confirmBtn.setText(getString(R.string.em_must_be_no_less_than_2_members));
-        }
-
-        tvGroupMemberNum.setText(members.size() + "人");
 
         viewModel = new ViewModelProvider(this).get(NewGroupViewModel.class);
         viewModel.groupObservable().observe(this, response -> {
@@ -206,11 +172,45 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
                 @Override
                 public void onError(int code, String message) {
                     super.onError(code, message);
-
+                    ToastUtils.showCenterToast("", "创建群组失败:" + code + ":" + message, 0, Toast.LENGTH_SHORT);
                 }
             });
         });
 
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        List<EaseUser> data = new ArrayList<>();
+        EaseUser user = new EaseUser("em_editUser");
+        user.setNickname(getString(R.string.em_action_edit));
+        data.add(user);
+        data.addAll(members);
+        memberAdapter.setData(data);
+
+        customers = new ArrayList<>();
+        waiters = new ArrayList<>();
+
+        for (EaseUser easeUser : members) {
+            if(easeUser.isCustomer()){
+                customers.add(easeUser.getUsername());
+            } else {
+                waiters.add(easeUser.getUsername());
+            }
+        }
+
+        if(customers.size() >  0){
+            confirmBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.search_close));
+            confirmBtn.setEnabled(true);
+            confirmBtn.setText(getString(R.string.em_group_new_save));
+        } else {
+            confirmBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.btn_gray_pressed));
+            confirmBtn.setEnabled(false);
+            confirmBtn.setText(getString(R.string.em_must_be_no_less_than_2_members));
+        }
+
+        tvGroupMemberNum.setText(members.size() + "人");
     }
 
     @Override

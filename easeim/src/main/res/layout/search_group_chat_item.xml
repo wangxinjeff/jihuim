@@ -30,7 +30,7 @@
         android:textColor="?attr/conContentTimeColor"
         android:text="@string/em_call_join_group"
         android:layout_marginStart="@dimen/margin_small"
-        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_l"
         android:visibility="gone"
         />
 

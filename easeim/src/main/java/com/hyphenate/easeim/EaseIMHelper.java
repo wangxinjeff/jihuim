@@ -61,23 +61,20 @@ import com.hyphenate.easeui.delegate.EaseTextAdapterDelegate;
 import com.hyphenate.easeui.delegate.EaseVideoAdapterDelegate;
 import com.hyphenate.easeui.delegate.EaseVoiceAdapterDelegate;
 import com.hyphenate.easeui.domain.EaseAvatarOptions;
-import com.hyphenate.easeui.domain.EaseEmojicon;
-import com.hyphenate.easeui.domain.EaseEmojiconGroupEntity;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.manager.EaseMessageTypeSetManager;
 import com.hyphenate.easeui.model.EaseNotifier;
-import com.hyphenate.easeui.provider.EaseEmojiconInfoProvider;
 import com.hyphenate.easeui.provider.EaseSettingsProvider;
 import com.hyphenate.easeui.provider.EaseUserProfileProvider;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.push.EMPushConfig;
 import com.hyphenate.push.EMPushHelper;
 import com.hyphenate.push.EMPushType;
-import com.hyphenate.push.PushListener;
 import com.hyphenate.util.EMLog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -343,49 +340,6 @@ public class EaseIMHelper {
         //添加ChatPresenter,ChatPresenter中添加了网络连接状态监听，
         EaseIM.getInstance().addChatPresenter(ChatPresenter.getInstance());
         EaseIM.getInstance()
-                .setSettingsProvider(new EaseSettingsProvider() {
-                    @Override
-                    public boolean isMsgNotifyAllowed(EMMessage message) {
-                        if(message == null){
-                            return easeModel.getSettingMsgNotification();
-                        }
-                        if(!easeModel.getSettingMsgNotification()){
-                            return false;
-                        }else{
-                            String chatUsename = null;
-                            List<String> notNotifyIds = null;
-                            // get user or group id which was blocked to show message notifications
-                            if (message.getChatType() == EMMessage.ChatType.Chat) {
-                                chatUsename = message.getFrom();
-                                notNotifyIds = easeModel.getDisabledIds();
-                            } else {
-                                chatUsename = message.getTo();
-                                notNotifyIds = easeModel.getDisabledGroups();
-                            }
-
-                            if (notNotifyIds == null || !notNotifyIds.contains(chatUsename)) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        }
-                    }
-
-                    @Override
-                    public boolean isMsgSoundAllowed(EMMessage message) {
-                        return easeModel.getSettingMsgSound();
-                    }
-
-                    @Override
-                    public boolean isMsgVibrateAllowed(EMMessage message) {
-                        return easeModel.getSettingMsgVibrate();
-                    }
-
-                    @Override
-                    public boolean isSpeakerOpened() {
-                        return easeModel.getSettingMsgSpeaker();
-                    }
-                })
                 .setAvatarOptions(getAvatarOptions())
                 .setUserProvider(new EaseUserProfileProvider() {
                     @Override
@@ -490,7 +444,7 @@ public class EaseIMHelper {
         setAutoLogin(false);
         EaseDbHelper.getInstance(application).closeDb();
         getUserProfileManager().reset();
-        getModel().setAppToken("");
+        getModel().reset();
     }
 
     public EaseAvatarOptions getEaseAvatarOptions() {
@@ -952,20 +906,26 @@ public class EaseIMHelper {
                 }
             });
         } else {
-            clientRepository.loginWithCustomer(username, password, new EMCallBack() {
-                @Override
-                public void onSuccess() {
-                    if(fetchUserTread != null && fetchUserRunnable != null){
-                        fetchUserRunnable.setStop(false);
+            if(getAutoLogin()){
+                loginSuccess();
+                callBack.onSuccess();
+            } else {
+                clientRepository.loginWithCustomer(username, password, new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        if(fetchUserTread != null && fetchUserRunnable != null){
+                            fetchUserRunnable.setStop(false);
+                        }
+                        callBack.onSuccess();
                     }
-                    callBack.onSuccess();
-                }
 
-                @Override
-                public void onError(int i, String s) {
-                    callBack.onError(i,s);
-                }
-            });
+                    @Override
+                    public void onError(int i, String s) {
+                        callBack.onError(i,s);
+                    }
+                });
+            }
+
         }
     }
 
@@ -1007,7 +967,7 @@ public class EaseIMHelper {
         int exclusiveUnread = 0;
         Map<String, EMConversation> map = EMClient.getInstance().chatManager().getAllConversations();
         for(EMConversation conversation : map.values()){
-            if(isExclusiveGroup(conversation)){
+            if(isExclusiveGroup(conversation) && conversation.getUnreadMsgCount() > 0){
                 exclusiveUnread =+ conversation.getUnreadMsgCount();
             }
         }
@@ -1029,18 +989,38 @@ public class EaseIMHelper {
             ConversationListActivity.actionStart(context, EaseConstant.CON_TYPE_ADMIN);
         } else {
             if(conversationType == EaseConstant.CON_TYPE_EXCLUSIVE){
-                Map<String, EMConversation> map = EMClient.getInstance().chatManager().getAllConversations();
-                List<EMConversation> list = new ArrayList<>();
-                for(EMConversation conversation : map.values()){
-                    if(isExclusiveGroup(conversation)){
-                        list.add(conversation);
+                List<String> idList = new ArrayList<>();
+                String serviceGroupJson = getModel().getServiceGroup();
+                if(!TextUtils.isEmpty(serviceGroupJson)){
+                    try {
+                        JSONObject json = new JSONObject(serviceGroupJson);
+                        for (Iterator<String> it = json.keys(); it.hasNext(); ) {
+                            String groupId = it.next();
+                            idList.add(groupId);
+                            EMConversation conversation = EMClient.getInstance().chatManager().getConversation(groupId, EMConversation.EMConversationType.GroupChat, true);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
-                if(list.size() == 1){
-                    ChatActivity.actionStart(context, list.get(0).conversationId(), EaseConstant.CHATTYPE_GROUP);
+
+                if(idList.size() == 1){
+                    ChatActivity.actionStart(context, idList.get(0), EaseConstant.CHATTYPE_GROUP);
                 } else {
                     ConversationListActivity.actionStart(context, conversationType);
                 }
+
+                clientRepository.getServiceGroups(new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+
+                    }
+                });
             } else {
                 ConversationListActivity.actionStart(context, conversationType);
             }
@@ -1053,16 +1033,18 @@ public class EaseIMHelper {
      * @return
      */
     public boolean isExclusiveGroup(EMConversation conversation){
-        String ext = conversation.getExtField();
-        if(!ext.isEmpty() && conversation.getType() == EMConversation.EMConversationType.GroupChat){
-            try {
-                JSONObject extJson = new JSONObject(ext);
-                int isExclusive = extJson.optInt(EaseConstant.IS_EXCLUSIVE);
-                if(isExclusive == 1){
-                    return true;
+        if(conversation.getType() == EMConversation.EMConversationType.GroupChat){
+            String serviceGroup = getModel().getServiceGroup();
+            if(!TextUtils.isEmpty(serviceGroup)){
+                try {
+                    JSONObject json = new JSONObject(serviceGroup);
+                    String groupName = json.optString(conversation.conversationId());
+                    if(!TextUtils.isEmpty(groupName)){
+                        return true;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
         return false;

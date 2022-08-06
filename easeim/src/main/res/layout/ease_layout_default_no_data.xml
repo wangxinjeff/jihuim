@@ -4,12 +4,4 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:textColor="?attr/normalTextColor"
-        android:text="@string/ease_list_no_data_text"/>
-
 </RelativeLayout>

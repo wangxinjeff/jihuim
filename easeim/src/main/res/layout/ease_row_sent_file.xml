@@ -6,7 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="@dimen/margin_chat_row_normal_top">
+    android:paddingTop="@dimen/margin_chat_row_normal_top"
+    android:paddingBottom="@dimen/margin_chat_row_normal_top">
 
     <TextView
         android:id="@+id/timestamp"
@@ -29,9 +30,8 @@
             android:layout_width="230dp"
             android:layout_height="68dp"
             android:minHeight="@dimen/ease_chat_file_bubble_min_height"
-            android:layout_marginRight="@dimen/margin_chat_activity"
-            android:layout_toLeftOf="@id/iv_userhead"
-            android:layout_toRightOf="@+id/ll_loading"
+            android:layout_marginEnd="@dimen/margin_chat_activity"
+            android:layout_toStartOf="@id/iv_userhead"
             android:layout_below="@id/tv_userid"
             app:arrow_direction="right"
             app:fill_color="?attr/msgBubbleBg"
@@ -152,8 +152,8 @@
             android:id="@+id/ll_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/bubble"
             android:gravity="center"
             android:orientation="vertical" >
 

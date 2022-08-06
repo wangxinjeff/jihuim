@@ -92,24 +92,6 @@ public class MainActivity extends BaseInitActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.group_chat:
-                if(chatId.getText().toString().isEmpty()){
-                    return;
-                }
-                EMConversation conversation = EMClient.getInstance().chatManager().getConversation(chatId.getText().toString(), EMConversation.EMConversationType.GroupChat, true);
-                String ext = conversation.getExtField();
-                try {
-                    JSONObject extJson;
-                    if(!ext.isEmpty()){
-                        extJson = new JSONObject(ext);
-                    } else {
-                        extJson = new JSONObject();
-                    }
-                    extJson.put(EaseConstant.IS_EXCLUSIVE, 1);
-                    conversation.setExtField(extJson.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
                 EaseIMHelper.getInstance().startChat(MainActivity.this, EaseConstant.CON_TYPE_EXCLUSIVE);
                 break;
             case R.id.user_chat:
@@ -142,5 +124,11 @@ public class MainActivity extends BaseInitActivity implements View.OnClickListen
 
                     }
                 });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshUI();
     }
 }

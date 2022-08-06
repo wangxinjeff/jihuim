@@ -93,40 +93,6 @@ public class EaseModel {
         return map;
     }
 
-
-    public Map<String, EaseUser> getFriendContactList() {
-        EmUserDao dao = EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).getUserDao();
-        if(dao == null) {
-            return new HashMap<>();
-        }
-        Map<String, EaseUser> map = new HashMap<>();
-        List<EaseUser> users = dao.loadContacts();
-        if(users != null && !users.isEmpty()) {
-            for (EaseUser user : users) {
-                map.put(user.getUsername(), user);
-            }
-        }
-        return map;
-    }
-
-    /**
-     * 判断是否是联系人
-     * @param userId
-     * @return
-     */
-    public boolean isContact(String userId) {
-        Map<String, EaseUser> contactList = getFriendContactList();
-        return contactList.keySet().contains(userId);
-    }
-    
-    public void saveContact(EaseUser user){
-        EmUserDao dao = EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).getUserDao();
-        if(dao == null) {
-            return;
-        }
-        dao.insert(EmUserEntity.parseParent(user));
-    }
-
     /**
      * get DemoDbHelper
      * @return
@@ -224,44 +190,6 @@ public class EaseModel {
         SharedPreferences sp = context.getSharedPreferences("save_delete_username_status", Context.MODE_PRIVATE);
         return sp.getBoolean(username, false);
     }
-
-    /**
-     * 保存当前用户密码
-     * 此处保存密码是为了查看多端设备登录是，调用接口不再输入用户名及密码，实际开发中，不可在本地保存密码！
-     * 注：实际开发中不可进行此操作！！！
-     * @param pwd
-     */
-    public void setCurrentUserPwd(String pwd) {
-        PreferenceManager.getInstance().setCurrentUserPwd(pwd);
-    }
-
-    public String getCurrentUserPwd(){
-        return PreferenceManager.getInstance().getCurrentUserPwd();
-    }
-
-    /**
-     * 设置昵称
-     * @param nickname
-     */
-    public void setCurrentUserNick(String nickname) {
-        PreferenceManager.getInstance().setCurrentUserNick(nickname);
-    }
-
-    public String getCurrentUserNick() {
-        return PreferenceManager.getInstance().getCurrentUserNick();
-    }
-
-    /**
-     * 设置头像
-     * @param avatar
-     */
-    private void setCurrentUserAvatar(String avatar) {
-        PreferenceManager.getInstance().setCurrentUserAvatar(avatar);
-    }
-
-    private String getCurrentUserAvatar() {
-        return PreferenceManager.getInstance().getCurrentUserAvatar();
-    }
     
     public void setSettingMsgNotification(boolean paramBoolean) {
         PreferenceManager.getInstance().setSettingMsgNotification(paramBoolean);
@@ -279,426 +207,12 @@ public class EaseModel {
         return (Boolean) (val != null?val:true);
     }
 
-    public void setSettingMsgSound(boolean paramBoolean) {
-        PreferenceManager.getInstance().setSettingMsgSound(paramBoolean);
-        valueCache.put(Key.PlayToneOn, paramBoolean);
-    }
-
-    public boolean getSettingMsgSound() {
-        Object val = valueCache.get(Key.PlayToneOn);
-
-        if(val == null){
-            val = PreferenceManager.getInstance().getSettingMsgSound();
-            valueCache.put(Key.PlayToneOn, val);
-        }
-       
-        return (Boolean) (val != null?val:true);
-    }
-
-    public void setSettingMsgVibrate(boolean paramBoolean) {
-        PreferenceManager.getInstance().setSettingMsgVibrate(paramBoolean);
-        valueCache.put(Key.VibrateOn, paramBoolean);
-    }
-
-    public boolean getSettingMsgVibrate() {
-        Object val = valueCache.get(Key.VibrateOn);
-
-        if(val == null){
-            val = PreferenceManager.getInstance().getSettingMsgVibrate();
-            valueCache.put(Key.VibrateOn, val);
-        }
-       
-        return (Boolean) (val != null?val:true);
-    }
-
-    public void setSettingMsgSpeaker(boolean paramBoolean) {
-        PreferenceManager.getInstance().setSettingMsgSpeaker(paramBoolean);
-        valueCache.put(Key.SpakerOn, paramBoolean);
-    }
-
-    public boolean getSettingMsgSpeaker() {        
-        Object val = valueCache.get(Key.SpakerOn);
-
-        if(val == null){
-            val = PreferenceManager.getInstance().getSettingMsgSpeaker();
-            valueCache.put(Key.SpakerOn, val);
-        }
-       
-        return (Boolean) (val != null?val:true);
-    }
-
-
-    public void setDisabledGroups(List<String> groups){
-//        if(dao == null){
-//            dao = new UserDao(context);
-//        }
-//
-//        List<String> list = new ArrayList<String>();
-//        list.addAll(groups);
-//        for(int i = 0; i < list.size(); i++){
-//            if(EaseAtMessageHelper.get().getAtMeGroups().contains(list.get(i))){
-//                list.remove(i);
-//                i--;
-//            }
-//        }
-//
-//        dao.setDisabledGroups(list);
-//        valueCache.put(Key.DisabledGroups, list);
-    }
-    
-    public List<String> getDisabledGroups(){
-        Object val = valueCache.get(Key.DisabledGroups);
-
-//        if(dao == null){
-//            dao = new UserDao(context);
-//        }
-//
-//        if(val == null){
-//            val = dao.getDisabledGroups();
-//            valueCache.put(Key.DisabledGroups, val);
-//        }
-
-        //noinspection unchecked
-        return (List<String>) val;
-    }
-    
-    public void setDisabledIds(List<String> ids){
-//        if(dao == null){
-//            dao = new UserDao(context);
-//        }
-//
-//        dao.setDisabledIds(ids);
-//        valueCache.put(Key.DisabledIds, ids);
-    }
-    
-    public List<String> getDisabledIds(){
-        Object val = valueCache.get(Key.DisabledIds);
-        
-//        if(dao == null){
-//            dao = new UserDao(context);
-//        }
-//
-//        if(val == null){
-//            val = dao.getDisabledIds();
-//            valueCache.put(Key.DisabledIds, val);
-//        }
-
-        //noinspection unchecked
-        return (List<String>) val;
-    }
-    
-    public void setGroupsSynced(boolean synced){
-        PreferenceManager.getInstance().setGroupsSynced(synced);
-    }
-    
-    public boolean isGroupsSynced(){
-        return PreferenceManager.getInstance().isGroupsSynced();
-    }
-    
-    public void setContactSynced(boolean synced){
-        PreferenceManager.getInstance().setContactSynced(synced);
-    }
-    
-    public boolean isContactSynced(){
-        return PreferenceManager.getInstance().isContactSynced();
-    }
-    
-    public void setBlacklistSynced(boolean synced){
-        PreferenceManager.getInstance().setBlacklistSynced(synced);
-    }
-    
-    public boolean isBacklistSynced(){
-        return PreferenceManager.getInstance().isBacklistSynced();
-    }
-    
-
-    public void setAdaptiveVideoEncode(boolean value) {
-        PreferenceManager.getInstance().setAdaptiveVideoEncode(value);
-    }
-    
-    public boolean isAdaptiveVideoEncode() {
-        return PreferenceManager.getInstance().isAdaptiveVideoEncode();
-    }
-
-    public void setPushCall(boolean value) {
-        PreferenceManager.getInstance().setPushCall(value);
-    }
-
-    public boolean isPushCall() {
-        return PreferenceManager.getInstance().isPushCall();
-    }
-
-    public boolean isMsgRoaming() {
-        return PreferenceManager.getInstance().isMsgRoaming();
-    }
-
-    public void setMsgRoaming(boolean roaming) {
-        PreferenceManager.getInstance().setMsgRoaming(roaming);
-    }
-
     public boolean isShowMsgTyping() {
         return PreferenceManager.getInstance().isShowMsgTyping();
     }
 
     public void showMsgTyping(boolean show) {
         PreferenceManager.getInstance().showMsgTyping(show);
-    }
-
-    /**
-     * 设置是否使用google推送
-     * @param useFCM
-     */
-    public void setUseFCM(boolean useFCM) {
-        PreferenceManager.getInstance().setUseFCM(useFCM);
-    }
-
-    /**
-     * 获取设置，是否设置google推送
-     * @return
-     */
-    public boolean isUseFCM() {
-        return PreferenceManager.getInstance().isUseFCM();
-    }
-
-    /**
-     * 自定义服务器是否可用
-     * @return
-     */
-    public boolean isCustomServerEnable() {
-        return OptionsHelper.getInstance().isCustomServerEnable();
-    }
-
-    /**
-     * 这是自定义服务器是否可用
-     * @param enable
-     */
-    public void enableCustomServer(boolean enable){
-        OptionsHelper.getInstance().enableCustomServer(enable);
-    }
-
-    /**
-     * 自定义配置是否可用
-     * @return
-     */
-    public boolean isCustomSetEnable() {
-        return OptionsHelper.getInstance().isCustomSetEnable();
-    }
-
-    /**
-     * 自定义配置是否可用
-     * @param enable
-     */
-    public void enableCustomSet(boolean enable){
-        OptionsHelper.getInstance().enableCustomSet(enable);
-    }
-
-    /**
-     * 设置闲置服务器
-     * @param restServer
-     */
-    public void setRestServer(String restServer){
-        OptionsHelper.getInstance().setRestServer(restServer);
-    }
-
-    /**
-     * 获取闲置服务器
-     * @return
-     */
-    public String getRestServer(){
-        return  OptionsHelper.getInstance().getRestServer();
-    }
-
-    /**
-     * 设置IM服务器
-     * @param imServer
-     */
-    public void setIMServer(String imServer){
-        OptionsHelper.getInstance().setIMServer(imServer);
-    }
-
-    /**
-     * 获取IM服务器
-     * @return
-     */
-    public String getIMServer(){
-        return OptionsHelper.getInstance().getIMServer();
-    }
-
-    /**
-     * 设置端口号
-     * @param port
-     */
-    public void setIMServerPort(int port) {
-        OptionsHelper.getInstance().setIMServerPort(port);
-    }
-
-    public int getIMServerPort() {
-        return OptionsHelper.getInstance().getIMServerPort();
-    }
-
-    /**
-     * 设置自定义appkey是否可用
-     * @param enable
-     */
-    public void enableCustomAppkey(boolean enable) {
-        OptionsHelper.getInstance().enableCustomAppkey(enable);
-    }
-
-    /**
-     * 获取自定义appkey是否可用
-     * @return
-     */
-    public boolean isCustomAppkeyEnabled() {
-        return OptionsHelper.getInstance().isCustomAppkeyEnabled();
-    }
-
-    /**
-     * 设置自定义appkey
-     * @param appkey
-     */
-    public void setCustomAppkey(String appkey) {
-        OptionsHelper.getInstance().setCustomAppkey(appkey);
-    }
-
-    /**
-     * 获取自定义appkey
-     * @return
-     */
-    public String getCutomAppkey() {
-        return OptionsHelper.getInstance().getCustomAppkey();
-    }
-
-    /**
-     * 设置是否允许聊天室owner离开并删除会话记录，意味着owner再不会受到任何消息
-     * @param value
-     */
-    public void allowChatroomOwnerLeave(boolean value){
-        OptionsHelper.getInstance().allowChatroomOwnerLeave(value);
-    }
-
-    /**
-     * 获取聊天室owner离开时的设置
-     * @return
-     */
-    public boolean isChatroomOwnerLeaveAllowed(){
-        return OptionsHelper.getInstance().isChatroomOwnerLeaveAllowed();
-    }
-
-    /**
-     * 设置退出(主动和被动退出)群组时是否删除聊天消息
-     * @param value
-     */
-    public void setDeleteMessagesAsExitGroup(boolean value) {
-        OptionsHelper.getInstance().setDeleteMessagesAsExitGroup(value);
-    }
-
-    /**
-     * 获取退出(主动和被动退出)群组时是否删除聊天消息
-     * @return
-     */
-    public boolean isDeleteMessagesAsExitGroup() {
-        return OptionsHelper.getInstance().isDeleteMessagesAsExitGroup();
-    }
-
-    /**
-     * 设置退出（主动和被动）聊天室时是否删除聊天信息
-     * @param value
-     */
-    public void setDeleteMessagesAsExitChatRoom(boolean value) {
-        OptionsHelper.getInstance().setDeleteMessagesAsExitChatRoom(value);
-    }
-
-    /**
-     * 获取退出(主动和被动退出)聊天室时是否删除聊天消息
-     * @return
-     */
-    public boolean isDeleteMessagesAsExitChatRoom() {
-        return OptionsHelper.getInstance().isDeleteMessagesAsExitChatRoom();
-    }
-
-    /**
-     * 设置是否自动接受加群邀请
-     * @param value
-     */
-    public void setAutoAcceptGroupInvitation(boolean value) {
-        OptionsHelper.getInstance().setAutoAcceptGroupInvitation(value);
-    }
-
-    /**
-     * 获取是否自动接受加群邀请
-     * @return
-     */
-    public boolean isAutoAcceptGroupInvitation() {
-        return OptionsHelper.getInstance().isAutoAcceptGroupInvitation();
-    }
-
-    /**
-     * 设置是否自动将消息附件上传到环信服务器，默认为True是使用环信服务器上传下载
-     * @param value
-     */
-    public void setTransfeFileByUser(boolean value) {
-        OptionsHelper.getInstance().setTransfeFileByUser(value);
-    }
-
-    /**
-     * 获取是否自动将消息附件上传到环信服务器，默认为True是使用环信服务器上传下载
-     * @return
-     */
-    public boolean isSetTransferFileByUser() {
-        return OptionsHelper.getInstance().isSetTransferFileByUser();
-    }
-
-    /**
-     * 是否自动下载缩略图，默认是true为自动下载
-     * @param autodownload
-     */
-    public void setAutodownloadThumbnail(boolean autodownload) {
-        OptionsHelper.getInstance().setAutodownloadThumbnail(autodownload);
-    }
-
-    /**
-     * 获取是否自动下载缩略图
-     * @return
-     */
-    public boolean isSetAutodownloadThumbnail() {
-        return OptionsHelper.getInstance().isSetAutodownloadThumbnail();
-    }
-
-
-    /**
-     * 设置是否只使用Https
-     * @param usingHttpsOnly
-     */
-    public void setUsingHttpsOnly(boolean usingHttpsOnly) {
-        OptionsHelper.getInstance().setUsingHttpsOnly(usingHttpsOnly);
-    }
-
-    /**
-     * 获取是否只使用Https
-     * @return
-     */
-    public boolean getUsingHttpsOnly() {
-        return OptionsHelper.getInstance().getUsingHttpsOnly();
-    }
-
-    public void setSortMessageByServerTime(boolean sortByServerTime) {
-        OptionsHelper.getInstance().setSortMessageByServerTime(sortByServerTime);
-    }
-
-    public boolean isSortMessageByServerTime() {
-        return OptionsHelper.getInstance().isSortMessageByServerTime();
-    }
-
-    /**
-     * 是否允许token登录
-     * @param isChecked
-     */
-    public void setEnableTokenLogin(boolean isChecked) {
-        PreferenceManager.getInstance().setEnableTokenLogin(isChecked);
-    }
-
-    public boolean isEnableTokenLogin() {
-        return PreferenceManager.getInstance().isEnableTokenLogin();
     }
 
     /**
@@ -751,20 +265,6 @@ public class EaseModel {
         preferences.edit().putBoolean("is_conversation_come_from_server", false).apply();
     }
 
-    /**
-     *  获取目标翻译语言
-     */
-    public String getTargetLanguage() {
-        return PreferenceManager.getInstance().getTargetLanguage();
-    }
-
-    /**
-     *  设置目标翻译语言
-     */
-    public void setTargetLanguage(String languageCode) {
-        PreferenceManager.getInstance().setTargetLanguage(languageCode);
-    }
-
     public Boolean getAppMode() {
         return PreferenceManager.getInstance().getAppMode();
     }
@@ -797,6 +297,14 @@ public class EaseModel {
         return PreferenceManager.getInstance().getAidToken();
     }
 
+    public void setServiceGroup(String json){
+        PreferenceManager.getInstance().setServiceGroupJson(json);
+    }
+
+    public String getServiceGroup(){
+        return PreferenceManager.getInstance().getServiceGroupJson();
+    }
+
     enum Key{
         VibrateAndPlayToneOn,
         VibrateOn,
@@ -804,5 +312,12 @@ public class EaseModel {
         SpakerOn,
         DisabledGroups,
         DisabledIds
+    }
+
+    public void reset(){
+        setAppToken("");
+        setServiceGroup("");
+        setAid("");
+        setAidToken("");
     }
 }

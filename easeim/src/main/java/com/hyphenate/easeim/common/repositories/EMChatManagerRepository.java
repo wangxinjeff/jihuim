@@ -25,6 +25,7 @@ import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.modules.conversation.model.EaseConversationInfo;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.exceptions.HyphenateException;
+import com.hyphenate.util.EMLog;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -206,6 +207,7 @@ public class EMChatManagerRepository extends BaseEMRepository{
                         if(!conversations.isEmpty()) {
                             EaseConversationInfo info = null;
                             for(EMConversation conversation : conversations) {
+                                EMLog.e("conversationext:", conversation.getExtField());
                                 info = new EaseConversationInfo();
                                 info.setInfo(conversation);
                                 info.setTimestamp(conversation.getLastMessage().getMsgTime());
@@ -319,12 +321,9 @@ public class EMChatManagerRepository extends BaseEMRepository{
                     MediaType JSON = MediaType.get("application/json; charset=utf-8");
                     OkHttpClient client = new OkHttpClient();
                     JSONObject json = new JSONObject();
-//                    json.put("aid", EaseIMHelper.getInstance().getModel().getAid());
-//                    json.put("type", type);
-//                    json.put("token", EaseIMHelper.getInstance().getModel().getAidToken());
-                    json.put("aid", "222510");
-                    json.put("orderType", type);
-                    json.put("token", "ad8s8d9adhka");
+                    json.put("aid", EaseIMHelper.getInstance().getModel().getAid());
+                    json.put("type", type);
+                    json.put("token", EaseIMHelper.getInstance().getModel().getAidToken());
                     RequestBody body = RequestBody.create(json.toString(), JSON);
 
                     Headers headers = new Headers.Builder()
@@ -368,7 +367,7 @@ public class EMChatManagerRepository extends BaseEMRepository{
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
-                                callBack.onError(EMError.GENERAL_ERROR, "");
+                                callBack.onError(EMError.GENERAL_ERROR, "fetchOrderListFroServer failed");
                             }
                         }
                     });

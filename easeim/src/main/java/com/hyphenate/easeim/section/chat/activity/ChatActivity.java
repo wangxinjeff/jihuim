@@ -126,6 +126,8 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
             }
             if(event.isGroupLeave() && TextUtils.equals(conversationId, event.message)) {
                 finish();
+            } else if(event.isGroupNameChange() && TextUtils.equals(conversationId, event.message)){
+                titleBarMessage.setTitle(GroupHelper.getGroupName(conversationId));
             }
         });
         messageViewModel.getMessageChange().with(EaseConstant.CHAT_ROOM_CHANGE, EaseEvent.class).observe(this, event -> {

@@ -123,7 +123,13 @@ public class EaseConversationDelegate extends EaseDefaultConversationDelegate {
 
         if(item.getAllMessages().size() > 0) {
             EMMessage lastMessage = item.getLastMessage();
-            holder.message.setText(EaseSmileUtils.getSmiledText(context, EaseCommonUtils.getMessageDigest(lastMessage, context)));
+            if(lastMessage.getChatType() == EMMessage.ChatType.Chat){
+                holder.message.setText(EaseSmileUtils.getSmiledText(context, EaseCommonUtils.getMessageDigest(lastMessage, context, false)));
+
+            } else if (lastMessage.getChatType() == EMMessage.ChatType.GroupChat){
+                holder.message.setText(EaseSmileUtils.getSmiledText(context, EaseCommonUtils.getMessageDigest(lastMessage, context, true)));
+
+            }
             holder.time.setText(EaseDateUtils.getTimestampString(context, new Date(lastMessage.getMsgTime())));
             if (lastMessage.direct() == EMMessage.Direct.SEND && lastMessage.status() == EMMessage.Status.FAIL) {
                 holder.mMsgState.setVisibility(View.VISIBLE);

@@ -86,6 +86,7 @@ public class PreferenceManager {
 	private static String SHARED_KEY_TOKEN = "shared_key_app_token";
 	private static String SHARED_KEY_AID = "shared_key_app_aid";
 	private static String SHARED_KEY_AID_TOKEN = "shared_key_app_aid_token";
+	private static String SHARED_KEY_SERVICE_GROUP = "shared_key_app_service_group";
 
 	@SuppressLint("CommitPrefEdits")
 	private PreferenceManager(Context cxt) {
@@ -625,4 +626,14 @@ public class PreferenceManager {
 	public String getAidToken(){
 		return mSharedPreferences.getString(SHARED_KEY_AID_TOKEN, "");
 	}
+
+	public void setServiceGroupJson(String serviceGroupJson){
+		editor.putString(SHARED_KEY_SERVICE_GROUP, serviceGroupJson);
+		editor.apply();
+	}
+
+	public String getServiceGroupJson(){
+		return mSharedPreferences.getString(SHARED_KEY_SERVICE_GROUP, "");
+	}
+
 }

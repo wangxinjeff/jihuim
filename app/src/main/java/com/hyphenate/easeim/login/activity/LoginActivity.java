@@ -34,11 +34,6 @@ public class LoginActivity extends BaseInitActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
-        if(EaseIMHelper.getInstance().getAutoLogin()){
-            EaseIMHelper.getInstance().loginSuccess();
-            startActivity(new Intent(mContext, MainActivity.class));
-            finish();
-        }
         getSupportFragmentManager().
                 beginTransaction().
                 replace(R.id.fl_fragment, new LoginFragment()).

@@ -770,17 +770,28 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
             if(listener != null){
                 Set<Integer> userset = mUidsList.keySet();
                 int size = userset.size();
+                Set<String> placeholderSet = placeholderList.keySet();
+                int placeholderSize = placeholderSet.size();
                 JSONObject object = EaseCallKit.getInstance().getInviteExt();
-                if(size > 0){
-                    String users[] = new String[size];
-                    int i = 0;
-                    for(Integer user:userset){
-                        if(mUidsList.get(user) != null){
-                            users[i++] = mUidsList.get(user).getUserAccount();
+                if(size > 0 || placeholderSize > 0){
+                    String users[] = new String[size + placeholderSize];
+                    if(size > 0){
+                        int i = 0;
+                        for(Integer user:userset){
+                            if(mUidsList.get(user) != null){
+                                users[i++] = mUidsList.get(user).getUserAccount();
+                            }
+                        }
+                    }
+
+                    if(placeholderSize > 0){
+                        int i = 0;
+                        for(String user:placeholderSet){
+                            users[i++] = user;
                         }
                     }
                     listener.onInviteUsers(getApplicationContext(),users,object);
-                }else{
+                } else {
                     listener.onInviteUsers(getApplicationContext(),null,object);
                 }
             }

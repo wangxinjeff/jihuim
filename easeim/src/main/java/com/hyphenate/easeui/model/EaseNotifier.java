@@ -39,8 +39,12 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.provider.EaseSettingsProvider;
 import com.hyphenate.easeui.provider.EaseUserProfileProvider;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.EasyUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashSet;
 import java.util.List;
@@ -210,7 +214,6 @@ public class EaseNotifier {
      * @param message
      */
     protected void handleMessage(EMMessage message) {
-        try {
 //            int fromUsersNum = fromUsers.size();
             String contentTitle = appContext.getString(R.string.new_message);
             String notifyText = appContext.getString(R.string.new_message);
@@ -219,17 +222,55 @@ public class EaseNotifier {
             if(message.getChatType() == EMMessage.ChatType.GroupChat) {
                 String groupId = message.getTo();
                 contentTitle = EMClient.getInstance().groupManager().getGroup(groupId).getGroupName();
-                //todo:根据成员id获取成员昵称
-
-                EaseUserProfileProvider profileProvider = EaseIM.getInstance().getUserProvider();
-                if (profileProvider != null) {
-                    EaseUser user = profileProvider.getUser(memberId);
-                    if (user != null) {
-                        nick = user.getNickname();
+                try {
+                    JSONObject userInfo = message.getJSONObjectAttribute(EaseConstant.MESSAGE_ATTR_USER_INFO);
+                    if(userInfo != null){
+                        nick = userInfo.optString(EaseConstant.MESSAGE_ATTR_USER_NICK);
+                    } else {
+                        EaseUserProfileProvider profileProvider = EaseIM.getInstance().getUserProvider();
+                        if (profileProvider != null) {
+                            EaseUser user = profileProvider.getUser(memberId);
+                            if (user != null) {
+                                nick = user.getNickname();
+                            }
+                        }
+                    }
+                }catch (HyphenateException e){
+                    EaseUserProfileProvider profileProvider = EaseIM.getInstance().getUserProvider();
+                    if (profileProvider != null) {
+                        EaseUser user = profileProvider.getUser(memberId);
+                        if (user != null) {
+                            nick = user.getNickname();
+                        }
                     }
                 }
                 notifyText = nick + ":";
             } else if(message.getChatType() == EMMessage.ChatType.Chat){
+                try {
+                    JSONObject userInfo = message.getJSONObjectAttribute(EaseConstant.MESSAGE_ATTR_USER_INFO);
+                    if(userInfo != null){
+                        nick = userInfo.optString(EaseConstant.MESSAGE_ATTR_USER_NICK);
+                        contentTitle = nick;
+                    } else {
+                        EaseUserProfileProvider profileProvider = EaseIM.getInstance().getUserProvider();
+                        if (profileProvider != null) {
+                            EaseUser user = profileProvider.getUser(memberId);
+                            if (user != null) {
+                                contentTitle = user.getNickname();
+                                nick = user.getNickname();
+                            }
+                        }
+                    }
+                }catch (HyphenateException e){
+                    EaseUserProfileProvider profileProvider = EaseIM.getInstance().getUserProvider();
+                    if (profileProvider != null) {
+                        EaseUser user = profileProvider.getUser(memberId);
+                        if (user != null) {
+                            contentTitle = user.getNickname();
+                            nick = user.getNickname();
+                        }
+                    }
+                }
                 EaseUserProfileProvider profileProvider = EaseIM.getInstance().getUserProvider();
                 if (profileProvider != null) {
                     EaseUser user = profileProvider.getUser(memberId);
@@ -271,9 +312,6 @@ public class EaseNotifier {
             if (Build.VERSION.SDK_INT < 26) {
                 vibrateAndPlayTone(message);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**

@@ -2,10 +2,16 @@ package com.hyphenate.easeim.section.group;
 
 import android.text.TextUtils;
 
+import androidx.lifecycle.LiveData;
+
+import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeim.EaseIMHelper;
+import com.hyphenate.easeim.common.livedatas.LiveDataBus;
+import com.hyphenate.easeui.constants.EaseConstant;
+import com.hyphenate.easeui.model.EaseEvent;
 
 import java.util.List;
 
@@ -121,6 +127,17 @@ public class GroupHelper {
     public static String getGroupName(String groupId) {
         EMGroup group = EMClient.getInstance().groupManager().getGroup(groupId);
         if(group == null) {
+            EaseIMHelper.getInstance().getGroupManager().asyncGetGroupFromServer(groupId, new EMValueCallBack<EMGroup>() {
+                @Override
+                public void onSuccess(EMGroup emGroup) {
+                    LiveDataBus.get().with(EaseConstant.GROUP_CHANGE).postValue(EaseEvent.create(EaseConstant.GROUP_CHANGE, EaseEvent.TYPE.GROUP_NAME, groupId));
+                }
+
+                @Override
+                public void onError(int i, String s) {
+
+                }
+            });
             return groupId;
         }
         return TextUtils.isEmpty(group.getGroupName()) ? groupId : group.getGroupName();

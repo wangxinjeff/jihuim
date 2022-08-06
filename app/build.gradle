@@ -77,7 +77,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
-    implementation "androidx.recyclerview:recyclerview:1.2.0-beta01"
     //ViewModel and LiveData
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
@@ -85,13 +84,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    // google bottom navigation bar
-    implementation 'com.ashokvarma.android:bottom-navigation-bar:2.1.0'
     // resolve 64k limit
     implementation 'com.android.support:multidex:1.0.3'
-    // fresh and load more
-    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }
 
 // ADD THIS AT THE BOTTOM

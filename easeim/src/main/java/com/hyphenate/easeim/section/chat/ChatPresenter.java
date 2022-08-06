@@ -223,18 +223,20 @@ public class ChatPresenter extends EaseChatPresenter {
             if(EaseIMHelper.getInstance().getLifecycleCallbacks().isFront()) {
                 if (message.getChatType() == EMMessage.ChatType.GroupChat && !TextUtils.equals(message.getTo(), EaseIMHelper.getInstance().getChatPageConId())) {
                     getNotifier().notify(message);
+                } else if(message.getChatType() == EMMessage.ChatType.Chat && !TextUtils.equals(message.getFrom(), EaseIMHelper.getInstance().getChatPageConId())){
+                    if(EaseIMHelper.getInstance().isAdmin()){
+                        getNotifier().notify(message);
+                    }
                 }
             } else {
                 // in background, do not refresh UI, notify it in notification bar
 //                if (!DemoApplication.getInstance().getLifecycleCallbacks().isFront()) {
-                if(EaseIMHelper.getInstance().isAdmin()){
                     getNotifier().notify(message);
-                }
 //                }
             }
 
             //notify new message
-            getNotifier().vibrateAndPlayTone(message);
+//            getNotifier().vibrateAndPlayTone(message);
         }
     }
 
@@ -285,6 +287,7 @@ public class ChatPresenter extends EaseChatPresenter {
 
             } else if(message.getChatType() == EMMessage.ChatType.Chat){
                 EMCmdMessageBody body = (EMCmdMessageBody)message.getBody();
+                EMLog.e("oncmdreceiver:", body.action() + ":" + message.ext().toString());
                 if(TextUtils.equals("requestJoinGroupEvent", body.action())){
                     event = EaseEvent.create(EaseConstant.MESSAGE_CHANGE_CMD_RECEIVE, EaseEvent.TYPE.MESSAGE, EaseConstant.NEW_GROUP_APPLY);
                 }

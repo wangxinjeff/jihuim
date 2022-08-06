@@ -6,7 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="@dimen/margin_chat_row_normal_top">
+    android:paddingTop="@dimen/margin_chat_row_normal_top"
+    android:paddingBottom="@dimen/margin_chat_row_normal_top">
 
     <TextView
         android:id="@+id/timestamp"

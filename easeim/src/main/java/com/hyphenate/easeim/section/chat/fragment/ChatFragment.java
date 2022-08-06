@@ -56,7 +56,6 @@ public class ChatFragment extends EaseChatFragment implements OnRecallMessageRes
         super.initView();
         clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
 
-        chatLayout.setTargetLanguageCode(EaseIMHelper.getInstance().getModel().getTargetLanguage());
     }
 
     private void resetChatExtendMenu() {

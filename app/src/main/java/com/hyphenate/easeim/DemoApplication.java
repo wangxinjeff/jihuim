@@ -10,15 +10,6 @@ import androidx.multidex.MultiDex;
 
 import com.hyphenate.easeim.common.interfaceOrImplement.UserActivityLifecycleCallbacks;
 import com.hyphenate.util.EMLog;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
-import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
-import com.scwang.smartrefresh.layout.api.RefreshFooter;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -68,33 +59,6 @@ public class DemoApplication extends Application implements Thread.UncaughtExcep
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
-    }
-
-    static {
-        //设置全局的Header构建器
-        SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
-            @Override
-            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-                ClassicsHeader.REFRESH_HEADER_LASTTIME = context.getString(R.string.last_update);
-                ClassicsHeader.REFRESH_HEADER_PULLDOWN = context.getString(R.string.pull_down);
-                ClassicsHeader.REFRESH_HEADER_REFRESHING = context.getString(R.string.refreshing);
-                ClassicsHeader.REFRESH_HEADER_RELEASE = context.getString(R.string.release_refresh);
-                ClassicsHeader.REFRESH_HEADER_FINISH = context.getString(R.string.refresh_finish);
-                ClassicsHeader.REFRESH_HEADER_FAILED = context.getString(R.string.refresh_failed);
-                return new ClassicsHeader(context).setSpinnerStyle(SpinnerStyle.Translate);//指定为经典Header，默认是 贝塞尔雷达Header
-            }
-        });
-        //设置全局的Footer构建器
-        SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
-            @Override
-            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
-                ClassicsFooter.REFRESH_FOOTER_LOADING = context.getString(R.string.be_loading);
-                ClassicsFooter.REFRESH_FOOTER_FINISH = context.getString(R.string.loaded);
-                ClassicsFooter.REFRESH_FOOTER_FAILED = context.getString(R.string.load_failed);
-                //指定为经典Footer，默认是 BallPulseFooter
-                return new ClassicsFooter(context).setSpinnerStyle(SpinnerStyle.Translate);
-            }
-        });
     }
 
     /**

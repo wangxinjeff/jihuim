@@ -18,12 +18,13 @@ import androidx.appcompat.widget.AppCompatImageView;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMUserInfo;
 import com.hyphenate.easecallkit.base.EaseCallType;
 
 import com.hyphenate.easeim.AdminLoginActivity;
 import com.hyphenate.easeim.EaseIMHelper;
-import com.hyphenate.easeim.HMSPushHelper;
+import com.hyphenate.easeim.common.manager.HMSPushHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.common.permission.PermissionsManager;
@@ -38,14 +39,21 @@ import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.chat.ChatPresenter;
 import com.hyphenate.easeim.section.group.activity.GroupApplyActivity;
 import com.hyphenate.easeim.section.group.activity.GroupPickContactsActivity;
+import com.hyphenate.easeim.section.group.activity.NewGroupActivity;
 import com.hyphenate.easeim.section.search.SearchGroupChatActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.chat.EMUserInfo.*;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 
 
@@ -127,7 +135,7 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
         popView.measure(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         int popupWidth = popView.getMeasuredWidth();
         int mScreenWidth  = this.getResources().getDisplayMetrics().widthPixels;
-        xoff = mScreenWidth - popupWidth - (int)EaseCommonUtils.dip2px(mContext, 55);
+        xoff = mScreenWidth - popupWidth - (int)EaseCommonUtils.dip2px(mContext, 40);
 
     }
 
@@ -203,27 +211,6 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
             }
         });
 
-//        if(EaseIMHelper.getInstance().getModel().isUseFCM() && GoogleApiAvailabilityLight.getInstance().isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS){
-//            // 启用 FCM 自动初始化
-//            if(!FirebaseMessaging.getInstance().isAutoInitEnabled()){
-//                FirebaseMessaging.getInstance().setAutoInitEnabled(true);
-//                FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(true);
-//            }
-//            // 获取FCM 推送 token 并上传
-//            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-//                @Override
-//                public void onComplete(@NonNull Task<String> task) {
-//                    if (!task.isSuccessful()) {
-//                        EMLog.d("FCM", "Fetching FCM registration token failed:"+task.getException());
-//                        return;
-//                    }
-//                    // Get new FCM registration token
-//                    String token = task.getResult();
-//                    EMLog.d("FCM", token);
-//                    EMClient.getInstance().sendFCMTokenToServer(token);
-//                }
-//            });
-//        }
     }
 
     private void initViewModel() {
@@ -307,7 +294,8 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
         } else if (id == R.id.search_view) {
             startActivity(new Intent(this, SearchGroupChatActivity.class));
         } else if (id == R.id.create_view) {
-            GroupPickContactsActivity.actionStart(mContext, "", true, true);
+            NewGroupActivity.actionStart(mContext, new ArrayList<EaseUser>());
+//            GroupPickContactsActivity.actionStart(mContext, "", true, true);
         } else if (id == R.id.apply_view) {
             startActivity(new Intent(ConversationListActivity.this, GroupApplyActivity.class));
             showRedIcon(View.GONE);

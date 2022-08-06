@@ -97,4 +97,5 @@ dependencies {
     implementation'com.github.MasayukiSuda:Mp4Composer-android:v0.3.2'
 
     implementation("com.squareup.okhttp3:okhttp:4.4.0")
+    implementation 'androidx.documentfile:documentfile:1.0.1'
 }

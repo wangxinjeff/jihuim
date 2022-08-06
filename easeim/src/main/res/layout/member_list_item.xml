@@ -16,11 +16,10 @@
         android:id="@+id/member_item_nick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="?attr/normalTextColor"
-        android:textSize="@dimen/em_size_normal"
+        android:layout_marginStart="8dp"
         android:text="name"
-        android:layout_marginStart="5dp"
-        />
+        android:textColor="?attr/normalTextColor"
+        android:textSize="@dimen/em_size_normal" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/member_item_owner"

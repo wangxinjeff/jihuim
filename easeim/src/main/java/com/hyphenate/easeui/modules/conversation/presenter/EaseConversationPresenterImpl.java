@@ -45,7 +45,6 @@ public class EaseConversationPresenterImpl extends EaseConversationPresenter {
              if(conversationsType != EaseConstant.CON_TYPE_ADMIN){
                 Map<String, EMConversation> conversationMap = new HashMap<>();
                 for(EMConversation conversation : conversations.values()){
-                    //todo:判断conversationsType去加载对应的会话列表
                     if(conversationsType == EaseConstant.CON_TYPE_EXCLUSIVE){
                         if(EaseIMHelper.getInstance().isExclusiveGroup(conversation)){
                             conversationMap.put(conversation.conversationId(), conversation);

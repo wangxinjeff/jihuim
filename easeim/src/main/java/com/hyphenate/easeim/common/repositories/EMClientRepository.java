@@ -171,7 +171,6 @@ public class EMClientRepository extends BaseEMRepository{
             @Override
             public void onSuccess() {
                 EaseIMHelper.getInstance().getModel().setCurrentUserName(userName);
-                EaseIMHelper.getInstance().getModel().setCurrentUserPwd(pwd);
                 loginSuccess();
                 setAutoLogin(true);
                 callBack.onSuccess();
@@ -325,7 +324,7 @@ public class EMClientRepository extends BaseEMRepository{
      * 极狐app获取专属服务群列表
      * @param callBack
      */
-    private void getServiceGroups(EMCallBack callBack){
+    public void getServiceGroups(EMCallBack callBack){
         OkHttpClient client = new OkHttpClient();
         Headers headers = new Headers.Builder()
                 .add("Authorization", EMClient.getInstance().getAccessToken())
@@ -350,20 +349,14 @@ public class EMClientRepository extends BaseEMRepository{
                         JSONObject result = new JSONObject(responseBody);
                         JSONArray entity = result.getJSONArray("entity");
                         if(entity.length() > 0){
+                            JSONObject json = new JSONObject();
                             for(int i = 0; i < entity.length(); i ++){
                                 JSONObject item = entity.getJSONObject(i);
-                                String groupId = item.getString("groupId");
-                                EMConversation conversation = EaseIMHelper.getInstance().getChatManager().getConversation(groupId, EMConversation.EMConversationType.GroupChat, true);
-                                String ext = conversation.getExtField();
-                                JSONObject extJson;
-                                if(!TextUtils.isEmpty(ext)){
-                                    extJson = new JSONObject(ext);
-                                } else {
-                                    extJson = new JSONObject();
-                                }
-                                extJson.put(EaseConstant.IS_EXCLUSIVE, 1);
-                                conversation.setExtField(extJson.toString());
+                                String groupId = item.optString("groupId");
+                                String groupName = item.optString("groupName");
+                                json.put(groupId, groupName);
                             }
+                            EaseIMHelper.getInstance().getModel().setServiceGroup(json.toString());
                         }
                         callBack.onSuccess();
                     } catch (JSONException e) {

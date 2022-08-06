@@ -12,13 +12,17 @@ import android.widget.FrameLayout;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
+import com.hyphenate.easeim.common.manager.SoftKeyboardChangeHelper;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
+import com.hyphenate.easeui.EaseIM;
 import com.hyphenate.easeui.constants.EaseConstant;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
 
 public class AdminLoginActivity extends BaseInitActivity implements View.OnClickListener {
 
@@ -29,6 +33,7 @@ public class AdminLoginActivity extends BaseInitActivity implements View.OnClick
     private FrameLayout visibleView;
     private AppCompatImageView visibleIcon;
     private AppCompatImageView unVisibleIcon;
+    private ConstraintLayout rootView;
 
     @Override
     protected int getLayoutId() {
@@ -38,6 +43,13 @@ public class AdminLoginActivity extends BaseInitActivity implements View.OnClick
     @Override
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
+
+        if(EaseIMHelper.getInstance().getAutoLogin()){
+            EaseIMHelper.getInstance().loginSuccess();
+            EaseIMHelper.getInstance().startChat(mContext, EaseConstant.CON_TYPE_ADMIN);
+            finish();
+        }
+
         phoneView = findViewById(R.id.phone);
         passwordView = findViewById(R.id.password);
         btnLogin = findViewById(R.id.login_btn);
@@ -45,6 +57,7 @@ public class AdminLoginActivity extends BaseInitActivity implements View.OnClick
         visibleView = findViewById(R.id.visible_view);
         visibleIcon = findViewById(R.id.visible);
         unVisibleIcon = findViewById(R.id.un_visible);
+        rootView = findViewById(R.id.root_view);
     }
 
     @Override
@@ -116,6 +129,18 @@ public class AdminLoginActivity extends BaseInitActivity implements View.OnClick
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        SoftKeyboardChangeHelper.setOnSoftKeyboardChangeListener(this, new SoftKeyboardChangeHelper.OnSoftKeyboardChangeListener() {
+            @Override
+            public void keyboardShow(int height) {
+                rootView.scrollBy(0, (int) EaseCommonUtils.dip2px(mContext, 120));
+            }
+
+            @Override
+            public void keyboardHide(int height) {
+                rootView.scrollBy(0, -(int) EaseCommonUtils.dip2px(mContext, 120));
             }
         });
 

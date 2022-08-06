@@ -6,7 +6,8 @@
     android:gravity="center_horizontal"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:paddingTop="@dimen/margin_chat_row_normal_top">
+    android:paddingTop="@dimen/margin_chat_row_normal_top"
+    android:paddingBottom="@dimen/margin_chat_row_normal_top">
 
     <TextView
         android:id="@+id/timestamp"

@@ -23,11 +23,12 @@ public class ChooseActivity extends BaseInitActivity {
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         if(EaseIMHelper.getInstance().getAutoLogin()){
-            EaseIMHelper.getInstance().loginSuccess();
             if(EaseIMHelper.getInstance().getModel().getAppMode()){
-                EaseIMHelper.getInstance().startChat(mContext, EaseConstant.CON_TYPE_ADMIN);
+                EaseIMHelper.getInstance().setAid("222510");
+                EaseIMHelper.getInstance().setAidToken("ad8s8d9adhka");
+                startActivity(new Intent(ChooseActivity.this, AdminLoginActivity.class));
             } else {
-                startActivity(new Intent(mContext, MainActivity.class));
+                LoginActivity.startAction(ChooseActivity.this);
             }
             finish();
         }
@@ -50,6 +51,8 @@ public class ChooseActivity extends BaseInitActivity {
         admin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EaseIMHelper.getInstance().setAid("222510");
+                EaseIMHelper.getInstance().setAidToken("ad8s8d9adhka");
                 EaseIMHelper.getInstance().getModel().setAppMode(true);
                 startActivity(new Intent(ChooseActivity.this, AdminLoginActivity.class));
                 finish();

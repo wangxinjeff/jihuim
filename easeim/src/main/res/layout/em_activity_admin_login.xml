@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/root_view"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -22,7 +23,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="84dp"
         android:src="@drawable/em_admin_login_icon"
         />
 
@@ -77,7 +78,7 @@
             android:hint="@string/em_please_enter_phone"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:textColor="?attr/normalTextColor"
+            android:textColor="@color/black"
             android:inputType="number"
             android:background="@null"
             android:lines="1"
@@ -122,7 +123,7 @@
             android:hint="@string/em_please_enter_password"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:textColor="?attr/normalTextColor"
+            android:textColor="@color/black"
             android:inputType="textPassword"
             android:background="@null"
             android:lines="1"
@@ -180,7 +181,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textSize="@dimen/em_size_small"
-        android:text="©️ 2022 极狐ARCFOX 运管端"
+        android:text="️© 2022 极狐ARCFOX 运管端"
         android:textColor="@color/con_content_time"
         android:layout_marginBottom="50dp"
         />

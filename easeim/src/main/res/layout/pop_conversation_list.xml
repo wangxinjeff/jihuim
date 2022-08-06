@@ -17,7 +17,7 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:src="@drawable/icon_message_notify"
-            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginStart="16dp"
         />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -26,7 +26,7 @@
             android:text="@string/em_message_notify"
             android:textSize="@dimen/em_size_normal"
             android:textColor="?attr/normalTextColor"
-            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginStart="8dp"
             />
 
     </LinearLayout>
@@ -40,7 +40,7 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:src="@drawable/icon_search_group"
-            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginStart="16dp"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -49,7 +49,7 @@
             android:text="@string/em_search_group"
             android:textSize="@dimen/em_size_normal"
             android:textColor="?attr/normalTextColor"
-            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginStart="8dp"
             />
 
     </LinearLayout>
@@ -63,7 +63,7 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:src="@drawable/icon_create_group"
-            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginStart="16dp"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -72,7 +72,7 @@
             android:text="@string/em_create_group"
             android:textSize="@dimen/em_size_normal"
             android:textColor="?attr/normalTextColor"
-            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginStart="8dp"
             />
 
     </LinearLayout>
@@ -86,7 +86,7 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:src="@drawable/icon_group_apply"
-            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginStart="16dp"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -95,7 +95,7 @@
             android:text="@string/em_group_apply"
             android:textSize="@dimen/em_size_normal"
             android:textColor="?attr/normalTextColor"
-            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginStart="8dp"
             />
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/apply_unread_icon"

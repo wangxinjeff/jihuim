@@ -36,7 +36,10 @@ import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.provider.EaseUserProfileProvider;
+import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -85,8 +88,24 @@ public class EaseCommonUtils {
      * @param context
      * @return
      */
-    public static String getMessageDigest(EMMessage message, Context context) {
+    public static String getMessageDigest(EMMessage message, Context context, boolean showNick) {
         String digest = "";
+        String nick = "";
+        if(showNick){
+            try {
+                JSONObject userInfo = message.getJSONObjectAttribute(EaseConstant.MESSAGE_ATTR_USER_INFO);
+                nick = userInfo.optString(EaseConstant.MESSAGE_ATTR_USER_NICK) + ":";
+            } catch (HyphenateException e) {
+                e.printStackTrace();
+                EaseUserProfileProvider userProvider = EaseIM.getInstance().getUserProvider();
+                if(userProvider != null && userProvider.getUser(message.getFrom()) != null) {
+                    EaseUser user = userProvider.getUser(message.getFrom());
+                    if(user != null) {
+                        nick = user.getNickname() + ":";
+                    }
+                }
+            }
+        }
         switch (message.getType()) {
         case LOCATION:
             if (message.direct() == EMMessage.Direct.RECEIVE) {
@@ -95,12 +114,11 @@ public class EaseCommonUtils {
                 String from = message.getFrom();
                 if(userProvider != null && userProvider.getUser(from) != null) {
                     EaseUser user = userProvider.getUser(from);
-                    if(user != null && !TextUtils.isEmpty(user.getNickname())) {
+                    if(user != null) {
                         from = user.getNickname();
                     }
                 }
                 digest = String.format(digest, from);
-                return digest;
             } else {
                 digest = getString(context, R.string.location_prefix);
             }
@@ -120,24 +138,18 @@ public class EaseCommonUtils {
         case TXT:
             EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
             if(txtBody != null){
-                if(message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_IS_VOICE_CALL, false)){
-                    digest = getString(context, R.string.voice_call) + txtBody.getMessage();
-                }else if(message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_IS_VIDEO_CALL, false)){
-                    digest = getString(context, R.string.video_call) + txtBody.getMessage();
-                }else if(message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_IS_BIG_EXPRESSION, false)){
-                    if(!TextUtils.isEmpty(txtBody.getMessage())){
-                        digest = txtBody.getMessage();
-                    }else{
-                        digest = getString(context, R.string.dynamic_expression);
-                    }
-                } else if(message.getStringAttribute(EaseConstant.MESSAGE_ATTR_CALL_STATE, "").equals(EaseConstant.CONFERENCE_STATE_CREATE)) {
+                if(message.getStringAttribute(EaseConstant.MESSAGE_ATTR_CALL_STATE, "").equals(EaseConstant.CONFERENCE_STATE_CREATE)) {
+                    nick = "";
                     digest = getString(context, R.string.em_initiated_call);
                 }else if(message.getStringAttribute(EaseConstant.MESSAGE_ATTR_CALL_STATE, "").equals(EaseConstant.CONFERENCE_STATE_END)) {
                     digest = getString(context, R.string.em_call_over);
+                    nick = "";
                 } else if(message.getBooleanAttribute(EaseConstant.MESSAGE_TYPE_RECALL, false)){
                     digest = "消息撤回";
+                    nick = "";
                 } else if(message.getBooleanAttribute(EaseConstant.CREATE_GROUP_PROMPT, false)){
                     digest = "群组创建";
+                    nick = "";
                 } else{
                     digest = txtBody.getMessage();
                 }
@@ -145,14 +157,14 @@ public class EaseCommonUtils {
             break;
         case FILE:
             EMNormalFileMessageBody fileBody = (EMNormalFileMessageBody) message.getBody();
-            digest = "[" + fileBody.getFileName() + "]";
+            digest = "[文件]" + fileBody.getFileName();
             break;
         default:
             EMLog.e(TAG, "error, unknow type");
             return "";
         }
         Log.e("TAG", "message text = "+digest);
-        return digest;
+        return nick + digest;
     }
     
     static String getString(Context context, int resId){

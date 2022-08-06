@@ -119,6 +119,7 @@ public class FileDetailsActivity extends BaseInitActivity implements EaseTitleBa
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.GONE);
+                        startBtn.setText(getString(R.string.em_open_file));
                         EaseCompat.openFile(FileDetailsActivity.this, fileMessageBody.getLocalUri());
                     }
                 });

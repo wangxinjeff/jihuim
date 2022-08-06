@@ -593,7 +593,7 @@ public class EMContactManagerRepository extends BaseEMRepository{
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
-                                callBack.onError(EMError.GENERAL_ERROR, "");
+                                callBack.onError(EMError.GENERAL_ERROR, "search user failed");
                             }
                         }
                     });
@@ -654,7 +654,7 @@ public class EMContactManagerRepository extends BaseEMRepository{
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
-                                callBack.onError(EMError.GENERAL_ERROR, "");
+                                callBack.onError(EMError.GENERAL_ERROR, "search user failed");
                             }
                         }
                     });

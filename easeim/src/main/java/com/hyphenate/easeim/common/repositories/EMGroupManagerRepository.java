@@ -649,7 +649,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
                                 callBack.onSuccess(createLiveData(groupName));
                             } else {
-                                callBack.onError(EMError.GENERAL_ERROR, "");
+                                callBack.onError(EMError.GENERAL_ERROR, "modify groupName failed");
                             }
                         }
                     });
@@ -900,7 +900,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
-                                callBack.onError(EMError.GENERAL_ERROR, "");
+                                callBack.onError(EMError.GENERAL_ERROR, "add member failed");
                             }
                         }
                     });
@@ -965,7 +965,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
-                                callBack.onError(EMError.GENERAL_ERROR, "");
+                                callBack.onError(EMError.GENERAL_ERROR, "add member failed");
                             }
                         }
                     });
@@ -1180,7 +1180,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
-                                callBack.onError(EMError.GENERAL_ERROR, "");
+                                callBack.onError(EMError.GENERAL_ERROR, "get group apply failed");
                             }
                         }
                     });
@@ -1490,7 +1490,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
-                                callBack.onError(EMError.GENERAL_ERROR, "");
+                                callBack.onError(EMError.GENERAL_ERROR, "create group failed");
                             }
                         }
                     });
@@ -1602,7 +1602,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
-                                callBack.onError(EMError.GENERAL_ERROR, "");
+                                callBack.onError(EMError.GENERAL_ERROR, "get service note failed");
                             }
                         }
                     });
@@ -1645,7 +1645,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
                                 callBack.onSuccess(createLiveData(note));
                             } else {
-                                callBack.onError(EMError.GENERAL_ERROR, "");
+                                callBack.onError(EMError.GENERAL_ERROR, "modify service note failed");
                             }
                         }
                     });
@@ -1717,7 +1717,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
-                                callBack.onError(EMError.GENERAL_ERROR, "");
+                                callBack.onError(EMError.GENERAL_ERROR, "search group list failed");
                             }
                         }
                     });

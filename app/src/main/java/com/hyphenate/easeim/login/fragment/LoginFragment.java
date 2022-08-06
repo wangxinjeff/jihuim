@@ -80,8 +80,6 @@ public class LoginFragment extends BaseInitFragment implements View.OnClickListe
         cbSelect = findViewById(R.id.cb_select);
         tvVersion = findViewById(R.id.tv_version);
         // 保证切换fragment后相关状态正确
-        boolean enableTokenLogin = EaseIMHelper.getInstance().getModel().isEnableTokenLogin();
-        mTvLoginToken.setVisibility(enableTokenLogin ? View.VISIBLE : View.GONE);
         if(!TextUtils.isEmpty(EaseIMHelper.getInstance().getCurrentLoginUser())) {
             mEtLoginName.setText(EaseIMHelper.getInstance().getCurrentLoginUser());
         }

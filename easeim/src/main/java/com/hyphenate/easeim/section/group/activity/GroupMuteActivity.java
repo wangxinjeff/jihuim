@@ -126,7 +126,6 @@ public class GroupMuteActivity extends BaseInitActivity {
             @Override
             public void onClick(View v) {
                 GroupAddMuteActivity.startAction(mContext, groupId, (ArrayList<String>)muteList);
-                finish();
             }
         });
     }

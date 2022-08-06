@@ -256,6 +256,12 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
                     super.hideLoading();
                     dismissLoading();
                 }
+
+                @Override
+                public void onError(int code, String message) {
+                    super.onError(code, message);
+                    ToastUtils.showCenterToast("", "搜索失败:" + code + ":" + message, 0, Toast.LENGTH_SHORT);
+                }
             });
         });
     }

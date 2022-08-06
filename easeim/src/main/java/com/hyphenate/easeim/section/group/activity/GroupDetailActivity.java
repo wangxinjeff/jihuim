@@ -134,8 +134,6 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
             groupInfo.setOnClickListener(this);
             itemGroupName.setOnClickListener(this);
         }
-        tvGroupMemberTitle.setOnClickListener(this);
-        tvGroupMemberNum.setOnClickListener(this);
         itemGroupNotice.setOnClickListener(this);
         itemGroupIntroduction.setOnClickListener(this);
         itemGroupMute.setOnClickListener(this);
@@ -356,7 +354,7 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
     public void onClick(View v) {
         int id = v.getId();// 群成员
         if (id == R.id.cl_group_info) {
-        } else if (id == R.id.tv_group_member_title || id == R.id.show_more_member) {
+        } else if (id == R.id.show_more_member) {
             GroupMemberTypeActivity.actionStart(mContext, groupId, isOwner());
         } else if (id == R.id.item_group_name) {//群名称
 //                showGroupNameDialog();

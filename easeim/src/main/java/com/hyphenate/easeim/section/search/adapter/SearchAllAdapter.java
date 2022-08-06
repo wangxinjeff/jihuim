@@ -101,7 +101,7 @@ public class SearchAllAdapter extends EaseBaseRecyclerViewAdapter<EMMessage> {
             } else {
                 msg_state.setVisibility(View.GONE);
             }
-            String content = EaseSmileUtils.getSmiledText(mContext, EaseCommonUtils.getMessageDigest(item, mContext)).toString();
+            String content = EaseSmileUtils.getSmiledText(mContext, EaseCommonUtils.getMessageDigest(item, mContext, true)).toString();
             if(!TextUtils.isEmpty(keyword)){
                 message.post(()-> {
                     String subContent = EaseEditTextUtils.ellipsizeString(message, content, keyword, message.getWidth());
