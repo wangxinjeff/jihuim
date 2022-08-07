@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,6 +21,7 @@ import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
+import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.common.widget.ArrowItemView;
 import com.hyphenate.easeim.common.widget.SwitchItemView;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
@@ -198,6 +200,7 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
             parseResource(response, new OnResourceParseCallback<String>() {
                 @Override
                 public void onSuccess(String data) {
+                    ToastUtils.showCenterToast("", getString(R.string.em_save_success), 0 ,Toast.LENGTH_SHORT);
                     loadGroup();
                 }
             });
@@ -303,6 +306,7 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
                 @Override
                 public void onSuccess(@Nullable String data) {
                     serviceNote = data;
+                    ToastUtils.showCenterToast("", "保存成功", 0, Toast.LENGTH_SHORT);
                 }
 
                 @Override

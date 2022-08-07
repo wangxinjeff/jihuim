@@ -43,6 +43,13 @@ public class EaseConversationDelegate extends EaseDefaultConversationDelegate {
 
     @Override
     protected void onBindConViewHolder(ViewHolder holder, int position, EaseConversationInfo bean) {
+
+        if(EaseIMHelper.getInstance().isAdmin()){
+            holder.mUnreadMsgNumber.setBackgroundResource(R.drawable.em_unread_bg_admin);
+        } else {
+            holder.mUnreadMsgNumber.setBackgroundResource(R.drawable.em_unread_bg);
+        }
+        
         EMConversation item = (EMConversation) bean.getInfo();
         Context context = holder.itemView.getContext();
         String username = item.conversationId();

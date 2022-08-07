@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
 public class GroupEditActivity extends BaseInitActivity {
@@ -92,7 +93,7 @@ public class GroupEditActivity extends BaseInitActivity {
             } else {
                 serviceNote.setText(content);
             }
-            serviceNote.setEnabled(canEdit);
+            serviceNote.setEnabled(false);
         } else {
             noteView.setVisibility(View.GONE);
             editContent.setVisibility(View.VISIBLE);
@@ -101,12 +102,13 @@ public class GroupEditActivity extends BaseInitActivity {
             } else {
                 editContent.setText(content);
             }
-            editContent.setEnabled(canEdit);
+            editContent.setEnabled(false);
         }
 
         titleBar.setTitle(title);
         titleBar.getRightLayout().setVisibility(canEdit ? View.VISIBLE : View.GONE);
         if(canEdit){
+            titleBar.getRightText().setText(R.string.em_action_edit);
             titleBar.getRightText().setTextColor(ContextCompat.getColor(this, R.color.search_close));
         }
     }
@@ -129,14 +131,27 @@ public class GroupEditActivity extends BaseInitActivity {
             titleBar.setOnRightClickListener(new EaseTitleBar.OnRightClickListener() {
                 @Override
                 public void onRightClick(View view) {
-                    Intent intent = new Intent();
-                    if(isShowNote){
-                        intent.putExtra("content", serviceNote.getText().toString());
-                    } else {
-                        intent.putExtra("content", editContent.getText().toString());
+                    if(TextUtils.equals(getString(R.string.em_action_edit), titleBar.getRightText().getText().toString())){
+                        titleBar.getRightText().setText(R.string.em_chat_group_save);
+                        if(isShowNote){
+                            serviceNote.setEnabled(true);
+                            EaseCommonUtils.showSoftKeyBoard(serviceNote);
+                            serviceNote.setSelection(serviceNote.getText().length());
+                        } else {
+                            editContent.setEnabled(true);
+                            EaseCommonUtils.showSoftKeyBoard(editContent);
+                            editContent.setSelection(editContent.getText().length());
+                        }
+                    } else if(TextUtils.equals(getString(R.string.em_chat_group_save), titleBar.getRightText().getText().toString())){
+                        Intent intent = new Intent();
+                        if(isShowNote){
+                            intent.putExtra("content", serviceNote.getText().toString());
+                        } else {
+                            intent.putExtra("content", editContent.getText().toString());
+                        }
+                        setResult(RESULT_OK, intent);
+                        finish();
                     }
-                    setResult(RESULT_OK, intent);
-                    finish();
                 }
             });
         }

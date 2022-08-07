@@ -124,6 +124,7 @@ public class GroupAddMuteActivity extends BaseInitActivity {
             parseResource(response, new OnResourceParseCallback<String>() {
                 @Override
                 public void onSuccess(@Nullable String data) {
+                    ToastUtils.showCenterToast("", getString(R.string.em_group_mute_success), 0 ,Toast.LENGTH_SHORT);
                     onBackPressed();
                 }
 

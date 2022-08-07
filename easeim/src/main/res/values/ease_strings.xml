@@ -384,4 +384,6 @@
     <string name="em_send_to_group">Send to Group</string>
     <string name="em_add_user_toast">Add success</string>
     <string name="em_new_group_includ_customer">Selected member must include customer</string>
+    <string name="em_group_mute_success">Mute success</string>
+    <string name="em_save_success">Save success</string>
 </resources>

@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="13dp"
+    android:paddingTop="@dimen/margin_chat_row_normal_top"
+    android:paddingBottom="@dimen/margin_chat_row_normal_top"
     tools:ignore="MissingDefaultResource">
 
     <TextView
@@ -18,7 +19,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_chat_activity"
+        android:layout_marginTop="@dimen/margin_chat_row_normal_top"
         >
         <TextView
             android:id="@+id/user"

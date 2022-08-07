@@ -346,6 +346,7 @@
     <attr name="msgTextColor" format="color"/>
     <attr name="chatRowFileSize" format="color"/>
     <attr name="chatRowNick" format="color"/>
+    <attr name="chatRowTime" format="color"/>
     <attr name="detailBg" format="color"/>
     <attr name="searchViewBg" format="color"/>
     <attr name="searchHintColor" format="color"/>

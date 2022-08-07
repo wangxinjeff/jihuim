@@ -41,6 +41,7 @@
     <color name="read_num">#07cea6</color>
     <color name="chat_row_file_size">#252525</color>
     <color name="chat_row_nick">#7f7f7f</color>
+    <color name="chat_row_time">#a5a5a5</color>
 
     <color name="call_float_bg">#f5f5f5</color>
     <color name="call_float_time_bg">#ffffff</color>
@@ -77,6 +78,7 @@
     <color name="voice_btn_press_color">#ffc6c6c6</color>
     <color name="chat_row_file_size_color">#f5f5f5</color>
     <color name="chat_row_nick_color">#999999</color>
+    <color name="chat_row_time_color">#7f7f7f</color>
 
     <color name="detail_bg_color">#1c1c1c</color>
 

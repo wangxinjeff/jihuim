@@ -35,7 +35,7 @@ public class SearchAllAdapter extends EaseBaseRecyclerViewAdapter<EMMessage> {
 
     @Override
     public int getEmptyLayoutId() {
-        return EaseIMHelper.getInstance().isAdmin() ? R.layout.ease_layout_default_no_search_result_admin : R.layout.ease_layout_default_no_search_result;
+        return EaseIMHelper.getInstance().isAdmin() ? R.layout.ease_layout_no_data_admin : R.layout.ease_layout_no_data;
     }
 
     @Override

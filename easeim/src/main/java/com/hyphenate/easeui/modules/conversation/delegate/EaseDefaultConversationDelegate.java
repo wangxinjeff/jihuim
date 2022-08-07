@@ -18,6 +18,7 @@ import com.hyphenate.easeui.adapter.EaseBaseRecyclerViewAdapter;
 import com.hyphenate.easeui.domain.EaseAvatarOptions;
 import com.hyphenate.easeui.modules.conversation.model.EaseConversationInfo;
 import com.hyphenate.easeui.modules.conversation.model.EaseConversationSetStyle;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseImageView;
 
@@ -172,6 +173,10 @@ public abstract class EaseDefaultConversationDelegate extends EaseBaseConversati
         if(unreadMsgCount > 0) {
             holder.mUnreadMsgNumber.setText(handleBigNum(unreadMsgCount));
             holder.unreadMsgNumberRight.setText(handleBigNum(unreadMsgCount));
+            ViewGroup.LayoutParams layoutParams = holder.mUnreadMsgNumber.getLayoutParams();
+            layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            layoutParams.height=(int)EaseCommonUtils.dip2px(holder.mContext, 14);
+            holder.mUnreadMsgNumber.setLayoutParams(layoutParams);
             showUnreadRight(holder, setModel.getUnreadDotPosition() == EaseConversationSetStyle.UnreadDotPosition.RIGHT);
         }else {
             holder.mUnreadMsgNumber.setVisibility(View.GONE);
@@ -183,6 +188,10 @@ public abstract class EaseDefaultConversationDelegate extends EaseBaseConversati
         if(unreadMsgCount > 0) {
             holder.mUnreadMsgNumber.setText("");
             holder.unreadMsgNumberRight.setText("");
+            ViewGroup.LayoutParams layoutParams = holder.mUnreadMsgNumber.getLayoutParams();
+            layoutParams.width = (int)EaseCommonUtils.dip2px(holder.mContext, 10);
+            layoutParams.height=(int)EaseCommonUtils.dip2px(holder.mContext, 10);
+            holder.mUnreadMsgNumber.setLayoutParams(layoutParams);
             showUnreadRight(holder, setModel.getUnreadDotPosition() == EaseConversationSetStyle.UnreadDotPosition.RIGHT);
         }else {
             holder.mUnreadMsgNumber.setVisibility(View.GONE);

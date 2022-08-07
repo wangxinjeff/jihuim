@@ -46,9 +46,9 @@
                 android:src="@drawable/icon_down"
                 />
             <View
-                android:layout_width="1dp"
+                android:layout_width="0.5dp"
                 android:layout_height="16dp"
-                android:background="@color/normal_text"
+                android:background="@color/con_group_id"
                 android:layout_marginStart="@dimen/margin_small"
                 />
 
@@ -62,6 +62,7 @@
                 android:inputType="text"
                 android:textSize="@dimen/em_size_normal"
                 android:layout_marginStart="@dimen/margin_small"
+                android:hint="@string/search"
                 />
 
 

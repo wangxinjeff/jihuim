@@ -77,7 +77,7 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
         bundle.putString(EaseConstant.EXTRA_CONVERSATION_ID, conversationId);
         bundle.putInt(EaseConstant.EXTRA_CHAT_TYPE, chatType);
         bundle.putString(EaseConstant.HISTORY_MSG_ID, historyMsgId);
-        bundle.putBoolean(EaseConstant.EXTRA_IS_ROAM, true);
+        bundle.putBoolean(EaseConstant.EXTRA_IS_ROAM, false);
         fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_fragment, fragment, "chat").commit();
     }

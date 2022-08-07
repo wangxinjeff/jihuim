@@ -676,7 +676,7 @@ public class EaseIMHelper {
                 String callString = mainContext.getString(R.string.call_duration);
                 callString += formatter.format(callTime);
 
-                Toast.makeText(mainContext,callString,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mainContext,callString,Toast.LENGTH_SHORT).show();
             }
 
             @Override
