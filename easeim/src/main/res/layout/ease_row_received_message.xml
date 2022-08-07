@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_userid"
             android:minWidth="30dp"
-            android:layout_marginLeft="@dimen/margin_chat_activity"
+            android:layout_marginLeft="@dimen/chat_bubble_margin_left"
             android:layout_toRightOf="@id/iv_userhead"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
@@ -66,6 +66,7 @@
             android:layout_marginLeft="@dimen/chat_nick_margin_left"
             android:textSize="@dimen/em_size_small"
             tools:text="som"
+            android:textColor="?attr/chatRowNick"
             android:layout_toRightOf="@id/iv_userhead"
             android:visibility="gone" />
     </RelativeLayout>

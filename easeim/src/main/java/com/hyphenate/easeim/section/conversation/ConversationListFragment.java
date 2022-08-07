@@ -60,9 +60,9 @@ public class ConversationListFragment extends EaseConversationListFragment{
         if(conversationsType == EaseConstant.CON_TYPE_EXCLUSIVE){
             conversationListLayout.getListAdapter().setEmptyLayoutId(R.layout.ease_layout_no_exclusive_service);
         } else if(conversationsType == EaseConstant.CON_TYPE_MY_CHAT){
-            conversationListLayout.getListAdapter().setEmptyLayoutId(R.layout.ease_layout_default_no_conversation_data);
+            conversationListLayout.getListAdapter().setEmptyLayoutId(R.layout.ease_layout_no_data);
         } else if(conversationsType == EaseConstant.CON_TYPE_ADMIN){
-            conversationListLayout.getListAdapter().setEmptyLayoutId(R.layout.ease_layout_default_no_conversation_data);
+            conversationListLayout.getListAdapter().setEmptyLayoutId(R.layout.ease_layout_no_data_admin);
         }
 
         initViewModel();

@@ -145,6 +145,7 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            ToastUtils.showCenterToast("", "创建成功", 0, Toast.LENGTH_SHORT);
                             EMMessage message = EMMessage.createTextSendMessage("groupEvent", groupId);
                             message.setChatType(EMMessage.ChatType.GroupChat);
                             message.setAttribute(EaseConstant.CREATE_GROUP_PROMPT, true);
@@ -200,15 +201,15 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
             }
         }
 
-        if(customers.size() >  0){
-            confirmBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.search_close));
-            confirmBtn.setEnabled(true);
-            confirmBtn.setText(getString(R.string.em_group_new_save));
-        } else {
-            confirmBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.btn_gray_pressed));
-            confirmBtn.setEnabled(false);
-            confirmBtn.setText(getString(R.string.em_must_be_no_less_than_2_members));
-        }
+//        if(customers.size() >  0){
+//            confirmBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.search_close));
+//            confirmBtn.setEnabled(true);
+//            confirmBtn.setText(getString(R.string.em_group_new_save));
+//        } else {
+//            confirmBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.btn_gray_pressed));
+//            confirmBtn.setEnabled(false);
+//            confirmBtn.setText(getString(R.string.em_must_be_no_less_than_2_members));
+//        }
 
         tvGroupMemberNum.setText(members.size() + "人");
     }
@@ -226,12 +227,26 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
         } else if (id == R.id.item_group_introduction) {//群介绍
             showIntroductionDialog();
         } else if (id == R.id.done) {
+            if(customers.size() < 1){
+                ToastUtils.showCenterToast("" ,getString(R.string.em_new_group_includ_customer), 0, Toast.LENGTH_SHORT);
+                return;
+            }
+
+            if(members.size() < 1){
+                ToastUtils.showCenterToast("" ,getString(R.string.em_must_be_no_less_than_2_members), 0, Toast.LENGTH_SHORT);
+                return;
+            }
+
             if(TextUtils.isEmpty(groupName)){
                 ToastUtils.showCenterToast("" ,getString(R.string.em_group_name_is_not_empty), 0, Toast.LENGTH_SHORT);
                 return;
             }
-            EMGroupOptions option = new EMGroupOptions();
-            option.style = EMGroupStylePrivateOnlyOwnerInvite;
+
+            if(TextUtils.isEmpty(groupIntroduction)){
+                ToastUtils.showCenterToast("" ,getString(R.string.em_group_intro_is_not_empty), 0, Toast.LENGTH_SHORT);
+                return;
+            }
+
             viewModel.createGroup(groupName, groupIntroduction, customers, waiters);
         }
     }

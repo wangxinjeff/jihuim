@@ -8,6 +8,6 @@
         android:drawable="@drawable/ease_chatfrom_voice_playing_admin_f2"
         android:duration="200" />
     <item
-        android:drawable="@drawable/ease_chatfrom_voice_playin_adming_f3"
+        android:drawable="@drawable/ease_chatfrom_voice_playing_admin_f3"
         android:duration="200" />
 </animation-list>

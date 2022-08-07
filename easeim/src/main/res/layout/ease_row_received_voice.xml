@@ -29,14 +29,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="38dp"
-            android:layout_toRightOf="@id/iv_userhead"
-            android:layout_marginLeft="@dimen/margin_chat_activity"
+            android:layout_toEndOf="@id/iv_userhead"
+            android:layout_marginStart="@dimen/chat_bubble_margin_left"
             android:layout_below="@+id/tv_userid"
             android:layout_marginTop="2dp"
             app:arrow_direction="left"
             app:fill_color="?attr/rmsgBubbleBg"
             app:stroke_color="?attr/rmsgBubbleBg"
-            app:conner_radius="8dp"
+            app:conner_radius="2dp"
             app:arrow_up_distance="10dp">
 
             <TextView
@@ -91,6 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/chat_nick_margin_left"
             android:textSize="@dimen/em_size_small"
+             android:textColor="?attr/chatRowNick"
             android:layout_toRightOf="@id/iv_userhead"
             android:visibility="gone" />
     </RelativeLayout>

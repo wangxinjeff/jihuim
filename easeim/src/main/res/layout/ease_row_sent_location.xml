@@ -28,7 +28,7 @@
             android:id="@+id/bubble"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_chat_activity"
+            android:layout_marginEnd="@dimen/chat_bubble_margin_left"
             android:layout_toStartOf="@id/iv_userhead"
             android:layout_marginStart="3dp"
             android:layout_below="@id/tv_userid"
@@ -136,6 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/chat_nick_margin_left"
             android:textSize="@dimen/em_size_small"
+            android:textColor="?attr/chatRowNick"
             android:layout_toLeftOf="@id/iv_userhead"
             android:visibility="gone" />
     </RelativeLayout>

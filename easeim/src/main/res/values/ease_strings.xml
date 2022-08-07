@@ -377,9 +377,11 @@
     <string name="em_please_enter_phone">Please enter phone</string>
     <string name="em_please_enter_password">Please enter password</string>
     <string name="em_group_name_is_not_empty">The group name cannot be empty</string>
+    <string name="em_group_intro_is_not_empty">The group intro cannot be empty</string>
     <string name="em_image_load_failed">Download image failed</string>
     <string name="em_video_load_failed">Download video failed</string>
     <string name="em_my_order">My order</string>
     <string name="em_send_to_group">Send to Group</string>
     <string name="em_add_user_toast">Add success</string>
+    <string name="em_new_group_includ_customer">Selected member must include customer</string>
 </resources>

@@ -358,7 +358,7 @@
     <string name="em_open_notify">打开消息提醒</string>
     <string name="em_close_notify">关闭消息提醒</string>
     <string name="em_call_join_group">请联系同事入群</string>
-    <string name="em_must_be_no_less_than_2_members">客户不得少于1人</string>
+    <string name="em_must_be_no_less_than_2_members">群组人数不得少于2人</string>
 
     <string name="em_action_edit">编辑</string>
     <string name="em_group_mute">群禁言</string>
@@ -378,10 +378,12 @@
     <string name="em_welcome_to_login">欢迎登录</string>
     <string name="em_please_enter_phone">请输入手机号</string>
     <string name="em_please_enter_password">请输入密码</string>
-    <string name="em_group_name_is_not_empty">群名称不能为空</string>
+    <string name="em_group_name_is_not_empty">请填写群名称</string>
+    <string name="em_group_intro_is_not_empty">请填写群介绍</string>
     <string name="em_image_load_failed">下载图片失败</string>
     <string name="em_video_load_failed">下载视频失败</string>
     <string name="em_my_order">我的订单</string>
     <string name="em_send_to_group">发送到服务群</string>
     <string name="em_add_user_toast">添加成功</string>
+    <string name="em_new_group_includ_customer">选择成员必须包含客户</string>
 </resources>

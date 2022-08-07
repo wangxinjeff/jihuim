@@ -129,4 +129,12 @@ public class GroupMuteActivity extends BaseInitActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(viewModel != null){
+            viewModel.getMuteMembers(groupId);
+        }
+    }
 }

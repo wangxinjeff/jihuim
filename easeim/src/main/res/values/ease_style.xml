@@ -104,6 +104,8 @@
 
         <item name="voiceBtnNormalColor">@color/voice_btn_normal</item>
         <item name="voiceBtnPressColor">@color/voice_btn_press</item>
+        <item name="chatRowFileSize">@color/chat_row_file_size</item>
+        <item name="chatRowNick">@color/chat_row_nick</item>
 
         <item name="detailBg">@color/detail_bg_color</item>
         <item name="searchViewBg">@color/search_bg</item>
@@ -158,6 +160,8 @@
         <item name="rmsgBubbleBg">@color/receive_bubble_bg_color</item>
         <item name="voiceBtnNormalColor">@color/voice_btn_normal_color</item>
         <item name="voiceBtnPressColor">@color/voice_btn_press_color</item>
+        <item name="chatRowFileSize">@color/chat_row_file_size_color</item>
+        <item name="chatRowNick">@color/chat_row_nick_color</item>
 
         <item name="detailBg">@color/detail_bg_color</item>
         <item name="searchViewBg">@color/search_bg_color</item>

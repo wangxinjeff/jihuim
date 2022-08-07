@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/chat_nick_margin_left"
             android:textSize="@dimen/em_size_small"
+            android:textColor="?attr/chatRowNick"
             android:layout_toEndOf="@id/iv_userhead"
             android:visibility="gone" />
 
@@ -38,7 +39,7 @@
             android:layout_width="130dp"
             android:layout_height="145dp"
             android:layout_below="@+id/tv_userid"
-            android:layout_marginStart="@dimen/margin_chat_activity"
+            android:layout_marginStart="@dimen/chat_nick_margin_left"
             android:layout_toEndOf="@id/iv_userhead">
 
             <com.hyphenate.easeui.widget.EaseImageView

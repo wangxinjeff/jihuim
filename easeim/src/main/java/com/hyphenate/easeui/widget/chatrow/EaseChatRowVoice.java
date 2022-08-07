@@ -57,10 +57,18 @@ public class EaseChatRowVoice extends EaseChatRowFile {
             voiceLengthView.setVisibility(View.INVISIBLE);
         }
         if (!showSenderType) {
-            voiceImageView.setImageResource(R.drawable.ease_chatfrom_voice_playing);
+            if(EaseIMHelper.getInstance().isAdmin()){
+                voiceImageView.setImageResource(R.drawable.ease_chatfrom_voice_playing_admin);
+            } else {
+                voiceImageView.setImageResource(R.drawable.ease_chatfrom_voice_playing);
+            }
             bubbleLayout.setPadding(0, 0, padding, 0);
         } else {
-            voiceImageView.setImageResource(R.drawable.ease_chatto_voice_playing);
+            if(EaseIMHelper.getInstance().isAdmin()){
+                voiceImageView.setImageResource(R.drawable.ease_chatto_voice_playing_admin);
+            } else {
+                voiceImageView.setImageResource(R.drawable.ease_chatto_voice_playing);
+            }
             bubbleLayout.setPadding(padding, 0, 0, 0);
         }
 
@@ -144,10 +152,18 @@ public class EaseChatRowVoice extends EaseChatRowFile {
             voiceAnimation.stop();
         }
 
-        if (message.direct() == EMMessage.Direct.RECEIVE) {
-            voiceImageView.setImageResource(R.drawable.ease_chatfrom_voice_playing);
+        if(EaseIMHelper.getInstance().isAdmin()){
+            if (message.direct() == EMMessage.Direct.RECEIVE) {
+                voiceImageView.setImageResource(R.drawable.ease_chatfrom_voice_playing_admin);
+            } else {
+                voiceImageView.setImageResource(R.drawable.ease_chatto_voice_playing_admin);
+            }
         } else {
-            voiceImageView.setImageResource(R.drawable.ease_chatto_voice_playing);
+            if (message.direct() == EMMessage.Direct.RECEIVE) {
+                voiceImageView.setImageResource(R.drawable.ease_chatfrom_voice_playing);
+            } else {
+                voiceImageView.setImageResource(R.drawable.ease_chatto_voice_playing);
+            }
         }
     }
 }

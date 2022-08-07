@@ -30,14 +30,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@id/iv_userhead"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="@dimen/chat_bubble_margin_left"
             android:minHeight="38dp"
             android:layout_below="@id/tv_userid"
             android:layout_marginTop="2dp"
             app:arrow_direction="right"
             app:fill_color="?attr/msgBubbleBg"
             app:stroke_color="?attr/msgBubbleBg"
-            app:conner_radius="8dp"
+            app:conner_radius="2dp"
             app:arrow_up_distance="10dp"
             >
 	        <ImageView
@@ -130,9 +130,10 @@
             style="@style/chat_text_name_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/chat_nick_margin_left"
+            android:layout_marginEnd="@dimen/chat_nick_margin_left"
             android:textSize="@dimen/em_size_small"
-            android:layout_toLeftOf="@id/iv_userhead"
+            android:layout_toStartOf="@id/iv_userhead"
+            android:textColor="?attr/chatRowNick"
             android:visibility="gone" />
     </RelativeLayout>
 

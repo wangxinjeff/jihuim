@@ -8,14 +8,6 @@
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/icon_no_service" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textSize="@dimen/em_size_small"
-        android:textColor="?attr/conContentTimeColor"
-        android:text="@string/not_add_service_group"/>
+        android:src="@drawable/em_icon_no_service_admin" />
 
 </LinearLayout>
