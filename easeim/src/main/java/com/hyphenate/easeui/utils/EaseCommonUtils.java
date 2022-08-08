@@ -17,9 +17,7 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ContentResolver;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -56,12 +54,10 @@ import com.hyphenate.util.EMLog;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 
 public class EaseCommonUtils {
@@ -425,103 +421,6 @@ public class EaseCommonUtils {
     }
 
     /**
-     * 保存图片
-     * @param context
-     * @param file
-     */
-    public static boolean saveImage(Context context, File file) {
-        try {
-            ContentResolver localContentResolver = context.getContentResolver();
-            ContentValues localContentValues = getImageContentValues(file, System.currentTimeMillis());
-            localContentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, localContentValues);
-
-            Intent localIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
-            final Uri localUri = Uri.fromFile(file);
-            localIntent.setData(localUri);
-            context.sendBroadcast(localIntent);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public static ContentValues getImageContentValues(File paramFile, long paramLong) {
-        ContentValues localContentValues = new ContentValues();
-        localContentValues.put("title", paramFile.getName());
-        localContentValues.put("_display_name", paramFile.getName());
-        localContentValues.put("mime_type", "image/jpeg");
-        localContentValues.put("datetaken", Long.valueOf(paramLong));
-        localContentValues.put("date_modified", Long.valueOf(paramLong));
-        localContentValues.put("date_added", Long.valueOf(paramLong));
-        localContentValues.put("orientation", Integer.valueOf(0));
-        localContentValues.put("_data", paramFile.getAbsolutePath());
-        localContentValues.put("_size", Long.valueOf(paramFile.length()));
-        return localContentValues;
-    }
-
-    public static String getFilePathFromURI(Context context, Uri contentUri) {
-        File rootDataDir = context.getExternalFilesDir(null);
-//        MyApplication.getMyContext().getExternalFilesDir(null).getPath();
-        String fileName = getFileName(contentUri);
-        if (!TextUtils.isEmpty(fileName)) {
-            File copyFile = new File(rootDataDir + File.separator + fileName);
-            copyFile(context, contentUri, copyFile);
-            return copyFile.getAbsolutePath();
-        }
-        return null;
-    }
-    public static String getFileName(Uri uri) {
-        if (uri == null) return null;
-        String fileName = null;
-        String path = uri.getPath();
-        int cut = path.lastIndexOf('/');
-        if (cut != -1) {
-            fileName = path.substring(cut + 1);
-        }
-        return fileName;
-    }
-
-    public static void copyFile(Context context, Uri srcUri, File dstFile) {
-        try {
-            InputStream inputStream = context.getContentResolver().openInputStream(srcUri);
-            if (inputStream == null) return;
-            OutputStream outputStream = new FileOutputStream(dstFile);
-            copyStream(inputStream, outputStream);
-            inputStream.close();
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static int copyStream(InputStream input, OutputStream output) throws Exception, IOException {
-        final int BUFFER_SIZE = 1024 * 2;
-        byte[] buffer = new byte[BUFFER_SIZE];
-        BufferedInputStream in = new BufferedInputStream(input, BUFFER_SIZE);
-        BufferedOutputStream out = new BufferedOutputStream(output, BUFFER_SIZE);
-        int count = 0, n = 0;
-        try {
-            while ((n = in.read(buffer, 0, BUFFER_SIZE)) != -1) {
-                out.write(buffer, 0, n);
-                count += n;
-            }
-            out.flush();
-        } finally {
-            try {
-                out.close();
-            } catch (IOException e) {
-            }
-            try {
-                in.close();
-            } catch (IOException e) {
-            }
-        }
-        return count;
-    }
-
-
-    /**
      * 通过uri  获取文件路径
      * @param context
      * @param imageUri
@@ -660,35 +559,6 @@ public class EaseCommonUtils {
      */
     private static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
-    }
-
-
-    /**
-     * Android 10 以上适配 另一种写法
-     * @param context
-     * @param uri
-     * @return
-     */
-    private static String getFileFromContentUri(Context context, Uri uri) {
-        if (uri == null) {
-            return null;
-        }
-        String filePath;
-        String[] filePathColumn = {MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME};
-        ContentResolver contentResolver = context.getContentResolver();
-        Cursor cursor = contentResolver.query(uri, filePathColumn, null,
-                null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-            try {
-                filePath = cursor.getString(cursor.getColumnIndex(filePathColumn[0]));
-                return filePath;
-            } catch (Exception e) {
-            } finally {
-                cursor.close();
-            }
-        }
-        return "";
     }
 
     /**

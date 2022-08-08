@@ -13,31 +13,29 @@
  */
 package com.hyphenate.easeui.ui;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
-import android.content.ContentResolver;
-import android.content.Context;
+import android.content.ContentValues;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.FileUtils;
+import android.os.Looper;
+import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.webkit.MimeTypeMap;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.documentfile.provider.DocumentFile;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
@@ -50,14 +48,8 @@ import com.hyphenate.easeui.utils.EaseFileUtils;
 import com.hyphenate.easeui.widget.photoview.EasePhotoView;
 import com.hyphenate.easeui.widget.photoview.PhotoViewAttacher;
 import com.hyphenate.util.EMLog;
-import com.hyphenate.util.UriUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.OutputStream;
 
 /**
  * download and show original image
@@ -115,12 +107,67 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 			public void onClick(View v) {
 				Uri fileUri = ((EMImageMessageBody) msg.getBody()).getLocalUri();
 				String filePath = EaseCommonUtils.getFileAbsolutePath(getApplicationContext(), fileUri);
-				boolean save = EaseCommonUtils.saveImage(getApplicationContext(), new File(filePath));
-				EMLog.e(TAG, "save = " + save);
+				Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+				//在API29及之后是不需要申请的，默认是允许的
+				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q && ContextCompat.checkSelfPermission(EaseShowBigImageActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+					ActivityCompat.requestPermissions(EaseShowBigImageActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+				} else {
+					//保存图片到相册
+					SaveImage(bitmap);
+				}
 			}
 		});
 	}
-	
+
+	//请求权限后的结果回调
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		if (requestCode == 0) {
+			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+			} else {
+				Toast.makeText(this, "你拒绝了该权限，无法保存图片！", Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+
+	private void SaveImage(Bitmap bitmap) {
+		//创建一个子线程，将耗时任务在子线程中完成，防止主线程被阻塞
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					//创建一个保存的Uri
+					Uri saveUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
+					if (TextUtils.isEmpty(saveUri.toString())) {
+						Looper.prepare();
+						Toast.makeText(EaseShowBigImageActivity.this, "保存失败！", Toast.LENGTH_SHORT).show();
+						Looper.loop();
+						return;
+					}
+					OutputStream outputStream = getContentResolver().openOutputStream(saveUri);
+					//将位图写出到指定的位置
+					//第一个参数：格式JPEG 是可以压缩的一个格式 PNG 是一个无损的格式
+					//第二个参数：保留原图像90%的品质，压缩10% 这里压缩的是存储大小
+					//第三个参数：具体的输出流
+					if (bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)) {
+						Looper.prepare();
+						Toast.makeText(EaseShowBigImageActivity.this, "保存成功！", Toast.LENGTH_SHORT).show();
+						Looper.loop();
+					} else {
+						Looper.prepare();
+						Toast.makeText(EaseShowBigImageActivity.this, "保存失败！", Toast.LENGTH_SHORT).show();
+						Looper.loop();
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+	}
+
 	/**
 	 * download image
 	 * 

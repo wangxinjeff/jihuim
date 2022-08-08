@@ -86,6 +86,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     // resolve 64k limit
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.baidu.lbsyun:BaiduMapSDK_Map:7.5.2'
+    implementation 'com.baidu.lbsyun:BaiduMapSDK_Search:7.5.2'
+    implementation 'com.baidu.lbsyun:BaiduMapSDK_Util:7.5.2'
+    implementation 'com.baidu.lbsyun:BaiduMapSDK_Location:9.1.8'
 }
 
 // ADD THIS AT THE BOTTOM

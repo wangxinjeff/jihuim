@@ -23,9 +23,9 @@ public class ChooseActivity extends BaseInitActivity {
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         if(EaseIMHelper.getInstance().getAutoLogin()){
+            EaseIMHelper.getInstance().setAid("222510");
+            EaseIMHelper.getInstance().setAidToken("ad8s8d9adhka");
             if(EaseIMHelper.getInstance().getModel().getAppMode()){
-                EaseIMHelper.getInstance().setAid("222510");
-                EaseIMHelper.getInstance().setAidToken("ad8s8d9adhka");
                 startActivity(new Intent(ChooseActivity.this, AdminLoginActivity.class));
             } else {
                 LoginActivity.startAction(ChooseActivity.this);

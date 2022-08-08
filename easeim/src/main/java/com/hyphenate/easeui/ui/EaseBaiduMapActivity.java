@@ -151,7 +151,6 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 		try {
 			// 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
 			SDKInitializer.initialize(getApplicationContext());
-			LocationClient.setAgreePrivacy(true);
 		} catch (BaiduMapSDKException e) {
 			ToastUtils.showCenterToast("", "百度地图初始化失败", 0, Toast.LENGTH_SHORT);
 			return;
