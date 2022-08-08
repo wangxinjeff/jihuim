@@ -1,6 +1,7 @@
 package com.hyphenate.easeim.section.conversation;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -10,11 +11,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMPushConfigs;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.common.net.Resource;
+import com.hyphenate.easeim.common.repositories.EMPushManagerRepository;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.common.widget.SearchBar;
 import com.hyphenate.easeim.section.base.BaseActivity;
@@ -25,6 +28,7 @@ import com.hyphenate.easeim.section.dialog.DemoDialogFragment;
 import com.hyphenate.easeim.section.dialog.SimpleDialogFragment;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.manager.EaseSystemMsgManager;
+import com.hyphenate.easeui.manager.EaseThreadManager;
 import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.easeui.modules.conversation.EaseConversationListFragment;
 import com.hyphenate.easeui.modules.conversation.model.EaseConversationInfo;
@@ -157,6 +161,24 @@ public class ConversationListFragment extends EaseConversationListFragment{
         LiveDataBus messageChange = messageViewModel.getMessageChange();
         messageChange.with(EaseConstant.NOTIFY_CHANGE, EaseEvent.class).observe(getViewLifecycleOwner(), this::loadList);
         messageChange.with(EaseConstant.MESSAGE_CHANGE_CHANGE, EaseEvent.class).observe(getViewLifecycleOwner(), this::loadList);
+        messageChange.with(EaseConstant.MESSAGE_CHANGE_CHANGE, EaseEvent.class).observe(getViewLifecycleOwner(), event -> {
+            if(event == null) {
+                return;
+            }
+            if(event.isMessageChange()){
+                if(TextUtils.equals(EaseConstant.MESSAGE_CHANGE_CMD_RECEIVE, event.event)){
+                    if(TextUtils.equals(EaseConstant.NO_PUSH_CHANGE, event.message)){
+                        EaseThreadManager.getInstance().runOnIOThread(() -> {
+                                EMPushConfigs emPushConfigs = new EMPushManagerRepository().fetchPushConfigsFromServer();
+                                EaseThreadManager.getInstance().runOnMainThread(() -> loadList(event));
+                        });
+                    }
+                } else {
+                    loadList(event);
+                }
+            }
+        });
+
         messageChange.with(EaseConstant.GROUP_CHANGE, EaseEvent.class).observe(getViewLifecycleOwner(), this::loadList);
         messageChange.with(EaseConstant.CHAT_ROOM_CHANGE, EaseEvent.class).observe(getViewLifecycleOwner(), this::loadList);
         messageChange.with(EaseConstant.CONVERSATION_DELETE, EaseEvent.class).observe(getViewLifecycleOwner(), this::loadList);

@@ -20,8 +20,8 @@ import com.hyphenate.mediapicker.config.Constant;
 import com.hyphenate.mediapicker.config.MediaPickerConfig;
 import com.hyphenate.mediapicker.config.MediaPickerEnum;
 import com.hyphenate.mediapicker.photopicker.PhotoPickUtils;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.engine.ImageEngine;
+import com.hyphenate.mediapicker.Matisse;
+import com.hyphenate.mediapicker.engine.ImageEngine;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

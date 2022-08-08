@@ -18,11 +18,11 @@ package com.hyphenate.mediapicker.photopicker;
 import android.content.Context;
 import android.graphics.Point;
 
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.filter.Filter;
-import com.zhihu.matisse.internal.entity.IncapableCause;
-import com.zhihu.matisse.internal.entity.Item;
-import com.zhihu.matisse.internal.utils.PhotoMetadataUtils;
+import com.hyphenate.mediapicker.MimeType;
+import com.hyphenate.mediapicker.filter.Filter;
+import com.hyphenate.mediapicker.internal.entity.IncapableCause;
+import com.hyphenate.mediapicker.internal.entity.Item;
+import com.hyphenate.mediapicker.internal.utils.PhotoMetadataUtils;
 
 import java.util.HashSet;
 import java.util.Set;

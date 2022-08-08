@@ -42,7 +42,7 @@ import com.hyphenate.easeui.utils.Glide4Engine;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.PathUtil;
 import com.hyphenate.util.VersionUtils;
-import com.zhihu.matisse.Matisse;
+import com.hyphenate.mediapicker.Matisse;
 
 import java.io.File;
 import java.io.IOException;

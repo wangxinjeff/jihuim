@@ -162,10 +162,10 @@ public class EaseCommonUtils {
                     digest = getString(context, R.string.em_call_over);
                     nick = "";
                 } else if(message.getBooleanAttribute(EaseConstant.MESSAGE_TYPE_RECALL, false)){
-                    digest = "消息撤回";
+                    digest = nick + " 撤回了一条消息";
                     nick = "";
                 } else if(message.getBooleanAttribute(EaseConstant.CREATE_GROUP_PROMPT, false)){
-                    digest = "群组创建";
+                    digest = "群组创建成功";
                     nick = "";
                 } else{
                     digest = txtBody.getMessage();

@@ -175,6 +175,7 @@ public interface EaseConstant {
     String MESSAGE_ATTR_USER_AVATAR = "avatar";
 
     String NEW_GROUP_APPLY = "newGroupApply";
+    String NO_PUSH_CHANGE = "noPushChange";
 
     String MESSAGE_ATTR_EVENT_TYPE = "eventType";
 

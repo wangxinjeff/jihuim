@@ -275,6 +275,7 @@ public class EMChatManagerRepository extends BaseEMRepository{
                             message.setAttribute(EaseConstant.MESSAGE_ATTR_EVENT_TYPE, EaseConstant.EVENT_TYPE_USER_NO_PUSH);
                             message.setAttribute(EaseConstant.MESSAGE_ATTR_NO_PUSH, noPush);
                             message.setAttribute(EaseConstant.MESSAGE_ATTR_NO_PUSH_ID, userId);
+                            EMClient.getInstance().chatManager().sendMessage(message);
                             callBack.onSuccess(createLiveData(true));
                         } catch (HyphenateException e) {
                             e.printStackTrace();

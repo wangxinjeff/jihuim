@@ -1,8 +1,8 @@
 package com.hyphenate.mediapicker.config;
 
 import com.hyphenate.mediapicker.cameralibrary.JCameraView;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.ImageEngine;
+import com.hyphenate.mediapicker.MimeType;
+import com.hyphenate.mediapicker.engine.ImageEngine;
 
 import java.util.Set;
 

@@ -249,7 +249,10 @@ public class EaseChatMessageListLayout extends RelativeLayout implements IChatMe
         if(!isSingleChat()) {
             chatSetHelper.setShowNickname(true);
         }
-        conversation.markAllMessagesAsRead();
+        if(conversation != null){
+            conversation.markAllMessagesAsRead();
+        }
+
         if(loadDataType == LoadDataType.ROAM) {
             presenter.loadServerMessages(pageSize);
         }else if(loadDataType == LoadDataType.HISTORY) {

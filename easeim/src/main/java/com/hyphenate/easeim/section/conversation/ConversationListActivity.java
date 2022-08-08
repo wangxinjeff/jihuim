@@ -19,6 +19,7 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMPushConfigs;
 import com.hyphenate.chat.EMUserInfo;
 import com.hyphenate.easecallkit.base.EaseCallType;
 
@@ -30,6 +31,7 @@ import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.common.permission.PermissionsManager;
 import com.hyphenate.easeim.common.permission.PermissionsResultAction;
 import com.hyphenate.easeim.common.repositories.EMClientRepository;
+import com.hyphenate.easeim.common.repositories.EMPushManagerRepository;
 import com.hyphenate.easeim.common.utils.PreferenceManager;
 import com.hyphenate.easeim.common.utils.PushUtils;
 import com.hyphenate.easeim.common.utils.ToastUtils;
@@ -43,6 +45,7 @@ import com.hyphenate.easeim.section.group.activity.NewGroupActivity;
 import com.hyphenate.easeim.section.search.SearchGroupChatActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.manager.EaseThreadManager;
 import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.widget.EaseTitleBar;
@@ -205,8 +208,18 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
                 return;
             }
             if(event.isMessageChange()){
-                if(TextUtils.equals(EaseConstant.MESSAGE_CHANGE_CMD_RECEIVE, event.event) && TextUtils.equals(EaseConstant.NEW_GROUP_APPLY, event.message)){
-                    showRedIcon(View.VISIBLE);
+                if(TextUtils.equals(EaseConstant.MESSAGE_CHANGE_CMD_RECEIVE, event.event)){
+                    if(TextUtils.equals(EaseConstant.NEW_GROUP_APPLY, event.message)){
+                        showRedIcon(View.VISIBLE);
+                    } else if(TextUtils.equals(EaseConstant.NO_PUSH_CHANGE, event.message)){
+                        EaseThreadManager.getInstance().runOnIOThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                EMPushConfigs emPushConfigs = new EMPushManagerRepository().fetchPushConfigsFromServer();
+
+                            }
+                        });
+                    }
                 }
             }
         });

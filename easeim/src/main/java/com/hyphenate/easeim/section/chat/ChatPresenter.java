@@ -290,10 +290,25 @@ public class ChatPresenter extends EaseChatPresenter {
                 EMLog.e("oncmdreceiver:", body.action() + ":" + message.ext().toString());
                 if(TextUtils.equals("requestJoinGroupEvent", body.action())){
                     event = EaseEvent.create(EaseConstant.MESSAGE_CHANGE_CMD_RECEIVE, EaseEvent.TYPE.MESSAGE, EaseConstant.NEW_GROUP_APPLY);
+                } else if(TextUtils.equals("event", body.action())){
+                    String eventType = message.getStringAttribute(EaseConstant.MESSAGE_ATTR_EVENT_TYPE, "");
+                    if(TextUtils.equals(EaseConstant.EVENT_TYPE_USER_NO_PUSH, eventType) || TextUtils.equals(EaseConstant.EVENT_TYPE_GROUP_NO_PUSH, eventType)){
+                        if(TextUtils.equals(EaseConstant.EVENT_TYPE_USER_NO_PUSH, eventType)){
+                            boolean noPush = message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_NO_PUSH, false);
+                            String username = message.getStringAttribute(EaseConstant.MESSAGE_ATTR_NO_PUSH_ID, "");
+
+                        } else if(TextUtils.equals(EaseConstant.EVENT_TYPE_GROUP_NO_PUSH, eventType)){
+                            boolean noPush = message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_NO_PUSH, false);
+                            String username =message.getStringAttribute(EaseConstant.MESSAGE_ATTR_NO_PUSH_ID, "");
+
+                        }
+                        event = EaseEvent.create(EaseConstant.MESSAGE_CHANGE_CMD_RECEIVE, EaseEvent.TYPE.MESSAGE, EaseConstant.NO_PUSH_CHANGE);
+                    }
+
+
                 }
             }
         }
-
 
         messageChangeLiveData.with(EaseConstant.MESSAGE_CHANGE_CHANGE).postValue(event);
     }
