@@ -321,9 +321,9 @@ public class EMChatManagerRepository extends BaseEMRepository{
                     MediaType JSON = MediaType.get("application/json; charset=utf-8");
                     OkHttpClient client = new OkHttpClient();
                     JSONObject json = new JSONObject();
-                    json.put("aid", EaseIMHelper.getInstance().getModel().getAid());
-                    json.put("type", type);
-                    json.put("token", EaseIMHelper.getInstance().getModel().getAidToken());
+                    json.put("aid", "222510");
+                    json.put("orderType", type);
+                    json.put("token", "ad8s8d9adhka");
                     RequestBody body = RequestBody.create(json.toString(), JSON);
 
                     Headers headers = new Headers.Builder()

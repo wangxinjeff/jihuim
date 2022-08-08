@@ -10,9 +10,6 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
-import android.widget.Toast;
-
-import com.heytap.msp.push.HeytapPushManager;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMChatManager;
@@ -432,7 +429,7 @@ public class EaseIMHelper {
     public void initPush(Context context) {
         if(EaseIM.getInstance().isMainProcess(context)) {
             //OPPO SDK升级到2.1.0后需要进行初始化
-            HeytapPushManager.init(context, true);
+//            HeytapPushManager.init(context, true);
         }
     }
 
@@ -577,9 +574,9 @@ public class EaseIMHelper {
     public void showNotificationPermissionDialog() {
         EMPushType pushType = EMPushHelper.getInstance().getPushType();
         // oppo
-        if(pushType == EMPushType.OPPOPUSH && HeytapPushManager.isSupportPush(mainContext)) {
-            HeytapPushManager.requestNotificationPermission();
-        }
+//        if(pushType == EMPushType.OPPOPUSH && HeytapPushManager.isSupportPush(mainContext)) {
+//            HeytapPushManager.requestNotificationPermission();
+//        }
     }
 
     /**

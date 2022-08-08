@@ -25,7 +25,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:tabSelectedTextColor="?attr/normalTextColor"
         app:tabTextColor="?attr/conContentTimeColor"
-        app:tabIndicator="@null"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorColor="?attr/normalTextColor"
         android:background="?attr/themeBgColor"
         />
 

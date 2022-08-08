@@ -119,7 +119,7 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
             titleBar.setLeftImageResource(R.drawable.icon_back_admin);
             itemGroupNote.setVisibility(View.VISIBLE);
             if(isOwner()){
-//                iconNext.setVisibility(View.VISIBLE);
+                iconNext.setVisibility(View.VISIBLE);
                 itemGroupName.setItemShowArrow(true);
                 itemGroupMute.setVisibility(View.VISIBLE);
             }
