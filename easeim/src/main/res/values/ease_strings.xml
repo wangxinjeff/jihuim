@@ -1,5 +1,5 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">Easemob</string>
+    <string name="em_app_name">Easemob</string>
 
     <string name="location_recv">[%1$s\'s location]</string>
     <string name="location_prefix">[My location]</string>
@@ -99,6 +99,7 @@
     <string name="not_add_service_group">You are not currently enrolled in any service group</string>
     <string name="say_what">Say what</string>
     <string name="new_message">New Message</string>
+    <string name="new_call_invite">New call invite</string>
 
     <string name="confirm">OK</string>
     <string name="loading">Loading&#8230;</string>

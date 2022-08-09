@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.hyphenate.mediapicker.cameralibrary.JCameraView;
 import com.hyphenate.mediapicker.config.Constant;
 import com.hyphenate.mediapicker.config.MediaPickerConfig;
-import com.tbruyelle.rxpermissions3.RxPermissions;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 /**
  * 拍照相机工具类

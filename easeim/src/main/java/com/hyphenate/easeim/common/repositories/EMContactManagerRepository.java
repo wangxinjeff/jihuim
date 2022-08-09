@@ -558,7 +558,7 @@ public class EMContactManagerRepository extends BaseEMRepository{
                     OkHttpClient client = new OkHttpClient();
                     JSONObject json = new JSONObject();
                     json.put("username", keyword);
-                    RequestBody body = RequestBody.create(json.toString(), JSON);
+                    RequestBody body = RequestBody.create(JSON, json.toString());
 
                     Headers headers = new Headers.Builder()
                             .add("Authorization", EMClient.getInstance().getAccessToken())
@@ -619,7 +619,7 @@ public class EMContactManagerRepository extends BaseEMRepository{
                     OkHttpClient client = new OkHttpClient();
                     JSONObject json = new JSONObject();
                     json.put("username", keyword);
-                    RequestBody body = RequestBody.create(json.toString(), JSON);
+                    RequestBody body = RequestBody.create(JSON, json.toString());
 
                     Headers headers = new Headers.Builder()
                             .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())

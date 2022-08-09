@@ -626,7 +626,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     JSONObject json = new JSONObject();
                     json.put("groupName", groupName);
 
-                    RequestBody body = RequestBody.create(json.toString(), JSON);
+                    RequestBody body = RequestBody.create(JSON, json.toString());
 
                     Headers headers = new Headers.Builder()
                             .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())
@@ -871,7 +871,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     }
                     json.put("waiterAids", waiters);
 
-                    RequestBody body = RequestBody.create(json.toString(), JSON);
+                    RequestBody body = RequestBody.create(JSON, json.toString());
 
                     Headers headers = new Headers.Builder()
                             .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())
@@ -935,7 +935,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     }
                     json.put("waiterAids", waiters);
 
-                    RequestBody body = RequestBody.create(json.toString(), JSON);
+                    RequestBody body = RequestBody.create(JSON, json.toString());
 
                     Headers headers = new Headers.Builder()
                             .add("Authorization", EMClient.getInstance().getAccessToken())
@@ -1129,7 +1129,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     json.put("username", EaseIMHelper.getInstance().getCurrentUser());
                     json.put("page", page);
                     json.put("size", size);
-                    RequestBody body = RequestBody.create(json.toString(), JSON);
+                    RequestBody body = RequestBody.create(JSON, json.toString());
 
                     Headers headers = new Headers.Builder()
                             .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())
@@ -1210,7 +1210,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     json.put("username", bean.getUserName());
                     json.put("role", bean.getRole());
                     json.put("option", state);
-                    RequestBody body = RequestBody.create(json.toString(), JSON);
+                    RequestBody body = RequestBody.create(JSON, json.toString());
 
                     Headers headers = new Headers.Builder()
                             .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())
@@ -1459,7 +1459,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     json.put("waiterAids", waiters);
                     json.put("groupType", "MANUAL");
                     json.put("action", true);
-                    RequestBody body = RequestBody.create(json.toString(), JSON);
+                    RequestBody body = RequestBody.create(JSON, json.toString());
 
                     Headers headers = new Headers.Builder()
                             .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())
@@ -1622,7 +1622,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     OkHttpClient client = new OkHttpClient();
                     JSONObject json = new JSONObject();
                     json.put("businessRemark", note);
-                    RequestBody body = RequestBody.create(json.toString(), JSON);
+                    RequestBody body = RequestBody.create(JSON, json.toString());
 
                     Headers headers = new Headers.Builder()
                             .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())
@@ -1677,7 +1677,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     json.put("groupType", groupType);
                     json.put("groupName", groupName);
                     json.put("source", source);
-                    RequestBody body = RequestBody.create(json.toString(), JSON);
+                    RequestBody body = RequestBody.create(JSON, json.toString());
 
                     Headers headers = new Headers.Builder()
                             .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())

@@ -967,7 +967,8 @@ public class EaseIMHelper {
         Map<String, EMConversation> map = EMClient.getInstance().chatManager().getAllConversations();
         for(EMConversation conversation : map.values()){
             if(isExclusiveGroup(conversation) && conversation.getUnreadMsgCount() > 0){
-                exclusiveUnread =+ conversation.getUnreadMsgCount();
+                exclusiveUnread += conversation.getUnreadMsgCount();
+                EMLog.e("testapi:", conversation.conversationId() + " = " + conversation.getUnreadMsgCount());
             }
         }
         int unread = totalUnread - exclusiveUnread;

@@ -325,7 +325,7 @@ public class EMChatManagerRepository extends BaseEMRepository{
                     json.put("aid", "222510");
                     json.put("orderType", type);
                     json.put("token", "ad8s8d9adhka");
-                    RequestBody body = RequestBody.create(json.toString(), JSON);
+                    RequestBody body = RequestBody.create(JSON, json.toString());
 
                     Headers headers = new Headers.Builder()
                             .add("Authorization", EMClient.getInstance().getAccessToken())

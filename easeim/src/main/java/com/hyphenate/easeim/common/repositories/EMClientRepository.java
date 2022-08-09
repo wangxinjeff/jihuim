@@ -105,7 +105,7 @@ public class EMClientRepository extends BaseEMRepository{
             JSONObject json = new JSONObject();
             json.put("phone", phone);
             json.put("password", password);
-            RequestBody body = RequestBody.create(json.toString(), JSON);
+            RequestBody body = RequestBody.create(JSON, json.toString());
             Request request = new Request.Builder()
                     .url(EaseIMHelper.getInstance().getServerHost()+"/v2/gov/arcfox/login")
                     .post(body)
@@ -383,7 +383,7 @@ public class EMClientRepository extends BaseEMRepository{
             json.put("username", userName);
             json.put("channelName", channelName);
 
-            RequestBody body = RequestBody.create(json.toString(), JSON);
+            RequestBody body = RequestBody.create(JSON, json.toString());
             Headers headers = new Headers.Builder()
                     .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())
                     .add("username", EaseIMHelper.getInstance().getCurrentUser())

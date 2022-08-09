@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.hyphenate.mediapicker.config.Constant;
 import com.hyphenate.mediapicker.config.MediaPickerConfig;
-import com.tbruyelle.rxpermissions3.RxPermissions;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.hyphenate.mediapicker.Matisse;
 import com.hyphenate.mediapicker.filter.Filter;
 
