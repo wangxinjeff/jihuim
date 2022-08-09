@@ -581,15 +581,19 @@ public class EMContactManagerRepository extends BaseEMRepository{
                             if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
                                 try {
                                     JSONObject result = new JSONObject(responseBody);
-                                    JSONArray entities = result.getJSONArray("entities");
-                                    List<String> list = new ArrayList<>();
-                                    if(entities.length() > 0){
-                                        JSONObject item = entities.getJSONObject(0);
-                                        list.add(item.optString("userName"));
+                                    String status = result.optString("status");
+                                    if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
+                                        JSONArray entities = result.getJSONArray("entities");
+                                        List<String> list = new ArrayList<>();
+                                        if(entities.length() > 0){
+                                            JSONObject item = entities.getJSONObject(0);
+                                            list.add(item.optString("userName"));
+                                        }
+                                        callBack.onSuccess(createLiveData(list));
+                                    } else {
+                                        callBack.onError(EMError.GENERAL_ERROR, "search user failed");
                                     }
-                                    callBack.onSuccess(createLiveData(list));
                                 } catch (JSONException e) {
-                                    e.printStackTrace();
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
@@ -642,13 +646,18 @@ public class EMContactManagerRepository extends BaseEMRepository{
                             if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
                                 try {
                                     JSONObject result = new JSONObject(responseBody);
-                                    JSONArray entities = result.getJSONArray("entities");
-                                    List<String> list = new ArrayList<>();
-                                    if(entities.length() > 0){
-                                        JSONObject item = entities.getJSONObject(0);
-                                        list.add(item.optString("userName"));
+                                    String status = result.optString("status");
+                                    if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
+                                        JSONArray entities = result.getJSONArray("entities");
+                                        List<String> list = new ArrayList<>();
+                                        if(entities.length() > 0){
+                                            JSONObject item = entities.getJSONObject(0);
+                                            list.add(item.optString("userName"));
+                                        }
+                                        callBack.onSuccess(createLiveData(list));
+                                    } else {
+                                        callBack.onError(EMError.GENERAL_ERROR, "search user failed");
                                     }
-                                    callBack.onSuccess(createLiveData(list));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());

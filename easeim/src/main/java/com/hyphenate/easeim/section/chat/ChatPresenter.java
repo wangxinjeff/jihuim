@@ -420,6 +420,8 @@ public class ChatPresenter extends EaseChatPresenter {
                 new EMPushManagerRepository().fetchPushConfigsFromServer();
                 isPushConfigsWithServer = true;
             }
+
+            LiveDataBus.get().with(EaseConstant.ACCOUNT_CHANGE).postValue(new EaseEvent(EaseConstant.ACCOUNT_CONNECT, EaseEvent.TYPE.ACCOUNT));
         }
 
         /**
@@ -443,6 +445,8 @@ public class ChatPresenter extends EaseChatPresenter {
                 event = EaseConstant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD;
             } else if (error == EMError.USER_KICKED_BY_OTHER_DEVICE) {
                 event = EaseConstant.ACCOUNT_KICKED_BY_OTHER_DEVICE;
+            } else if (error == EMError.NETWORK_ERROR){
+                event = EaseConstant.ACCOUNT_DIS;
             }
             if(!TextUtils.isEmpty(event)) {
                 LiveDataBus.get().with(EaseConstant.ACCOUNT_CHANGE).postValue(new EaseEvent(event, EaseEvent.TYPE.ACCOUNT));

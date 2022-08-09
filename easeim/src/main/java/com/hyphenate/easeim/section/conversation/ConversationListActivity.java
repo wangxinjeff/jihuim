@@ -82,6 +82,8 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
 
     private boolean isNotify;
 
+    private LinearLayout disconnectView;
+
     public static void actionStart(Context context, int conversationsType){
         Intent intent = new Intent(context, ConversationListActivity.class);
         intent.putExtra(EaseConstant.EXTRA_CONVERSATIONS_TYPE, conversationsType);
@@ -118,6 +120,7 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
             mTitleBar.setLeftLayoutVisibility(View.GONE);
             mTitleBar.setRightImageResource(R.drawable.em_home_menu_add);
         }
+        disconnectView = findViewById(R.id.disconnect_view);
         switchToHome();
 
         popView = LayoutInflater.from(this).inflate(R.layout.pop_conversation_list, null, false);
@@ -221,6 +224,23 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
                         });
                     }
                 }
+            }
+        });
+        LiveDataBus.get().with(EaseConstant.ACCOUNT_CHANGE, EaseEvent.class).observe(this, event -> {
+            if(event == null) {
+                return;
+            }
+            if(!event.isAccountChange()) {
+                return;
+            }
+
+            String accountEvent = event.event;
+            if(TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_DIS)){
+                disconnectView.setVisibility(View.VISIBLE);
+            } else if (TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_CONNECT)){
+                disconnectView.setVisibility(View.GONE);
+            } else {
+                disconnectView.setVisibility(View.VISIBLE);
             }
         });
 

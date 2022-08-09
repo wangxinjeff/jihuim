@@ -146,6 +146,7 @@ public class EaseConversationDelegate extends EaseDefaultConversationDelegate {
         } else {
             holder.message.setText("");
             holder.time.setText("");
+            holder.mMsgState.setVisibility(View.GONE);
         }
 
         if(holder.mentioned.getVisibility() != View.VISIBLE) {

@@ -647,7 +647,17 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                             String responseBody = response.body().string();
                             if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
-                                callBack.onSuccess(createLiveData(groupName));
+                                try {
+                                    JSONObject result = new JSONObject(responseBody);
+                                    String status = result.optString("status");
+                                    if (TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)) {
+                                        callBack.onSuccess(createLiveData(groupName));
+                                    } else {
+                                        callBack.onError(EMError.GENERAL_ERROR, "modify groupName failed");
+                                    }
+                                }catch (JSONException e){
+                                    callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                                }
                             } else {
                                 callBack.onError(EMError.GENERAL_ERROR, "modify groupName failed");
                             }
@@ -894,9 +904,13 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
                                 try {
                                     JSONObject result = new JSONObject(responseBody);
-                                    callBack.onSuccess(createLiveData(true));
+                                    String status = result.optString("status");
+                                    if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
+                                        callBack.onSuccess(createLiveData(true));
+                                    } else {
+                                        callBack.onError(EMError.GENERAL_ERROR, "add member failed");
+                                    }
                                 } catch (JSONException e) {
-                                    e.printStackTrace();
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
@@ -959,9 +973,13 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
                                 try {
                                     JSONObject result = new JSONObject(responseBody);
-                                    callBack.onSuccess(createLiveData(true));
+                                    String status = result.optString("status");
+                                    if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
+                                        callBack.onSuccess(createLiveData(true));
+                                    } else {
+                                        callBack.onError(EMError.GENERAL_ERROR, "add member failed");
+                                    }
                                 } catch (JSONException e) {
-                                    e.printStackTrace();
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
@@ -1153,30 +1171,34 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                 try {
                                     List<GroupApplyBean> list = new ArrayList<>();
                                     JSONObject result = new JSONObject(responseBody);
-                                    JSONObject entity = result.getJSONObject("entity");
-                                    JSONArray data = entity.getJSONArray("data");
-                                    if(data.length() > 0){
-                                        for(int i = 0; i < data.length(); i ++){
-                                            JSONObject item = data.getJSONObject(i);
-                                            GroupApplyBean bean = new GroupApplyBean();
-                                            bean.setUserName(item.optString("userName"));
-                                            bean.setGroupId(item.optString("groupId"));
-                                            bean.setGroupName(item.optString("groupName"));
-                                            if(TextUtils.equals(item.optString("state"), "wait")){
-                                                bean.setOperated(false);
-                                            } else {
-                                                bean.setOperated(true);
-                                                bean.setOperatedResult(item.optString("state"));
+                                    String status = result.optString("status");
+                                    if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
+                                        JSONObject entity = result.getJSONObject("entity");
+                                        JSONArray data = entity.getJSONArray("data");
+                                        if(data.length() > 0){
+                                            for(int i = 0; i < data.length(); i ++){
+                                                JSONObject item = data.getJSONObject(i);
+                                                GroupApplyBean bean = new GroupApplyBean();
+                                                bean.setUserName(item.optString("userName"));
+                                                bean.setGroupId(item.optString("groupId"));
+                                                bean.setGroupName(item.optString("groupName"));
+                                                if(TextUtils.equals(item.optString("state"), "wait")){
+                                                    bean.setOperated(false);
+                                                } else {
+                                                    bean.setOperated(true);
+                                                    bean.setOperatedResult(item.optString("state"));
+                                                }
+                                                bean.setRole(item.optString("role"));
+                                                bean.setInviterName(item.optString("inviter"));
+                                                list.add(bean);
                                             }
-                                            bean.setRole(item.optString("role"));
-                                            bean.setInviterName(item.optString("inviter"));
-                                            list.add(bean);
                                         }
-                                    }
 
-                                    callBack.onSuccess(createLiveData(list));
+                                        callBack.onSuccess(createLiveData(list));
+                                    } else {
+                                        callBack.onError(EMError.GENERAL_ERROR, "get group apply failed");
+                                    }
                                 } catch (JSONException e) {
-                                    e.printStackTrace();
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
@@ -1233,15 +1255,19 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
                                 try {
                                     JSONObject result = new JSONObject(responseBody);
-                                    bean.setOperated(true);
-                                    bean.setOperatedResult(state);
-                                    callBack.onSuccess(createLiveData(bean));
+                                    String status = result.optString("status");
+                                    if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
+                                        bean.setOperated(true);
+                                        bean.setOperatedResult(state);
+                                        callBack.onSuccess(createLiveData(bean));
+                                    } else {
+                                        callBack.onError(EMError.GENERAL_ERROR, "operation group apply failed");
+                                    }
                                 } catch (JSONException e) {
-                                    e.printStackTrace();
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
-                                callBack.onError(EMError.GENERAL_ERROR, "");
+                                callBack.onError(EMError.GENERAL_ERROR, "operation group apply failed");
                             }
                         }
                     });
@@ -1482,11 +1508,15 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
                                 try {
                                     JSONObject result = new JSONObject(responseBody);
-                                    JSONObject data = result.getJSONObject("data");
-                                    String groupId = data.getString("groupId");
-                                    callBack.onSuccess(createLiveData(groupId));
+                                    String status = result.optString("status");
+                                    if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
+                                        JSONObject data = result.getJSONObject("data");
+                                        String groupId = data.getString("groupId");
+                                        callBack.onSuccess(createLiveData(groupId));
+                                    }else {
+                                        callBack.onError(EMError.GENERAL_ERROR, "create group failed");
+                                    }
                                 } catch (JSONException e) {
-                                    e.printStackTrace();
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
@@ -1590,15 +1620,19 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
                                 try {
                                     JSONObject result = new JSONObject(responseBody);
-                                    JSONObject entity = result.getJSONObject("data");
-                                    String businessRemark = entity.optString("businessRemark");
-                                    String sysDesc = entity.optString("sysDesc");
-                                    List<String> list = new ArrayList<>();
-                                    list.add(sysDesc);
-                                    list.add(businessRemark);
-                                    callBack.onSuccess(createLiveData(list));
+                                    String status = result.optString("status");
+                                    if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
+                                        JSONObject entity = result.getJSONObject("data");
+                                        String businessRemark = entity.optString("businessRemark");
+                                        String sysDesc = entity.optString("sysDesc");
+                                        List<String> list = new ArrayList<>();
+                                        list.add(sysDesc);
+                                        list.add(businessRemark);
+                                        callBack.onSuccess(createLiveData(list));
+                                    } else {
+                                        callBack.onError(EMError.GENERAL_ERROR, "get service note failed");
+                                    }
                                 } catch (JSONException e) {
-                                    e.printStackTrace();
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
@@ -1643,7 +1677,17 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                             String responseBody = response.body().string();
                             if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
-                                callBack.onSuccess(createLiveData(note));
+                                try {
+                                    JSONObject result = new JSONObject(responseBody);
+                                    String status = result.optString("status");
+                                    if (TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)) {
+                                        callBack.onSuccess(createLiveData(note));
+                                    } else {
+                                        callBack.onError(EMError.GENERAL_ERROR, "modify service note failed");
+                                    }
+                                }catch (JSONException e){
+                                    callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                                }
                             } else {
                                 callBack.onError(EMError.GENERAL_ERROR, "modify service note failed");
                             }
@@ -1700,20 +1744,24 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
                                 try{
                                     JSONObject result = new JSONObject(responseBody);
-                                    JSONArray data = result.getJSONArray("data");
-                                    List<SearchResult> list = new ArrayList<>();
-                                    if(data.length() > 0){
-                                        for(int i = 0; i < data.length(); i++){
-                                            JSONObject item = data.getJSONObject(i);
-                                            SearchResult searchResult = new SearchResult();
-                                            searchResult.setName(item.optString("groupName"));
-                                            searchResult.setId(item.optString("groupId"));
-                                            list.add(searchResult);
+                                    String status = result.optString("status");
+                                    if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
+                                        JSONArray data = result.getJSONArray("data");
+                                        List<SearchResult> list = new ArrayList<>();
+                                        if(data.length() > 0){
+                                            for(int i = 0; i < data.length(); i++){
+                                                JSONObject item = data.getJSONObject(i);
+                                                SearchResult searchResult = new SearchResult();
+                                                searchResult.setName(item.optString("groupName"));
+                                                searchResult.setId(item.optString("groupId"));
+                                                list.add(searchResult);
+                                            }
                                         }
+                                        callBack.onSuccess(createLiveData(list));
+                                    } else {
+                                        callBack.onError(EMError.GENERAL_ERROR, "search group list failed");
                                     }
-                                    callBack.onSuccess(createLiveData(list));
                                 }catch (JSONException e){
-                                    e.printStackTrace();
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {
@@ -1722,7 +1770,6 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                         }
                     });
                 }catch(JSONException e){
-                    e.printStackTrace();
                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                 }
             }

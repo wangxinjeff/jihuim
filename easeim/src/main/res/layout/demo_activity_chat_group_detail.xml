@@ -205,6 +205,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_group_notice"
                 app:arrowItemTitle="@string/em_chat_group_detail_introduction"
+                app:arrowItemShowDivider="false"
                 android:background="?attr/themeFloatBgColor"
                 app:arrowItemTitleColor="?attr/groupDetailMid"
                 app:arrowItemContentColor="?attr/groupDetailMid"

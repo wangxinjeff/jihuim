@@ -90,6 +90,9 @@
     <color name="btn_un_clicked">#4798cb</color>
     <color name="btn_clicked">#4798cb</color>
 
+    <color name="disconnect_bg">#fee6e6</color>
+    <color name="disconnect_text">#fe5967</color>
+
     <color name="white">#feffffff</color>
     <color name="gray">#ffe9e9e9</color>
     <color name="blue">#FF5A5DD0</color>

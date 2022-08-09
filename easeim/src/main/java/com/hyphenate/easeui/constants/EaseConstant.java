@@ -70,6 +70,8 @@ public interface EaseConstant {
     String DEFAULT_SYSTEM_MESSAGE_TYPE = "em_system_type";
 
     String ACCOUNT_CHANGE = "account_change";
+    String ACCOUNT_DIS = "account_disconnect";
+    String ACCOUNT_CONNECT = "account_connect";
     String ACCOUNT_REMOVED = "account_removed";
     String ACCOUNT_CONFLICT = "conflict";
     String ACCOUNT_FORBIDDEN = "user_forbidden";

@@ -349,22 +349,26 @@ public class EMChatManagerRepository extends BaseEMRepository{
                                 try {
                                     List<EMOrder> list = new ArrayList<>();
                                     JSONObject result = new JSONObject(responseBody);
-                                    JSONObject entity = result.getJSONObject("entity");
-                                    JSONArray data = entity.getJSONArray("data");
-                                    if(data.length() > 0){
-                                        for(int i = 0; i < data.length(); i ++){
-                                            JSONObject item = data.getJSONObject(i);
-                                            EMOrder order = new EMOrder();
-                                            order.setId(item.optString("orderId"));
-                                            order.setName(item.optString("productName"));
-                                            order.setType(item.optString("orderType"));
-                                            order.setDate(item.optString("orderDate"));
-                                            list.add(order);
+                                    String status = result.optString("status");
+                                    if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
+                                        JSONObject entity = result.getJSONObject("entity");
+                                        JSONArray data = entity.getJSONArray("data");
+                                        if(data.length() > 0){
+                                            for(int i = 0; i < data.length(); i ++){
+                                                JSONObject item = data.getJSONObject(i);
+                                                EMOrder order = new EMOrder();
+                                                order.setId(item.optString("orderId"));
+                                                order.setName(item.optString("productName"));
+                                                order.setType(item.optString("orderType"));
+                                                order.setDate(item.optString("orderDate"));
+                                                list.add(order);
+                                            }
                                         }
+                                        callBack.onSuccess(createLiveData(list));
+                                    } else {
+                                        callBack.onError(EMError.GENERAL_ERROR, "fetchOrderListFroServer failed");
                                     }
-                                    callBack.onSuccess(createLiveData(list));
                                 } catch (JSONException e) {
-                                    e.printStackTrace();
                                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                                 }
                             } else {

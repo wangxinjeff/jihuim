@@ -410,4 +410,6 @@
     <string name="button_original">Original</string>
     <string name="button_sure_default">Sure</string>
     <string name="button_sure">Sure(%1$d)</string>
+
+    <string name="check_network">Please check the network Settings</string>
 </resources>

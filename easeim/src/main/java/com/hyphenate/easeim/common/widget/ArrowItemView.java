@@ -141,6 +141,10 @@ public class ArrowItemView extends ConstraintLayout {
         ivArrow.setVisibility(show ? VISIBLE : GONE);
     }
 
+    public void setItemShowDivider(boolean show){
+        viewDivider.setVisibility(show ? VISIBLE : GONE);
+    }
+
     /**
      * sp to px
      * @param context

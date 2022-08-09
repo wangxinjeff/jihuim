@@ -690,7 +690,11 @@ public class EaseIMHelper {
 //
 //                //获取声网Token
 //                getRtcToken(url, callback);
-                clientRepository.getRtcTokenWithAdmin(userId, channelName,callback);
+                if(isAdmin()){
+                    clientRepository.getRtcTokenWithAdmin(userId, channelName,callback);
+                } else {
+                    clientRepository.getRtcTokenWithCustomer(userId, channelName,callback);
+                }
             }
 
             @Override
@@ -720,7 +724,12 @@ public class EaseIMHelper {
 //                    url += "&appkey=";
 //                    url +=  EMClient.getInstance().getOptions().getAppKey();
 //                    getUserIdAgoraUid(uid,url,callback);
-                    clientRepository.getAgoraUidWithAdmin(uid, channelName, callback);
+                    if(isAdmin()){
+                        clientRepository.getAgoraUidWithAdmin(uid, channelName, callback);
+                    } else {
+                        clientRepository.getAgoraUidWithCustomer(uid, channelName, callback);
+                    }
+
                 }else{
                     //设置用户昵称 头像
                     setEaseCallKitUserInfo(userName);

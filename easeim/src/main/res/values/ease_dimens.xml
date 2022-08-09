@@ -72,15 +72,16 @@
     <dimen name="member_item_avatar_size">38dp</dimen>
     <dimen name="member_item_height">64dp</dimen>
     <dimen name="member_item_start_padding">16dp</dimen>
-    <dimen name="icon_normal_size">24dp</dimen>
+    <dimen name="icon_normal_size">28dp</dimen>
+    <dimen name="icon_small_size">16dp</dimen>
     <dimen name="normal_height">48dp</dimen>
     <dimen name="margin_start_normal">8dp</dimen>
     <dimen name="margin_start">16dp</dimen>
+    <dimen name="margin_start_max">24dp</dimen>
     <dimen name="height_small">24dp</dimen>
     <dimen name="icon_size_small">13dp</dimen>
     <dimen name="margin_small">5dp</dimen>
     <dimen name="call_float_size">80dp</dimen>
-    <dimen name="next_size">28dp</dimen>
     <dimen name="read_ack_navigation_height">64dp</dimen>
 
     <dimen name="media_grid_size">48dp</dimen>

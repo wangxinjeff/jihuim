@@ -208,6 +208,7 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
+								image.setVisibility(View.GONE);
 								loadView.setVisibility(View.GONE);
 								loadFailedView.setVisibility(View.VISIBLE);
 							}

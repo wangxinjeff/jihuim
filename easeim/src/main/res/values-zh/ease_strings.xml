@@ -411,4 +411,6 @@
     <string name="button_original">原图</string>
     <string name="button_sure_default">确定</string>
     <string name="button_sure">确定(%1$d)</string>
+
+    <string name="check_network">网络不给力，请检查网络设置</string>
 </resources>
