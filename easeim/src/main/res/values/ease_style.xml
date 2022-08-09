@@ -116,6 +116,7 @@
         <item name="letterColor">@color/letter_color</item>
         <item name="callFloatBg">@color/call_float_bg_color</item>
         <item name="callFloatTimeBg">@color/call_float_bg_color</item>
+        <item name="conItemSelectColor">@color/con_item_select</item>
         <item name="btnClick">@color/btn_clicked</item>
         <item name="btnUnClick">@color/btn_un_clicked</item>
     </style>
@@ -173,6 +174,7 @@
         <item name="letterColor">@color/letter_color</item>
         <item name="callFloatBg">@color/call_float_bg_color</item>
         <item name="callFloatTimeBg">@color/call_float_time_bg_color</item>
+        <item name="conItemSelectColor">@color/con_item_select_color</item>
         <item name="btnClick">@color/btn_clicked</item>
         <item name="btnUnClick">@color/btn_un_clicked</item>
     </style>

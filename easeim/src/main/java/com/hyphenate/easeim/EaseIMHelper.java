@@ -215,7 +215,7 @@ public class EaseIMHelper {
         //设置呼叫超时时间
         callKitConfig.setCallTimeOut(30 * 1000);
         //设置声网AgoraAppId
-        callKitConfig.setAgoraAppId("15cb0d28b87b425ea613fc46f7c9f974");
+        callKitConfig.setAgoraAppId("e305be556e0f4846b8ad2c3e21bc78ec");
         callKitConfig.setEnableRTCToken(true);
         EaseCallKit.getInstance().init(context,callKitConfig);
         // Register the activities which you have registered in manifest
@@ -361,7 +361,7 @@ public class EaseIMHelper {
         // To get instance of EaseUser, here we get it from the user list in memory
         // You'd better cache it if you get it from your server
         EaseUser user = null;
-        if(username.equals(EMClient.getInstance().getCurrentUser()))
+        if(TextUtils.equals(username, EMClient.getInstance().getCurrentUser()))
             return getUserProfileManager().getCurrentUserInfo();
         user = getContactList().get(username);
         if(user == null){
@@ -679,17 +679,18 @@ public class EaseIMHelper {
             @Override
             public void onGenerateToken(String userId, String channelName, String appKey, EaseCallKitTokenCallback callback){
                 EMLog.d(TAG,"onGenerateToken userId:" + userId + " channelName:" + channelName + " appKey:"+ appKey);
-                String url = tokenUrl;
-                url += "?";
-                url += "userAccount=";
-                url += userId;
-                url += "&channelName=";
-                url += channelName;
-                url += "&appkey=";
-                url +=  appKey;
-
-                //获取声网Token
-                getRtcToken(url, callback);
+//                String url = tokenUrl;
+//                url += "?";
+//                url += "userAccount=";
+//                url += userId;
+//                url += "&channelName=";
+//                url += channelName;
+//                url += "&appkey=";
+//                url +=  appKey;
+//
+//                //获取声网Token
+//                getRtcToken(url, callback);
+                clientRepository.getRtcTokenWithAdmin(userId, channelName,callback);
             }
 
             @Override
@@ -710,15 +711,16 @@ public class EaseIMHelper {
             @Override
             public void onRemoteUserJoinChannel(String channelName, String userName, int uid, EaseGetUserAccountCallback callback){
                 if(userName == null || userName == ""){
-                    String url = uIdUrl;
-                    url += "?";
-                    url += "channelName=";
-                    url += channelName;
-                    url += "&userAccount=";
-                    url += EMClient.getInstance().getCurrentUser();
-                    url += "&appkey=";
-                    url +=  EMClient.getInstance().getOptions().getAppKey();
-                    getUserIdAgoraUid(uid,url,callback);
+//                    String url = uIdUrl;
+//                    url += "?";
+//                    url += "channelName=";
+//                    url += channelName;
+//                    url += "&userAccount=";
+//                    url += EMClient.getInstance().getCurrentUser();
+//                    url += "&appkey=";
+//                    url +=  EMClient.getInstance().getOptions().getAppKey();
+//                    getUserIdAgoraUid(uid,url,callback);
+                    clientRepository.getAgoraUidWithAdmin(uid, channelName, callback);
                 }else{
                     //设置用户昵称 头像
                     setEaseCallKitUserInfo(userName);
@@ -851,7 +853,7 @@ public class EaseIMHelper {
      * 设置callKit 用户头像昵称
      * @param userName
      */
-    private void setEaseCallKitUserInfo(String userName){
+    public void setEaseCallKitUserInfo(String userName){
         EaseUser user = getUserInfo(userName);
         EaseCallUserInfo userInfo = new EaseCallUserInfo();
         if(user != null){

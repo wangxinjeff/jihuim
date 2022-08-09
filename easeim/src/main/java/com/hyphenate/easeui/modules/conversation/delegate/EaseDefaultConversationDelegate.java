@@ -153,19 +153,20 @@ public abstract class EaseDefaultConversationDelegate extends EaseBaseConversati
 
         @Override
         public void setData(EaseConversationInfo item, int position) {
-            item.setOnSelectListener(new EaseConversationInfo.OnSelectListener() {
-                @Override
-                public void onSelect(boolean isSelected) {
-                    if(isSelected) {
-                    }else {
-                        if(item.isTop()) {
-                            itemView.setBackgroundResource(R.drawable.ease_conversation_top_bg);
-                        }else {
-                            itemView.setBackground(bgDrawable);
-                        }
-                    }
-                }
-            });
+//            item.setOnSelectListener(new EaseConversationInfo.OnSelectListener() {
+//                @Override
+//                public void onSelect(boolean isSelected) {
+//                    if(isSelected) {
+//                        itemView.setBackgroundResource(R.drawable.ease_conversation_item_selected);
+//                    }else {
+//                        if(item.isTop()) {
+//                            itemView.setBackgroundResource(R.drawable.ease_conversation_top_bg);
+//                        }else {
+//                            itemView.setBackground(bgDrawable);
+//                        }
+//                    }
+//                }
+//            });
         }
     }
 

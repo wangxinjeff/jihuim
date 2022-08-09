@@ -5,8 +5,7 @@
     android:layout_height="74dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list_itease_layout"
-    android:foreground="@drawable/em_ripple_click_gray"
-    android:longClickable="true">
+    android:background="@drawable/recycler_item_selector">
 
     <com.hyphenate.easeui.widget.EaseImageView
         android:id="@+id/avatar"

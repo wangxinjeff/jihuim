@@ -123,6 +123,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 	private LinearLayout inputView;
 	private LinearLayout searchIconView;
 	private ConstraintLayout searchResultView;
+	private boolean moveToPoi = false;
 
 	public static void actionStartForResult(Fragment fragment, int requestCode) {
 		Intent intent = new Intent(fragment.getContext(), EaseBaiduMapActivity.class);
@@ -259,6 +260,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 						actionId == EditorInfo.IME_ACTION_DONE ||
 						event != null && KeyEvent.KEYCODE_ENTER == event.getKeyCode() &&
 								KeyEvent.ACTION_DOWN == event.getAction()){
+					moveToPoi = true;
 					searchNearBy(searchView.getText().toString());
 					return true;
 				} else {
@@ -421,7 +423,9 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 				public void run() {
 					adapter.clearSelect();
 					adapter.setData(nearList);
-//					moveToPoi(nearList.get(0));
+					if(moveToPoi){
+						moveToPoi(nearList.get(0));
+					}
 				}
 			});
 		} else {
@@ -465,6 +469,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 		} else if (id == R.id.search_empty) {
 			searchView.setText("");
 		} else if (id == R.id.search_start) {
+			moveToPoi = true;
 			searchNearBy(searchView.getText().toString());
 		} else if (id == R.id.search_close) {
 			resetSearchBar();
@@ -534,6 +539,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 				Log.e(TAG, poiInfo.toString());
 				nearList.add(poiInfo);
 			}
+			moveToPoi = false;
 			searchNearBy("大厦");
 		}
 	}

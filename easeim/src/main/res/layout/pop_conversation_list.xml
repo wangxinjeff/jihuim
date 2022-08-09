@@ -11,6 +11,7 @@
         android:layout_width="136dp"
         android:layout_height="44dp"
         android:gravity="center_vertical"
+        android:background="@drawable/pop_item_selector"
         >
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/notify_icon"
@@ -35,6 +36,7 @@
         android:layout_width="136dp"
         android:layout_height="44dp"
         android:gravity="center_vertical"
+        android:background="@drawable/pop_item_selector"
         >
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="28dp"
@@ -58,6 +60,7 @@
         android:layout_width="136dp"
         android:layout_height="44dp"
         android:gravity="center_vertical"
+        android:background="@drawable/pop_item_selector"
         >
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="28dp"
@@ -81,6 +84,7 @@
         android:layout_width="136dp"
         android:layout_height="44dp"
         android:gravity="center_vertical"
+        android:background="@drawable/pop_item_selector"
         >
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="28dp"

@@ -13,6 +13,7 @@
         android:text="@string/group_name"
         android:gravity="center"
         android:textColor="?attr/normalTextColor"
+        android:background="@drawable/pop_item_selector"
         />
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/item2"
@@ -21,6 +22,7 @@
         android:text="@string/em_order_id"
         android:gravity="center"
         android:textColor="?attr/normalTextColor"
+        android:background="@drawable/pop_item_selector"
         />
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/item3"
@@ -29,6 +31,7 @@
         android:text="@string/em_phone_number"
         android:gravity="center"
         android:textColor="?attr/normalTextColor"
+        android:background="@drawable/pop_item_selector"
         />
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/item4"
@@ -37,6 +40,7 @@
         android:text="@string/em_win_code"
         android:gravity="center"
         android:textColor="?attr/normalTextColor"
+        android:background="@drawable/pop_item_selector"
         />
 
 </LinearLayout>

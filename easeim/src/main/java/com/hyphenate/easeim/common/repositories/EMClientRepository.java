@@ -11,6 +11,9 @@ import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMGroup;
+import com.hyphenate.easecallkit.base.EaseCallKitTokenCallback;
+import com.hyphenate.easecallkit.base.EaseGetUserAccountCallback;
+import com.hyphenate.easecallkit.base.EaseUserAccount;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.common.db.EaseDbHelper;
 import com.hyphenate.easeim.common.db.entity.EmUserEntity;
@@ -22,6 +25,7 @@ import com.hyphenate.easeim.common.utils.PreferenceManager;
 import com.hyphenate.easeui.EaseIM;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.manager.EaseThreadManager;
 import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.util.EMLog;
 
@@ -31,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -365,6 +370,119 @@ public class EMClientRepository extends BaseEMRepository{
                     }
                 } else {
                     callBack.onError(EMError.GENERAL_ERROR, "fetch service groups failed");
+                }
+            }
+        });
+    }
+
+    public void getRtcTokenWithAdmin(String userName, String channelName, EaseCallKitTokenCallback callBack){
+        try {
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.get("application/json; charset=utf-8");
+            JSONObject json = new JSONObject();
+            json.put("username", userName);
+            json.put("channelName", channelName);
+
+            RequestBody body = RequestBody.create(json.toString(), JSON);
+            Headers headers = new Headers.Builder()
+                    .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())
+                    .add("username", EaseIMHelper.getInstance().getCurrentUser())
+                    .build();
+            Request request = new Request.Builder()
+                    .url(EaseIMHelper.getInstance().getServerHost() + "/v2/rtc/token")
+                    .headers(headers)
+                    .post(body)
+                    .build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    callBack.onGetTokenError(EMError.GENERAL_ERROR, e.getMessage());
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String responseBody = response.body().string();
+                    if (response.code() == 200 && !TextUtils.isEmpty(responseBody)) {
+                        try {
+                            JSONObject result = new JSONObject(responseBody);
+                            String status = result.getString("status");
+                            if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
+                                JSONObject entity = result.getJSONObject("entity");
+                                String token = entity.optString("token");
+                                int uid = entity.optInt("uid");
+                                callBack.onSetToken(token, uid);
+                            } else {
+                                callBack.onGetTokenError(EMError.GENERAL_ERROR, "fetch rtc token failed");
+                            }
+
+                        } catch (JSONException e) {
+                            callBack.onGetTokenError(EMError.GENERAL_ERROR, e.getMessage());
+                        }
+                    } else {
+                        callBack.onGetTokenError(EMError.GENERAL_ERROR, "fetch rtc token failed");
+                    }
+                }
+            });
+        }catch(JSONException e){
+            callBack.onGetTokenError(EMError.GENERAL_ERROR, e.getMessage());
+        }
+    }
+
+    public void getAgoraUidWithAdmin(int uid, String channelName, EaseGetUserAccountCallback callBack){
+        OkHttpClient client = new OkHttpClient();
+
+        Headers headers = new Headers.Builder()
+                .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())
+                .add("username", EaseIMHelper.getInstance().getCurrentUser())
+                .build();
+        Request request = new Request.Builder()
+                .url(EaseIMHelper.getInstance().getServerHost() + "/v2/rtc/channle/" + channelName + "/show")
+                .headers(headers)
+                .get()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                callBack.onSetUserAccountError(EMError.GENERAL_ERROR, e.getMessage());
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String responseBody = response.body().string();
+                if (response.code() == 200 && !TextUtils.isEmpty(responseBody)) {
+                    try {
+                        JSONObject result = new JSONObject(responseBody);
+                        String status = result.getString("status");
+                        if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
+                            JSONObject entity = result.getJSONObject("entity");
+                            JSONArray rtcChannels = entity.getJSONArray("rtcChannels");
+                            List<EaseUserAccount> userAccounts = new ArrayList<>();
+                            if(rtcChannels.length() > 0){
+                                for(int i =0; i< rtcChannels.length(); i++){
+                                    String item = rtcChannels.getString(i);
+                                    String subItem = item.substring(2, item.length() - 2);
+                                    String[] subItems = subItem.split(", ");
+                                    String[] uIds = subItems[0].split("=");
+                                    String[] channels = subItems[1].split("=");
+                                    String[] userNames = subItems[2].split("=");
+                                    EMLog.e("getUid:", uIds[1] + " = " + channels[1] + " = " + userNames[1]);
+                                    if(TextUtils.equals(String.valueOf(uid), uIds[1])){
+                                        EaseIMHelper.getInstance().setEaseCallKitUserInfo(userNames[1]);
+                                    }
+
+                                    userAccounts.add(new EaseUserAccount(Integer.parseInt(uIds[1]), userNames[1]));
+                                }
+                            }
+                            EaseThreadManager.getInstance().runOnMainThread(() -> callBack.onUserAccount(userAccounts));
+                        } else {
+                            callBack.onSetUserAccountError(EMError.GENERAL_ERROR, "fetch agora uid failed");
+                        }
+
+                    } catch (JSONException e) {
+                        callBack.onSetUserAccountError(EMError.GENERAL_ERROR, e.getMessage());
+                    }
+                } else {
+                    callBack.onSetUserAccountError(EMError.GENERAL_ERROR, "fetch agora uid failed");
                 }
             }
         });

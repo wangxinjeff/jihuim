@@ -45,6 +45,7 @@
 
     <color name="call_float_bg">#f5f5f5</color>
     <color name="call_float_time_bg">#ffffff</color>
+    <color name="con_item_select">#f5f5f5</color>
 
 
     <color name="refused_bg">#edeff2</color>
@@ -85,6 +86,7 @@
     <color name="letter_color">#7e7e7f</color>
     <color name="call_float_bg_color">#1c1c1c</color>
     <color name="call_float_time_bg_color">#252525</color>
+    <color name="con_item_select_color">#252525</color>
     <color name="btn_un_clicked">#4798cb</color>
     <color name="btn_clicked">#4798cb</color>
 

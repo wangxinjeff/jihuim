@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hyphenate.chat.EMConversation;
+import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.adapter.EaseAdapterDelegate;
 import com.hyphenate.easeui.adapter.EaseBaseRecyclerViewAdapter;
@@ -219,20 +220,22 @@ public class EaseConversationListLayout extends EaseBaseLayout implements IConve
             }
         });
 
-        listAdapter.setOnItemLongClickListener(new com.hyphenate.easeui.interfaces.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(View view, int position) {
-                listAdapter.getItem(position).setSelected(true);
-                if(itemLongListener != null) {
-                    return itemLongListener.onItemLongClick(view, position);
+        if(EaseIMHelper.getInstance().isAdmin()){
+            listAdapter.setOnItemLongClickListener(new com.hyphenate.easeui.interfaces.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(View view, int position) {
+                    listAdapter.getItem(position).setSelected(true);
+                    if(itemLongListener != null) {
+                        return itemLongListener.onItemLongClick(view, position);
+                    }
+                    if(showDefaultMenu) {
+                        showDefaultMenu(view, position, listAdapter.getItem(position));
+                        return true;
+                    }
+                    return false;
                 }
-                if(showDefaultMenu) {
-                    showDefaultMenu(view, position, listAdapter.getItem(position));
-                    return true;
-                }
-                return false;
-            }
-        });
+            });
+        }
     }
 
     @Override

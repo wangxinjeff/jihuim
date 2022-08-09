@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/member_item_height"
     android:gravity="center_vertical"
+    android:background="@drawable/recycler_item_selector"
     >
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -30,7 +31,7 @@
         android:textColor="?attr/conContentTimeColor"
         android:text="@string/em_call_join_group"
         android:layout_marginStart="@dimen/margin_small"
-        android:layout_marginEnd="@dimen/margin_l"
+        android:layout_marginEnd="@dimen/margin_start"
         android:visibility="gone"
         />
 
@@ -39,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_small"
-        android:layout_marginEnd="@dimen/margin_l"
+        android:layout_marginEnd="@dimen/margin_start"
         android:src="@drawable/em_arrow_right" />
 
 </LinearLayout>
