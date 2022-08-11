@@ -87,6 +87,7 @@
         <item name="conGroupIdColor">@color/con_group_id</item>
         <item name="normalTextColor">@color/normal_text</item>
         <item name="groupDetailMid">@color/group_detail_mid</item>
+        <item name="groupDetailContent">@color/group_detail_content</item>
 
         <item name="inputViewTextColor">@color/input_view_text</item>
         <item name="inputViewBgColor">@color/input_view_bg</item>
@@ -146,6 +147,7 @@
         <item name="conGroupIdColor">@color/con_group_id_color</item>
         <item name="normalTextColor">@color/normal_text_color</item>
         <item name="groupDetailMid">@color/group_detail_mid_color</item>
+        <item name="groupDetailContent">@color/group_detail_content_color</item>
 
         <item name="inputViewTextColor">@color/input_view_text_color</item>
         <item name="inputViewBgColor">@color/input_view_bg_color</item>

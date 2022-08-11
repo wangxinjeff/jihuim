@@ -48,7 +48,7 @@ public class MultiMediaListAdapter extends EaseBaseRecyclerViewAdapter<EMMessage
     }
 
     private class SearchAllViewHolder extends ViewHolder<EMMessage>{
-        private AppCompatImageView image;
+        private EaseImageView image;
         private Context context;
         private AppCompatImageView iconVideo;
 

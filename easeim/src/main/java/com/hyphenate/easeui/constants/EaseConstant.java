@@ -169,7 +169,9 @@ public interface EaseConstant {
     String CONFERENCE_STATE_END = "endCall";
 
     String CREATE_GROUP_PROMPT = "groupCreate";
-    String CREATE_GROUP_NAME = "groupName";
+    String JOIN_GROUP_PROMPT = "groupJoin";
+    String GROUP_NAME = "groupName";
+    String USER_NAME = "userName";
 
     String MESSAGE_ATTR_USER_INFO = "userInfo";
     String MESSAGE_ATTR_USER_NAME = "im_username";

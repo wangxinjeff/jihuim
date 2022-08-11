@@ -12,6 +12,7 @@ import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.common.permission.PermissionsManager;
 import com.hyphenate.easeim.common.permission.PermissionsResultAction;
+import com.hyphenate.easeim.common.widget.InAppNotification;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.model.EaseEvent;
@@ -130,5 +131,14 @@ public class MainActivity extends BaseInitActivity implements View.OnClickListen
     protected void onResume() {
         super.onResume();
         refreshUI();
+//        InAppNotification.getInstance().init(this);
     }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+//        InAppNotification.getInstance().hideNotification();
+    }
+
 }

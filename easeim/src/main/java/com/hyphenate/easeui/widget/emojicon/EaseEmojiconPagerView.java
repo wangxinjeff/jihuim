@@ -126,14 +126,29 @@ public class EaseEmojiconPagerView extends ViewPager {
             List<EaseEmojicon> list = new ArrayList<EaseEmojicon>();
             if(i != pageSize -1){
                 list.addAll(emojiconList.subList(i * itemSize, (i+1) * itemSize));
+                if(emojiType != Type.BIG_EXPRESSION){
+                    EaseEmojicon deleteIcon = new EaseEmojicon();
+                    deleteIcon.setEmojiText(EaseSmileUtils.DELETE_KEY);
+                    list.add(deleteIcon);
+                }
             }else{
                 list.addAll(emojiconList.subList(i * itemSize, totalSize));
+                if(emojiType != Type.BIG_EXPRESSION){
+                    for(int index = 0; index < 5; index++){
+                        EaseEmojicon placeIcon = new EaseEmojicon();
+                        placeIcon.setEmojiText(EaseSmileUtils.PLACE_KEY);
+                        list.add(placeIcon);
+                    }
+                    EaseEmojicon deleteIcon = new EaseEmojicon();
+                    deleteIcon.setEmojiText(EaseSmileUtils.DELETE_KEY);
+                    list.add(deleteIcon);
+                }
             }
-            if(emojiType != Type.BIG_EXPRESSION){
-                EaseEmojicon deleteIcon = new EaseEmojicon();
-                deleteIcon.setEmojiText(EaseSmileUtils.DELETE_KEY);
-                list.add(deleteIcon);
-            }
+//            if(emojiType != Type.BIG_EXPRESSION){
+//                EaseEmojicon deleteIcon = new EaseEmojicon();
+//                deleteIcon.setEmojiText(EaseSmileUtils.DELETE_KEY);
+//                list.add(deleteIcon);
+//            }
             final EmojiconGridAdapter gridAdapter = new EmojiconGridAdapter(context, 1, list, emojiType);
             gv.setAdapter(gridAdapter);
             gv.setOnItemClickListener(new OnItemClickListener() {
@@ -143,8 +158,14 @@ public class EaseEmojiconPagerView extends ViewPager {
                     EaseEmojicon emojicon = gridAdapter.getItem(position);
                     if(pagerViewListener != null){
                         String emojiText = emojicon.getEmojiText();
-                        if(emojiText != null && emojiText.equals(EaseSmileUtils.DELETE_KEY)){
-                            pagerViewListener.onDeleteImageClicked();
+                        if(emojiText != null){
+                            if(emojiText.equals(EaseSmileUtils.DELETE_KEY)){
+                                pagerViewListener.onDeleteImageClicked();
+                            } else if(emojiText.equals(EaseSmileUtils.PLACE_KEY)){
+
+                            } else {
+                                pagerViewListener.onExpressionClicked(emojicon);
+                            }
                         }else{
                             pagerViewListener.onExpressionClicked(emojicon);
                         }

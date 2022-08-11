@@ -19,7 +19,7 @@
         android:id="@+id/member_nick"
         android:layout_width="@dimen/member_item_avatar_size"
         android:layout_height="wrap_content"
-        android:textColor="?attr/groupDetailMid"
+        android:textColor="?attr/groupDetailContent"
         android:textSize="@dimen/em_size_small"
         android:ellipsize="end"
         android:lines="1"

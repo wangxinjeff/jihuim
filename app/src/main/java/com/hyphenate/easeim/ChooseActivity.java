@@ -28,7 +28,9 @@ public class ChooseActivity extends BaseInitActivity {
             if(EaseIMHelper.getInstance().getModel().getAppMode()){
                 startActivity(new Intent(ChooseActivity.this, AdminLoginActivity.class));
             } else {
-                LoginActivity.startAction(ChooseActivity.this);
+//                LoginActivity.startAction(ChooseActivity.this);
+                EaseIMHelper.getInstance().loginSuccess();
+                startActivity(new Intent(ChooseActivity.this, MainActivity.class));
             }
             finish();
         }

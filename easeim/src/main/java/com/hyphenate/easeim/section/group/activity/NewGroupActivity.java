@@ -146,12 +146,6 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
                         @Override
                         public void run() {
                             ToastUtils.showCenterToast("", "创建成功", 0, Toast.LENGTH_SHORT);
-                            EMMessage message = EMMessage.createTextSendMessage("groupEvent", groupId);
-                            message.setChatType(EMMessage.ChatType.GroupChat);
-                            message.setAttribute(EaseConstant.CREATE_GROUP_PROMPT, true);
-                            message.setAttribute(EaseConstant.CREATE_GROUP_NAME, groupName);
-                            message.setStatus(EMMessage.Status.SUCCESS);
-                            EMClient.getInstance().chatManager().saveMessage(message);
                             ChatActivity.actionStart(mContext, groupId, EaseConstant.CHATTYPE_GROUP);
                             finish();
                         }
@@ -261,6 +255,9 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
                     @Override
                     public void onSaveClick(View view, String content) {
                         groupIntroduction = content;
+                        if(!TextUtils.isEmpty(groupIntroduction)){
+                            itemGroupIntroduction.getTvBContent().setText(groupIntroduction);
+                        }
                     }
                 });
     }

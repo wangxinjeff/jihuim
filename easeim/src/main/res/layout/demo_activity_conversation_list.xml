@@ -39,7 +39,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/check_network"
+            android:text="@string/em_check_network"
             android:textSize="@dimen/em_size_normal"
             android:layout_weight="1"
             android:textColor="@color/disconnect_text"

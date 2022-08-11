@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDex;
 
 import com.hyphenate.easeim.common.interfaceOrImplement.UserActivityLifecycleCallbacks;
+import com.hyphenate.easeim.common.widget.InAppNotification;
 import com.hyphenate.util.EMLog;
 
 import java.lang.reflect.Constructor;
@@ -35,6 +36,8 @@ public class DemoApplication extends Application implements Thread.UncaughtExcep
 
     private void initHx() {
         EaseIMHelper.getInstance().init(this);
+//        InAppNotification.getInstance().setNotifyName("极狐App")
+//                .setNotifyIcon(R.drawable.ease_chatfrom_voice_playing_f3);
         // init hx sdk
         if(EaseIMHelper.getInstance().getAutoLogin()) {
             EMLog.i("DemoApplication", "application initHx");

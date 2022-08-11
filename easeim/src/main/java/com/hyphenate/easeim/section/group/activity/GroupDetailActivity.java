@@ -70,9 +70,6 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
     private RecyclerView memberList;
     private LinearLayout showMore;
 
-    private String systemNote;
-    private String serviceNote;
-
     public static void actionStart(Context context, String groupId) {
         Intent intent = new Intent(context, GroupDetailActivity.class);
         intent.putExtra("groupId", groupId);
@@ -169,8 +166,13 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
 
 //        itemGroupIntroduction.getTvContent().setText(group.getDescription());
 
-        makeTextSingleLine(itemGroupNotice.getTvContent());
-        makeTextSingleLine(itemGroupIntroduction.getTvContent());
+//        makeTextSingleLine(itemGroupNotice.getTvContent());
+//        makeTextSingleLine(itemGroupIntroduction.getTvContent());
+
+        if(!TextUtils.isEmpty(group.getDescription())){
+            itemGroupIntroduction.getTvBContent().setText(group.getDescription());
+        }
+
 
         List<String> disabledIds = EaseIMHelper.getInstance().getPushManager().getNoPushGroups();
         itemGroupNotDisturb.getSwitch().setChecked(disabledIds != null && disabledIds.contains(groupId));
@@ -193,19 +195,19 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
             parseResource(response, new OnResourceParseCallback<String>() {
                 @Override
                 public void onSuccess(String data) {
-//                    itemGroupNotice.getTvContent().setText(data);
+                    itemGroupNotice.getTvBContent().setText(data);
                 }
             });
         });
-        viewModel.getRefreshObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<String>() {
-                @Override
-                public void onSuccess(String data) {
-                    ToastUtils.showCenterToast("", getString(R.string.em_save_success), 0 ,Toast.LENGTH_SHORT);
-                    loadGroup();
-                }
-            });
-        });
+//        viewModel.getRefreshObservable().observe(this, response -> {
+//            parseResource(response, new OnResourceParseCallback<String>() {
+//                @Override
+//                public void onSuccess(String data) {
+//                    ToastUtils.showCenterToast("", getString(R.string.em_save_success), 0 ,Toast.LENGTH_SHORT);
+//                    loadGroup();
+//                }
+//            });
+//        });
         viewModel.getMessageChangeObservable().with(EaseConstant.GROUP_CHANGE, EaseEvent.class).observe(this, event -> {
             if(event.isGroupLeave() && TextUtils.equals(groupId, event.message)) {
                 finish();
@@ -302,51 +304,28 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
             }
         });
 
-        viewModel.getServiceNoteObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<String>() {
-                @Override
-                public void onSuccess(@Nullable String data) {
-                    serviceNote = data;
-                    ToastUtils.showCenterToast("", "保存成功", 0, Toast.LENGTH_SHORT);
-                }
+//        viewModel.getServiceNoteObservable().observe(this, response -> {
+//            parseResource(response, new OnResourceParseCallback<String>() {
+//                @Override
+//                public void onSuccess(@Nullable String data) {
+//                    serviceNote = data;
+//                    ToastUtils.showCenterToast("", "保存成功", 0, Toast.LENGTH_SHORT);
+//                }
+//
+//                @Override
+//                public void onLoading(@Nullable String data) {
+//                    super.onLoading(data);
+//                    showLoading();
+//                }
+//
+//                @Override
+//                public void hideLoading() {
+//                    super.hideLoading();
+//                    dismissLoading();
+//                }
+//            });
+//        });
 
-                @Override
-                public void onLoading(@Nullable String data) {
-                    super.onLoading(data);
-                    showLoading();
-                }
-
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-                    dismissLoading();
-                }
-            });
-        });
-
-        viewModel.getNoteObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<List<String>>() {
-                @Override
-                public void onSuccess(@Nullable List<String> data) {
-                    systemNote = data.get(0);
-                    serviceNote = data.get(1);
-                }
-
-                @Override
-                public void onLoading(@Nullable List<String> data) {
-                    super.onLoading(data);
-                    showLoading();
-                }
-
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-                    dismissLoading();
-                }
-            });
-        });
-
-        viewModel.getServiceNote(groupId);
     }
 
     private void loadGroup() {
@@ -366,26 +345,27 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
             GroupEditActivity.startEditForResult(mContext, getString(R.string.em_chat_group_detail_name),
                     group.getGroupName(),
                     GroupHelper.isOwner(group) ? getString(R.string.em_chat_group_detail_name_hint) : "",
-                    EaseIMHelper.getInstance().isAdmin() && GroupHelper.isOwner(group), REQUEST_CODE_GROUP_NAME);
+                    EaseIMHelper.getInstance().isAdmin() && GroupHelper.isOwner(group), groupId, REQUEST_CODE_GROUP_NAME);
         } else if (id == R.id.item_group_notice) {//群公告
 //                showAnnouncementDialog();
             GroupEditActivity.startEditForResult(mContext, getString(R.string.em_chat_group_detail_announcement),
                     group.getAnnouncement(),
                     GroupHelper.isOwner(group) ? getString(R.string.em_chat_group_detail_announcement_hint) : "",
-                    EaseIMHelper.getInstance().isAdmin() && GroupHelper.isOwner(group), REQUEST_CODE_GROUP_NOTICE);
+                    EaseIMHelper.getInstance().isAdmin() && GroupHelper.isOwner(group),groupId,  REQUEST_CODE_GROUP_NOTICE);
         } else if (id == R.id.item_group_introduction) {//群介绍
 //                showIntroductionDialog();
             GroupEditActivity.startEditForResult(mContext, getString(R.string.em_chat_group_detail_introduction),
                     group.getDescription(),
                     GroupHelper.isOwner(group) ? getString(R.string.em_chat_group_detail_introduction_hint) : "",
-                    EaseIMHelper.getInstance().isAdmin() && GroupHelper.isOwner(group), REQUEST_CODE_GROUP_INTRO);
+                    EaseIMHelper.getInstance().isAdmin() && GroupHelper.isOwner(group), groupId, REQUEST_CODE_GROUP_INTRO);
         } else if (id == R.id.item_group_mute) {
             GroupMuteActivity.startAction(mContext, groupId);
         } else if (id == R.id.item_group_note) {
             GroupEditActivity.startNoteForResult(mContext, getString(R.string.em_group_note),
-                    systemNote,
-                    serviceNote,
+                    "",
+                    "",
                     getString(R.string.em_group_note_hint),
+                    groupId,
                     REQUEST_CODE_GROUP_NOTE
             );
         } else if (id == R.id.item_group_history) {//查找聊天记录
@@ -407,20 +387,23 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
             String content = data.getStringExtra("content");
             switch (requestCode) {
                 case REQUEST_CODE_GROUP_NAME:
-                    //修改群名称
-                    viewModel.setGroupName(groupId, content);
+//                    //修改群名称
+//                    viewModel.setGroupName(groupId, content);
+                    itemGroupName.getTvContent().setText(content);
                     break;
                 case REQUEST_CODE_GROUP_NOTICE:
-                    //修改群公告
-                    viewModel.setGroupAnnouncement(groupId, content);
+//                    //修改群公告
+//                    viewModel.setGroupAnnouncement(groupId, content);
+                    itemGroupNotice.getTvBContent().setText(content);
                     break;
                 case REQUEST_CODE_GROUP_INTRO:
-                    //修改群介绍
-                    viewModel.setGroupDescription(groupId, content);
+//                    //修改群介绍
+//                    viewModel.setGroupDescription(groupId, content);
+                    itemGroupIntroduction.getTvBContent().setText(content);
                     break;
                 case REQUEST_CODE_GROUP_NOTE:
-                    //修改运营备注
-                    viewModel.changeServiceNote(groupId, content);
+//                    //修改运营备注
+//                    viewModel.changeServiceNote(groupId, content);
                     break;
 
             }

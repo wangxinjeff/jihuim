@@ -2,6 +2,7 @@ package com.hyphenate.easeim.section.base;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.hyphenate.easecallkit.EaseCallKit;
 import com.hyphenate.easecallkit.base.EaseCallFloatWindow;
@@ -9,6 +10,7 @@ import com.hyphenate.easecallkit.base.EaseCallType;
 import com.hyphenate.easecallkit.utils.EaseCallState;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
+import com.hyphenate.easeim.common.widget.InAppNotification;
 import com.hyphenate.easeim.section.av.MultipleVideoActivity;
 import com.hyphenate.easeim.section.av.VideoCallActivity;
 
@@ -33,6 +35,18 @@ public abstract class BaseInitActivity extends BaseActivity {
         initListener();
         initData();
     }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        InAppNotification.getInstance().init(this);
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        InAppNotification.getInstance().hideNotification();
+//    }
 
     protected void initSystemFit() {
         setFitSystemForTheme(true);

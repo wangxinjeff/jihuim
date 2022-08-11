@@ -17,7 +17,9 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
+import com.hyphenate.easeui.model.EaseNotifier;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.EasyUtils;
@@ -44,12 +46,11 @@ import com.hyphenate.easecallkit.event.CallCancelEvent;
 import com.hyphenate.easecallkit.event.ConfirmCallEvent;
 import com.hyphenate.easecallkit.event.ConfirmRingEvent;
 import com.hyphenate.easecallkit.event.InviteEvent;
-import com.hyphenate.easecallkit.livedatas.EaseLiveDataBus;
+import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easecallkit.ui.EaseBaseCallActivity;
 import com.hyphenate.easecallkit.ui.EaseMultipleVideoActivity;
 import com.hyphenate.easecallkit.ui.EaseVideoCallActivity;
 import com.hyphenate.easecallkit.utils.EaseCallAction;
-import com.hyphenate.easecallkit.utils.EaseCallKitNotifier;
 import com.hyphenate.easecallkit.utils.EaseCallKitUtils;
 import com.hyphenate.easecallkit.utils.EaseCallState;
 import com.hyphenate.easecallkit.utils.EaseMsgUtils;
@@ -83,7 +84,7 @@ public class EaseCallKit {
     private static boolean isComingCall = true;
     private ArrayList<String> inviteeUsers = new ArrayList<>();
     private EaseCallKitConfig callKitConfig;
-    private EaseCallKitNotifier notifier;
+    private EaseNotifier notifier;
     private Class<? extends EaseBaseCallActivity> curCallCls;
     private Handler handler;
     /**
@@ -175,7 +176,7 @@ public class EaseCallKit {
 
 
     private void initNotifier(){
-        notifier = new EaseCallKitNotifier(appContext);
+        notifier = EaseIMHelper.getInstance().getNotifier();
     }
 
 
@@ -394,7 +395,7 @@ public class EaseCallKit {
                                         inviteEvent.type = callkitType;
 
                                         //发布消息
-                                        EaseLiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(inviteEvent);
+                                        LiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(inviteEvent);
                                     } else {
                                         //发送忙碌状态
                                         AnswerEvent callEvent = new AnswerEvent();
@@ -476,7 +477,7 @@ public class EaseCallKit {
                                         inviteEvent.type = callkitType;
 
                                         //发布消息
-                                        EaseLiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(inviteEvent);
+                                        LiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(inviteEvent);
                                     } else {
                                         //发送忙碌状态
                                         AnswerEvent callEvent = new AnswerEvent();
@@ -523,7 +524,7 @@ public class EaseCallKit {
                                     }
                                     notifier.reset();
                                     //发布消息
-                                    EaseLiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(event);
+                                    LiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(event);
                                 }
                                 break;
                             case CALL_ALERT:
@@ -532,7 +533,7 @@ public class EaseCallKit {
                                 alertEvent.callId = fromCallId;
                                 alertEvent.calleeDevId = calleedDeviceId;
                                 alertEvent.userId = fromUser;
-                                EaseLiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(alertEvent);
+                                LiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(alertEvent);
                                 break;
                             case CALL_CONFIRM_RING: //收到callId 是否有效
                                 String calledDvId = message.getStringAttribute(EaseMsgUtils.CALLED_DEVICE_ID, "");
@@ -580,7 +581,7 @@ public class EaseCallKit {
                                 event.callId = fromCallId;
                                 event.userId = fromUser;
                                 //发布消息
-                                EaseLiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(event);
+                                LiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(event);
                                 break;
                             case CALL_ANSWER:  //收到被叫的回复消息
                                 String result1 = message.getStringAttribute(EaseMsgUtils.CALL_RESULT, "");
@@ -599,7 +600,7 @@ public class EaseCallKit {
                                         answerEvent.transVoice = transVoice;
 
                                         //发布消息
-                                        EaseLiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(answerEvent);
+                                        LiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(answerEvent);
                                     }
                                 }else{
                                         if(!TextUtils.equals(fromUser, EMClient.getInstance().getCurrentUser())) {
@@ -612,7 +613,7 @@ public class EaseCallKit {
                                             answerEvent.transVoice = transVoice;
 
                                             //发布消息
-                                            EaseLiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(answerEvent);
+                                            LiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(answerEvent);
 
                                         }
                                 }
@@ -625,7 +626,7 @@ public class EaseCallKit {
                                         inviteEvent.callId = fromCallId;
                                         inviteEvent.type = EaseCallType.SINGLE_VOICE_CALL;
                                         //发布消息
-                                        EaseLiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(inviteEvent);
+                                        LiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(inviteEvent);
                                     }
                                 }
                                 break;
@@ -730,7 +731,7 @@ public class EaseCallKit {
         return isComingCall;
     }
 
-    public EaseCallKitNotifier getNotifier(){
+    public EaseNotifier getNotifier(){
         return notifier;
     }
 

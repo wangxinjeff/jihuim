@@ -4,7 +4,7 @@ import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMUserInfo;
 import com.hyphenate.easecallkit.base.EaseCallUserInfo;
-import com.hyphenate.easecallkit.livedatas.EaseLiveDataBus;
+import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easecallkit.utils.EaseCallKitUtils;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
@@ -139,7 +139,7 @@ public class FetchUserRunnable implements Runnable{
                 //通知callKit更新头像昵称
                 EaseCallUserInfo info = new EaseCallUserInfo(userInfo.getNickName(),userInfo.getAvatarUrl());
                 info.setUserId(userInfo.getUserId());
-                EaseLiveDataBus.get().with(EaseCallKitUtils.UPDATE_USERINFO).postValue(info);
+                LiveDataBus.get().with(EaseCallKitUtils.UPDATE_USERINFO).postValue(info);
             }
         }
 

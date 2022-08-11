@@ -1,6 +1,7 @@
 package com.hyphenate.easeim.section.search.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.widget.SearchBar;
 import com.hyphenate.easeim.section.base.BaseInitFragment;
@@ -81,14 +83,19 @@ public class SearchAllFragment extends BaseInitFragment {
             for(EMMessage message : mData){
                 if(!(message.getBooleanAttribute(EaseConstant.MESSAGE_TYPE_RECALL, false)
                         || !message.getStringAttribute(EaseConstant.MESSAGE_ATTR_CALL_STATE, "").equals("")
-                        || message.getBooleanAttribute(EaseConstant.CREATE_GROUP_PROMPT, false))){
-                    data.add(message);
+                        || message.getBooleanAttribute(EaseConstant.CREATE_GROUP_PROMPT, false)
+                        || message.getBooleanAttribute(EaseConstant.JOIN_GROUP_PROMPT, false))){
+                    if(message.getType() == EMMessage.Type.TXT){
+                        EMTextMessageBody body = (EMTextMessageBody) message.getBody();
+                        if(body.getMessage().contains(key)){
+                            data.add(message);
+                        }
+                    }
                 }
             }
-            if(mData.size() > 0){
-                allAdapter.setKeyword(key);
-                allAdapter.setData(data);
-            }
+
+            allAdapter.setKeyword(key);
+            allAdapter.setData(data);
         }
     }
 }

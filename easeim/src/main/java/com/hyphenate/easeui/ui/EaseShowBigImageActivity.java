@@ -27,6 +27,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -58,13 +59,10 @@ import java.io.OutputStream;
 public class EaseShowBigImageActivity extends EaseBaseActivity {
 	private static final String TAG = "ShowBigImage"; 
 	private EasePhotoView image;
-	private int default_res = R.drawable.ease_default_image;
-	private String filename;
-	private Bitmap bitmap;
 	private boolean isDownloaded;
 	private LinearLayout loadView;
 	private LinearLayout loadFailedView;
-	private AppCompatImageView iconDownload;
+	private FrameLayout iconDownload;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -77,7 +75,6 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 		loadFailedView = findViewById(R.id.load_failed_view);
 		iconDownload = findViewById(R.id.icon_download);
 		Uri uri = getIntent().getParcelableExtra("uri");
-		filename = getIntent().getExtras().getString("filename");
 		String msgId = getIntent().getExtras().getString("messageId");
 		EMLog.d(TAG, "show big msgId:" + msgId );
 		EMMessage msg = EMClient.getInstance().chatManager().getMessage(msgId);

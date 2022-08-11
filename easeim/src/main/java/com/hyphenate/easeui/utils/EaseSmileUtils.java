@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 
 public class EaseSmileUtils {
     public static final String DELETE_KEY = "em_delete_delete_expression";
+	public static final String PLACE_KEY = "em_smile_place_holder";
     
 	public static final String ee_1 = "[):]";
 	public static final String ee_2 = "[:D]";

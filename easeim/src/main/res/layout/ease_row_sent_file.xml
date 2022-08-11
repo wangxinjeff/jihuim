@@ -84,7 +84,6 @@
                         android:textColor="?attr/chatRowFileSize"
                         android:textSize="10sp"
                         tools:text="9.8MB"
-                        android:layout_alignParentBottom="true"
                         tools:ignore="SmallSp" />
 
                     <TextView

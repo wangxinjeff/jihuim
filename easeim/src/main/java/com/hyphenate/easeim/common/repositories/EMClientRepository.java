@@ -268,7 +268,7 @@ public class EMClientRepository extends BaseEMRepository{
      * @param autoLogin
      */
     public void setAutoLogin(boolean autoLogin) {
-        PreferenceManager.getInstance().setAutoLogin(autoLogin);
+        EaseIMHelper.getInstance().setAutoLogin(autoLogin);
     }
 
     private void successForCallBack(@NonNull ResultCallBack<LiveData<EaseUser>> callBack) {

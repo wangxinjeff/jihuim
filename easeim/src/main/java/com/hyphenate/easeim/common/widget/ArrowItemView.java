@@ -29,6 +29,9 @@ public class ArrowItemView extends ConstraintLayout {
     private float titleSize;
     private float contentSize;
     private View root;
+    private TextView belowContent;
+    private String bContent;
+    private int bContentColor;
 
     public ArrowItemView(Context context) {
         this(context, null);
@@ -50,6 +53,7 @@ public class ArrowItemView extends ConstraintLayout {
         tvContent = findViewById(R.id.tv_content);
         ivArrow = findViewById(R.id.iv_arrow);
         viewDivider = findViewById(R.id.view_divider);
+        belowContent = findViewById(R.id.tv_below_content);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ArrowItemView);
         int titleResourceId = a.getResourceId(R.styleable.ArrowItemView_arrowItemTitle, -1);
@@ -93,6 +97,23 @@ public class ArrowItemView extends ConstraintLayout {
             contentSize = getResources().getDimension(contentSizeId);
         }
         tvContent.setTextSize(contentSize);
+
+        int bContentResourceId = a.getResourceId(R.styleable.ArrowItemView_arrowItemBContent, -1);
+        bContent = a.getString(R.styleable.ArrowItemView_arrowItemBContent);
+        if(bContentResourceId != -1) {
+            bContent = getContext().getString(bContentResourceId);
+        }
+        belowContent.setText(bContent);
+
+        int bContentColorId = a.getResourceId(R.styleable.ArrowItemView_arrowItemBContentColor, -1);
+        bContentColor = a.getColor(R.styleable.ArrowItemView_arrowItemBContentColor, ContextCompat.getColor(getContext(), R.color.group_detail_mid_color));
+        if(bContentColorId != -1) {
+            bContentColor = ContextCompat.getColor(getContext(), bContentColorId);
+        }
+        belowContent.setTextColor(bContentColor);
+
+        boolean showBContent = a.getBoolean(R.styleable.ArrowItemView_arrowItemBContentShow, false);
+        belowContent.setVisibility(showBContent ? VISIBLE : GONE);
 
         boolean showDivider = a.getBoolean(R.styleable.ArrowItemView_arrowItemShowDivider, true);
         viewDivider.setVisibility(showDivider ? VISIBLE : GONE);
@@ -145,6 +166,9 @@ public class ArrowItemView extends ConstraintLayout {
         viewDivider.setVisibility(show ? VISIBLE : GONE);
     }
 
+    public TextView getTvBContent() {
+        return belowContent;
+    }
     /**
      * sp to px
      * @param context

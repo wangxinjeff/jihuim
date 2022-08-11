@@ -155,12 +155,12 @@ public class AdminLoginActivity extends BaseInitActivity implements View.OnClick
             phoneView.setText("");
         } else if(v.getId() == R.id.visible_view){
             if(visibleIcon.getVisibility() == View.VISIBLE){
-                passwordView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                passwordView.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 passwordView.setSelection(passwordView.getText().length());
                 visibleIcon.setVisibility(View.GONE);
                 unVisibleIcon.setVisibility(View.VISIBLE);
             } else {
-                passwordView.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                passwordView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 passwordView.setSelection(passwordView.getText().length());
                 visibleIcon.setVisibility(View.VISIBLE);
                 unVisibleIcon.setVisibility(View.GONE);

@@ -69,8 +69,11 @@ public class ChatRowNotice extends EaseChatRow {
             }
         } else if(message.getBooleanAttribute(EaseConstant.CREATE_GROUP_PROMPT, false)){
             name.setVisibility(GONE);
-            String groupName = message.getStringAttribute(EaseConstant.CREATE_GROUP_NAME, "");
+            String groupName = message.getStringAttribute(EaseConstant.GROUP_NAME, "");
             content.setText(String.format(context.getString(R.string.em_group_create_success), groupName));
+        } else if(message.getBooleanAttribute(EaseConstant.JOIN_GROUP_PROMPT, false)){
+            EaseUserUtils.setUserNick(message.getStringAttribute(EaseConstant.USER_NAME, ""), name);
+            content.setText(context.getString(R.string.em_joined_group));
         }
     }
 }

@@ -145,7 +145,7 @@
     <string name="em_chat_delete_conversation">Are you sure you want to clear all chat history?</string>
     <string name="em_chat_group_detail_title">Group info</string>
     <string name="em_chat_group_detail_group_member">Group members</string>
-    <string name="em_chat_group_detail_member_num">%1$d</string>
+    <string name="em_chat_group_detail_member_num">(%1$d)</string>
     <string name="em_chat_group_detail_name">Group name</string>
     <string name="em_chat_group_detail_announcement">Group announcement</string>
     <string name="em_chat_group_detail_announcement_hint">Enter the group announcement</string>
@@ -411,5 +411,7 @@
     <string name="button_sure_default">Sure</string>
     <string name="button_sure">Sure(%1$d)</string>
 
-    <string name="check_network">Please check the network Settings</string>
+    <string name="em_check_network">Please check the network Settings</string>
+    <string name="em_not_setting">Not setting</string>
+    <string name="em_joined_group">Joined the group</string>
 </resources>

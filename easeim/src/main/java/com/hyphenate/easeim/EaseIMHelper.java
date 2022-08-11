@@ -2,6 +2,7 @@ package com.hyphenate.easeim;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -71,7 +72,6 @@ import com.hyphenate.util.EMLog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -179,7 +179,7 @@ public class EaseIMHelper {
             if(initSDK(application)) {
                 clientRepository = new EMClientRepository();
                 // debug mode, you'd better set it to false, if you want release your App officially.
-//                EMClient.getInstance().setDebugMode(true);
+                EMClient.getInstance().setDebugMode(true);
                 // set Call options
                 setCallOptions(application);
                 //初始化推送
@@ -971,16 +971,43 @@ public class EaseIMHelper {
 
     // 获取所有列表的未读数
     public void getChatUnread(EMValueCallBack<Map<String, Integer>> callBack){
-        int totalUnread = EMClient.getInstance().chatManager().getUnreadMessageCount();
+        int totalUnread = 0;
         int exclusiveUnread = 0;
+        int unread = 0;
         Map<String, EMConversation> map = EMClient.getInstance().chatManager().getAllConversations();
-        for(EMConversation conversation : map.values()){
-            if(isExclusiveGroup(conversation) && conversation.getUnreadMsgCount() > 0){
-                exclusiveUnread += conversation.getUnreadMsgCount();
-                EMLog.e("testapi:", conversation.conversationId() + " = " + conversation.getUnreadMsgCount());
+        if(isAdmin()){
+            for(EMConversation conversation : map.values()){
+                if(conversation.getType() == EMConversation.EMConversationType.GroupChat){
+                    if(!getPushManager().getNoPushGroups().contains(conversation.conversationId())) {
+                        totalUnread += conversation.getUnreadMsgCount();
+                    }
+                } else if(conversation.getType() == EMConversation.EMConversationType.Chat){
+                    if(!getPushManager().getNoPushUsers().contains(conversation.conversationId())) {
+                        totalUnread += conversation.getUnreadMsgCount();
+                    }
+                }
+            }
+        } else {
+            for(EMConversation conversation : map.values()){
+                if(isExclusiveGroup(conversation)){
+                    if(!getPushManager().getNoPushGroups().contains(conversation.conversationId())){
+                        exclusiveUnread += conversation.getUnreadMsgCount();
+                        EMLog.e("testapi:", conversation.conversationId() + " = " + conversation.getUnreadMsgCount());
+                    }
+                } else {
+                    if(conversation.getType() == EMConversation.EMConversationType.GroupChat){
+                        if(!getPushManager().getNoPushGroups().contains(conversation.conversationId())) {
+                            unread += conversation.getUnreadMsgCount();
+                        }
+                    } else if(conversation.getType() == EMConversation.EMConversationType.Chat){
+                        if(!getPushManager().getNoPushUsers().contains(conversation.conversationId())) {
+                            unread += conversation.getUnreadMsgCount();
+                        }
+                    }
+                }
             }
         }
-        int unread = totalUnread - exclusiveUnread;
+
         Map<String, Integer> result = new HashMap<>();
         result.put(EaseConstant.UNREAD_TOTAL, totalUnread);
         result.put(EaseConstant.UNREAD_EXCLUSIVE_GROUP, exclusiveUnread);

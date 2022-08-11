@@ -30,6 +30,7 @@ import com.hyphenate.chat.adapter.EMAChatRoomManagerListener;
 import com.hyphenate.easecallkit.utils.EaseMsgUtils;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.common.utils.ToastUtils;
+import com.hyphenate.easeim.common.widget.InAppNotification;
 import com.hyphenate.easeim.section.conversation.ConversationListActivity;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.db.EaseDbHelper;
@@ -220,8 +221,10 @@ public class ChatPresenter extends EaseChatPresenter {
             if(noPushUserIds != null && noPushUserIds.contains(message.conversationId())) {
                 return;
             }
+
             if(EaseIMHelper.getInstance().getLifecycleCallbacks().isFront()) {
                 if (message.getChatType() == EMMessage.ChatType.GroupChat && !TextUtils.equals(message.getTo(), EaseIMHelper.getInstance().getChatPageConId())) {
+                    EaseThreadManager.getInstance().runOnMainThread(() -> InAppNotification.getInstance().show(message));
                     getNotifier().notify(message);
                 } else if(message.getChatType() == EMMessage.ChatType.Chat && !TextUtils.equals(message.getFrom(), EaseIMHelper.getInstance().getChatPageConId())){
                     if(EaseIMHelper.getInstance().isAdmin()){
@@ -285,9 +288,28 @@ public class ChatPresenter extends EaseChatPresenter {
                     EMClient.getInstance().chatManager().saveMessage(textMessage);
                 }
 
+                String eventType = message.getStringAttribute(EaseConstant.MESSAGE_ATTR_EVENT_TYPE, "");
+                if(!TextUtils.isEmpty(eventType)){
+                    if(TextUtils.equals(EaseConstant.CREATE_GROUP_PROMPT, eventType)){
+                        EMMessage promptMessage = EMMessage.createTextSendMessage("groupEvent", message.getTo());
+                        promptMessage.setChatType(EMMessage.ChatType.GroupChat);
+                        promptMessage.setAttribute(EaseConstant.CREATE_GROUP_PROMPT, true);
+                        promptMessage.setAttribute(EaseConstant.GROUP_NAME, message.getStringAttribute(EaseConstant.GROUP_NAME, message.getTo()));
+                        promptMessage.setStatus(EMMessage.Status.SUCCESS);
+                        promptMessage.setMsgTime(message.getMsgTime());
+                        EMClient.getInstance().chatManager().saveMessage(promptMessage);
+                    } else if(TextUtils.equals(EaseConstant.JOIN_GROUP_PROMPT, eventType)){
+                        EMMessage promptMessage = EMMessage.createTextSendMessage("groupEvent", message.getTo());
+                        promptMessage.setChatType(EMMessage.ChatType.GroupChat);
+                        promptMessage.setAttribute(EaseConstant.JOIN_GROUP_PROMPT, true);
+                        promptMessage.setAttribute(EaseConstant.USER_NAME, message.getStringAttribute(EaseConstant.USER_NAME, ""));
+                        promptMessage.setStatus(EMMessage.Status.SUCCESS);
+                        promptMessage.setMsgTime(message.getMsgTime());
+                        EMClient.getInstance().chatManager().saveMessage(promptMessage);
+                    }
+                }
             } else if(message.getChatType() == EMMessage.ChatType.Chat){
                 EMCmdMessageBody body = (EMCmdMessageBody)message.getBody();
-                EMLog.e("oncmdreceiver:", body.action() + ":" + message.ext().toString());
                 if(TextUtils.equals("requestJoinGroupEvent", body.action())){
                     event = EaseEvent.create(EaseConstant.MESSAGE_CHANGE_CMD_RECEIVE, EaseEvent.TYPE.MESSAGE, EaseConstant.NEW_GROUP_APPLY);
                 } else if(TextUtils.equals("event", body.action())){
@@ -737,6 +759,11 @@ public class ChatPresenter extends EaseChatPresenter {
         public void onSharedFileDeleted(String groupId, String fileId) {
             LiveDataBus.get().with(EaseConstant.GROUP_SHARE_FILE_CHANGE).postValue(EaseEvent.create(EaseConstant.GROUP_SHARE_FILE_CHANGE, EaseEvent.TYPE.GROUP));
             EMLog.i(TAG, context.getString(R.string.demo_group_listener_onSharedFileDeleted, fileId));
+        }
+
+        @Override
+        public void onSpecificationChanged(EMGroup emGroup) {
+            LiveDataBus.get().with(EaseConstant.GROUP_CHANGE).postValue(EaseEvent.create(EaseConstant.GROUP_CHANGE, EaseEvent.TYPE.GROUP, emGroup.getGroupId()));
         }
     }
 

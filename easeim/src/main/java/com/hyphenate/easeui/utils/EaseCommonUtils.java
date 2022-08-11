@@ -165,7 +165,19 @@ public class EaseCommonUtils {
                     digest = nick + " 撤回了一条消息";
                     nick = "";
                 } else if(message.getBooleanAttribute(EaseConstant.CREATE_GROUP_PROMPT, false)){
-                    digest = "群组创建成功";
+                    String groupName = message.getStringAttribute(EaseConstant.GROUP_NAME, "");
+                    digest = String.format(context.getString(R.string.em_group_create_success), groupName);
+                    nick = "";
+                } else if(message.getBooleanAttribute(EaseConstant.JOIN_GROUP_PROMPT, false)){
+                    String username = message.getStringAttribute(EaseConstant.USER_NAME, "");
+                    EaseUserProfileProvider userProvider = EaseIM.getInstance().getUserProvider();
+                    if(userProvider != null && userProvider.getUser(username) != null) {
+                        EaseUser user = userProvider.getUser(username);
+                        if(user != null) {
+                            username = user.getNickname();
+                        }
+                    }
+                    digest = username + context.getString(R.string.em_joined_group);
                     nick = "";
                 } else{
                     digest = txtBody.getMessage();

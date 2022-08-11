@@ -243,6 +243,9 @@
         <attr name="arrowItemAvatarSrc" format="reference"/>
         <attr name="arrowItemAvatarHeight" format="dimension|reference"/>
         <attr name="arrowItemAvatarWidth" format="dimension|reference"/>
+        <attr name="arrowItemBContent" format="string|reference"/>
+        <attr name="arrowItemBContentColor" format="color|reference"/>
+        <attr name="arrowItemBContentShow" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="SwitchItemView">
@@ -332,6 +335,7 @@
     <attr name="conGroupIdColor" format="color"/>
     <attr name="normalTextColor" format="color"/>
     <attr name="groupDetailMid" format="color"/>
+    <attr name="groupDetailContent" format="color"/>
 
     <attr name="resultNameColor" format="color"/>
     <attr name="checkNameColor" format="color"/>

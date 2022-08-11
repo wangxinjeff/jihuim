@@ -131,10 +131,10 @@ public class EaseNotifier {
             return;
         }
 
-        EaseSettingsProvider settingsProvider = EaseIM.getInstance().getSettingsProvider();
-        if (!settingsProvider.isMsgNotifyAllowed(message)) {
-            return;
-        }
+//        EaseSettingsProvider settingsProvider = EaseIM.getInstance().getSettingsProvider();
+//        if (!settingsProvider.isMsgNotifyAllowed(message)) {
+//            return;
+//        }
 
         // check if app running background
 //        if (!EasyUtils.isAppRunningForeground(appContext)) {

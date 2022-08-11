@@ -130,7 +130,7 @@
                     android:layout_marginRight="@dimen/em_margin_15"
                     android:textSize="@dimen/em_size_small"
                     android:gravity="center"
-                    android:textColor="@color/em_color_common_text_gray"/>
+                    android:textColor="?attr/groupDetailContent"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rl_member_list"
@@ -157,7 +157,7 @@
                 app:arrowItemShowArrow="false"
                 android:background="?attr/themeFloatBgColor"
                 app:arrowItemTitleColor="?attr/groupDetailMid"
-                app:arrowItemContentColor="?attr/groupDetailMid"
+                app:arrowItemContentColor="?attr/groupDetailContent"
                 style="@style/em_group_arrow_item" />
 
             <com.hyphenate.easeim.common.widget.ArrowItemView
@@ -169,7 +169,9 @@
                 app:arrowItemShowDivider="false"
                 android:background="?attr/themeFloatBgColor"
                 app:arrowItemTitleColor="?attr/groupDetailMid"
-                app:arrowItemContentColor="?attr/groupDetailMid"
+                app:arrowItemBContentColor="?attr/groupDetailContent"
+                app:arrowItemBContentShow="true"
+                app:arrowItemBContent="@string/em_not_setting"
                 style="@style/em_group_arrow_item"/>
             
             <androidx.appcompat.widget.AppCompatButton

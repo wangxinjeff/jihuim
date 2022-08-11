@@ -105,7 +105,11 @@ public class EaseEditTextUtils {
             return str;
         }
         int count = paint.breakText(str, 0, str.length(), true, width, null);
-        int index = str.indexOf(keyword);
+
+        int splitIndex = str.indexOf(":");
+        String content = str.substring(splitIndex + 1);
+        int index = content.indexOf(keyword) + splitIndex + 1;
+//        int index = str.indexOf(keyword);
         //如果关键字在第一行,末尾显示省略号
         if(index + keyword.length() < count) {
             return str;
@@ -129,7 +133,10 @@ public class EaseEditTextUtils {
             return null;
         }
         SpannableStringBuilder builder = new SpannableStringBuilder(str);
-        builder.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.em_color_brand)), str.indexOf(keyword), str.indexOf(keyword) + keyword.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        int splitIndex = str.indexOf(":");
+        String content = str.substring(splitIndex + 1);
+        int index = content.indexOf(keyword) + splitIndex + 1;
+        builder.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.em_color_brand)), index, index + keyword.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return builder;
     }
 

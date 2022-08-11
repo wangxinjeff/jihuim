@@ -4,6 +4,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/popup_win_bg"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:paddingStart="1dp"
+    android:paddingEnd="1dp"
     >
 
     <androidx.appcompat.widget.AppCompatTextView

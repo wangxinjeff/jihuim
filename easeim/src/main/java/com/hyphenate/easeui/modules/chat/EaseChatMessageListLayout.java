@@ -282,7 +282,7 @@ public class EaseChatMessageListLayout extends RelativeLayout implements IChatMe
     public void loadMoreHistoryData() {
         String msgId = getListLastMessageId();
         if(loadDataType == LoadDataType.HISTORY) {
-            loadMoreStatus = LoadMoreStatus.HAS_MORE;
+//            loadMoreStatus = LoadMoreStatus.HAS_MORE;
             presenter.loadMoreLocalHistoryMessages(msgId, pageSize, EMConversation.EMSearchDirection.DOWN);
         }
     }
@@ -552,7 +552,7 @@ public class EaseChatMessageListLayout extends RelativeLayout implements IChatMe
         if(direction == null || direction == EMConversation.EMSearchDirection.UP) {
             finishRefresh();
             messageAdapter.addData(0, data);
-            loadMoreStatus = LoadMoreStatus.HAS_MORE;
+//            loadMoreStatus = LoadMoreStatus.HAS_MORE;
             if(direction == null){
                 rvList.smoothScrollToPosition(data.indexOf(EMClient.getInstance().chatManager().getMessage(historyMsgId)));
             }

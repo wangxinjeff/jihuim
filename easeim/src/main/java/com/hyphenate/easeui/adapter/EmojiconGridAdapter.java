@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.domain.EaseEmojicon;
 import com.hyphenate.easeui.domain.EaseEmojicon.Type;
@@ -44,7 +46,11 @@ public class EmojiconGridAdapter extends ArrayAdapter<EaseEmojicon>{
         }
 
         if(EaseSmileUtils.DELETE_KEY.equals(emojicon.getEmojiText())){
-            imageView.setImageResource(R.drawable.ease_delete_expression);
+            if(EaseIMHelper.getInstance().isAdmin()){
+                imageView.setImageResource(R.drawable.ease_delete_expression_admin);
+            } else {
+                imageView.setImageResource(R.drawable.ease_delete_expression);
+            }
         }else{
             if(emojicon.getIcon() != 0){
                 imageView.setImageResource(emojicon.getIcon());

@@ -9,6 +9,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.baidu.mapapi.search.core.PoiInfo;
+import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 
 public class EaseBaiduMapAdapter extends EaseBaseRecyclerViewAdapter<PoiInfo>{
@@ -25,7 +26,7 @@ public class EaseBaiduMapAdapter extends EaseBaseRecyclerViewAdapter<PoiInfo>{
 
     @Override
     public int getEmptyLayoutId() {
-        return R.layout.empty_layout;
+        return EaseIMHelper.getInstance().isAdmin() ? R.layout.ease_layout_no_data_admin : R.layout.ease_layout_no_data;
     }
 
     @Override

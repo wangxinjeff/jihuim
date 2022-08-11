@@ -79,7 +79,7 @@ import com.hyphenate.easecallkit.event.ConfirmCallEvent;
 import com.hyphenate.easecallkit.event.ConfirmRingEvent;
 import com.hyphenate.easecallkit.event.InviteEvent;
 import com.hyphenate.easecallkit.event.VideoToVoiceeEvent;
-import com.hyphenate.easecallkit.livedatas.EaseLiveDataBus;
+import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easecallkit.utils.EaseCallAction;
 import com.hyphenate.easecallkit.utils.EaseCallKitUtils;
 import com.hyphenate.easecallkit.utils.EaseCallState;
@@ -973,7 +973,7 @@ public class EaseVideoCallActivity extends EaseBaseCallActivity implements View.
      * 增加LiveData监听
      */
     protected void addLiveDataObserver(){
-        EaseLiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString(), BaseEvent.class).observe(this, event -> {
+        LiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString(), BaseEvent.class).observe(this, event -> {
             if(event != null) {
                 switch (event.callAction){
                     case CALL_ALERT:
@@ -1126,7 +1126,7 @@ public class EaseVideoCallActivity extends EaseBaseCallActivity implements View.
             }
         });
 
-        EaseLiveDataBus.get().with(EaseCallKitUtils.UPDATE_USERINFO, EaseCallUserInfo.class).observe(this, userInfo -> {
+        LiveDataBus.get().with(EaseCallKitUtils.UPDATE_USERINFO, EaseCallUserInfo.class).observe(this, userInfo -> {
             if (userInfo != null) {
                 if(TextUtils.equals(userInfo.getUserId(), username)){
                     //更新本地头像昵称

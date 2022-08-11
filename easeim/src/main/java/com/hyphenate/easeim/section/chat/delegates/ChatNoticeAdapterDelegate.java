@@ -20,7 +20,8 @@ public class ChatNoticeAdapterDelegate extends EaseMessageAdapterDelegate<EMMess
     public boolean isForViewType(EMMessage item, int position) {
         return item.getType() == TXT && (item.getBooleanAttribute(EaseConstant.MESSAGE_TYPE_RECALL, false)
                 || !item.getStringAttribute(EaseConstant.MESSAGE_ATTR_CALL_STATE, "").equals("")
-                || item.getBooleanAttribute(EaseConstant.CREATE_GROUP_PROMPT, false));
+                || item.getBooleanAttribute(EaseConstant.CREATE_GROUP_PROMPT, false)
+                || item.getBooleanAttribute(EaseConstant.JOIN_GROUP_PROMPT, false));
     }
 
     @Override

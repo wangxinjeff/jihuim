@@ -118,11 +118,10 @@
                     app:layout_constraintLeft_toRightOf="@id/tv_group_member_title"
                     app:layout_constraintTop_toTopOf="@id/tv_group_member_title"
                     app:layout_constraintBottom_toBottomOf="@id/tv_group_member_title"
-                    android:layout_marginStart="@dimen/em_margin_15"
                     tools:text="16人"
-                    android:textSize="@dimen/em_size_small"
+                    android:textSize="@dimen/em_size_big"
                     android:gravity="center_vertical"
-                    android:textColor="@color/em_color_common_text_gray"/>
+                    android:textColor="?attr/groupDetailMid"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rl_member_list"
@@ -148,7 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/em_size_normal"
-                        android:textColor="?attr/groupDetailMid"
+                        android:textColor="?attr/groupDetailContent"
                         android:text="@string/em_show_more_member"
                         />
 
@@ -173,7 +172,7 @@
                 app:arrowItemShowArrow="false"
                 android:background="?attr/themeFloatBgColor"
                 app:arrowItemTitleColor="?attr/groupDetailMid"
-                app:arrowItemContentColor="?attr/groupDetailMid"
+                app:arrowItemContentColor="?attr/groupDetailContent"
                 style="@style/em_group_arrow_item" />
 
             <com.hyphenate.easeim.common.widget.ArrowItemView
@@ -185,7 +184,7 @@
                 app:arrowItemShowArrow="false"
                 android:background="?attr/themeFloatBgColor"
                 app:arrowItemTitleColor="?attr/groupDetailMid"
-                app:arrowItemContentColor="?attr/groupDetailMid"
+                app:arrowItemContentColor="?attr/groupDetailContent"
                 style="@style/em_group_arrow_item"/>
 
             <com.hyphenate.easeim.common.widget.ArrowItemView
@@ -197,6 +196,9 @@
                 android:background="?attr/themeFloatBgColor"
                 app:arrowItemTitleColor="?attr/groupDetailMid"
                 app:arrowItemContentColor="?attr/groupDetailMid"
+                app:arrowItemBContentShow="true"
+                app:arrowItemBContent="@string/em_not_setting"
+                app:arrowItemBContentColor="?attr/groupDetailContent"
                 style="@style/em_group_arrow_item"/>
 
             <com.hyphenate.easeim.common.widget.ArrowItemView
@@ -209,6 +211,9 @@
                 android:background="?attr/themeFloatBgColor"
                 app:arrowItemTitleColor="?attr/groupDetailMid"
                 app:arrowItemContentColor="?attr/groupDetailMid"
+                app:arrowItemBContentShow="true"
+                app:arrowItemBContent="@string/em_not_setting"
+                app:arrowItemBContentColor="?attr/groupDetailContent"
                 style="@style/em_group_arrow_item"/>
 
             <com.hyphenate.easeim.common.widget.ArrowItemView

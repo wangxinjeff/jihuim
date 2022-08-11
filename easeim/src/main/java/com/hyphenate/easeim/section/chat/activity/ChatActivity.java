@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.snackbar.Snackbar;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
@@ -218,6 +219,7 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
     protected void onResume() {
         super.onResume();
         EaseIMHelper.getInstance().setChatPageConId(conversationId);
+        setDefaultTitle();
     }
 
     @Override

@@ -16,7 +16,7 @@
     <dimen name="ease_chat_primary_menu_icon_size">34dp</dimen>
     <dimen name="ease_chat_primary_menu_send_icon_height_size">30dp</dimen>
 
-    <dimen name="ease_chat_image_corner_radius">8dp</dimen>
+    <dimen name="ease_chat_image_corner_radius">2dp</dimen>
     <dimen name="ease_chat_primary_margin_right">16dp</dimen>
 
     <dimen name="ease_chat_text_min_height">22dp</dimen>
@@ -88,4 +88,6 @@
     <dimen name="media_grid_spacing">4dp</dimen>
 
     <dimen name="album_item_height">72dp</dimen>
+
+    <dimen name="arrow_margin_top">12dp</dimen>
 </resources>
