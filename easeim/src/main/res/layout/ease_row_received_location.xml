@@ -58,6 +58,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="9dp"
                 tools:text="数码大厦A座（北京市海淀区）"
+                android:textStyle="bold"
                 android:textSize="@dimen/em_size_normal"
                 android:textColor="?attr/msgTextColor"/>
 

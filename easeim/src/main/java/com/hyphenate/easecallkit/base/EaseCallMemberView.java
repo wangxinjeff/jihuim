@@ -211,8 +211,6 @@ public class EaseCallMemberView extends RelativeLayout {
                   talkingView.setImageResource(R.drawable.ease_mic_level_12);
               }else if(value ==13){
                   talkingView.setImageResource(R.drawable.ease_mic_level_13);
-              }else if(value == 14){
-                  talkingView.setImageResource(R.drawable.ease_mic_level_14);
               }
         }else{
             talkingView.setImageResource(R.drawable.ease_mic_level_on);

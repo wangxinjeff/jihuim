@@ -97,7 +97,26 @@ startActivity(new Intent(this, AdminLoginActivity.class));
 ```
 EaseIMHelper.getInstance().logoutChat(new EMCallBack(){});
 ```
+4.获取未读数
+```
+EaseIMHelper.getInstance().getChatUnread(new EMValueCallBack<Map<String, Integer>>() {
+	        @Override
+            public void onSuccess(Map<String, Integer> stringIntegerMap) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                    	//未读总数
+                        stringIntegerMap.get(EaseConstant.UNREAD_TOTAL);
+                    }
+                });
+            }
 
+            @Override
+            public void onError(int i, String s) {
+
+            }
+});
+```
 
 ### 离线推送集成
 在项目的AndroidManifest.xml中配置vivo push的appid和appkey

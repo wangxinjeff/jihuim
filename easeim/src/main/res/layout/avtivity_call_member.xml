@@ -17,7 +17,20 @@
         android:layout_height="match_parent"
         android:src="@drawable/call_memberview_background"
         android:scaleType="fitXY"/>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#141414"
+        android:alpha="0.75"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:id="@+id/member_loading"
+        android:visibility="gone" >
+        <ProgressBar
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:indeterminateDrawable="@drawable/call_load_progress" />
+    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/adaptive_44dp"
@@ -49,18 +62,4 @@
             android:visibility="gone"
             android:background="@null"/>
     </RelativeLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#7f7f7f"
-        android:alpha="0.3"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:id="@+id/member_loading"
-        android:visibility="gone" >
-        <ProgressBar
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:indeterminateDrawable="@drawable/call_load_progress" />
-    </LinearLayout>
 </RelativeLayout>

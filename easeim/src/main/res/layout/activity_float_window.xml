@@ -3,7 +3,7 @@
     android:layout_width="@dimen/call_float_size"
     android:layout_height="@dimen/call_float_size"
     android:background="@drawable/call_float_bg"
-    android:padding="10dp"
+    android:padding="8dp"
     >
 
     <LinearLayout

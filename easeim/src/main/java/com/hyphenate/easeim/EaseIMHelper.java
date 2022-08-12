@@ -975,14 +975,16 @@ public class EaseIMHelper {
         int exclusiveUnread = 0;
         int unread = 0;
         Map<String, EMConversation> map = EMClient.getInstance().chatManager().getAllConversations();
+        List<String> noPushGroupIds = EaseIMHelper.getInstance().getPushManager().getNoPushGroups();
+        List<String> noPushUserIds = EaseIMHelper.getInstance().getPushManager().getNoPushUsers();
         if(isAdmin()){
             for(EMConversation conversation : map.values()){
                 if(conversation.getType() == EMConversation.EMConversationType.GroupChat){
-                    if(!getPushManager().getNoPushGroups().contains(conversation.conversationId())) {
+                    if(noPushGroupIds != null && !noPushGroupIds.contains(conversation.conversationId())) {
                         totalUnread += conversation.getUnreadMsgCount();
                     }
                 } else if(conversation.getType() == EMConversation.EMConversationType.Chat){
-                    if(!getPushManager().getNoPushUsers().contains(conversation.conversationId())) {
+                    if(noPushUserIds != null && !noPushUserIds.contains(conversation.conversationId())) {
                         totalUnread += conversation.getUnreadMsgCount();
                     }
                 }
@@ -990,17 +992,16 @@ public class EaseIMHelper {
         } else {
             for(EMConversation conversation : map.values()){
                 if(isExclusiveGroup(conversation)){
-                    if(!getPushManager().getNoPushGroups().contains(conversation.conversationId())){
+                    if(noPushGroupIds != null && !noPushGroupIds.contains(conversation.conversationId())){
                         exclusiveUnread += conversation.getUnreadMsgCount();
-                        EMLog.e("testapi:", conversation.conversationId() + " = " + conversation.getUnreadMsgCount());
                     }
                 } else {
                     if(conversation.getType() == EMConversation.EMConversationType.GroupChat){
-                        if(!getPushManager().getNoPushGroups().contains(conversation.conversationId())) {
+                        if(noPushGroupIds != null && !noPushGroupIds.contains(conversation.conversationId())) {
                             unread += conversation.getUnreadMsgCount();
                         }
                     } else if(conversation.getType() == EMConversation.EMConversationType.Chat){
-                        if(!getPushManager().getNoPushUsers().contains(conversation.conversationId())) {
+                        if(noPushUserIds != null && !noPushUserIds.contains(conversation.conversationId())) {
                             unread += conversation.getUnreadMsgCount();
                         }
                     }
@@ -1096,7 +1097,7 @@ public class EaseIMHelper {
             EaseUser user = EaseIMHelper.getInstance().getUserProfileManager().getCurrentUserInfo();
             userInfo.put(EaseConstant.MESSAGE_ATTR_USER_NAME, user.getUsername());
             userInfo.put(EaseConstant.MESSAGE_ATTR_USER_NICK, user.getNickname());
-            userInfo.put(EaseConstant.MESSAGE_ATTR_USER_AVATAR, user.getAvatar());
+            userInfo.put(EaseConstant.MESSAGE_ATTR_USER_AVATAR, user.getAvatar() != null ? user.getAvatar() : "");
             message.setAttribute(EaseConstant.MESSAGE_ATTR_USER_INFO, userInfo);
         } catch (JSONException e) {
             e.printStackTrace();
