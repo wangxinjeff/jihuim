@@ -978,11 +978,19 @@ public class EaseIMHelper {
         if(isAdmin()){
             for(EMConversation conversation : map.values()){
                 if(conversation.getType() == EMConversation.EMConversationType.GroupChat){
-                    if(noPushGroupIds != null && !noPushGroupIds.contains(conversation.conversationId())) {
+                    if(noPushGroupIds != null){
+                        if(!noPushGroupIds.contains(conversation.conversationId())){
+                            totalUnread += conversation.getUnreadMsgCount();
+                        }
+                    } else {
                         totalUnread += conversation.getUnreadMsgCount();
                     }
                 } else if(conversation.getType() == EMConversation.EMConversationType.Chat){
-                    if(noPushUserIds != null && !noPushUserIds.contains(conversation.conversationId())) {
+                    if(noPushUserIds != null) {
+                        if(!noPushUserIds.contains(conversation.conversationId())){
+                            totalUnread += conversation.getUnreadMsgCount();
+                        }
+                    } else {
                         totalUnread += conversation.getUnreadMsgCount();
                     }
                 }
@@ -990,16 +998,28 @@ public class EaseIMHelper {
         } else {
             for(EMConversation conversation : map.values()){
                 if(isExclusiveGroup(conversation)){
-                    if(noPushGroupIds != null && !noPushGroupIds.contains(conversation.conversationId())){
+                    if(noPushGroupIds != null){
+                        if(!noPushGroupIds.contains(conversation.conversationId())){
+                            exclusiveUnread += conversation.getUnreadMsgCount();
+                        }
+                    } else {
                         exclusiveUnread += conversation.getUnreadMsgCount();
                     }
                 } else {
                     if(conversation.getType() == EMConversation.EMConversationType.GroupChat){
-                        if(noPushGroupIds != null && !noPushGroupIds.contains(conversation.conversationId())) {
+                        if(noPushGroupIds != null) {
+                            if(!noPushGroupIds.contains(conversation.conversationId())){
+                                unread += conversation.getUnreadMsgCount();
+                            }
+                        } else {
                             unread += conversation.getUnreadMsgCount();
                         }
                     } else if(conversation.getType() == EMConversation.EMConversationType.Chat){
-                        if(noPushUserIds != null && !noPushUserIds.contains(conversation.conversationId())) {
+                        if(noPushUserIds != null) {
+                            if(!noPushUserIds.contains(conversation.conversationId())){
+                                unread += conversation.getUnreadMsgCount();
+                            }
+                        } else {
                             unread += conversation.getUnreadMsgCount();
                         }
                     }
