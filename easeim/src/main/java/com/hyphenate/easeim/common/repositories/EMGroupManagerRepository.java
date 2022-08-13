@@ -1718,7 +1718,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     json.put("mobile", mobile);
                     json.put("orderId", orderId);
                     json.put("vin", vin);
-                    json.put("groupType", groupType);
+//                    json.put("groupType", groupType);
                     json.put("groupName", groupName);
                     json.put("source", source);
                     RequestBody body = RequestBody.create(JSON, json.toString());

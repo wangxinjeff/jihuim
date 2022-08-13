@@ -23,12 +23,12 @@ public class ChooseActivity extends BaseInitActivity {
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         if(EaseIMHelper.getInstance().getAutoLogin()){
-            EaseIMHelper.getInstance().setAid("222510");
-            EaseIMHelper.getInstance().setAidToken("ad8s8d9adhka");
             if(EaseIMHelper.getInstance().getModel().getAppMode()){
                 startActivity(new Intent(ChooseActivity.this, AdminLoginActivity.class));
             } else {
 //                LoginActivity.startAction(ChooseActivity.this);
+                EaseIMHelper.getInstance().setAid("222510");
+                EaseIMHelper.getInstance().setAidToken("ad8s8d9adhka");
                 EaseIMHelper.getInstance().loginSuccess();
                 startActivity(new Intent(ChooseActivity.this, MainActivity.class));
             }
@@ -45,6 +45,8 @@ public class ChooseActivity extends BaseInitActivity {
         customer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EaseIMHelper.getInstance().setAid("222510");
+                EaseIMHelper.getInstance().setAidToken("ad8s8d9adhka");
                 EaseIMHelper.getInstance().getModel().setAppMode(false);
                 LoginActivity.startAction(ChooseActivity.this);
                 finish();
@@ -53,8 +55,6 @@ public class ChooseActivity extends BaseInitActivity {
         admin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EaseIMHelper.getInstance().setAid("222510");
-                EaseIMHelper.getInstance().setAidToken("ad8s8d9adhka");
                 EaseIMHelper.getInstance().getModel().setAppMode(true);
                 startActivity(new Intent(ChooseActivity.this, AdminLoginActivity.class));
                 finish();

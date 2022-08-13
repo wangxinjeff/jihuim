@@ -2,19 +2,30 @@ package com.hyphenate.easeim.common.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 public class EMOrder implements Parcelable {
     private String id;
     private String type;
-    private String name;
+    private String typeName;
+    private String goodsName;
     private String date;
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 
     public EMOrder(){}
 
     protected EMOrder(Parcel in) {
         id = in.readString();
         type = in.readString();
-        name = in.readString();
+        typeName = in.readString();
+        goodsName = in.readString();
         date = in.readString();
     }
 
@@ -44,14 +55,23 @@ public class EMOrder implements Parcelable {
 
     public void setType(String type) {
         this.type = type;
+        if(TextUtils.equals("MAIN", type)){
+            typeName = "维保订单";
+        } else if(TextUtils.equals("PICKCAR", type)){
+            typeName = "取送订单";
+        } else if(TextUtils.equals("FINE", type)){
+            typeName = "精品订单";
+        } else if(TextUtils.equals("PACKAGE", type)){
+            typeName = "服务订单";
+        }
     }
 
-    public String getName() {
-        return name;
+    public String getGoodsName() {
+        return goodsName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
     }
 
     public String getDate() {
@@ -71,7 +91,8 @@ public class EMOrder implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(type);
-        dest.writeString(name);
+        dest.writeString(typeName);
+        dest.writeString(goodsName);
         dest.writeString(date);
     }
 }

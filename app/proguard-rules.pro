@@ -121,10 +121,6 @@
 -keep class com.hyphenate.easeim.common.model.** { *; }
 -keep class com.hyphenate.easeim.common.db.entity.** { *; }
 
-#jar包
--libraryjars libs/mi_push_v3.6.12.jar
--libraryjars libs/vivo_push_v2.3.1.jar
-
 #百度地图
 -keep class com.baidu.** {*;}
 -keep class vi.com.** {*;}
@@ -132,17 +128,12 @@
 -dontwarn com.baidu.**
 
 #小米推送
-#下面可以不需要，环信SDK混淆逻辑中已包含相关
-#-keep class com.hyphenate.push.platform.mi.EMMiMsgReceiver {*;}
-#可以防止一个误报的 warning 导致无法成功编译，如果编译使用的 Android 版本是 23。
 -dontwarn com.xiaomi.push.**
 
 #Vivo推送
 -dontwarn com.vivo.push.**
 -keep class com.vivo.push.**{*;   }
 -keep class com.vivo.vms.**{*; }
-#环信SDK已添加相应的规则
-#-keep class com.hyphenate.push.platform.vivo.EMVivoMsgReceiver{*;}
 
 #OPPO推送
 -keep public class * extends android.app.Service
@@ -162,8 +153,16 @@
 #环信
 -keep class com.hyphenate.** {*;}
 -dontwarn  com.hyphenate.**
-#如果使用apache库
-#-keep class internal.org.apache.http.entity.** {*;}
-#如果使用了实时音视频功能
--keep class com.superrtc.** {*;}
--dontwarn  com.superrtc.**
+
+
+##Glide
+-dontwarn com.bumptech.glide.**
+-keep class com.bumptech.glide.**{*;}
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.AppGlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
+-keep class io.agora.**{*;}

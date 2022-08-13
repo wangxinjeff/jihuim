@@ -215,7 +215,7 @@ public class EaseIMHelper {
         //设置呼叫超时时间
         callKitConfig.setCallTimeOut(30 * 1000);
         //设置声网AgoraAppId
-        callKitConfig.setAgoraAppId("e305be556e0f4846b8ad2c3e21bc78ec");
+        callKitConfig.setAgoraAppId("943bfefbbfb54b3cac36507a1b006a9f");
         callKitConfig.setEnableRTCToken(true);
         EaseCallKit.getInstance().init(context,callKitConfig);
         // Register the activities which you have registered in manifest
@@ -980,11 +980,19 @@ public class EaseIMHelper {
         if(isAdmin()){
             for(EMConversation conversation : map.values()){
                 if(conversation.getType() == EMConversation.EMConversationType.GroupChat){
-                    if(noPushGroupIds != null && !noPushGroupIds.contains(conversation.conversationId())) {
+                    if(noPushGroupIds != null){
+                        if(!noPushGroupIds.contains(conversation.conversationId())){
+                            totalUnread += conversation.getUnreadMsgCount();
+                        }
+                    } else {
                         totalUnread += conversation.getUnreadMsgCount();
                     }
                 } else if(conversation.getType() == EMConversation.EMConversationType.Chat){
-                    if(noPushUserIds != null && !noPushUserIds.contains(conversation.conversationId())) {
+                    if(noPushUserIds != null) {
+                        if(!noPushUserIds.contains(conversation.conversationId())){
+                            totalUnread += conversation.getUnreadMsgCount();
+                        }
+                    } else {
                         totalUnread += conversation.getUnreadMsgCount();
                     }
                 }
@@ -992,16 +1000,28 @@ public class EaseIMHelper {
         } else {
             for(EMConversation conversation : map.values()){
                 if(isExclusiveGroup(conversation)){
-                    if(noPushGroupIds != null && !noPushGroupIds.contains(conversation.conversationId())){
+                    if(noPushGroupIds != null){
+                        if(!noPushGroupIds.contains(conversation.conversationId())){
+                            exclusiveUnread += conversation.getUnreadMsgCount();
+                        }
+                    } else {
                         exclusiveUnread += conversation.getUnreadMsgCount();
                     }
                 } else {
                     if(conversation.getType() == EMConversation.EMConversationType.GroupChat){
-                        if(noPushGroupIds != null && !noPushGroupIds.contains(conversation.conversationId())) {
+                        if(noPushGroupIds != null) {
+                            if(!noPushGroupIds.contains(conversation.conversationId())){
+                                unread += conversation.getUnreadMsgCount();
+                            }
+                        } else {
                             unread += conversation.getUnreadMsgCount();
                         }
                     } else if(conversation.getType() == EMConversation.EMConversationType.Chat){
-                        if(noPushUserIds != null && !noPushUserIds.contains(conversation.conversationId())) {
+                        if(noPushUserIds != null) {
+                            if(!noPushUserIds.contains(conversation.conversationId())){
+                                unread += conversation.getUnreadMsgCount();
+                            }
+                        } else {
                             unread += conversation.getUnreadMsgCount();
                         }
                     }

@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.hyphenate.easeim.R;
@@ -46,7 +45,7 @@ public class OrderListAdapter extends EaseBaseRecyclerViewAdapter<EMOrder> {
         @Override
         public void setData(EMOrder item, int position) {
             orderTitle.setText(item.getId() + "订单");
-            orderName.setText("商品名称: " + item.getName());
+            orderName.setText("商品名称: " + item.getGoodsName());
             orderDate.setText("下单日期: " + item.getDate());
             btnSend.setOnClickListener(new View.OnClickListener() {
                 @Override

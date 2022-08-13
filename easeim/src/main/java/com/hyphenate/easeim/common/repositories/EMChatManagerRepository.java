@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
@@ -322,9 +321,9 @@ public class EMChatManagerRepository extends BaseEMRepository{
                     MediaType JSON = MediaType.get("application/json; charset=utf-8");
                     OkHttpClient client = new OkHttpClient();
                     JSONObject json = new JSONObject();
-                    json.put("aid", "222510");
+                    json.put("aid", EaseIMHelper.getInstance().getModel().getAid());
                     json.put("orderType", type);
-                    json.put("token", "ad8s8d9adhka");
+                    json.put("token", EaseIMHelper.getInstance().getModel().getAidToken());
                     RequestBody body = RequestBody.create(JSON, json.toString());
 
                     Headers headers = new Headers.Builder()
@@ -358,7 +357,7 @@ public class EMChatManagerRepository extends BaseEMRepository{
                                                 JSONObject item = data.getJSONObject(i);
                                                 EMOrder order = new EMOrder();
                                                 order.setId(item.optString("orderId"));
-                                                order.setName(item.optString("productName"));
+                                                order.setGoodsName(item.optString("productName"));
                                                 order.setType(item.optString("orderType"));
                                                 order.setDate(item.optString("orderDate"));
                                                 list.add(order);

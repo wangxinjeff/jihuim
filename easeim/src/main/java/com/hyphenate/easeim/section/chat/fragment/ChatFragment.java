@@ -11,13 +11,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCustomMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeim.EaseIMHelper;
@@ -27,7 +23,6 @@ import com.hyphenate.easeim.common.model.EMOrder;
 import com.hyphenate.easeim.section.chat.activity.OrderListActivity;
 import com.hyphenate.easeim.section.chat.activity.PickAtUserActivity;
 import com.hyphenate.easeim.section.conference.ConferenceInviteActivity;
-import com.hyphenate.easeim.section.group.viewmodels.GroupDetailViewModel;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseEvent;
@@ -207,7 +202,7 @@ public class ChatFragment extends EaseChatFragment implements OnRecallMessageRes
 
                 case REQUEST_CODE_ORDER:
                     EMOrder order = (EMOrder) data.getParcelableExtra("order");
-                    String content = order.getId() + "订单\n订单类型：" + order.getType() + "\n商品名称：" + order.getName() + "\n下单日期：" + order.getDate();
+                    String content = order.getId() + "订单\n订单类型：" + order.getTypeName() + "\n商品名称：" + order.getGoodsName() + "\n下单日期：" + order.getDate();
                     chatLayout.sendTextMessage(content);
                     break;
             }

@@ -26,7 +26,9 @@ public class OrderListActivity extends BaseInitActivity {
     private ViewPager2 viewPager;
     private List<Fragment> fragments;
     private OrderListFragment mainFragment;
+    private OrderListFragment pickCarFragment;
     private OrderListFragment fineFragment;
+    private OrderListFragment packageFragment;
 
     public static void actionStart(Fragment context, int requestCode) {
         Intent intent = new Intent(context.getContext(), OrderListActivity.class);
@@ -47,12 +49,18 @@ public class OrderListActivity extends BaseInitActivity {
 
         fragments = new ArrayList<>();
         mainFragment = new OrderListFragment("MAIN");
+        pickCarFragment = new OrderListFragment("PICKCAR");
         fineFragment = new OrderListFragment("FINE");
+        packageFragment = new OrderListFragment("PACKAGE");
         fragments.add(mainFragment);
+        fragments.add(pickCarFragment);
         fragments.add(fineFragment);
+        fragments.add(packageFragment);
 
         List<String> titleList = new ArrayList<>();
         titleList.add("维保订单");
+        titleList.add("取送订单");
+        titleList.add("精品订单");
         titleList.add("服务订单");
 
         viewPager.setAdapter(new SectionPagerAdapter(this, fragments));
