@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -30,9 +31,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import android.support.annotation.Nullable;
+
+import android.support.v4.content.ContextCompat;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;

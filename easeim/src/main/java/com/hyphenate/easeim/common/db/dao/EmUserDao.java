@@ -1,10 +1,10 @@
 package com.hyphenate.easeim.common.db.dao;
 
-import androidx.lifecycle.LiveData;
-import androidx.room.Dao;
-import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
-import androidx.room.Query;
+import android.arch.lifecycle.LiveData;
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
+import android.arch.persistence.room.Query;
 
 import com.hyphenate.easeim.common.db.entity.EmUserEntity;
 import com.hyphenate.easeui.domain.EaseUser;
@@ -27,13 +27,13 @@ public interface EmUserDao {
     List<EaseUser> loadUserByUserId(String arg0);
 
     @Query("select * from em_users where contact = 0")
-    LiveData<List<EaseUser>> loadUsers();
+    List<EaseUser> loadUsers();
 
     @Query("select * from em_users where contact = 0")
     List<EaseUser> loadContacts();
 
     @Query("select * from em_users where contact = 1")
-    LiveData<List<EaseUser>> loadBlackUsers();
+    List<EaseUser> loadBlackUsers();
 
     @Query("select * from em_users where contact = 1")
     List<EaseUser> loadBlackEaseUsers();

@@ -1,26 +1,26 @@
 package com.hyphenate.easeim.section.group.activity;
 
 import android.app.Activity;
-import android.content.Context;
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProvider;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
+import android.support.v4.content.ContextCompat;
 
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
+import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
-import com.hyphenate.easeim.section.group.viewmodels.GroupDetailViewModel;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
@@ -41,7 +41,6 @@ public class GroupEditActivity extends BaseInitActivity {
     private boolean canEdit;
     private boolean isShowNote;
     private int requestCode;
-    private GroupDetailViewModel viewModel;
     private String groupId;
     private boolean updateSuccess;
     private String updateContent;
@@ -133,77 +132,26 @@ public class GroupEditActivity extends BaseInitActivity {
     @Override
     protected void initData() {
         super.initData();
-        viewModel = new ViewModelProvider(this).get(GroupDetailViewModel.class);
-        viewModel.getRefreshObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<String>() {
-                @Override
-                public void onSuccess(String data) {
-                    updateSuccess = true;
-                    ToastUtils.showCenterToast("", getString(R.string.em_save_success), 0 , Toast.LENGTH_SHORT);
-                }
-
-                @Override
-                public void onLoading(@Nullable String data) {
-                    super.onLoading(data);
-                    showLoading();
-                }
-
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-                    dismissLoading();
-                }
-            });
-        });
-
-        viewModel.getServiceNoteObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<String>() {
-                @Override
-                public void onSuccess(@Nullable String data) {
-                    updateSuccess = true;
-                    ToastUtils.showCenterToast("", getString(R.string.em_save_success), 0, Toast.LENGTH_SHORT);
-                }
-
-                @Override
-                public void onLoading(@Nullable String data) {
-                    super.onLoading(data);
-                    showLoading();
-                }
-
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-                    dismissLoading();
-                }
-            });
-        });
-
-        viewModel.getNoteObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<List<String>>() {
-                @Override
-                public void onSuccess(@Nullable List<String> data) {
-                    systemNoteText = data.get(0);
-                    serviceNoteText = data.get(1);
-                    systemNote.setText(systemNoteText);
-                    serviceNote.setText(serviceNoteText);
-                }
-
-                @Override
-                public void onLoading(@Nullable List<String> data) {
-                    super.onLoading(data);
-                    showLoading();
-                }
-
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-                    dismissLoading();
-                }
-            });
-        });
 
         if(isShowNote){
-            viewModel.getServiceNote(groupId);
+            showLoading();
+            EMGroupManagerRepository.getInstance().getServiceNote(groupId, new ResultCallBack<List<String>>() {
+                @Override
+                public void onSuccess(List<String> data) {
+                    dismissLoading();
+                    runOnUiThread(() -> {
+                        systemNoteText = data.get(0);
+                        serviceNoteText = data.get(1);
+                        systemNote.setText(systemNoteText);
+                        serviceNote.setText(serviceNoteText);
+                    });
+                }
+
+                @Override
+                public void onError(int i, String s) {
+                    dismissLoading();
+                }
+            });
         }
     }
 
@@ -232,6 +180,7 @@ public class GroupEditActivity extends BaseInitActivity {
                             editContent.setSelection(editContent.getText().length());
                         }
                     } else if(TextUtils.equals(getString(R.string.em_chat_group_save), titleBar.getRightText().getText().toString())){
+                        showLoading();
                         if(isShowNote){
                             updateContent = serviceNote.getText().toString();
                         } else {
@@ -239,16 +188,65 @@ public class GroupEditActivity extends BaseInitActivity {
                         }
                         if(TextUtils.equals(title, getString(R.string.em_chat_group_detail_name))){
                             //修改群名称
-                            viewModel.setGroupName(groupId, editContent.getText().toString());
+                            EMGroupManagerRepository.getInstance().setGroupName(groupId, editContent.getText().toString(), new ResultCallBack<String>() {
+                                @Override
+                                public void onSuccess(String s) {
+                                    dismissLoading();
+                                    updateSuccess = true;
+                                    ToastUtils.showCenterToast("", getString(R.string.em_save_success), 0 , Toast.LENGTH_SHORT);
+                                }
+
+                                @Override
+                                public void onError(int i, String s) {
+                                    dismissLoading();
+
+                                }
+                            });
                         } else if(TextUtils.equals(title, getString(R.string.em_chat_group_detail_announcement))){
                             //修改群公告
-                            viewModel.setGroupAnnouncement(groupId, editContent.getText().toString());
+                            EMGroupManagerRepository.getInstance().setGroupAnnouncement(groupId, editContent.getText().toString(), new ResultCallBack<String>() {
+                                @Override
+                                public void onSuccess(String s) {
+                                    dismissLoading();
+                                    updateSuccess = true;
+                                    ToastUtils.showCenterToast("", getString(R.string.em_save_success), 0 , Toast.LENGTH_SHORT);
+                                }
+
+                                @Override
+                                public void onError(int i, String s) {
+                                    dismissLoading();
+                                }
+                            });
                         } else if(TextUtils.equals(title, getString(R.string.em_chat_group_detail_introduction))){
                             //修改群介绍
-                            viewModel.setGroupDescription(groupId, editContent.getText().toString());
+                            EMGroupManagerRepository.getInstance().setGroupDescription(groupId, editContent.getText().toString(), new ResultCallBack<String>() {
+                                @Override
+                                public void onSuccess(String s) {
+                                    dismissLoading();
+                                    updateSuccess = true;
+                                    ToastUtils.showCenterToast("", getString(R.string.em_save_success), 0 , Toast.LENGTH_SHORT);
+                                }
+
+                                @Override
+                                public void onError(int i, String s) {
+                                    dismissLoading();
+                                }
+                            });
                         } else if(TextUtils.equals(title, getString(R.string.em_group_note))){
                             //修改运营备注
-                            viewModel.changeServiceNote(groupId, serviceNote.getText().toString());
+                            EMGroupManagerRepository.getInstance().changeServiceNote(groupId, serviceNote.getText().toString(), new ResultCallBack() {
+                                @Override
+                                public void onSuccess(Object o) {
+                                    dismissLoading();
+                                    updateSuccess = true;
+                                    ToastUtils.showCenterToast("", getString(R.string.em_save_success), 0, Toast.LENGTH_SHORT);
+                                }
+
+                                @Override
+                                public void onError(int i, String s) {
+                                    dismissLoading();
+                                }
+                            });
                         }
                         titleBar.getRightText().setText(R.string.em_action_edit);
                         if(isShowNote){

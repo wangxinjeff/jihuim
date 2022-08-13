@@ -18,11 +18,12 @@ package com.hyphenate.mediapicker.internal.ui.widget;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
+import android.support.annotation.Nullable;
 
 import com.hyphenate.easeim.R;
 

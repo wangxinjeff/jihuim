@@ -1,10 +1,11 @@
 package com.hyphenate.easeui.viewholder;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMFileMessageBody;

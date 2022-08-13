@@ -17,7 +17,7 @@
         android:gravity="center_vertical"
         android:background="@drawable/pop_item_selector"
         >
-        <androidx.appcompat.widget.AppCompatImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/notify_icon"
             android:layout_width="28dp"
             android:layout_height="28dp"
@@ -25,7 +25,7 @@
             android:layout_marginStart="16dp"
         />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/em_message_notify"
@@ -42,14 +42,14 @@
         android:gravity="center_vertical"
         android:background="@drawable/pop_item_selector"
         >
-        <androidx.appcompat.widget.AppCompatImageView
+        <android.support.v7.widget.AppCompatImageView
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:src="@drawable/icon_search_group"
             android:layout_marginStart="16dp"
             />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/em_search_group"
@@ -66,14 +66,14 @@
         android:gravity="center_vertical"
         android:background="@drawable/pop_item_selector"
         >
-        <androidx.appcompat.widget.AppCompatImageView
+        <android.support.v7.widget.AppCompatImageView
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:src="@drawable/icon_create_group"
             android:layout_marginStart="16dp"
             />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/em_create_group"
@@ -90,14 +90,14 @@
         android:gravity="center_vertical"
         android:background="@drawable/pop_item_selector"
         >
-        <androidx.appcompat.widget.AppCompatImageView
+        <android.support.v7.widget.AppCompatImageView
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:src="@drawable/icon_group_apply"
             android:layout_marginStart="16dp"
             />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/em_group_apply"
@@ -105,7 +105,7 @@
             android:textColor="?attr/normalTextColor"
             android:layout_marginStart="8dp"
             />
-        <androidx.appcompat.widget.AppCompatImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/apply_unread_icon"
             android:layout_width="8dp"
             android:layout_height="8dp"

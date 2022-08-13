@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 import com.hyphenate.mediapicker.camera.CameraDialogFragment;
 import com.hyphenate.mediapicker.camera.CameraUtils;

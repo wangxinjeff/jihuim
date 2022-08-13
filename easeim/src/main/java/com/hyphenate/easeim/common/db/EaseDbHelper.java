@@ -1,11 +1,10 @@
 package com.hyphenate.easeim.common.db;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.text.TextUtils;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.room.Room;
 
 import com.hyphenate.easeim.common.db.dao.AppKeyDao;
 import com.hyphenate.easeim.common.db.dao.EmUserDao;

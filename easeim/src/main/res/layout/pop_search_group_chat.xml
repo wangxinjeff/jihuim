@@ -10,7 +10,7 @@
     android:paddingEnd="1dp"
     >
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/item1"
         android:layout_width="94dp"
         android:layout_height="36dp"
@@ -19,7 +19,7 @@
         android:textColor="?attr/normalTextColor"
         android:background="@drawable/pop_item_selector"
         />
-    <androidx.appcompat.widget.AppCompatTextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/item2"
         android:layout_width="94dp"
         android:layout_height="36dp"
@@ -28,7 +28,7 @@
         android:textColor="?attr/normalTextColor"
         android:background="@drawable/pop_item_selector"
         />
-    <androidx.appcompat.widget.AppCompatTextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/item3"
         android:layout_width="94dp"
         android:layout_height="36dp"
@@ -37,7 +37,7 @@
         android:textColor="?attr/normalTextColor"
         android:background="@drawable/pop_item_selector"
         />
-    <androidx.appcompat.widget.AppCompatTextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/item4"
         android:layout_width="94dp"
         android:layout_height="36dp"

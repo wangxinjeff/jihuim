@@ -1,23 +1,20 @@
 package com.hyphenate.easeim.section.group.activity;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMGroup;
-
-import com.hyphenate.chat.EMGroupOptions;
-import com.hyphenate.chat.EMMessage;
-import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.common.widget.ArrowItemView;
@@ -25,8 +22,6 @@ import com.hyphenate.easeim.common.widget.ArrowItemView;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 
 import com.hyphenate.easeim.section.chat.activity.ChatActivity;
-import com.hyphenate.easeim.section.dialog.SimpleDialogFragment;
-import com.hyphenate.easeim.section.group.viewmodels.NewGroupViewModel;
 
 import com.hyphenate.easeim.section.group.adapter.GroupDetailMemberAdapter;
 import com.hyphenate.easeim.section.group.fragment.GroupEditFragment;
@@ -35,18 +30,10 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
 
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import org.w3c.dom.Text;
+import android.support.v7.widget.AppCompatButton;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.hyphenate.chat.EMGroupManager.EMGroupStyle.EMGroupStylePrivateOnlyOwnerInvite;
 
 public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.OnBackPressListener, View.OnClickListener{
     private static final int ADD_NEW_MEMBERS = 10;
@@ -59,7 +46,6 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
     private int maxUsers = 200;
     private static final int MAX_GROUP_USERS = 3000;
     private static final int MIN_GROUP_USERS = 3;
-    private NewGroupViewModel viewModel;
     private List<EaseUser> members;
 
     private GroupDetailMemberAdapter memberAdapter;
@@ -136,42 +122,6 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
         });
 
         confirmBtn.setOnClickListener(this);
-
-        viewModel = new ViewModelProvider(this).get(NewGroupViewModel.class);
-        viewModel.groupObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<String>() {
-                @Override
-                public void onSuccess(String groupId) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ToastUtils.showCenterToast("", "创建成功", 0, Toast.LENGTH_SHORT);
-                            ChatActivity.actionStart(mContext, groupId, EaseConstant.CHATTYPE_GROUP);
-                            finish();
-                        }
-                    });
-                }
-
-                @Override
-                public void onLoading(String data) {
-                    super.onLoading(data);
-                    showLoading();
-                }
-
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-                    dismissLoading();
-                }
-
-                @Override
-                public void onError(int code, String message) {
-                    super.onError(code, message);
-                    ToastUtils.showCenterToast("", "创建群组失败:" + code + ":" + message, 0, Toast.LENGTH_SHORT);
-                }
-            });
-        });
-
     }
 
     @Override
@@ -241,7 +191,21 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
                 return;
             }
 
-            viewModel.createGroup(groupName, groupIntroduction, customers, waiters);
+            EMGroupManagerRepository.getInstance().createGroup(groupName, groupIntroduction, customers, waiters, new ResultCallBack<String>() {
+                @Override
+                public void onSuccess(String groupId) {
+                    runOnUiThread(() -> {
+                        ToastUtils.showCenterToast("", "创建成功", 0, Toast.LENGTH_SHORT);
+                        ChatActivity.actionStart(mContext, groupId, EaseConstant.CHATTYPE_GROUP);
+                        finish();
+                    });
+                }
+
+                @Override
+                public void onError(int i, String s) {
+
+                }
+            });
         }
     }
 

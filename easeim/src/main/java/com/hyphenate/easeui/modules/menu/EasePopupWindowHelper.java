@@ -2,6 +2,8 @@ package com.hyphenate.easeui.modules.menu;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -12,9 +14,8 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.adapter.EaseBaseRecyclerViewAdapter;

@@ -1,8 +1,10 @@
 package com.hyphenate.easeim.section.group.activity;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -10,12 +12,13 @@ import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
+import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.widget.SearchBar;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.group.adapter.GroupMemberListAdapter;
 import com.hyphenate.easeim.section.group.delegate.GroupMemberDelegate;
-import com.hyphenate.easeim.section.group.viewmodels.GroupMemberAuthorityViewModel;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.manager.EaseThreadManager;
@@ -25,10 +28,6 @@ import com.hyphenate.easeui.widget.EaseTitleBar;
 
 import java.util.List;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.ConcatAdapter;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 public class GroupMemberTypeActivity extends BaseInitActivity implements EaseTitleBar.OnBackPressListener{
     private static final int REQUEST_CODE_ADD_USER = 0;
     private EaseTitleBar titleBar;
@@ -36,9 +35,9 @@ public class GroupMemberTypeActivity extends BaseInitActivity implements EaseTit
     private EMGroup group;
     private boolean isOwner;
     private SearchBar searchBar;
-    private ConcatAdapter adapter;
     private GroupMemberListAdapter listAdapter;
     private EaseRecyclerView memberListView;
+    private EMGroupManagerRepository repository = new EMGroupManagerRepository();
 
     @Override
     protected int getLayoutId() {
@@ -75,16 +74,10 @@ public class GroupMemberTypeActivity extends BaseInitActivity implements EaseTit
         memberListView = findViewById(R.id.rv_member_list);
         memberListView.setLayoutManager(new LinearLayoutManager(this));
 
-        ConcatAdapter.Config config = new ConcatAdapter.Config.Builder()
-                .setStableIdMode(ConcatAdapter.Config.StableIdMode.ISOLATED_STABLE_IDS)
-                .build();
-        adapter = new ConcatAdapter(config);
-
         listAdapter = new GroupMemberListAdapter();
         listAdapter.setHasStableIds(true);
-        adapter.addAdapter(listAdapter);
         listAdapter.addDelegate(new GroupMemberDelegate());
-        memberListView.setAdapter(adapter);
+        memberListView.setAdapter(listAdapter);
     }
 
     @Override
@@ -109,34 +102,11 @@ public class GroupMemberTypeActivity extends BaseInitActivity implements EaseTit
     protected void initData() {
         super.initData();
         group = EaseIMHelper.getInstance().getGroupManager().getGroup(groupId);
-        GroupMemberAuthorityViewModel viewModel = new ViewModelProvider(this).get(GroupMemberAuthorityViewModel.class);
+        getGroupMembers();
 
-        viewModel.getGroupMember().observe(this, response -> {
-
-            parseResource(response, new OnResourceParseCallback<List<EaseUser>>() {
-                @Override
-                public void onSuccess(List<EaseUser> data) {
-                    EaseThreadManager.getInstance().runOnMainThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            listAdapter.setData(data);
-                        }
-                    });
-                }
-
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-
-                }
-            });
-        });
-
-        viewModel.getGroupMembers(groupId);
-
-        viewModel.getMessageChangeObservable().with(EaseConstant.GROUP_CHANGE, EaseEvent.class).observe(this, event -> {
+        LiveDataBus.get().with(EaseConstant.GROUP_CHANGE, EaseEvent.class).observe(this, event -> {
             if(event.isGroupChange()) {
-                viewModel.getGroupMembers(groupId);
+                getGroupMembers();
             }else if(event.isGroupLeave() && TextUtils.equals(groupId, event.message)) {
                 finish();
             }
@@ -157,5 +127,21 @@ public class GroupMemberTypeActivity extends BaseInitActivity implements EaseTit
     @Override
     public void onBackPress(View view) {
         onBackPressed();
+    }
+
+    private void getGroupMembers(){
+        showLoading();
+        repository.getGroupAllMembers(groupId, new ResultCallBack<List<EaseUser>>() {
+            @Override
+            public void onSuccess(List<EaseUser> easeUsers) {
+                dismissLoading();
+                runOnUiThread(() -> listAdapter.setData(easeUsers));
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                dismissLoading();
+            }
+        });
     }
 }

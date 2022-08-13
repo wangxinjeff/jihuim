@@ -1,6 +1,7 @@
 package com.hyphenate.easeim.section.chat.adapter;
 
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +19,7 @@ import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseImageView;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 public class PickUserAdapter extends EaseBaseRecyclerViewAdapter<EaseUser> {
 
@@ -57,7 +58,12 @@ public class PickUserAdapter extends EaseBaseRecyclerViewAdapter<EaseUser> {
             String header = EaseCommonUtils.getLetter(item.getNickname());
             Log.e("TAG", "GroupContactAdapter header = "+header);
             mHeader.setVisibility(View.GONE);
-            // 是否显示字母
+            if(TextUtils.equals( mContext.getString(R.string.all_members),item.getUsername())){
+                mAvatar.setImageResource(Integer.parseInt(item.getAvatar()));
+                mName.setText(item.getUsername());
+                return;
+            }
+
             if(position == 0 || (header != null && !header.equals(EaseCommonUtils.getLetter(getItem(position - 1).getNickname())))) {
                 if(!TextUtils.isEmpty(header)) {
                     mHeader.setVisibility(View.VISIBLE);

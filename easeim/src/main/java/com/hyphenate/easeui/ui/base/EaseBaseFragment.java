@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import androidx.annotation.IdRes;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 
 import com.hyphenate.easeui.manager.EaseThreadManager;
 
@@ -32,7 +33,7 @@ public class EaseBaseFragment extends Fragment {
      * @return
      */
     protected <T extends View> T findViewById(@IdRes int id) {
-        return requireView().findViewById(id);
+        return getView().findViewById(id);
     }
 
     /**

@@ -18,7 +18,7 @@ package com.hyphenate.mediapicker.internal.ui.adapter;
 import android.database.Cursor;
 import android.provider.MediaStore;
 
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView;
 
 public abstract class RecyclerViewCursorAdapter<VH extends RecyclerView.ViewHolder> extends
         RecyclerView.Adapter<VH> {

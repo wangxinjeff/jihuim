@@ -1,25 +1,21 @@
 package com.hyphenate.easeim.section.group.activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.model.GroupApplyBean;
+import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.chat.activity.ChatActivity;
 import com.hyphenate.easeim.section.group.adapter.GroupApplyAdapter;
 
-import com.hyphenate.easeim.section.group.viewmodels.GroupApplyViewModel;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -27,10 +23,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Observable;
 
 public class GroupApplyActivity extends BaseInitActivity implements OnRefreshLoadMoreListener {
 
@@ -38,7 +31,6 @@ public class GroupApplyActivity extends BaseInitActivity implements OnRefreshLoa
     private RecyclerView applyList;
     private SmartRefreshLayout srlRefresh;
     private GroupApplyAdapter applyAdapter;
-    private GroupApplyViewModel viewModel;
     private int page = 0;
     private int size = 20;
     private List<GroupApplyBean> list;
@@ -65,72 +57,7 @@ public class GroupApplyActivity extends BaseInitActivity implements OnRefreshLoa
     protected void initData() {
         super.initData();
         list = new ArrayList<>();
-        viewModel = new ViewModelProvider(this).get(GroupApplyViewModel.class);
-        viewModel.groupApplyObservable().observe(this, response ->{
-            parseResource(response, new OnResourceParseCallback<List<GroupApplyBean>>() {
-                @Override
-                public void onSuccess(@Nullable List<GroupApplyBean> data) {
-                    if(data.size() < 1){
-                        ToastUtils.showCenterToast("", "没数据了", 0, Toast.LENGTH_SHORT);
-                    } else {
-                        list.addAll(data);
-                        runOnUiThread(() -> applyAdapter.setData(list));
-                        page ++;
-                    }
-                }
 
-                @Override
-                public void onLoading(@Nullable List<GroupApplyBean> data) {
-                    super.onLoading(data);
-                    showLoading();
-                }
-
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-                    dismissLoading();
-                    srlRefresh.finishLoadMore();
-                }
-
-                @Override
-                public void onError(int code, String message) {
-                    super.onError(code, message);
-                }
-            });
-        });
-
-        viewModel.groupOperationObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<GroupApplyBean>() {
-                @Override
-                public void onSuccess(@Nullable GroupApplyBean data) {
-                    runOnUiThread(() -> applyAdapter.notifyDataSetChanged());
-                    if(TextUtils.equals(data.getOperatedResult(), "success")){
-                        ToastUtils.showCenterToast("", "已同意", 0, Toast.LENGTH_SHORT);
-                    } else {
-                        ToastUtils.showCenterToast("", "已拒绝", 0, Toast.LENGTH_SHORT);
-                    }
-                }
-
-                @Override
-                public void onLoading(@Nullable GroupApplyBean data) {
-                    super.onLoading(data);
-                    showLoading();
-                }
-
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-                    dismissLoading();
-                }
-
-                @Override
-                public void onError(int code, String message) {
-                    super.onError(code, message);
-                }
-            });
-        });
-
-        viewModel.fetchGroupApply(page, size);
     }
 
     @Override
@@ -148,12 +75,12 @@ public class GroupApplyActivity extends BaseInitActivity implements OnRefreshLoa
         applyAdapter.setOnGroupApplyListener(new GroupApplyAdapter.OnGroupApplyListener() {
             @Override
             public void onRefused(GroupApplyBean bean) {
-                viewModel.operationGroupApply(bean, "fail");
+                operationGroupApply(bean, "fail");
             }
 
             @Override
             public void onAgreed(GroupApplyBean bean) {
-                viewModel.operationGroupApply(bean, "success");
+                operationGroupApply(bean, "success");
             }
 
             @Override
@@ -166,11 +93,54 @@ public class GroupApplyActivity extends BaseInitActivity implements OnRefreshLoa
     @Override
     public void onLoadMore(RefreshLayout refreshLayout) {
         if(applyAdapter.getData().size() >= page * size){
-            viewModel.fetchGroupApply(page, size);
+            fetchGroupApply();
         } else {
             ToastUtils.showCenterToast("", "没数据了", 0, Toast.LENGTH_SHORT);
             srlRefresh.finishLoadMore();
         }
+    }
+
+    private void fetchGroupApply(){
+        showLoading();
+        EMGroupManagerRepository.getInstance().fetchGroupApply(page, size, new ResultCallBack<List<GroupApplyBean>>() {
+            @Override
+            public void onSuccess(List<GroupApplyBean> data) {
+                dismissLoading();
+                if(data.size() < 1){
+                    ToastUtils.showCenterToast("", "没数据了", 0, Toast.LENGTH_SHORT);
+                } else {
+                    list.addAll(data);
+                    runOnUiThread(() -> applyAdapter.setData(list));
+                    page ++;
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                dismissLoading();
+            }
+        });
+    }
+
+    private void operationGroupApply(GroupApplyBean bean, String str){
+        showLoading();
+        EMGroupManagerRepository.getInstance().operationGroupApply(bean, str, new ResultCallBack<GroupApplyBean>() {
+            @Override
+            public void onSuccess(GroupApplyBean bean) {
+                dismissLoading();
+                runOnUiThread(() -> applyAdapter.notifyDataSetChanged());
+                if(TextUtils.equals(bean.getOperatedResult(), "success")){
+                    ToastUtils.showCenterToast("", "已同意", 0, Toast.LENGTH_SHORT);
+                } else {
+                    ToastUtils.showCenterToast("", "已拒绝", 0, Toast.LENGTH_SHORT);
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                dismissLoading();
+            }
+        });
     }
 
     @Override

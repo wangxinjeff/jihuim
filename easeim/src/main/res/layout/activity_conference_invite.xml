@@ -11,12 +11,12 @@
         android:layout_height="@dimen/em_common_title_bar_height"
         app:titleBarDisplayHomeAsUpEnabled="true"
         app:titleBarTitle="@string/Select_the_contact"
-        app:titleBarLeftImage="@drawable/icon_back"
+        app:titleBarLeftImage="@drawable/icon_back_admin"
         app:titleBarRightTitle="@string/confirm"
         app:titleBarTitleTextColor="?attr/normalTextColor"
         />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/selected_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/search_view_height"/>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/member_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,21 +1,22 @@
 package com.hyphenate.easeim.section.group.activity;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.Nullable;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
+import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.group.adapter.GroupMuteAdapter;
-import com.hyphenate.easeim.section.group.viewmodels.GroupMemberAuthorityViewModel;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
 import java.util.ArrayList;
@@ -27,7 +28,6 @@ public class GroupMuteActivity extends BaseInitActivity {
     private EaseTitleBar titleBar;
     private LinearLayout addMute;
     private RecyclerView recyclerView;
-    protected GroupMemberAuthorityViewModel viewModel;
     private GroupMuteAdapter adapter;
     private List<String> muteList;
 
@@ -64,45 +64,9 @@ public class GroupMuteActivity extends BaseInitActivity {
     protected void initData() {
         super.initData();
         muteList = new ArrayList<>();
-        viewModel = new ViewModelProvider(this).get(GroupMemberAuthorityViewModel.class);
-        viewModel.getMuteMembersObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<Map<String, Long>>() {
-                @Override
-                public void onSuccess(Map<String, Long> data) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            muteList.clear();
-                            muteList.addAll(data.keySet());
-                            adapter.setData(muteList);
-                        }
-                    });
-                }
 
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-                    dismissLoading();
-                }
+        getMuteMembers();
 
-                @Override
-                public void onLoading(@Nullable Map<String, Long> data) {
-                    super.onLoading(data);
-                    showLoading();
-                }
-            });
-        });
-
-        viewModel.getRefreshObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<String>() {
-                @Override
-                public void onSuccess(@Nullable String data) {
-                    viewModel.getMuteMembers(groupId);
-                }
-            });
-        });
-
-        viewModel.getMuteMembers(groupId);
     }
 
     @Override
@@ -119,7 +83,17 @@ public class GroupMuteActivity extends BaseInitActivity {
             public void onUnMute(String username) {
                 List<String> unMuteList = new ArrayList<>();
                 unMuteList.add(username);
-                viewModel.unMuteGroupMembers(groupId, unMuteList);
+                EMGroupManagerRepository.getInstance().unMuteGroupMembers(groupId, unMuteList, new ResultCallBack<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        getMuteMembers();
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+
+                    }
+                });
             }
         });
         addMute.setOnClickListener(new View.OnClickListener() {
@@ -133,8 +107,27 @@ public class GroupMuteActivity extends BaseInitActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(viewModel != null){
-            viewModel.getMuteMembers(groupId);
-        }
+        getMuteMembers();
+    }
+
+    private void getMuteMembers(){
+        showLoading();
+        EMGroupManagerRepository.getInstance().getGroupMuteMap(groupId, new ResultCallBack<Map<String, Long>>() {
+            @Override
+            public void onSuccess(Map<String, Long> data) {
+                dismissLoading();
+                runOnUiThread(() -> {
+                            muteList.clear();
+                            muteList.addAll(data.keySet());
+                            adapter.setData(muteList);
+                        }
+                );
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                dismissLoading();
+            }
+        });
     }
 }

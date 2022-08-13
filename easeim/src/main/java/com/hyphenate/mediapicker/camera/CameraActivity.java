@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.mediapicker.cameralibrary.JCameraView;

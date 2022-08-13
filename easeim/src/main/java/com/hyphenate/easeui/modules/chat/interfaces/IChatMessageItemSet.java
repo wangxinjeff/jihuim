@@ -1,8 +1,7 @@
 package com.hyphenate.easeui.modules.chat.interfaces;
 
 import android.graphics.drawable.Drawable;
-
-import androidx.annotation.ColorInt;
+import android.support.annotation.ColorInt;
 
 import com.hyphenate.easeui.modules.chat.EaseChatMessageListLayout;
 import com.hyphenate.easeui.modules.interfaces.IAvatarSet;

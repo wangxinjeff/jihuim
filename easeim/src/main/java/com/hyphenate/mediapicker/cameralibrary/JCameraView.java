@@ -10,6 +10,8 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.FileProvider;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -21,9 +23,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.VideoView;
-
-import androidx.annotation.RequiresApi;
-import androidx.core.content.FileProvider;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.mediapicker.cameralibrary.listener.CaptureListener;

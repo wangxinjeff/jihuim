@@ -1,6 +1,7 @@
 package com.hyphenate.easeim.common.db.entity;
 
-import androidx.annotation.StringRes;
+
+import android.support.annotation.StringRes;
 
 import com.hyphenate.easeim.R;
 

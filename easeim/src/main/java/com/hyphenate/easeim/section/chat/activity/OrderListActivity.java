@@ -2,14 +2,12 @@ package com.hyphenate.easeim.section.chat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager2.widget.ViewPager2;
-
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.chat.fragment.OrderListFragment;
@@ -23,7 +21,7 @@ public class OrderListActivity extends BaseInitActivity {
 
     private EaseTitleBar titleBar;
     private TabLayout tabLayout;
-    private ViewPager2 viewPager;
+    private ViewPager viewPager;
     private List<Fragment> fragments;
     private OrderListFragment mainFragment;
     private OrderListFragment fineFragment;
@@ -55,13 +53,9 @@ public class OrderListActivity extends BaseInitActivity {
         titleList.add("维保订单");
         titleList.add("服务订单");
 
-        viewPager.setAdapter(new SectionPagerAdapter(this, fragments));
-        new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy(){
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText(titleList.get(position));
-            }
-        }).attach();
+        viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager(), fragments, titleList));
+
+        tabLayout.setupWithViewPager(viewPager);
 
     }
 

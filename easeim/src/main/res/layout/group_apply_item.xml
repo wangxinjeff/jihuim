@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
     android:background="@drawable/recycler_item_selector">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/customer_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         tool:text="阿大"
         />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/apply_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         android:textSize="@dimen/em_size_small"
         />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/group_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
         android:layout_marginStart="@dimen/margin_start_normal"
         />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/inviter_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
         android:textSize="@dimen/em_size_small"
         />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/inviter_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
         android:layout_marginStart="@dimen/margin_start_normal"
         />
     
-    <androidx.appcompat.widget.AppCompatButton
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_refused"
         android:layout_width="60dp"
         android:layout_height="28dp"
@@ -81,7 +81,7 @@
         android:textColor="@color/black"
         />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_agree"
         android:layout_width="60dp"
         android:layout_height="28dp"
@@ -95,7 +95,7 @@
         android:textColor="@color/white"
         />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_operated"
         android:layout_width="60dp"
         android:layout_height="28dp"
@@ -119,4 +119,4 @@
         android:background="?attr/themeBgColor"
         />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

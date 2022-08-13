@@ -1,25 +1,24 @@
 package com.hyphenate.easeim.section.chat.activity;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
-import androidx.lifecycle.ViewModelProvider;
-
+import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
+import com.hyphenate.easeim.common.repositories.EMChatManagerRepository;
 import com.hyphenate.easeim.common.widget.ArrowItemView;
 import com.hyphenate.easeim.common.widget.SwitchItemView;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
-import com.hyphenate.easeim.section.chat.viewmodel.ChatViewModel;
-import com.hyphenate.easeim.section.dialog.DemoDialogFragment;
-import com.hyphenate.easeim.section.dialog.SimpleDialogFragment;
 import com.hyphenate.easeim.section.search.SearchHistoryChatActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.model.EaseEvent;
@@ -37,7 +36,6 @@ public class SingleChatSetActivity extends BaseInitActivity implements EaseTitle
     private SwitchItemView itemSwitchTop;
     private SwitchItemView itemUserNotDisturb;
 
-    private ChatViewModel viewModel;
     private String toChatUsername;
     private EMConversation conversation;
 
@@ -104,44 +102,21 @@ public class SingleChatSetActivity extends BaseInitActivity implements EaseTitle
         EaseUserUtils.setUserNick(toChatUsername, itemUserInfo.getTvTitle());
 
         itemSwitchTop.getSwitch().setChecked(!TextUtils.isEmpty(conversation.getExtField()));
+        EMChatManagerRepository.getInstance().getNoPushUsers(new ResultCallBack<List<String>>() {
+            @Override
+            public void onSuccess(List<String> noPushUsers) {
+                if (noPushUsers.contains(toChatUsername)) {
+                    itemUserNotDisturb.getSwitch().setChecked(true);
+                }else{
+                    itemUserNotDisturb.getSwitch().setChecked(false);
+                }
+            }
 
-        viewModel = new ViewModelProvider(this).get(ChatViewModel.class);
-        viewModel.getDeleteObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                    LiveDataBus.get().with(EaseConstant.CONVERSATION_DELETE).postValue(new EaseEvent(EaseConstant.CONTACT_DECLINE, EaseEvent.TYPE.MESSAGE));
-                    finish();
-                }
-            });
-        });
-        viewModel.getNoPushUsersObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<List<String>>() {
-                @Override
-                public void onSuccess(List<String> noPushUsers) {
-                    if (noPushUsers.contains(toChatUsername)) {
-                        itemUserNotDisturb.getSwitch().setChecked(true);
-                    }else{
-                        itemUserNotDisturb.getSwitch().setChecked(false);
-                    }
-                }
-            });
-        });
-        viewModel.setNoPushUsersObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean bool) {
-                    //设置免打扰成功
-                }
-                @Override
-                public void onError(int code, String message){
-                    //可根据需求做出提示
-                    //ToastUtils.showFailToast("设置用户免打扰失败");
+            @Override
+            public void onError(int i, String s) {
 
-                }
-            });
+            }
         });
-        viewModel.getNoPushUsers();
     }
 
     @Override
@@ -162,17 +137,7 @@ public class SingleChatSetActivity extends BaseInitActivity implements EaseTitle
     }
 
     private void clearHistory() {
-        // 是否删除会话
-        new SimpleDialogFragment.Builder(mContext)
-                .setTitle(R.string.em_chat_delete_conversation)
-                .setOnConfirmClickListener(new DemoDialogFragment.OnConfirmClickListener() {
-                    @Override
-                    public void onConfirmClick(View view) {
-                        viewModel.deleteConversationById(conversation.conversationId());
-                    }
-                })
-                .showCancelButton(true)
-                .show();
+
     }
 
     @Override
@@ -182,7 +147,17 @@ public class SingleChatSetActivity extends BaseInitActivity implements EaseTitle
             conversation.setExtField(isChecked ? (System.currentTimeMillis() + "") : "");
             LiveDataBus.get().with(EaseConstant.MESSAGE_CHANGE_CHANGE).postValue(new EaseEvent(EaseConstant.MESSAGE_CHANGE_CHANGE, EaseEvent.TYPE.MESSAGE));
         } else if (id == R.id.item_user_not_disturb) {
-            viewModel.setUserNotDisturb(toChatUsername, isChecked);
+            EMChatManagerRepository.getInstance().setUserNotDisturb(toChatUsername, isChecked, new EMCallBack() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError(int i, String s) {
+
+                }
+            });
         }
     }
 }

@@ -32,7 +32,7 @@
             android:src="@drawable/em_icon_img_load_failed"
             />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/em_size_normal"

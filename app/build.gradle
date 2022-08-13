@@ -26,7 +26,7 @@ android {
         multiDexEnabled true
         //为了兼容5.0以下使用vector图标
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         //指定room.schemaLocation生成的文件路径  处理Room 警告 Schema export Error
         javaCompileOptions {
@@ -38,11 +38,6 @@ android {
             }
         }
 
-        manifestPlaceholders = [EASEMOB_APPKEY: properties.getProperty("EASEMOB_APPKEY", "******"),
-                                VIVO_PUSH_APPKEY: properties.getProperty("VIVO_PUSH_APPKEY", "******"),
-                                VIVO_PUSH_APPID: properties.getProperty("VIVO_PUSH_APPID", "******"),
-                                BAIDU_LOCATION_APPKEY: properties.getProperty("BAIDU_LOCATION_APPKEY", "******")
-        ]
         ndk {
             abiFilters  "arm64-v8a","armeabi-v7a","x86","x86_64"
         }
@@ -74,17 +69,17 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     //ViewModel and LiveData
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
+//    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+//    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
     implementation project(path: ':easeim')
     implementation files('libs/pinyin4j-2.5.0.jar')
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.1.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.2.0'
     // resolve 64k limit
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.baidu.lbsyun:BaiduMapSDK_Map:7.5.2'

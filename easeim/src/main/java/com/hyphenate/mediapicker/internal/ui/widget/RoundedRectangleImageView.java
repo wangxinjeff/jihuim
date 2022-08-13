@@ -21,7 +21,7 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 
-import androidx.appcompat.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatImageView;
 
 public class RoundedRectangleImageView extends AppCompatImageView {
 

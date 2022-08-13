@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.hyphenate.easeim.R;
 import com.hyphenate.util.EMLog;
 
-import androidx.core.content.ContextCompat;
+import android.support.v4.content.ContextCompat;
 
 
 

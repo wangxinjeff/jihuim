@@ -11,8 +11,7 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.provider.Settings;
-
-import androidx.annotation.RequiresApi;
+import android.support.annotation.RequiresApi;
 
 import com.hyphenate.easeui.utils.RomUtils;
 import com.hyphenate.util.EMLog;

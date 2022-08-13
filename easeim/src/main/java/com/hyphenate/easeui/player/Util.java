@@ -3,8 +3,7 @@ package com.hyphenate.easeui.player;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-
-import androidx.annotation.AttrRes;
+import android.support.annotation.AttrRes;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;

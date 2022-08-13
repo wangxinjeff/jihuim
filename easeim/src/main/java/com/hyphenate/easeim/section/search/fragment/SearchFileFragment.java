@@ -1,11 +1,11 @@
 package com.hyphenate.easeim.section.search.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -22,6 +22,7 @@ import com.hyphenate.util.EMLog;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressLint("ValidFragment")
 public class SearchFileFragment extends BaseInitFragment {
     private SearchBar searchBar;
     private RecyclerView recyclerView;

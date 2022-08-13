@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.utils.EaseCommonUtils;

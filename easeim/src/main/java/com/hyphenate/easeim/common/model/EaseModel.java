@@ -305,6 +305,22 @@ public class EaseModel {
         return PreferenceManager.getInstance().getServiceGroupJson();
     }
 
+    public void setCurrentUserNick(String nickname) {
+        PreferenceManager.getInstance().setCurrentUserNick(nickname);
+    }
+
+    public void setCurrentUserAvatar(String avatar) {
+        PreferenceManager.getInstance().setCurrentUserAvatar(avatar);
+    }
+
+    public String getCurrentUserNick() {
+        return PreferenceManager.getInstance().getCurrentUserNick();
+    }
+
+    public String getCurrentUserAvatar() {
+        return PreferenceManager.getInstance().getCurrentUserAvatar();
+    }
+
     enum Key{
         VibrateAndPlayToneOn,
         VibrateOn,

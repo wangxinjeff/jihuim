@@ -1,14 +1,13 @@
 package com.hyphenate.easeui.widget.emojicon;
 
 import android.content.Context;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.adapter.EmojiconGridAdapter;

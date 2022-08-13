@@ -16,10 +16,9 @@ package com.hyphenate.easeim.common.permission;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.util.Log;
-
-import androidx.annotation.CallSuper;
-import androidx.annotation.NonNull;
 
 import java.util.Collections;
 import java.util.HashSet;

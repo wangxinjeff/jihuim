@@ -23,7 +23,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import com.hyphenate.mediapicker.MimeType;
 

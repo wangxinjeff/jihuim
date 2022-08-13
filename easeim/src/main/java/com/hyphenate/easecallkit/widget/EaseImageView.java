@@ -12,11 +12,11 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageView;
+import android.support.annotation.Nullable;
 
 import com.hyphenate.easeim.R;
 

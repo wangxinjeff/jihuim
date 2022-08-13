@@ -8,14 +8,14 @@
     android:paddingBottom="7dp"
     >
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/member_avatar"
         android:layout_width="@dimen/member_item_avatar_size"
         android:layout_height="@dimen/member_item_avatar_size"
         android:src="@drawable/ease_default_avatar"
         />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/member_nick"
         android:layout_width="@dimen/member_item_avatar_size"
         android:layout_height="wrap_content"

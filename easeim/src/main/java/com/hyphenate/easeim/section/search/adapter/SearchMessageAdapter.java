@@ -1,5 +1,6 @@
 package com.hyphenate.easeim.section.search.adapter;
 
+import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeim.R;

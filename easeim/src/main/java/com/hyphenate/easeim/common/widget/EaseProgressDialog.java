@@ -5,8 +5,8 @@ import android.content.Context;
 
 import com.hyphenate.easeim.R;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 
 
 public class EaseProgressDialog extends ProgressDialog {

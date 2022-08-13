@@ -1,6 +1,7 @@
 package com.hyphenate.easeim.section.conference.adapter;
 
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -86,7 +87,7 @@ public class ConferenceInviteAdapter extends EaseBaseRecyclerViewAdapter<EaseUse
             String avatarUrl = item.getAvatar();
             String nickname = item.getNickname();
             if(!TextUtils.isEmpty(avatarUrl)){
-                Glide.with(mContext).load(avatarUrl).apply(RequestOptions.bitmapTransform(new CircleCrop())).error(R.drawable.ease_default_avatar).into(mAvatar);
+                Glide.with(mContext).load(avatarUrl).apply(RequestOptions.bitmapTransform(new CircleCrop()).error(R.drawable.ease_default_avatar)).into(mAvatar);
             }
             mName.setText(nickname);
 

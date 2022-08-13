@@ -18,7 +18,8 @@ package com.hyphenate.mediapicker.listener;
 
 import android.net.Uri;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.List;
 

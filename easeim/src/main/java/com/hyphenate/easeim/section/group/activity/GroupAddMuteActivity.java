@@ -1,25 +1,26 @@
 package com.hyphenate.easeim.section.group.activity;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
+import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.common.widget.SearchBar;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.group.adapter.GroupAddMuteAdapter;
-import com.hyphenate.easeim.section.group.viewmodels.GroupMemberAuthorityViewModel;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
@@ -31,7 +32,6 @@ public class GroupAddMuteActivity extends BaseInitActivity {
     private EaseTitleBar titleBar;
     private SearchBar searchBar;
     private RecyclerView memberList;
-    private GroupMemberAuthorityViewModel viewModel;
     private List<String> mutedList;
     private String groupId;
     private GroupAddMuteAdapter addMuteAdapter;
@@ -73,82 +73,36 @@ public class GroupAddMuteActivity extends BaseInitActivity {
     @Override
     protected void initData() {
         super.initData();
-        viewModel = new ViewModelProvider(this).get(GroupMemberAuthorityViewModel.class);
-        viewModel.getGroupMember().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<List<EaseUser>>() {
-                @Override
-                public void onSuccess(@Nullable List<EaseUser> data) {
-                    for(EaseUser user : data){
-                        if(user.isOwner()){
-                            data.remove(user);
-                            break;
+        EMGroupManagerRepository.getInstance().getGroupAllMembers(groupId, new ResultCallBack<List<EaseUser>>() {
+            @Override
+            public void onSuccess(List<EaseUser> data) {
+                for(EaseUser user : data){
+                    if(user.isOwner()){
+                        data.remove(user);
+                        break;
+                    }
+                }
+                for(String id : mutedList){
+                    for(EaseUser item : data){
+                        if(TextUtils.equals(id, item.getUsername())){
+                            item.setNotUse(true);
                         }
                     }
-                    for(String id : mutedList){
-                        for(EaseUser item : data){
-                            if(TextUtils.equals(id, item.getUsername())){
-                                item.setNotUse(true);
-                            }
-                        }
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        addMuteAdapter.setData(data);
                     }
+                });
+            }
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            addMuteAdapter.setData(data);
-                        }
-                    });
-                }
+            @Override
+            public void onError(int i, String s) {
 
-                @Override
-                public void onLoading(@Nullable List<EaseUser> data) {
-                    super.onLoading(data);
-                    showLoading();
-                }
-
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-                    dismissLoading();
-                }
-
-                @Override
-                public void onError(int code, String message) {
-                    super.onError(code, message);
-
-                }
-            });
+            }
         });
-
-        viewModel.getRefreshObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<String>() {
-                @Override
-                public void onSuccess(@Nullable String data) {
-                    ToastUtils.showCenterToast("", getString(R.string.em_group_mute_success), 0 ,Toast.LENGTH_SHORT);
-                    onBackPressed();
-                }
-
-                @Override
-                public void onLoading(@Nullable String data) {
-                    super.onLoading(data);
-                    showLoading();
-                }
-
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-                    dismissLoading();
-                }
-
-                @Override
-                public void onError(int code, String message) {
-                    super.onError(code, message);
-                    ToastUtils.showCenterToast("", getString(R.string.em_group_mute_failed), 0 ,Toast.LENGTH_SHORT);
-                }
-            });
-        });
-
-        viewModel.getGroupMembers(groupId);
     }
 
     @Override
@@ -163,7 +117,20 @@ public class GroupAddMuteActivity extends BaseInitActivity {
         titleBar.setRightLayoutClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.muteGroupMembers(groupId, selectedList, -1);
+                EMGroupManagerRepository.getInstance().muteGroupMembers(groupId, selectedList, -1, new ResultCallBack<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        ToastUtils.showCenterToast("", getString(R.string.em_group_mute_success), 0 ,Toast.LENGTH_SHORT);
+                        runOnUiThread(() -> {
+                            onBackPressed();
+                        });
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+
+                    }
+                });
             }
         });
         searchBar.setOnSearchBarListener(new SearchBar.OnSearchBarListener() {

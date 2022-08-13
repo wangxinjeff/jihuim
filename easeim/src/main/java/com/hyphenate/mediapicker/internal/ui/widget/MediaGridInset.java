@@ -18,7 +18,7 @@ package com.hyphenate.mediapicker.internal.ui.widget;
 import android.graphics.Rect;
 import android.view.View;
 
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView;
 
 public class MediaGridInset extends RecyclerView.ItemDecoration {
 

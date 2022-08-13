@@ -9,9 +9,9 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.content.ContextCompat;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
+import android.support.v4.content.ContextCompat;
 
 import com.hyphenate.easeim.R;
 

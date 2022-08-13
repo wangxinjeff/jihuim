@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Scroller;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.util.EMLog;

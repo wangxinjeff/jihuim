@@ -1,14 +1,12 @@
 package com.hyphenate.easeim.section.group.delegate;
 
 import android.content.Context;
-import android.text.TextUtils;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -44,7 +42,7 @@ public class GroupMemberDelegate extends EaseAdapterDelegate<EaseUser, GroupMemb
                 item.setNickname(easeUser.getNickname());
             }
         }
-        Glide.with(holder.mContext).load(item.getAvatar()).apply(RequestOptions.bitmapTransform(new CircleCrop())).error(R.drawable.ease_default_avatar).into(holder.avatarView);
+        Glide.with(holder.mContext).load(item.getAvatar()).apply(RequestOptions.bitmapTransform(new CircleCrop()).error(R.drawable.ease_default_avatar)).into(holder.avatarView);
         holder.nickView.setText(item.getNickname());
     }
 

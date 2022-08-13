@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -75,13 +75,13 @@
             android:text="@string/confirm"
             android:textColor="@color/demo_dialog_btn_text_color_selector"/>
 
-        <androidx.constraintlayout.widget.Group
+        <android.support.constraint.Group
             android:id="@+id/group_middle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:constraint_referenced_ids="view_top,rl_dialog_middle,btn_dialog_cancel"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</android.support.v7.widget.CardView>

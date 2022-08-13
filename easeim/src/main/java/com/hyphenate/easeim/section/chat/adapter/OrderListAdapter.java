@@ -1,12 +1,13 @@
 package com.hyphenate.easeim.section.chat.adapter;
 
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatTextView;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatTextView;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.model.EMOrder;

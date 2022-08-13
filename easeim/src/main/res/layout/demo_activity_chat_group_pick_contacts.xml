@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/search_view_height" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/selected_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
         android:layout_marginTop="@dimen/em_margin_15"
         />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/rl_user_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
         android:orientation="horizontal"
         />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/result_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
         android:layout_marginEnd="@dimen/em_margin_15"
         android:visibility="gone"
         >
-        <androidx.appcompat.widget.AppCompatImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/user_avatar"
             android:layout_width="@dimen/member_item_avatar_size"
             android:layout_height="@dimen/member_item_avatar_size"
@@ -71,7 +71,7 @@
             android:layout_marginBottom="@dimen/em_margin_15"
             />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

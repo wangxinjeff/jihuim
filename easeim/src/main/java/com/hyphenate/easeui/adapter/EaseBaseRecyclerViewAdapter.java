@@ -1,6 +1,10 @@
 package com.hyphenate.easeui.adapter;
 
 import android.content.Context;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,10 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import androidx.annotation.IdRes;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.interfaces.OnItemClickListener;
@@ -54,7 +54,7 @@ public abstract class EaseBaseRecyclerViewAdapter<T> extends EaseBaseAdapter<Eas
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    itemClickAction(v, holder.getBindingAdapterPosition());
+                    itemClickAction(v, holder.getAdapterPosition());
                 }
             });
         }
@@ -62,7 +62,7 @@ public abstract class EaseBaseRecyclerViewAdapter<T> extends EaseBaseAdapter<Eas
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    return itemLongClickAction(v, holder.getBindingAdapterPosition());
+                    return itemLongClickAction(v, holder.getAdapterPosition());
                 }
             });
         }

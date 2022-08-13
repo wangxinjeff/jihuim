@@ -1,6 +1,8 @@
 package com.hyphenate.easeui.widget;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -8,12 +10,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.ConcatAdapter;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import android.support.annotation.Nullable;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.hyphenate.easeui.adapter.EaseBaseRecyclerViewAdapter;
 
@@ -105,7 +105,7 @@ public class EaseRecyclerView extends RecyclerView {
 
     @Override
     public void setLayoutManager(@Nullable LayoutManager layout) {
-        if(layout instanceof GridLayoutManager || layout instanceof  StaggeredGridLayoutManager) {
+        if(layout instanceof GridLayoutManager || layout instanceof StaggeredGridLayoutManager) {
             isShouldSpan = true;
         }
         super.setLayoutManager(layout);
@@ -129,7 +129,7 @@ public class EaseRecyclerView extends RecyclerView {
 
     public int getChildBindingAdapterPosition(@NonNull View child) {
         final RecyclerView.ViewHolder holder = getChildViewHolderInt(child);
-        return holder != null ? holder.getBindingAdapterPosition() : NO_POSITION;
+        return holder != null ? holder.getPosition() : NO_POSITION;
     }
 
     RecyclerView.ViewHolder getChildViewHolderInt(View child) {
@@ -184,29 +184,6 @@ public class EaseRecyclerView extends RecyclerView {
             }
             position -= getHeadersCount();
             mAdapter.onBindViewHolder(holder, position);
-        }
-
-        @Override
-        public int findRelativeAdapterPositionIn(@NonNull Adapter<? extends RecyclerView.ViewHolder> adapter,
-                                                 @NonNull RecyclerView.ViewHolder viewHolder, int localPosition) {
-            if(adapter == this) {
-                return localPosition;
-            }else {
-                if(mAdapter instanceof ConcatAdapter) {
-                    List<? extends Adapter<? extends RecyclerView.ViewHolder>> adapters = ((ConcatAdapter) mAdapter).getAdapters();
-                    int prePosition = 0;
-                    for(int i = 0; i < adapters.size(); i++) {
-                        Adapter<? extends RecyclerView.ViewHolder> curAdapter = adapters.get(i);
-                        if(curAdapter == adapter) {
-                            return localPosition - prePosition;
-                        }else {
-                            prePosition += curAdapter.getItemCount();
-                        }
-                    }
-                    return NO_POSITION;
-                }
-            }
-            return super.findRelativeAdapterPositionIn(adapter, viewHolder, localPosition);
         }
 
         @Override

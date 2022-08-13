@@ -24,7 +24,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.mediapicker.internal.entity.Item;

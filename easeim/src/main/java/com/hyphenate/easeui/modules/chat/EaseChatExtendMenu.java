@@ -2,6 +2,7 @@ package com.hyphenate.easeui.modules.chat;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v7.widget.DividerItemDecoration;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,10 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.ConcatAdapter;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.adapter.EaseChatExtendMenuAdapter;
@@ -99,10 +98,8 @@ public class EaseChatExtendMenu extends FrameLayout implements PagingScrollHelpe
         manager.setItemHeight(DensityUtil.dip2px(context, 90));
         rvExtendMenu.setLayoutManager(manager);
         rvExtendMenu.setHasFixedSize(true);
-        ConcatAdapter concatAdapter = new ConcatAdapter();
         adapter = new EaseChatExtendMenuAdapter();
-        concatAdapter.addAdapter(adapter);
-        rvExtendMenu.setAdapter(concatAdapter);
+        rvExtendMenu.setAdapter(adapter);
         adapter.setData(itemModels);
 
         helper = new PagingScrollHelper();

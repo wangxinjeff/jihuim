@@ -1,6 +1,7 @@
 package com.hyphenate.easeim.common.interfaceOrImplement;
 
-import androidx.annotation.Nullable;
+
+import android.support.annotation.Nullable;
 
 /**
  * 用于解析Resource<T>，减少重复代码

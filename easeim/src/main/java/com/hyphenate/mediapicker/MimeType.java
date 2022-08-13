@@ -18,10 +18,9 @@ package com.hyphenate.mediapicker;
 
 import android.content.ContentResolver;
 import android.net.Uri;
+import android.support.v4.util.ArraySet;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
-
-import androidx.collection.ArraySet;
 
 import com.hyphenate.mediapicker.internal.utils.PhotoMetadataUtils;
 

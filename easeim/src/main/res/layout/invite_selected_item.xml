@@ -7,14 +7,14 @@
     android:padding="@dimen/em_margin_10"
     >
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/item_avatar"
         android:layout_width="@dimen/member_item_avatar_size"
         android:layout_height="@dimen/member_item_avatar_size"
         android:src="@drawable/ease_default_avatar"
         />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/item_name"
         android:layout_width="@dimen/member_item_avatar_size"
         android:layout_height="wrap_content"

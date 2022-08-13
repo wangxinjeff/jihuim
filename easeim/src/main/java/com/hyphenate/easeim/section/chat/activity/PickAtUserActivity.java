@@ -1,7 +1,9 @@
 package com.hyphenate.easeim.section.chat.activity;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -9,12 +11,13 @@ import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
+import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.widget.SearchBar;
 import com.hyphenate.easeim.section.chat.adapter.PickAllUserAdapter;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.chat.adapter.PickUserAdapter;
-import com.hyphenate.easeim.section.group.viewmodels.GroupMemberAuthorityViewModel;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.interfaces.OnItemClickListener;
@@ -23,24 +26,16 @@ import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.widget.EaseRecyclerView;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.ConcatAdapter;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import android.support.v4.app.Fragment;
 
 public class PickAtUserActivity extends BaseInitActivity implements OnItemClickListener, EaseTitleBar.OnBackPressListener{
     private EaseTitleBar mTitleBarPick;
     private EaseRecyclerView mRvPickUserList;
     private String mGroupId;
-    private GroupMemberAuthorityViewModel mViewModel;
     protected PickUserAdapter mAdapter;
-    private ConcatAdapter baseAdapter;
-    private PickAllUserAdapter headerAdapter;
 
     private SearchBar searchBar;
 
@@ -73,10 +68,8 @@ public class PickAtUserActivity extends BaseInitActivity implements OnItemClickL
         mRvPickUserList = findViewById(R.id.rv_pick_user_list);
 
         mRvPickUserList.setLayoutManager(new LinearLayoutManager(mContext));
-        baseAdapter = new ConcatAdapter();
         mAdapter = new PickUserAdapter();
-        baseAdapter.addAdapter(mAdapter);
-        mRvPickUserList.setAdapter(baseAdapter);
+        mRvPickUserList.setAdapter(mAdapter);
 
         searchBar = findViewById(R.id.search_bar);
         searchBar.init(false);
@@ -101,31 +94,32 @@ public class PickAtUserActivity extends BaseInitActivity implements OnItemClickL
     @Override
     protected void initData() {
         super.initData();
-        mViewModel = new ViewModelProvider(this).get(GroupMemberAuthorityViewModel.class);
-        mViewModel.getGroupMember().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<List<EaseUser>>() {
-                @Override
-                public void onSuccess(List<EaseUser> data) {
-                    checkIfAddHeader();
+        showLoading();
+        EMGroupManagerRepository.getInstance().getGroupAllMembers(mGroupId, new ResultCallBack<List<EaseUser>>() {
+            @Override
+            public void onSuccess(List<EaseUser> data) {
+                dismissLoading();
+                runOnUiThread(() -> {
+//                    checkIfAddHeader();
+                    EMGroup group = EaseIMHelper.getInstance().getGroupManager().getGroup(mGroupId);
+                    if(group != null) {
+                        String owner = group.getOwner();
+                        if(TextUtils.equals(owner, EaseIMHelper.getInstance().getCurrentUser())) {
+                            EaseUser user = new EaseUser(getString(R.string.all_members));
+                            user.setAvatar(R.drawable.ease_group_icon+"");
+                            data.add(0, user);
+                        }
+                    }
                     removeSelf(data);
                     mAdapter.setData(data);
-                }
+                });
+            }
 
-                @Override
-                public void onLoading(@Nullable List<EaseUser> data) {
-                    super.onLoading(data);
-                    showLoading();
-                }
-
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-                    dismissLoading();
-                }
-            });
+            @Override
+            public void onError(int i, String s) {
+                dismissLoading();
+            }
         });
-
-        mViewModel.getGroupMembers(mGroupId);
 
         LiveDataBus.get().with(EaseConstant.CONTACT_UPDATE, EaseEvent.class).observe(this, event -> {
             if(event == null) {
@@ -157,34 +151,34 @@ public class PickAtUserActivity extends BaseInitActivity implements OnItemClickL
         if(group != null) {
             String owner = group.getOwner();
             if(TextUtils.equals(owner, EaseIMHelper.getInstance().getCurrentUser())) {
-                AddHeader();
+//                AddHeader();
             }
         }
 
     }
 
-    private void AddHeader() {
-        if( headerAdapter == null) {
-            headerAdapter = new PickAllUserAdapter();
-            EaseUser user = new EaseUser(getString(R.string.all_members));
-            user.setAvatar(R.drawable.ease_group_icon+"");
-            List<EaseUser> users = new ArrayList<>();
-            users.add(user);
-            headerAdapter.setData(users);
-        }
-        if(!baseAdapter.getAdapters().contains(headerAdapter)) {
-            baseAdapter.addAdapter(0, headerAdapter);
-
-            headerAdapter.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    setResult(RESULT_OK, new Intent().putExtra("username", headerAdapter.getItem(position).getUsername()));
-                    finish();
-                }
-            });
-        }
-
-    }
+//    private void AddHeader() {
+//        if( headerAdapter == null) {
+//            headerAdapter = new PickAllUserAdapter();
+//            EaseUser user = new EaseUser(getString(R.string.all_members));
+//            user.setAvatar(R.drawable.ease_group_icon+"");
+//            List<EaseUser> users = new ArrayList<>();
+//            users.add(user);
+//            headerAdapter.setData(users);
+//        }
+//        if(!baseAdapter.getAdapters().contains(headerAdapter)) {
+//            baseAdapter.addAdapter(0, headerAdapter);
+//
+//            headerAdapter.setOnItemClickListener(new OnItemClickListener() {
+//                @Override
+//                public void onItemClick(View view, int position) {
+//                    setResult(RESULT_OK, new Intent().putExtra("username", headerAdapter.getItem(position).getUsername()));
+//                    finish();
+//                }
+//            });
+//        }
+//
+//    }
 
     @Override
     public void onItemClick(View view, int position) {

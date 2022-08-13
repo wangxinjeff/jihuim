@@ -1,16 +1,17 @@
 package com.hyphenate.easeim.section.group.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
+import android.support.v4.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -82,7 +83,7 @@ public class GroupDetailMemberAdapter extends RecyclerView.Adapter<GroupDetailMe
                     user.setNickname(easeUser.getNickname());
                 }
             }
-            Glide.with(holder.mContext).load(user.getAvatar()).apply(RequestOptions.bitmapTransform(new CircleCrop())).error(R.drawable.ease_default_avatar).into(holder.memberAvatar);
+            Glide.with(holder.mContext).load(user.getAvatar()).apply(RequestOptions.bitmapTransform(new CircleCrop()).error(R.drawable.ease_default_avatar)).into(holder.memberAvatar);
             holder.memberNick.setText(user.getNickname());
         }
     }

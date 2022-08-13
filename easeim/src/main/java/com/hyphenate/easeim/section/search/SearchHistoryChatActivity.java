@@ -3,14 +3,12 @@ package com.hyphenate.easeim.section.search;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager2.widget.ViewPager2;
-
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
+import android.support.v4.app.Fragment;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeim.EaseIMHelper;
@@ -30,7 +28,7 @@ public class SearchHistoryChatActivity extends BaseInitActivity {
     private String toUsername;
     private EaseTitleBar titleBar;
     private TabLayout tabLayout;
-    private ViewPager2 viewPager;
+    private ViewPager viewPager;
     private List<Fragment> fragmentList;
     private EMConversation conversation;
     private int chatType;
@@ -80,13 +78,8 @@ public class SearchHistoryChatActivity extends BaseInitActivity {
         }
         titleList.add(getString(R.string.em_image_and_video));
 
-        viewPager.setAdapter(new SectionPagerAdapter(this, fragmentList));
-        new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy(){
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText(titleList.get(position));
-            }
-        }).attach();
+        viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager(), fragmentList, titleList));
+        tabLayout.setupWithViewPager(viewPager);
 
     }
 

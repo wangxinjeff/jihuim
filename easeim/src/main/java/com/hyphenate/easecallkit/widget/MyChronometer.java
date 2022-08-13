@@ -1,5 +1,6 @@
 package com.hyphenate.easecallkit.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -7,14 +8,16 @@ import android.icu.text.MeasureFormat;
 import android.icu.util.Measure;
 import android.icu.util.MeasureUnit;
 import android.net.Uri;
+import android.os.Build;
 import android.os.SystemClock;
+import android.support.annotation.RequiresApi;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
 
-import androidx.annotation.InspectableProperty;
 
 import com.hyphenate.easeim.R;
 
@@ -23,7 +26,7 @@ import java.util.Formatter;
 import java.util.IllegalFormatException;
 import java.util.Locale;
 
-public class MyChronometer extends androidx.appcompat.widget.AppCompatTextView {
+public class MyChronometer extends AppCompatTextView {
 
     private static final String TAG = "Chronometer";
 
@@ -110,7 +113,6 @@ public class MyChronometer extends androidx.appcompat.widget.AppCompatTextView {
      *
      * @see #setCountDown(boolean)
      */
-    @InspectableProperty
     public boolean isCountDown() {
         return mCountDown;
     }
@@ -170,7 +172,6 @@ public class MyChronometer extends androidx.appcompat.widget.AppCompatTextView {
     /**
      * Returns the current format string as set through {@link #setFormat}.
      */
-    @InspectableProperty
     public String getFormat() {
         return mFormat;
     }
@@ -318,6 +319,7 @@ public class MyChronometer extends androidx.appcompat.widget.AppCompatTextView {
 
     private static final int MIN_IN_SEC = 60;
     private static final int HOUR_IN_SEC = MIN_IN_SEC*60;
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private static String formatDuration(long ms) {
         int duration = (int) (ms / DateUtils.SECOND_IN_MILLIS);
         if (duration < 0) {
@@ -350,6 +352,8 @@ public class MyChronometer extends androidx.appcompat.widget.AppCompatTextView {
                 .formatMeasures(measures.toArray(new Measure[measures.size()]));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @SuppressLint("GetContentDescriptionOverride")
     @Override
     public CharSequence getContentDescription() {
         return formatDuration(mNow - mBase);

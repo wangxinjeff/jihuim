@@ -1,5 +1,6 @@
 package com.hyphenate.easeui.manager;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,8 +14,7 @@ import com.hyphenate.easeui.widget.EaseSidebar;
 
 import java.util.List;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView;
 
 public class SidebarPresenter implements EaseSidebar.OnTouchEventListener{
     private TextView mFloatingHeader;

@@ -12,18 +12,18 @@
         android:layout_height="1dp"
         android:background="@drawable/demo_default_divider_list"/>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_extend_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         android:orientation="horizontal"
         android:layout_marginBottom="5dp"/>
 

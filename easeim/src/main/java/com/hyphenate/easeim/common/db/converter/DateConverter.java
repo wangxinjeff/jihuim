@@ -16,7 +16,7 @@
 
 package com.hyphenate.easeim.common.db.converter;
 
-import androidx.room.TypeConverter;
+import android.arch.persistence.room.TypeConverter;
 
 import java.util.Date;
 

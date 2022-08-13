@@ -1,12 +1,12 @@
 package com.hyphenate.easeim.section.search.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -24,6 +24,7 @@ import com.hyphenate.util.EMLog;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressLint("ValidFragment")
 public class SearchMultiMediaFragment extends BaseInitFragment {
 
     private RecyclerView mediaList;

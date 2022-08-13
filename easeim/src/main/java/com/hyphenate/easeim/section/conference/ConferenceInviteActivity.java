@@ -1,30 +1,30 @@
 package com.hyphenate.easeim.section.conference;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.v4.content.ContextCompat;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easecallkit.EaseCallKit;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
+import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.widget.SearchBar;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.conference.adapter.ConferenceInviteAdapter;
 import com.hyphenate.easeim.section.conference.adapter.InviteSelectedAdapter;
-import com.hyphenate.easeim.section.group.viewmodels.GroupDetailViewModel;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.manager.EaseThreadManager;
@@ -47,10 +47,10 @@ public class ConferenceInviteActivity extends BaseInitActivity implements View.O
     private RecyclerView memberView;
     private static String groupId;
     private String[] exist_member;
-    private GroupDetailViewModel viewModel;
     private ConferenceInviteAdapter inviteAdapter;
     private List<EaseUser> memberList;
     private List<String> selectedList;
+    private EMGroupManagerRepository repository = new EMGroupManagerRepository();
 
     @Override
     protected int getLayoutId() {
@@ -135,42 +135,36 @@ public class ConferenceInviteActivity extends BaseInitActivity implements View.O
     @Override
     protected void initData() {
         super.initData();
-        viewModel = new ViewModelProvider(this).get(GroupDetailViewModel.class);
-        viewModel.getGroupMember().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<List<EaseUser>>() {
-                @Override
-                public void onSuccess(List<EaseUser> data) {
-                    EaseThreadManager.getInstance().runOnMainThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            for(int i = data.size() - 1; i >= 0; i--){
-                                EaseUser user = data.get(i);
-                                if(TextUtils.equals(user.getUsername(), EMClient.getInstance().getCurrentUser())){
-                                    data.remove(user);
-                                }
-                                if(exist_member != null && exist_member.length > 0){
-                                    for (String s : exist_member) {
-                                        if (TextUtils.equals(user.getUsername(), s)) {
-                                            user.setNotUse(true);
-                                        }
-                                    }
+        showLoading();
+        repository.getGroupAllMembers(groupId, new ResultCallBack<List<EaseUser>>() {
+            @Override
+            public void onSuccess(List<EaseUser> data) {
+                dismissLoading();
+                runOnUiThread(() -> {
+                    for(int i = data.size() - 1; i >= 0; i--){
+                        EaseUser user = data.get(i);
+                        if(TextUtils.equals(user.getUsername(), EMClient.getInstance().getCurrentUser())){
+                            data.remove(user);
+                        }
+                        if(exist_member != null && exist_member.length > 0){
+                            for (String s : exist_member) {
+                                if (TextUtils.equals(user.getUsername(), s)) {
+                                    user.setNotUse(true);
                                 }
                             }
-                            memberList = data;
-                            inviteAdapter.setData(memberList);
                         }
-                    });
-                }
+                    }
+                    memberList = data;
+                    inviteAdapter.setData(memberList);
+                });
+            }
 
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-
-                }
-            });
+            @Override
+            public void onError(int i, String s) {
+                dismissLoading();
+            }
         });
 
-        viewModel.getGroupAllMember(groupId);
 
         LiveDataBus.get().with(EaseConstant.CONTACT_UPDATE, EaseEvent.class).observe(this, event -> {
             if(event == null) {

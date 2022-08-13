@@ -1,6 +1,7 @@
 package com.hyphenate.easeui.modules.conversation.interfaces;
 
-import androidx.annotation.ColorInt;
+
+import android.support.annotation.ColorInt;
 
 interface IConversationTextStyle {
     /**

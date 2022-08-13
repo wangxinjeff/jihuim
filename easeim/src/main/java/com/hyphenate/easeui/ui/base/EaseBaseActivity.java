@@ -18,15 +18,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import androidx.annotation.ColorRes;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v4.content.ContextCompat;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.utils.StatusBarCompat;

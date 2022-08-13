@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.PopupMenu;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,14 +15,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.ConcatAdapter;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.Nullable;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeim.EaseIMHelper;
@@ -50,6 +50,7 @@ import com.hyphenate.easeui.modules.menu.EasePopupMenuHelper;
 import com.hyphenate.easeui.modules.menu.OnPopupMenuPreShowListener;
 import com.hyphenate.easeui.widget.EaseImageView;
 import com.hyphenate.easeui.widget.EaseRecyclerView;
+import com.hyphenate.util.EMLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,6 @@ public class EaseConversationListLayout extends EaseBaseLayout implements IConve
                                                                         , IEaseConversationListView, IPopupMenu {
     private EaseRecyclerView rvConversationList;
 
-    private ConcatAdapter adapter;
     private EaseConversationListAdapter listAdapter;
     private OnItemClickListener itemListener;
     private OnItemLongClickListener itemLongListener;
@@ -196,14 +196,9 @@ public class EaseConversationListLayout extends EaseBaseLayout implements IConve
         rvConversationList = findViewById(R.id.rv_conversation_list);
 
         rvConversationList.setLayoutManager(new LinearLayoutManager(getContext()));
-        ConcatAdapter.Config config = new ConcatAdapter.Config.Builder()
-                .setStableIdMode(ConcatAdapter.Config.StableIdMode.ISOLATED_STABLE_IDS)
-                .build();
-        adapter = new ConcatAdapter(config);
         listAdapter = new EaseConversationListAdapter();
 
         listAdapter.setHasStableIds(true);
-        adapter.addAdapter(listAdapter);
 
         menuHelper = new EasePopupMenuHelper();
 
@@ -211,7 +206,7 @@ public class EaseConversationListLayout extends EaseBaseLayout implements IConve
     }
 
     private void initListener() {
-        listAdapter.setOnItemClickListener(new com.hyphenate.easeui.interfaces.OnItemClickListener() {
+        listAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 if(itemListener != null) {
@@ -221,7 +216,7 @@ public class EaseConversationListLayout extends EaseBaseLayout implements IConve
         });
 
         if(EaseIMHelper.getInstance().isAdmin()){
-            listAdapter.setOnItemLongClickListener(new com.hyphenate.easeui.interfaces.OnItemLongClickListener() {
+            listAdapter.setOnItemLongClickListener(new OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(View view, int position) {
                     listAdapter.getItem(position).setSelected(true);
@@ -247,7 +242,7 @@ public class EaseConversationListLayout extends EaseBaseLayout implements IConve
 
     public void init(int conversationsType) {
         listAdapter.addDelegate(new EaseConversationDelegate(setModel));
-        rvConversationList.setAdapter(adapter);
+        rvConversationList.setAdapter(listAdapter);
         this.conversationsType = conversationsType;
     }
 
@@ -368,17 +363,14 @@ public class EaseConversationListLayout extends EaseBaseLayout implements IConve
 
     @Override
     public void addHeaderAdapter(RecyclerView.Adapter adapter) {
-        this.adapter.addAdapter(0, adapter);
     }
 
     @Override
     public void addFooterAdapter(RecyclerView.Adapter adapter) {
-        this.adapter.addAdapter(adapter);
     }
 
     @Override
     public void removeAdapter(RecyclerView.Adapter adapter) {
-        this.adapter.removeAdapter(adapter);
     }
 
     @Override

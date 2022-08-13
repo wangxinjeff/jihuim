@@ -1,14 +1,12 @@
 package com.hyphenate.easeim.section.group.adapter;
 
+import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.model.GroupApplyBean;

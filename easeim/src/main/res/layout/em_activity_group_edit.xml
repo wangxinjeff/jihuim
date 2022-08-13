@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <android.support.v7.widget.AppCompatEditText
         android:id="@+id/et_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
         android:padding="20dp"
         android:orientation="vertical"
         >
-        <androidx.appcompat.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?attr/normalTextColor"
@@ -62,7 +62,7 @@
             android:text="@string/em_system_note"
             />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/system_note"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
             android:padding="20dp"
             >
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/service_note_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                 android:text="@string/em_service_note"
                 />
             
-            <androidx.appcompat.widget.AppCompatImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/em_icon_edit"
@@ -102,7 +102,7 @@
                 android:layout_marginStart="@dimen/margin_small"
                 />
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/service_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -117,4 +117,4 @@
     </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

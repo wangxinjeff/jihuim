@@ -1,13 +1,11 @@
 package com.hyphenate.easeim.section.conversation;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -15,15 +13,15 @@ import com.hyphenate.chat.EMPushConfigs;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.common.net.Resource;
+import com.hyphenate.easeim.common.repositories.EMChatManagerRepository;
 import com.hyphenate.easeim.common.repositories.EMPushManagerRepository;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.common.widget.SearchBar;
 import com.hyphenate.easeim.section.base.BaseActivity;
 import com.hyphenate.easeim.section.chat.activity.ChatActivity;
-import com.hyphenate.easeim.section.chat.viewmodel.MessageViewModel;
-import com.hyphenate.easeim.section.conversation.viewmodel.ConversationListViewModel;
 import com.hyphenate.easeim.section.dialog.DemoDialogFragment;
 import com.hyphenate.easeim.section.dialog.SimpleDialogFragment;
 import com.hyphenate.easeui.constants.EaseConstant;
@@ -37,9 +35,8 @@ import com.hyphenate.easeui.utils.EaseCommonUtils;
 import java.util.List;
 
 
+@SuppressLint("ValidFragment")
 public class ConversationListFragment extends EaseConversationListFragment{
-
-    private ConversationListViewModel mViewModel;
 
     public ConversationListFragment(int conversationsType) {
         super(conversationsType);
@@ -116,49 +113,26 @@ public class ConversationListFragment extends EaseConversationListFragment{
     public void initData() {
         //需要两个条件，判断是否触发从服务器拉取会话列表的时机，一是第一次安装，二则本地数据库没有会话列表数据
         if(EaseIMHelper.getInstance().isFirstInstall() && EMClient.getInstance().chatManager().getAllConversations().isEmpty()) {
-            mViewModel.fetchConversationsFromServer();
+            EMChatManagerRepository.getInstance().fetchConversationsFromServer(new ResultCallBack<List<EaseConversationInfo>>() {
+                @Override
+                public void onSuccess(List<EaseConversationInfo> data) {
+                    conversationListLayout.setData(data);
+                    // 拉取服务器的会话列表之后设置为不是初次登录
+                    EaseIMHelper.getInstance().makeNotFirstInstall();
+                }
+
+                @Override
+                public void onError(int i, String s) {
+
+                }
+            });
         }else {
             super.initData();
         }
     }
 
     private void initViewModel() {
-        mViewModel = new ViewModelProvider(this).get(ConversationListViewModel.class);
-
-        mViewModel.getDeleteObservable().observe(getViewLifecycleOwner(), response -> {
-            parseResource(response, new OnResourceParseCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                    LiveDataBus.get().with(EaseConstant.MESSAGE_CHANGE_CHANGE).postValue(new EaseEvent(EaseConstant.MESSAGE_CHANGE_CHANGE, EaseEvent.TYPE.MESSAGE));
-                    //mViewModel.loadConversationList();
-                    conversationListLayout.loadDefaultData();
-                }
-            });
-        });
-
-        mViewModel.getReadObservable().observe(getViewLifecycleOwner(), response -> {
-            parseResource(response, new OnResourceParseCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                    LiveDataBus.get().with(EaseConstant.MESSAGE_CHANGE_CHANGE).postValue(new EaseEvent(EaseConstant.MESSAGE_CHANGE_CHANGE, EaseEvent.TYPE.MESSAGE));
-                    conversationListLayout.loadDefaultData();
-                }
-            });
-        });
-
-        mViewModel.getConversationInfoObservable().observe(getViewLifecycleOwner(), response -> {
-            parseResource(response, new OnResourceParseCallback<List<EaseConversationInfo>>(true) {
-                @Override
-                public void onSuccess(@Nullable List<EaseConversationInfo> data) {
-                    conversationListLayout.setData(data);
-                    // 拉取服务器的会话列表之后设置为不是初次登录
-                    EaseIMHelper.getInstance().makeNotFirstInstall();
-                }
-            });
-        });
-
-        MessageViewModel messageViewModel = new ViewModelProvider(this).get(MessageViewModel.class);
-        LiveDataBus messageChange = messageViewModel.getMessageChange();
+        LiveDataBus messageChange =LiveDataBus.get();
         messageChange.with(EaseConstant.NOTIFY_CHANGE, EaseEvent.class).observe(getViewLifecycleOwner(), this::loadList);
         messageChange.with(EaseConstant.MESSAGE_CHANGE_CHANGE, EaseEvent.class).observe(getViewLifecycleOwner(), this::loadList);
         messageChange.with(EaseConstant.MESSAGE_CHANGE_CHANGE, EaseEvent.class).observe(getViewLifecycleOwner(), event -> {

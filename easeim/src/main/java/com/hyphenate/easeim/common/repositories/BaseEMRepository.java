@@ -1,9 +1,8 @@
 package com.hyphenate.easeim.common.repositories;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.hyphenate.chat.EMChatManager;
 import com.hyphenate.chat.EMChatRoomManager;
@@ -19,16 +18,6 @@ import com.hyphenate.easeim.common.db.dao.MsgTypeManageDao;
 import com.hyphenate.easeui.manager.EaseThreadManager;
 
 public class BaseEMRepository {
-
-    /**
-     * return a new liveData
-     * @param item
-     * @param <T>
-     * @return
-     */
-    public <T> LiveData<T> createLiveData(T item) {
-        return new MutableLiveData<>(item);
-    }
 
     /**
      * login before

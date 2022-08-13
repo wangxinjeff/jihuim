@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.domain.EaseEmojicon;

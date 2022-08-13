@@ -2,7 +2,6 @@ package com.hyphenate.easeim.section.group;
 
 import android.text.TextUtils;
 
-import androidx.lifecycle.LiveData;
 
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMChatRoom;

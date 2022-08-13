@@ -1,16 +1,18 @@
 package com.hyphenate.easeui.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
@@ -22,6 +24,7 @@ import com.hyphenate.easeui.utils.EaseUserUtils;
 
 import java.util.List;
 
+@SuppressLint("ValidFragment")
 public class GroupReadAckListFragment extends BaseInitFragment{
     private RecyclerView ackList;
     private GroupAckListAdapter ackListAdapter;

@@ -1,11 +1,12 @@
 package com.hyphenate.easeui.domain;
 
+import android.arch.persistence.room.Ignore;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import androidx.annotation.NonNull;
-import androidx.room.Ignore;
+import android.support.annotation.Nullable;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMUserInfo;

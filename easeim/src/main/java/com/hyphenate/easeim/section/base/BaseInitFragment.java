@@ -1,14 +1,14 @@
 package com.hyphenate.easeim.section.base;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.IdRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 public abstract class BaseInitFragment extends BaseFragment {
 

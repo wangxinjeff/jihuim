@@ -1,8 +1,8 @@
 package com.hyphenate.easeim.common.db;
 
-import androidx.room.Database;
-import androidx.room.RoomDatabase;
-import androidx.room.TypeConverters;
+import android.arch.persistence.room.Database;
+import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
 
 import com.hyphenate.easeim.common.db.converter.DateConverter;
 import com.hyphenate.easeim.common.db.dao.AppKeyDao;

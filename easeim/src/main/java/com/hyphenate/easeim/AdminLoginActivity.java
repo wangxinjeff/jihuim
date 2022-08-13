@@ -1,6 +1,11 @@
 package com.hyphenate.easeim;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatImageView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -8,12 +13,6 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.FrameLayout;
-
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
@@ -58,6 +57,8 @@ public class AdminLoginActivity extends BaseInitActivity implements View.OnClick
         visibleIcon = findViewById(R.id.visible);
         unVisibleIcon = findViewById(R.id.un_visible);
         rootView = findViewById(R.id.root_view);
+
+        phoneView.setText(EaseIMHelper.getInstance().getCurrentLoginUser());
     }
 
     @Override

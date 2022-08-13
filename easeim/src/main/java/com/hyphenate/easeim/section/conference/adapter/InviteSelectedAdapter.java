@@ -1,27 +1,17 @@
 package com.hyphenate.easeim.section.conference.adapter;
 
 
+import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
-import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeui.EaseIM;
 import com.hyphenate.easeui.adapter.EaseBaseRecyclerViewAdapter;
-import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.provider.EaseUserProfileProvider;
 import com.hyphenate.easeui.utils.EaseUserUtils;
-import com.hyphenate.easeui.widget.EaseImageView;
 
 public class InviteSelectedAdapter extends EaseBaseRecyclerViewAdapter<String> {
 

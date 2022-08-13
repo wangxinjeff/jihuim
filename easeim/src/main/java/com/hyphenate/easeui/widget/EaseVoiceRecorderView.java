@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.hyphenate.EMError;
 import com.hyphenate.easeim.R;

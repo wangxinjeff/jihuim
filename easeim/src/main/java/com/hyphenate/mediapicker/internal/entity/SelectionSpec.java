@@ -17,8 +17,8 @@
 package com.hyphenate.mediapicker.internal.entity;
 
 import android.content.pm.ActivityInfo;
+import android.support.annotation.StyleRes;
 
-import androidx.annotation.StyleRes;
 
 import com.hyphenate.mediapicker.MimeType;
 import com.hyphenate.easeim.R;

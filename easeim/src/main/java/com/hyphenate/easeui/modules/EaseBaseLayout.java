@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.LinearLayout;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 
 public class EaseBaseLayout extends LinearLayout {

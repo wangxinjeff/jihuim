@@ -9,6 +9,8 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -22,9 +24,8 @@ import com.hyphenate.util.VersionUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 
 /**
  * Created by zhangsong on 18-6-6.

@@ -1,5 +1,8 @@
 package com.hyphenate.easeui.adapter;
 
+import android.support.annotation.NonNull;
+import android.support.v4.util.SparseArrayCompat;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -9,10 +12,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.collection.SparseArrayCompat;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.adapter.EaseBaseRecyclerViewAdapter.ViewHolder;

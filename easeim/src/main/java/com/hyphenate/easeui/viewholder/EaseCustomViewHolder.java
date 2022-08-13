@@ -1,5 +1,6 @@
 package com.hyphenate.easeui.viewholder;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.hyphenate.chat.EMClient;
@@ -10,7 +11,7 @@ import com.hyphenate.easeui.model.styles.EaseMessageListItemStyle;
 import com.hyphenate.easeui.manager.EaseDingMessageHelper;
 import com.hyphenate.exceptions.HyphenateException;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 public class EaseCustomViewHolder extends EaseChatRowViewHolder {
 

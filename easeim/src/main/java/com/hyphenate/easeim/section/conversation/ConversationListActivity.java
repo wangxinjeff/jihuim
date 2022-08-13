@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,25 +14,20 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMPushConfigs;
 import com.hyphenate.chat.EMUserInfo;
 import com.hyphenate.easecallkit.base.EaseCallType;
 
-import com.hyphenate.easeim.AdminLoginActivity;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.common.manager.HMSPushHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.common.permission.PermissionsManager;
 import com.hyphenate.easeim.common.permission.PermissionsResultAction;
-import com.hyphenate.easeim.common.repositories.EMClientRepository;
 import com.hyphenate.easeim.common.repositories.EMPushManagerRepository;
 import com.hyphenate.easeim.common.utils.PreferenceManager;
 import com.hyphenate.easeim.common.utils.PushUtils;
@@ -40,7 +37,6 @@ import com.hyphenate.easeim.section.av.VideoCallActivity;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.chat.ChatPresenter;
 import com.hyphenate.easeim.section.group.activity.GroupApplyActivity;
-import com.hyphenate.easeim.section.group.activity.GroupPickContactsActivity;
 import com.hyphenate.easeim.section.group.activity.NewGroupActivity;
 import com.hyphenate.easeim.section.search.SearchGroupChatActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
@@ -52,11 +48,7 @@ import com.hyphenate.easeui.widget.EaseTitleBar;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.chat.EMUserInfo.*;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
 
 
@@ -161,26 +153,26 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
         createView.setOnClickListener(this);
         applyView.setOnClickListener(this);
 
-        mTitleBar.getTitle().setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                showLoading("退出登录");
-                EaseIMHelper.getInstance().logoutChat(new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        ToastUtils.showCenterToast("", "退出登录成功，请杀掉app重新进入", 0, Toast.LENGTH_SHORT);
-                        dismissLoading();
-                    }
-
-                    @Override
-                    public void onError(int i, String s) {
-                        ToastUtils.showCenterToast("", "退出登录失败：" + i + "," + s, 0, Toast.LENGTH_SHORT);
-                        dismissLoading();
-                    }
-                });
-                return false;
-            }
-        });
+//        mTitleBar.getTitle().setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                showLoading("退出登录");
+//                EaseIMHelper.getInstance().logoutChat(new EMCallBack() {
+//                    @Override
+//                    public void onSuccess() {
+//                        ToastUtils.showCenterToast("", "退出登录成功，请杀掉app重新进入", 0, Toast.LENGTH_SHORT);
+//                        dismissLoading();
+//                    }
+//
+//                    @Override
+//                    public void onError(int i, String s) {
+//                        ToastUtils.showCenterToast("", "退出登录失败：" + i + "," + s, 0, Toast.LENGTH_SHORT);
+//                        dismissLoading();
+//                    }
+//                });
+//                return false;
+//            }
+//        });
     }
 
     @Override

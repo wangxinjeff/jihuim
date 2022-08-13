@@ -11,7 +11,6 @@ import android.widget.EditText;
 
 import com.hyphenate.easeim.R;
 
-import androidx.appcompat.widget.AppCompatEditText;
 
 public class EaseSearchEditText extends EditText {
     private float mLeftHeight;

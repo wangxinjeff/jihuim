@@ -2,9 +2,6 @@ package com.hyphenate.easeui.provider;
 
 import android.graphics.drawable.Drawable;
 
-import androidx.annotation.DrawableRes;
-import androidx.annotation.IntegerRes;
-
 import com.hyphenate.easeui.EaseIM;
 import com.hyphenate.easeui.domain.EaseUser;
 

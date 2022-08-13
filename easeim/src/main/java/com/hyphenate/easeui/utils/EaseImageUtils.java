@@ -269,7 +269,7 @@ public class EaseImageUtils extends com.hyphenate.util.ImageUtils{
 			if(context instanceof Activity && (((Activity) context).isFinishing() || ((Activity) context).isDestroyed())) {
 				return imageView.getLayoutParams();
 			}
-			Glide.with(context).load(imageUri == null ? imageUrl : imageUri).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+			Glide.with(context).load(imageUri == null ? imageUrl : imageUri).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)).into(imageView);
 			return imageView.getLayoutParams();
 		}
 		ViewGroup.LayoutParams params = imageView.getLayoutParams();
@@ -303,9 +303,9 @@ public class EaseImageUtils extends com.hyphenate.util.ImageUtils{
 		Glide.with(context)
 				.load(imageUri == null ? imageUrl : imageUri)
 				.apply(new RequestOptions()
-						.error(R.drawable.ease_default_image))
-				.diskCacheStrategy(DiskCacheStrategy.ALL)
-				.override(params.width, params.height)
+						.error(R.drawable.ease_default_image)
+						.diskCacheStrategy(DiskCacheStrategy.ALL)
+				.override(params.width, params.height))
 				.into(imageView);
 		return params;
 	}

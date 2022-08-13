@@ -3,13 +3,14 @@ package com.hyphenate.easeui.player;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
-import androidx.annotation.CheckResult;
-import androidx.annotation.ColorInt;
-import androidx.annotation.ColorRes;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.FloatRange;
-import androidx.annotation.IntRange;
-import androidx.annotation.NonNull;
+import android.support.annotation.CheckResult;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.FloatRange;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 @SuppressWarnings("unused")
 interface EasyIUserMethods {

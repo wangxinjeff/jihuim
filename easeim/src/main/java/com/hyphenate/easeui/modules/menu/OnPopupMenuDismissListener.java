@@ -1,6 +1,7 @@
 package com.hyphenate.easeui.modules.menu;
 
-import androidx.appcompat.widget.PopupMenu;
+
+import android.support.v7.widget.PopupMenu;
 
 public interface OnPopupMenuDismissListener {
     void onDismiss(PopupMenu menu);

@@ -1,13 +1,14 @@
 package com.hyphenate.easeui.widget.chatextend;
 
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 
 /**
  * 本LayoutManager提供了类似ViewPager+GridView的分页效果。

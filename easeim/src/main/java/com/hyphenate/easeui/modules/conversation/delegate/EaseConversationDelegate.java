@@ -5,9 +5,10 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
 
-import androidx.core.content.ContextCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -105,7 +106,7 @@ public class EaseConversationDelegate extends EaseDefaultConversationDelegate {
         if(infoProvider != null) {
             Drawable avatarResource = infoProvider.getDefaultTypeAvatar(item.getType().name());
             if(avatarResource != null) {
-                Glide.with(holder.mContext).load(avatarResource).error(defaultAvatar).into(holder.avatar);
+                Glide.with(holder.mContext).load(avatarResource).apply(new RequestOptions().error(defaultAvatar)).into(holder.avatar);
             }
         }
         // add judgement for conversation type
@@ -121,7 +122,7 @@ public class EaseConversationDelegate extends EaseDefaultConversationDelegate {
                         Drawable drawable = holder.avatar.getDrawable();
                         Glide.with(holder.mContext)
                                 .load(user.getAvatar())
-                                .error(drawable)
+                                .apply(new RequestOptions().error(drawable))
                                 .into(holder.avatar);
                     }
                 }

@@ -3,34 +3,35 @@ package com.hyphenate.easeim.section.group.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.Nullable;
 
+import com.hyphenate.EMValueCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMGroup;
+import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.db.entity.EmUserEntity;
+import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
-import com.hyphenate.easeim.common.utils.ToastUtils;
+import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
+import com.hyphenate.easeim.common.repositories.EMPushManagerRepository;
 import com.hyphenate.easeim.common.widget.ArrowItemView;
 import com.hyphenate.easeim.common.widget.SwitchItemView;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
-import com.hyphenate.easeim.section.dialog.DemoDialogFragment;
-import com.hyphenate.easeim.section.dialog.SimpleDialogFragment;
 import com.hyphenate.easeim.section.group.GroupHelper;
 import com.hyphenate.easeim.section.group.adapter.GroupDetailMemberAdapter;
-import com.hyphenate.easeim.section.group.fragment.GroupEditFragment;
-import com.hyphenate.easeim.section.group.viewmodels.GroupDetailViewModel;
 import com.hyphenate.easeim.section.search.SearchHistoryChatActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
@@ -39,7 +40,11 @@ import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseImageView;
 import com.hyphenate.easeui.widget.EaseTitleBar;
+import com.hyphenate.exceptions.HyphenateException;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBar.OnBackPressListener, View.OnClickListener, SwitchItemView.OnCheckedChangeListener {
@@ -64,11 +69,11 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
     private SwitchItemView itemGroupNotDisturb;
     private String groupId;
     private EMGroup group;
-    private GroupDetailViewModel viewModel;
     private EMConversation conversation;
     private GroupDetailMemberAdapter memberAdapter;
     private RecyclerView memberList;
     private LinearLayout showMore;
+    private EMGroupManagerRepository repository = EMGroupManagerRepository.getInstance();
 
     public static void actionStart(Context context, String groupId) {
         Intent intent = new Intent(context, GroupDetailActivity.class);
@@ -149,7 +154,6 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
 
             @Override
             public void onRemoveClick() {
-                GroupRemoveMemberActivity.startAction(mContext, groupId);
             }
         });
     }
@@ -181,34 +185,7 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
     @Override
     protected void initData() {
         super.initData();
-        viewModel = new ViewModelProvider(this).get(GroupDetailViewModel.class);
-        viewModel.getGroupObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<EMGroup>() {
-                @Override
-                public void onSuccess(EMGroup data) {
-                    group = data;
-                    initGroupView();
-                }
-            });
-        });
-        viewModel.getAnnouncementObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<String>() {
-                @Override
-                public void onSuccess(String data) {
-                    itemGroupNotice.getTvBContent().setText(data);
-                }
-            });
-        });
-//        viewModel.getRefreshObservable().observe(this, response -> {
-//            parseResource(response, new OnResourceParseCallback<String>() {
-//                @Override
-//                public void onSuccess(String data) {
-//                    ToastUtils.showCenterToast("", getString(R.string.em_save_success), 0 ,Toast.LENGTH_SHORT);
-//                    loadGroup();
-//                }
-//            });
-//        });
-        viewModel.getMessageChangeObservable().with(EaseConstant.GROUP_CHANGE, EaseEvent.class).observe(this, event -> {
+        LiveDataBus.get().with(EaseConstant.GROUP_CHANGE, EaseEvent.class).observe(this, event -> {
             if(event.isGroupLeave() && TextUtils.equals(groupId, event.message)) {
                 finish();
                 return;
@@ -217,79 +194,6 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
                 loadGroup();
             }
         });
-        viewModel.getLeaveGroupObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                    finish();
-                    LiveDataBus.get().with(EaseConstant.GROUP_CHANGE).postValue(EaseEvent.create(EaseConstant.GROUP_LEAVE, EaseEvent.TYPE.GROUP, groupId));
-                }
-            });
-        });
-        viewModel.blockGroupMessageObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                    //itemGroupNotDisturb.getSwitch().setChecked(true);
-                }
-            });
-        });
-        viewModel.unblockGroupMessage().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                    //itemGroupNotDisturb.getSwitch().setChecked(false);
-                }
-            });
-        });
-        viewModel.offPushObservable().observe(this, response -> {
-            if(response) {
-                loadGroup();
-            }
-        });
-        viewModel.getClearHistoryObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                    LiveDataBus.get().with(EaseConstant.CONVERSATION_DELETE).postValue(new EaseEvent(EaseConstant.CONTACT_DECLINE, EaseEvent.TYPE.MESSAGE));
-                }
-            });
-        });
-
-        viewModel.getGroupMember().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<List<EaseUser>>() {
-                @Override
-                public void onSuccess(List<EaseUser> data) {
-                    EaseThreadManager.getInstance().runOnMainThread(new Runnable() {
-                        @Override
-                        public void run() {
-//                            if(EaseIMHelper.getInstance().isAdmin() && isOwner()){
-//                                EaseUser removeUser = new EaseUser("em_removeUser");
-//                                removeUser.setNickname(getString(R.string.action_delete));
-//                                data.add(0, removeUser);
-//                            }
-                            EaseUser addUser = new EaseUser("em_addUser");
-                            addUser.setNickname(getString(R.string.em_add_member));
-                            data.add(0, addUser);
-                            memberAdapter.setData(data);
-                        }
-                    });
-                }
-
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-                    dismissLoading();
-                }
-
-                @Override
-                public void onLoading(@Nullable List<EaseUser> data) {
-                    super.onLoading(data);
-                    showLoading();
-                }
-            });
-        });
-
         loadGroup();
 
         LiveDataBus.get().with(EaseConstant.CONTACT_UPDATE, EaseEvent.class).observe(this, event -> {
@@ -304,34 +208,67 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
             }
         });
 
-//        viewModel.getServiceNoteObservable().observe(this, response -> {
-//            parseResource(response, new OnResourceParseCallback<String>() {
-//                @Override
-//                public void onSuccess(@Nullable String data) {
-//                    serviceNote = data;
-//                    ToastUtils.showCenterToast("", "保存成功", 0, Toast.LENGTH_SHORT);
-//                }
-//
-//                @Override
-//                public void onLoading(@Nullable String data) {
-//                    super.onLoading(data);
-//                    showLoading();
-//                }
-//
-//                @Override
-//                public void hideLoading() {
-//                    super.hideLoading();
-//                    dismissLoading();
-//                }
-//            });
-//        });
-
     }
 
     private void loadGroup() {
-        viewModel.getGroup(groupId);
-        viewModel.getGroupAnnouncement(groupId);
-        viewModel.getGroupAllMember(groupId);
+        showLoading();
+        getGroupFromServer();
+        getGroupAnnouncement();
+        getGroupAllMember();
+
+    }
+
+    private void getGroupFromServer(){
+        new EMPushManagerRepository().getPushConfigsFromServer();
+        EaseIMHelper.getInstance().getGroupManager().asyncGetGroupFromServer(groupId, new EMValueCallBack<EMGroup>() {
+            @Override
+            public void onSuccess(EMGroup value) {
+                runOnUiThread(() -> {
+                    group = value;
+                    initGroupView();
+                });
+            }
+
+            @Override
+            public void onError(int error, String errorMsg) {
+            }
+        });
+    }
+
+    private void getGroupAnnouncement(){
+        EaseIMHelper.getInstance().getGroupManager().asyncFetchGroupAnnouncement(groupId, new EMValueCallBack<String>() {
+            @Override
+            public void onSuccess(String value) {
+                runOnUiThread(() -> {
+                    itemGroupNotice.getTvBContent().setText(value);
+                });
+            }
+
+            @Override
+            public void onError(int error, String errorMsg) {
+            }
+        });
+    }
+
+    private void getGroupAllMember() {
+        repository.getGroupAllMembers(groupId, new ResultCallBack<List<EaseUser>>() {
+            @Override
+            public void onSuccess(List<EaseUser> easeUsers) {
+                dismissLoading();
+                runOnUiThread(() ->
+                {
+                    EaseUser addUser = new EaseUser("em_addUser");
+                    addUser.setNickname(getString(R.string.em_add_member));
+                    easeUsers.add(0, addUser);
+                    memberAdapter.setData(easeUsers);
+                });
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                dismissLoading();
+            }
+        });
     }
 
     @Override
@@ -376,8 +313,30 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
     @Override
     public void onCheckedChanged(SwitchItemView buttonView, boolean isChecked) {
         if (buttonView.getId() == R.id.item_group_not_disturb) {//消息免打扰
-            viewModel.updatePushServiceForGroup(groupId, isChecked);
+            updatePushServiceForGroup(isChecked);
         }
+    }
+
+    private void updatePushServiceForGroup(boolean isChecked){
+        EaseThreadManager.getInstance().runOnIOThread(()-> {
+            List<String> onPushList = new ArrayList<>();
+            onPushList.add(groupId);
+            try {
+                EaseIMHelper.getInstance().getPushManager().updatePushServiceForGroup(onPushList, isChecked);
+                EMMessage message = EMMessage.createSendMessage(EMMessage.Type.CMD);
+                EMCmdMessageBody body = new EMCmdMessageBody("event");
+                body.deliverOnlineOnly(true);
+                message.addBody(body);
+                message.setTo(EaseIMHelper.getInstance().getCurrentUser());
+                message.setAttribute(EaseConstant.MESSAGE_ATTR_EVENT_TYPE, EaseConstant.EVENT_TYPE_GROUP_NO_PUSH);
+                message.setAttribute(EaseConstant.MESSAGE_ATTR_NO_PUSH, isChecked);
+                message.setAttribute(EaseConstant.MESSAGE_ATTR_NO_PUSH_ID, groupId);
+                EMClient.getInstance().chatManager().sendMessage(message);
+            } catch (HyphenateException e) {
+                e.printStackTrace();
+            }
+            getGroupFromServer();
+        });
     }
 
     @Override

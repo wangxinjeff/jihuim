@@ -1,8 +1,10 @@
 package com.hyphenate.easeim.section.group.activity;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RadioButton;
@@ -15,33 +17,32 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.hyphenate.EMCallBack;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
+import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.common.widget.SearchBar;
 import com.hyphenate.easeim.section.group.delegate.PickContactDelegate;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.group.adapter.GroupPickContactsAdapter;
-import com.hyphenate.easeim.section.group.viewmodels.GroupPickContactsViewModel;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
+import android.support.v4.content.ContextCompat;
 
 public class GroupPickContactsActivity extends BaseInitActivity implements EaseTitleBar.OnRightClickListener, EaseTitleBar.OnBackPressListener, PickContactDelegate.onCloseClickListener {
     private EaseTitleBar titleBar;
     private RecyclerView rvList;
     protected GroupPickContactsAdapter adapter;
-    private GroupPickContactsViewModel viewModel;
     private String groupId;
     private boolean isCreate;
     private List<EaseUser> members;
@@ -59,6 +60,7 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
     private AppCompatTextView selectedTitle;
     private AppCompatTextView resultTitle;
     private List<EaseUser> selectedList = new ArrayList<>();
+    private EMGroupManagerRepository repository = EMGroupManagerRepository.getInstance();
 
     public static void actionStart(Activity context, String groupId, boolean isOwner, boolean isCreate) {
         Intent starter = new Intent(context, GroupPickContactsActivity.class);
@@ -146,13 +148,58 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
         searchBar.setOnSearchBarListener(new SearchBar.OnSearchBarListener() {
             @Override
             public void onSearchContent(String text) {
+                showLoading();
                 radioGroup.setOnCheckedChangeListener(null);
                 radioGroup.clearCheck();
                 addRadioGroupListener();
                 if(EaseIMHelper.getInstance().isAdmin()){
-                    viewModel.searchUserWithAdmin(text);
+                    repository.searchUserWithAdmin(text, new ResultCallBack<List<String>>() {
+                        @Override
+                        public void onSuccess(List<String> data) {
+                            dismissLoading();
+                            runOnUiThread(() -> {
+                                if(data.size() > 0){
+                                    result = data.get(0);
+                                    resultView.setVisibility(View.VISIBLE);
+                                    userName.setText(result);
+                                } else {
+                                    resultView.setVisibility(View.GONE);
+                                    result = "";
+                                    ToastUtils.showCenterToast("", "搜索无结果", 0, Toast.LENGTH_SHORT);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+                            dismissLoading();
+                            ToastUtils.showCenterToast("", "搜索失败:" + i + ":" + s, 0, Toast.LENGTH_SHORT);
+                        }
+                    });
                 } else {
-                    viewModel.searchUserWithCustomer(text);
+                    repository.searchUserWithCustomer(text, new ResultCallBack<List<String>>() {
+                        @Override
+                        public void onSuccess(List<String> data) {
+                            dismissLoading();
+                            runOnUiThread(() -> {
+                                if(data.size() > 0){
+                                    result = data.get(0);
+                                    resultView.setVisibility(View.VISIBLE);
+                                    userName.setText(result);
+                                } else {
+                                    resultView.setVisibility(View.GONE);
+                                    result = "";
+                                    ToastUtils.showCenterToast("", "搜索无结果", 0, Toast.LENGTH_SHORT);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+                            dismissLoading();
+                            ToastUtils.showCenterToast("", "搜索失败:" + i + ":" + s, 0, Toast.LENGTH_SHORT);
+                        }
+                    });
                 }
 
             }
@@ -191,83 +238,11 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
     @Override
     protected void initData() {
         super.initData();
-        viewModel = new ViewModelProvider(this).get(GroupPickContactsViewModel.class);
-
-        viewModel.getAddMembersObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                    if(!isOwner){
-                        ToastUtils.showCenterToast("", getString(R.string.em_invite_user_toast), 0, Toast.LENGTH_SHORT);
-                    } else {
-                        ToastUtils.showCenterToast("", getString(R.string.em_add_user_toast), 0, Toast.LENGTH_SHORT);
-                    }
-                    setResult(RESULT_OK);
-                    finish();
-                }
-
-                @Override
-                public void onLoading(@Nullable Boolean data) {
-                    super.onLoading(data);
-                    showLoading();
-                }
-
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-                    dismissLoading();
-                }
-
-                @Override
-                public void onError(int code, String message) {
-                    super.onError(code, message);
-
-                }
-            });
-        });
-        viewModel.getSearchContactsObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<List<String>>() {
-                @Override
-                public void onSuccess(List<String> data) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(data.size() > 0){
-                                result = data.get(0);
-                                resultView.setVisibility(View.VISIBLE);
-                                userName.setText(result);
-                            } else {
-                                resultView.setVisibility(View.GONE);
-                                result = "";
-                                ToastUtils.showCenterToast("", "搜索无结果", 0, Toast.LENGTH_SHORT);
-                            }
-                        }
-                    });
-                }
-
-                @Override
-                public void onLoading(@Nullable List<String> data) {
-                    super.onLoading(data);
-                    showLoading();
-                }
-
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-                    dismissLoading();
-                }
-
-                @Override
-                public void onError(int code, String message) {
-                    super.onError(code, message);
-                    ToastUtils.showCenterToast("", "搜索失败:" + code + ":" + message, 0, Toast.LENGTH_SHORT);
-                }
-            });
-        });
     }
 
     @Override
     public void onRightClick(View view) {
+        showLoading();
         if(isCreate){
             NewGroupActivity.actionStart(mContext, (ArrayList<EaseUser>) selectedList);
             finish();
@@ -283,9 +258,40 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
                     }
                 }
                 if(EaseIMHelper.getInstance().isAdmin()){
-                    viewModel.addGroupMembersWithAdmin(isOwner, groupId, customers, waiters);
+                    repository.addMembersWithAdmin(groupId, customers, waiters, new EMCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            dismissLoading();
+                            ToastUtils.showCenterToast("", getString(R.string.em_add_user_toast), 0, Toast.LENGTH_SHORT);
+                            runOnUiThread(() -> {
+                                setResult(RESULT_OK);
+                                finish();
+                            });
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+                            dismissLoading();
+                        }
+                    });
+
                 } else {
-                    viewModel.addGroupMembersWithCustomer(isOwner, groupId, customers, waiters);
+                    repository.addMembersWithCustomer(groupId, customers, waiters, new EMCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            dismissLoading();
+                            ToastUtils.showCenterToast("", getString(R.string.em_invite_user_toast), 0, Toast.LENGTH_SHORT);
+                            runOnUiThread(() -> {
+                                setResult(RESULT_OK);
+                                finish();
+                            });
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+                            dismissLoading();
+                        }
+                    });
                 }
             } else {
                 onBackPressed();

@@ -1,6 +1,7 @@
 package com.hyphenate.easeui.widget.emojicon;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +9,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
-import androidx.core.view.ViewCompat;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.util.DensityUtil;

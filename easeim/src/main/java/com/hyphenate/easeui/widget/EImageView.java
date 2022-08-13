@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 /**
  * 为了解决出现“trying to use a recycled bitmap android.graphics.Bitmap@2d46e6b”的异常

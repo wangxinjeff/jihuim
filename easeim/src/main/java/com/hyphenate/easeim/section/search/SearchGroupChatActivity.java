@@ -1,35 +1,34 @@
 package com.hyphenate.easeim.section.search;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.Nullable;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.model.SearchResult;
+import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.chat.activity.ChatActivity;
-import com.hyphenate.easeim.section.group.viewmodels.GroupDetailViewModel;
 import com.hyphenate.easeim.section.search.adapter.SearchGroupChatAdapter;
 import com.hyphenate.easeui.constants.EaseConstant;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchGroupChatActivity extends BaseInitActivity implements View.OnClickListener{
@@ -48,8 +47,6 @@ public class SearchGroupChatActivity extends BaseInitActivity implements View.On
 
     private RecyclerView recyclerView;
     private SearchGroupChatAdapter adapter;
-
-    private GroupDetailViewModel viewModel;
 
     @Override
     protected int getLayoutId() {
@@ -84,27 +81,6 @@ public class SearchGroupChatActivity extends BaseInitActivity implements View.On
     @Override
     protected void initData() {
         super.initData();
-        viewModel = new ViewModelProvider(this).get(GroupDetailViewModel.class);
-        viewModel.getSearchObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<List<SearchResult>>() {
-                @Override
-                public void onSuccess(@Nullable List<SearchResult> data) {
-                    adapter.setData(data);
-                }
-
-                @Override
-                public void onLoading(@Nullable List<SearchResult> data) {
-                    super.onLoading(data);
-                    showLoading();
-                }
-
-                @Override
-                public void hideLoading() {
-                    super.hideLoading();
-                    dismissLoading();
-                }
-            });
-        });
     }
 
     @Override
@@ -167,14 +143,31 @@ public class SearchGroupChatActivity extends BaseInitActivity implements View.On
 
     private void searchGroupChat(String name, String content){
         if(TextUtils.equals(name, getString(R.string.group_name))){
-            viewModel.searchGroupChat("", "", "", "", "", content, "MANAGE");
+            searchGroupChat("", "", "", "", content, "MANAGE");
         } else if(TextUtils.equals(name, getString(R.string.em_order_id))){
-            viewModel.searchGroupChat("", "", content, "", "", "", "MANAGE");
+            searchGroupChat("", "", content, "", "", "MANAGE");
         } else if(TextUtils.equals(name, getString(R.string.em_phone_number))){
-            viewModel.searchGroupChat("", content, "", "", "", "", "MANAGE");
+            searchGroupChat("", content, "", "", "", "MANAGE");
         } else if(TextUtils.equals(name, getString(R.string.em_win_code))){
-            viewModel.searchGroupChat("", "", "", content, "", "", "MANAGE");
+            searchGroupChat("", "", "", content, "", "MANAGE");
         }
+    }
 
+    private void searchGroupChat(String aid, String mobile, String orderId, String vin, String groupName, String source){
+        showLoading();
+        EMGroupManagerRepository.getInstance().searchGroupChat(aid, mobile, orderId, vin, groupName, source, new ResultCallBack<List<SearchResult>>() {
+            @Override
+            public void onSuccess(List<SearchResult> data) {
+                dismissLoading();
+                runOnUiThread(() -> {
+                    adapter.setData(data);
+                });
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                dismissLoading();
+            }
+        });
     }
 }

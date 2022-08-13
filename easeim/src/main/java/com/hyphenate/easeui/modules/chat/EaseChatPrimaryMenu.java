@@ -22,7 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import androidx.core.content.ContextCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;

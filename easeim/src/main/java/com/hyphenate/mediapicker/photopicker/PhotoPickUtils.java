@@ -1,10 +1,10 @@
 package com.hyphenate.mediapicker.photopicker;
 
 import android.Manifest;
+import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 
 import com.hyphenate.mediapicker.config.Constant;
 import com.hyphenate.mediapicker.config.MediaPickerConfig;

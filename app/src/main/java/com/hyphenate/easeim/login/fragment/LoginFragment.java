@@ -1,9 +1,12 @@
 package com.hyphenate.easeim.login.fragment;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.SpannableString;
@@ -23,10 +26,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProvider;
-
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
@@ -34,13 +33,9 @@ import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.MainActivity;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.db.EaseDbHelper;
-import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
 import com.hyphenate.easeui.utils.EaseEditTextUtils;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.section.base.BaseInitFragment;
-import com.hyphenate.easeim.login.viewmodels.LoginFragmentViewModel;
-import com.hyphenate.easeim.login.viewmodels.LoginViewModel;
-import com.hyphenate.easeui.domain.EaseUser;
 
 public class LoginFragment extends BaseInitFragment implements View.OnClickListener, TextWatcher, CompoundButton.OnCheckedChangeListener, TextView.OnEditorActionListener {
     private EditText mEtLoginName;
@@ -53,9 +48,7 @@ public class LoginFragment extends BaseInitFragment implements View.OnClickListe
     private TextView tvAgreement;
     private String mUserName;
     private String mPwd;
-    private LoginViewModel mViewModel;
     private boolean isTokenFlag;//是否是token登录
-    private LoginFragmentViewModel mFragmentViewModel;
     private Drawable clear;
     private Drawable eyeOpen;
     private Drawable eyeClose;
@@ -107,14 +100,12 @@ public class LoginFragment extends BaseInitFragment implements View.OnClickListe
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        mFragmentViewModel = new ViewModelProvider(this).get(LoginFragmentViewModel.class);
 
     }
 
     @Override
     protected void initViewModel() {
         super.initViewModel();
-        mViewModel = new ViewModelProvider(mContext).get(LoginViewModel.class);
         EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).getDatabaseCreatedObservable().observe(getViewLifecycleOwner(), response -> {
             Log.i("login", "本地数据库初始化完成");
         });
@@ -136,13 +127,6 @@ public class LoginFragment extends BaseInitFragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_login_token:
-                isTokenFlag = !isTokenFlag;
-                switchLogin();
-                break;
-            case R.id.tv_login_server_set:
-                mViewModel.setPageSelect(2);
-                break;
             case R.id.btn_login:
                 hideKeyboard();
                 loginToServer();

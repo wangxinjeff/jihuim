@@ -16,8 +16,8 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageView;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
 
 import com.hyphenate.easeim.R;
 

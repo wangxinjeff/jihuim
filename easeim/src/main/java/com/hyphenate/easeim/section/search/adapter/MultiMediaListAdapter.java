@@ -3,6 +3,7 @@ package com.hyphenate.easeim.section.search.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,12 +12,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.RequestOptions;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
@@ -84,10 +87,11 @@ public class MultiMediaListAdapter extends EaseBaseRecyclerViewAdapter<EMMessage
                 if(TextUtils.isEmpty(thumbnailUrl)) {
                     thumbnailUrl = ((EMImageMessageBody) body).getRemoteUrl();
                 }
+                RequestOptions options = new RequestOptions().error(R.drawable.ease_default_image)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL);
                 Glide.with(context)
                         .load(imageUri == null ? thumbnailUrl : imageUri)
-                        .error(R.drawable.ease_default_image)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .apply(options)
                         .into(image);
             } else if(item.getType() == EMMessage.Type.VIDEO){
                 iconVideo.setVisibility(View.VISIBLE);
@@ -101,7 +105,10 @@ public class MultiMediaListAdapter extends EaseBaseRecyclerViewAdapter<EMMessage
                 if(!EaseFileUtils.isFileExistByUri(context, localThumbUri)) {
                     localThumbUri = null;
                 }
-                Glide.with(context).load(localThumbUri == null ? thumbnailUrl : localThumbUri).error(R.drawable.ease_default_image).diskCacheStrategy(DiskCacheStrategy.ALL).into(image);
+                RequestOptions options = new RequestOptions().error(R.drawable.ease_default_image)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL);
+
+                Glide.with(context).load(localThumbUri == null ? thumbnailUrl : localThumbUri).apply(options).into(image);
             }
         }
     }

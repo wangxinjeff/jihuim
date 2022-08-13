@@ -14,7 +14,7 @@
         app:titleBarTitle="@string/em_my_order"
         />
 
-    <com.google.android.material.tabs.TabLayout
+    <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/normal_height"
@@ -25,7 +25,7 @@
         android:background="?attr/themeBgColor"
         />
 
-    <androidx.viewpager2.widget.ViewPager2
+    <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

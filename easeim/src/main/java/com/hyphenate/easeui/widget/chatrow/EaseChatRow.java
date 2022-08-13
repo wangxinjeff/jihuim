@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -428,8 +428,7 @@ public abstract class EaseChatRow extends LinearLayout {
                         usernickView.setText(nick);
                     }
                     Glide.with(context).load(avatar)
-                            .apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                            .error(R.drawable.ease_default_avatar)
+                            .apply(RequestOptions.bitmapTransform(new CircleCrop()).error(R.drawable.ease_default_avatar))
                             .into(userAvatarView);
 
                     return;

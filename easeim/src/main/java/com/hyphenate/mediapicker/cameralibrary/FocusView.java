@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import com.hyphenate.mediapicker.cameralibrary.util.ScreenUtils;
 

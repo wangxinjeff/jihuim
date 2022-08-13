@@ -1,11 +1,12 @@
 package com.hyphenate.easeui.adapter;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.interfaces.OnItemClickListener;

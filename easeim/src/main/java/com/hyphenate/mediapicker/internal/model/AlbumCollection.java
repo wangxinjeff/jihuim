@@ -19,10 +19,9 @@ package com.hyphenate.mediapicker.internal.model;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-
-import androidx.fragment.app.FragmentActivity;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 
 import com.hyphenate.mediapicker.internal.loader.AlbumLoader;
 

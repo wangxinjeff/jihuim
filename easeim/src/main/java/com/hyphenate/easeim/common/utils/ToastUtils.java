@@ -3,6 +3,7 @@ package com.hyphenate.easeim.common.utils;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,8 +12,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.StringRes;
 
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;

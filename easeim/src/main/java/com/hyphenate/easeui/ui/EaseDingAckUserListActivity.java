@@ -1,25 +1,23 @@
 package com.hyphenate.easeui.ui;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager2.widget.ViewPager2;
-
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
+import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
-import com.hyphenate.easeim.section.group.viewmodels.GroupDetailViewModel;
 import com.hyphenate.easeim.section.search.adapter.SectionPagerAdapter;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.manager.EaseDingMessageHelper;
@@ -35,7 +33,7 @@ import java.util.List;
 public class EaseDingAckUserListActivity extends BaseInitActivity {
     private EaseTitleBar titleBar;
     private TabLayout tabLayout;
-    private ViewPager2 viewPager;
+    private ViewPager viewPager;
     private List<Fragment> fragmentList;
     private EMMessage message;
     private List<String> memberList = new ArrayList<>();
@@ -43,8 +41,6 @@ public class EaseDingAckUserListActivity extends BaseInitActivity {
     private List<String> unReadList = new ArrayList<>();
     private GroupReadAckListFragment readFragment;
     private GroupReadAckListFragment unReadFragment;
-    private GroupDetailViewModel viewModel;
-
     public static void startAction(Context context, EMMessage message){
         Intent intent = new Intent(context, EaseDingAckUserListActivity.class);
         intent.putExtra("message", message);
@@ -74,29 +70,8 @@ public class EaseDingAckUserListActivity extends BaseInitActivity {
     @Override
     protected void initData() {
         super.initData();
-        viewModel =  new ViewModelProvider(this).get(GroupDetailViewModel.class);
         EaseDingMessageHelper.get().fetchGroupReadAck(message);
         showLoading();
-        viewModel.getGroupMember().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<List<EaseUser>>() {
-                @Override
-                public void onSuccess(@Nullable List<EaseUser> data) {
-                    memberList.clear();
-                    unReadList.clear();
-                    for(EaseUser user : data){
-                        if(!TextUtils.equals(user.getUsername(), EaseIMHelper.getInstance().getCurrentUser())){
-                            memberList.add(user.getUsername());
-                        }
-                    }
-                    for(String s : memberList){
-                        if(!readList.contains(s)){
-                            unReadList.add(s);
-                        }
-                    }
-                    runOnUiThread(() -> refreshView());
-                }
-            });
-        });
     }
 
     private void refreshView(){
@@ -105,18 +80,13 @@ public class EaseDingAckUserListActivity extends BaseInitActivity {
         unReadFragment = new GroupReadAckListFragment(unReadList);
         fragmentList.add(readFragment);
         fragmentList.add(unReadFragment);
-
-        viewPager.setAdapter(new SectionPagerAdapter(this, fragmentList));
-
         List<String> titleList = new ArrayList<>();
         titleList.add(readList.size() + "人已读");
         titleList.add(unReadList.size() + "人未读");
-        new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy(){
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText(titleList.get(position));
-            }
-        }).attach();
+
+        viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager(), fragmentList, titleList));
+
+        tabLayout.setupWithViewPager(viewPager);
         dismissLoading();
     }
 
@@ -153,7 +123,31 @@ public class EaseDingAckUserListActivity extends BaseInitActivity {
                 @Override
                 public void onUpdate(List<String> list) {
                     readList = list;
-                    runOnUiThread(() -> viewModel.getGroupAllMember(message.getTo()));
+                    runOnUiThread(() -> {
+                        EMGroupManagerRepository.getInstance().getGroupAllMembers(message.getTo(), new ResultCallBack<List<EaseUser>>() {
+                            @Override
+                            public void onSuccess(List<EaseUser> data) {
+                                memberList.clear();
+                                unReadList.clear();
+                                for(EaseUser user : data){
+                                    if(!TextUtils.equals(user.getUsername(), EaseIMHelper.getInstance().getCurrentUser())){
+                                        memberList.add(user.getUsername());
+                                    }
+                                }
+                                for(String s : memberList){
+                                    if(!readList.contains(s)){
+                                        unReadList.add(s);
+                                    }
+                                }
+                                runOnUiThread(() -> refreshView());
+                            }
+
+                            @Override
+                            public void onError(int i, String s) {
+
+                            }
+                        });
+                    });
                 }
             };
 

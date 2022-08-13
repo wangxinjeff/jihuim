@@ -2,7 +2,8 @@ package com.hyphenate.easeui.modules.chat.presenter;
 
 import android.net.Uri;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;

@@ -2,7 +2,7 @@ package com.hyphenate.easeim.common.net;
 
 import android.text.TextUtils;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.common.enums.Status;

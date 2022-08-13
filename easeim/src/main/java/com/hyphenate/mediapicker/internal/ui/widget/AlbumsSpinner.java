@@ -20,13 +20,14 @@ import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.ListPopupWindow;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.ListPopupWindow;
+import android.support.annotation.Nullable;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.mediapicker.internal.entity.Album;
@@ -106,7 +107,9 @@ public class AlbumsSpinner {
                 new int[]{R.attr.album_element_color});
         int color = ta.getColor(0, 0);
         ta.recycle();
-        right.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        if(right != null){
+            right.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        }
 
         mSelected.setOnClickListener(new View.OnClickListener() {
 

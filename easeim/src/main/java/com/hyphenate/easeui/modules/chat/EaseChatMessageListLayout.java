@@ -6,20 +6,20 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.ConcatAdapter;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import android.support.annotation.Nullable;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
@@ -39,6 +39,7 @@ import com.hyphenate.easeui.modules.chat.presenter.EaseChatMessagePresenter;
 import com.hyphenate.easeui.modules.chat.presenter.EaseChatMessagePresenterImpl;
 import com.hyphenate.easeui.modules.chat.presenter.IChatMessageListView;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.util.EMLog;
 
 import java.util.List;
 
@@ -49,7 +50,6 @@ public class EaseChatMessageListLayout extends RelativeLayout implements IChatMe
     private static final String TAG = EaseChatMessageListLayout.class.getSimpleName();
     private EaseChatMessagePresenter presenter;
     private EaseMessageAdapter messageAdapter;
-    private ConcatAdapter baseAdapter;
     /**
      * 加载数据的方式，目前有三种，常规模式（从本地加载），漫游模式，查询历史消息模式（通过数据库搜索）
      */
@@ -180,10 +180,8 @@ public class EaseChatMessageListLayout extends RelativeLayout implements IChatMe
         layoutManager = new LinearLayoutManager(getContext());
         rvList.setLayoutManager(layoutManager);
 
-        baseAdapter = new ConcatAdapter();
         messageAdapter = new EaseMessageAdapter();
-        baseAdapter.addAdapter(messageAdapter);
-        rvList.setAdapter(baseAdapter);
+        rvList.setAdapter(messageAdapter);
 
         registerChatType();
 
@@ -772,17 +770,14 @@ public class EaseChatMessageListLayout extends RelativeLayout implements IChatMe
 
     @Override
     public void addHeaderAdapter(RecyclerView.Adapter adapter) {
-        baseAdapter.addAdapter(0, adapter);
     }
 
     @Override
     public void addFooterAdapter(RecyclerView.Adapter adapter) {
-        baseAdapter.addAdapter(adapter);
     }
 
     @Override
     public void removeAdapter(RecyclerView.Adapter adapter) {
-        baseAdapter.removeAdapter(adapter);
     }
 
     @Override

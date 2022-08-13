@@ -2,7 +2,6 @@ package com.hyphenate.easeim;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +35,6 @@ import com.hyphenate.easecallkit.event.CallCancelEvent;
 import com.hyphenate.easecallkit.utils.EaseCallState;
 import com.hyphenate.easeim.common.db.EaseDbHelper;
 import com.hyphenate.easeim.common.interfaceOrImplement.UserActivityLifecycleCallbacks;
-import com.hyphenate.easeim.common.manager.UserProfileManager;
 import com.hyphenate.easeim.common.model.EaseModel;
 import com.hyphenate.easeim.common.receiver.HeadsetReceiver;
 import com.hyphenate.easeim.common.repositories.EMClientRepository;
@@ -62,7 +60,6 @@ import com.hyphenate.easeui.domain.EaseAvatarOptions;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.manager.EaseMessageTypeSetManager;
 import com.hyphenate.easeui.model.EaseNotifier;
-import com.hyphenate.easeui.provider.EaseSettingsProvider;
 import com.hyphenate.easeui.provider.EaseUserProfileProvider;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.push.EMPushConfig;
@@ -95,7 +92,6 @@ public class EaseIMHelper {
     private static EaseIMHelper mInstance;
     private EaseModel easeModel = null;
     private Map<String, EaseUser> contactList;
-    private UserProfileManager userProManager;
 
     private EaseCallKitListener callKitListener;
     private Context mainContext;
@@ -215,7 +211,7 @@ public class EaseIMHelper {
         //设置呼叫超时时间
         callKitConfig.setCallTimeOut(30 * 1000);
         //设置声网AgoraAppId
-        callKitConfig.setAgoraAppId("e305be556e0f4846b8ad2c3e21bc78ec");
+        callKitConfig.setAgoraAppId("943bfefbbfb54b3cac36507a1b006a9f");
         callKitConfig.setEnableRTCToken(true);
         EaseCallKit.getInstance().init(context,callKitConfig);
         // Register the activities which you have registered in manifest
@@ -362,7 +358,7 @@ public class EaseIMHelper {
         // You'd better cache it if you get it from your server
         EaseUser user = null;
         if(TextUtils.equals(username, EMClient.getInstance().getCurrentUser()))
-            return getUserProfileManager().getCurrentUserInfo();
+            return getCurrentUserInfo();
         user = getContactList().get(username);
         if(user == null){
             //找不到更新会话列表 继续查找
@@ -375,6 +371,16 @@ public class EaseIMHelper {
                 }
             }
         }
+        return user;
+    }
+
+    public EaseUser getCurrentUserInfo(){
+        String username = EMClient.getInstance().getCurrentUser();
+        EaseUser user = new EaseUser(username);
+        String nick = getModel().getCurrentUserNick();
+        String avatar = getModel().getCurrentUserAvatar();
+        user.setNickname(nick != null ? nick : username);
+        user.setAvatar(avatar);
         return user;
     }
 
@@ -440,7 +446,6 @@ public class EaseIMHelper {
         Log.d(TAG, "logout: onSuccess");
         setAutoLogin(false);
         EaseDbHelper.getInstance(application).closeDb();
-        getUserProfileManager().reset();
         getModel().reset();
     }
 
@@ -559,13 +564,6 @@ public class EaseIMHelper {
             updateTimeoutUsers();
             contactList = easeModel.getContactList();
         }
-    }
-
-    public UserProfileManager getUserProfileManager() {
-        if (userProManager == null) {
-            userProManager = new UserProfileManager();
-        }
-        return userProManager;
     }
 
     /**
@@ -1094,7 +1092,7 @@ public class EaseIMHelper {
     public void addMsgAttrsBeforeSend(EMMessage message){
         try {
             JSONObject userInfo = new JSONObject();
-            EaseUser user = EaseIMHelper.getInstance().getUserProfileManager().getCurrentUserInfo();
+            EaseUser user = getCurrentUserInfo();
             userInfo.put(EaseConstant.MESSAGE_ATTR_USER_NAME, user.getUsername());
             userInfo.put(EaseConstant.MESSAGE_ATTR_USER_NICK, user.getNickname());
             userInfo.put(EaseConstant.MESSAGE_ATTR_USER_AVATAR, user.getAvatar() != null ? user.getAvatar() : "");

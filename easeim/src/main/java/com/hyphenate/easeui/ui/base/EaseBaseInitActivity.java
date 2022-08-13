@@ -3,7 +3,7 @@ package com.hyphenate.easeui.ui.base;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 public abstract class EaseBaseInitActivity extends EaseBaseActivity{
     @Override

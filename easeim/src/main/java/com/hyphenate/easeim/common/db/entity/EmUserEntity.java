@@ -1,9 +1,9 @@
 package com.hyphenate.easeim.common.db.entity;
 
-import androidx.annotation.NonNull;
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.Index;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
+import android.support.annotation.NonNull;
 
 import com.hyphenate.easeui.domain.EaseUser;
 

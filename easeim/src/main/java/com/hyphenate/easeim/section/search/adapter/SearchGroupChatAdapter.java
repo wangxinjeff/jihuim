@@ -1,14 +1,15 @@
 package com.hyphenate.easeim.section.search.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -63,7 +64,7 @@ public class SearchGroupChatAdapter extends EaseBaseRecyclerViewAdapter<SearchRe
             String groupId = item.getId();
             String name = item.getName();
             if(!TextUtils.isEmpty(avatarUrl)){
-                Glide.with(context).load(avatarUrl).apply(RequestOptions.bitmapTransform(new CircleCrop())).error(R.drawable.ease_group_icon).into(avatar);
+                Glide.with(context).load(avatarUrl).apply(RequestOptions.bitmapTransform(new CircleCrop()).error(R.drawable.ease_group_icon)).into(avatar);
             }
 
             EMGroup group = EaseIMHelper.getInstance().getGroupManager().getGroup(groupId);

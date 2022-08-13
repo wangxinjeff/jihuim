@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/themeBgColor"
@@ -19,7 +19,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -27,7 +27,7 @@
             app:layout_constraintTop_toBottomOf="@id/title_bar"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <android.support.constraint.ConstraintLayout
                 android:id="@+id/cl_group_info"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
                     android:text="@string/em_group_head"
                     android:layout_marginStart="@dimen/em_margin_20"
                     />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </android.support.constraint.ConstraintLayout>
 
             <View
                 android:id="@+id/view_group_divider"
@@ -89,7 +89,7 @@
                 android:layout_marginEnd="@dimen/em_margin_15"
                 android:background="@drawable/demo_default_divider_list"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <android.support.constraint.ConstraintLayout
                 android:id="@+id/cl_member"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
                     android:gravity="center"
                     android:textColor="?attr/groupDetailContent"/>
 
-                <androidx.recyclerview.widget.RecyclerView
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/rl_member_list"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -144,7 +144,7 @@
                     app:layout_constraintHeight_max="188dp"
                     />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </android.support.constraint.ConstraintLayout>
 
             <com.hyphenate.easeim.common.widget.ArrowItemView
                 android:layout_width="match_parent"
@@ -174,7 +174,7 @@
                 app:arrowItemBContent="@string/em_not_setting"
                 style="@style/em_group_arrow_item"/>
             
-            <androidx.appcompat.widget.AppCompatButton
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/done"
                 android:layout_width="0dp"
                 android:layout_height="44dp"
@@ -189,6 +189,6 @@
                 android:textColor="@color/white"
                 />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

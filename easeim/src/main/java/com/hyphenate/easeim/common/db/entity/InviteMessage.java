@@ -1,6 +1,6 @@
 package com.hyphenate.easeim.common.db.entity;
 
-import androidx.room.Entity;
+import android.arch.persistence.room.Entity;
 
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.common.db.EaseDbHelper;

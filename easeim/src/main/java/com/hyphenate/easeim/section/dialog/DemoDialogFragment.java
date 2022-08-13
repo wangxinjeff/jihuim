@@ -1,6 +1,12 @@
 package com.hyphenate.easeim.section.dialog;
 
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
+import android.support.constraint.Group;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -13,14 +19,8 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.ColorRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.constraintlayout.widget.Group;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentTransaction;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.section.base.BaseActivity;

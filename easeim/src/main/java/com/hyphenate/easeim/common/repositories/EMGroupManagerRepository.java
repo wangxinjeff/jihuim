@@ -1,10 +1,9 @@
 package com.hyphenate.easeim.common.repositories;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
@@ -21,10 +20,12 @@ import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.db.entity.EmUserEntity;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
+import com.hyphenate.easeim.common.livedatas.SingleSourceLiveData;
 import com.hyphenate.easeim.common.model.GroupApplyBean;
 import com.hyphenate.easeim.common.model.SearchResult;
 import com.hyphenate.easeim.common.net.ErrorCode;
 import com.hyphenate.easeim.common.net.Resource;
+import com.hyphenate.easeim.common.net.Result;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.manager.EaseThreadManager;
 import com.hyphenate.easeui.domain.EaseUser;
@@ -56,48 +57,17 @@ import okhttp3.Response;
 
 public class EMGroupManagerRepository extends BaseEMRepository{
 
-    /**
-     * 获取所有的群组列表
-     * @return
-     */
-    public LiveData<Resource<List<EMGroup>>> getAllGroups() {
-        return new NetworkBoundResource<List<EMGroup>, List<EMGroup>>() {
-            @Override
-            protected boolean shouldFetch(List<EMGroup> data) {
-                return true;
-            }
+    private static EMGroupManagerRepository instance;
 
-            @Override
-            protected LiveData<List<EMGroup>> loadFromDb() {
-                List<EMGroup> allGroups = getGroupManager().getAllGroups();
-                return new MutableLiveData<>(allGroups);
-            }
-
-            @Override
-            protected void createCall(ResultCallBack<LiveData<List<EMGroup>>> callBack) {
-                if(!isLoggedIn()) {
-                    callBack.onError(ErrorCode.EM_NOT_LOGIN);
-                    return;
+    public static EMGroupManagerRepository getInstance() {
+        if(instance == null) {
+            synchronized (EMGroupManagerRepository.class) {
+                if(instance == null) {
+                    instance = new EMGroupManagerRepository();
                 }
-                getGroupManager().asyncGetJoinedGroupsFromServer(new EMValueCallBack<List<EMGroup>>() {
-                    @Override
-                    public void onSuccess(List<EMGroup> value) {
-                        callBack.onSuccess(new MutableLiveData<>(value));
-                    }
-
-                    @Override
-                    public void onError(int error, String errorMsg) {
-                        callBack.onError(error, errorMsg);
-                    }
-                });
             }
-
-            @Override
-            protected void saveCallResult(List<EMGroup> item) {
-
-            }
-
-        }.asLiveData();
+        }
+        return instance;
     }
 
     /**
@@ -127,184 +97,11 @@ public class EMGroupManagerRepository extends BaseEMRepository{
     }
 
     /**
-     * 从服务器分页获取加入的群组
-     * @param pageIndex
-     * @param pageSize
-     * @return
-     */
-    public LiveData<Resource<List<EMGroup>>> getGroupListFromServer(int pageIndex, int pageSize) {
-        return new NetworkOnlyResource<List<EMGroup>>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<List<EMGroup>>> callBack) {
-                getGroupManager().asyncGetJoinedGroupsFromServer(pageIndex, pageSize, new EMValueCallBack<List<EMGroup>>() {
-                    @Override
-                    public void onSuccess(List<EMGroup> value) {
-                        callBack.onSuccess(createLiveData(value));
-                    }
-
-                    @Override
-                    public void onError(int error, String errorMsg) {
-                        callBack.onError(error, errorMsg);
-                    }
-                });
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 获取公开群
-     * @param pageSize
-     * @param cursor
-     * @return
-     */
-    public LiveData<Resource<EMCursorResult<EMGroupInfo>>> getPublicGroupFromServer(int pageSize, String cursor) {
-        return new NetworkOnlyResource<EMCursorResult<EMGroupInfo>>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<EMCursorResult<EMGroupInfo>>> callBack) {
-                EaseIMHelper.getInstance().getGroupManager().asyncGetPublicGroupsFromServer(pageSize, cursor, new EMValueCallBack<EMCursorResult<EMGroupInfo>>() {
-                    @Override
-                    public void onSuccess(EMCursorResult<EMGroupInfo> value) {
-                        callBack.onSuccess(createLiveData(value));
-                    }
-
-                    @Override
-                    public void onError(int error, String errorMsg) {
-                        callBack.onError(error, errorMsg);
-                    }
-                });
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 获取群组信息
-     * @param groupId
-     * @return
-     */
-    public LiveData<Resource<EMGroup>> getGroupFromServer(String groupId) {
-        return new NetworkOnlyResource<EMGroup>() {
-
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<EMGroup>> callBack) {
-                if(!isLoggedIn()) {
-                    callBack.onError(ErrorCode.EM_NOT_LOGIN);
-                    return;
-                }
-                EaseIMHelper.getInstance().getGroupManager().asyncGetGroupFromServer(groupId, new EMValueCallBack<EMGroup>() {
-                    @Override
-                    public void onSuccess(EMGroup value) {
-                        callBack.onSuccess(createLiveData(value));
-                    }
-
-                    @Override
-                    public void onError(int error, String errorMsg) {
-                        callBack.onError(error, errorMsg);
-                    }
-                });
-            }
-
-        }.asLiveData();
-    }
-
-    /**
-     * 加入群组
-     * @param group
-     * @param reason
-     * @return
-     */
-    public LiveData<Resource<Boolean>> joinGroup(EMGroup group, String reason) {
-        return new NetworkOnlyResource<Boolean>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<Boolean>> callBack) {
-                if(group.isMemberOnly()) {
-                    getGroupManager().asyncApplyJoinToGroup(group.getGroupId(), reason, new EMCallBack() {
-                        @Override
-                        public void onSuccess() {
-                            callBack.onSuccess(createLiveData(true));
-                        }
-
-                        @Override
-                        public void onError(int code, String error) {
-                            callBack.onError(code,error);
-                        }
-
-                        @Override
-                        public void onProgress(int progress, String status) {
-
-                        }
-                    });
-                }else {
-                    getGroupManager().asyncJoinGroup(group.getGroupId(), new EMCallBack() {
-                        @Override
-                        public void onSuccess() {
-                            callBack.onSuccess(createLiveData(true));
-                        }
-
-                        @Override
-                        public void onError(int code, String error) {
-                            callBack.onError(code,error);
-                        }
-
-                        @Override
-                        public void onProgress(int progress, String status) {
-
-                        }
-                    });
-                }
-
-            }
-        }.asLiveData();
-    }
-
-    public LiveData<Resource<List<String>>> getGroupMembersByName(String groupId) {
-        return new NetworkOnlyResource<List<String>>() {
-
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<List<String>>> callBack) {
-                if(!isLoggedIn()) {
-                    callBack.onError(ErrorCode.EM_NOT_LOGIN);
-                    return;
-                }
-                EaseIMHelper.getInstance().getGroupManager().asyncGetGroupFromServer(groupId, new EMValueCallBack<EMGroup>() {
-                    @Override
-                    public void onSuccess(EMGroup value) {
-                        List<String> members = value.getMembers();
-                        if(members.size() < (value.getMemberCount() - value.getAdminList().size() - 1)) {
-                            members = getAllGroupMemberByServer(groupId);
-                        }
-                        members.addAll(value.getAdminList());
-                        members.add(value.getOwner());
-                        if(!members.isEmpty()) {
-                            callBack.onSuccess(createLiveData(members));
-                        }else {
-                            callBack.onError(ErrorCode.EM_ERR_GROUP_NO_MEMBERS);
-                        }
-                    }
-
-                    @Override
-                    public void onError(int error, String errorMsg) {
-                        callBack.onError(error, errorMsg);
-                    }
-                });
-            }
-
-        }.asLiveData();
-    }
-
-    /**
      * 获取群组成员列表(包含管理员和群主)
      * @param groupId
      * @return
      */
-    public LiveData<Resource<List<EaseUser>>> getGroupAllMembers(String groupId) {
-        return new NetworkOnlyResource<List<EaseUser>>() {
-
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<List<EaseUser>>> callBack) {
-                if(!isLoggedIn()) {
-                    callBack.onError(ErrorCode.EM_NOT_LOGIN);
-                    return;
-                }
+    public void getGroupAllMembers(String groupId, ResultCallBack<List<EaseUser>> callBack) {
                 EaseIMHelper.getInstance().getGroupManager().asyncGetGroupFromServer(groupId, new EMValueCallBack<EMGroup>() {
                     @Override
                     public void onSuccess(EMGroup value) {
@@ -322,7 +119,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                     item.setOwner(true);
                                 }
                             }
-                            callBack.onSuccess(createLiveData(users));
+                            callBack.onSuccess(users);
                         }else {
                             callBack.onError(ErrorCode.EM_ERR_GROUP_NO_MEMBERS);
                         }
@@ -333,45 +130,6 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                         callBack.onError(error, errorMsg);
                     }
                 });
-            }
-
-        }.asLiveData();
-    }
-
-    /**
-     * 获取群组成员列表(不包含管理员和群主)
-     * @param groupId
-     * @return
-     */
-    public LiveData<Resource<List<EaseUser>>> getGroupMembers(String groupId) {
-        return new NetworkOnlyResource<List<EaseUser>>() {
-
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<List<EaseUser>>> callBack) {
-                if(!isLoggedIn()) {
-                    callBack.onError(ErrorCode.EM_NOT_LOGIN);
-                    return;
-                }
-                runOnIOThread(()-> {
-                    List<String> members = getAllGroupMemberByServer(groupId);
-                    List<EaseUser> users = new ArrayList<>();
-                    if(members != null && !members.isEmpty()){
-                        for(int i = 0; i < members.size(); i++){
-                            EaseUser user = EaseIMHelper.getInstance().getUserInfo(members.get(i));
-                            if(user != null){
-                                users.add(user);
-                            }else{
-                                EaseUser m_user = new EaseUser(members.get(i));
-                                users.add(m_user);
-                            }
-                        }
-                    }
-                    sortUserData(users);
-                    callBack.onSuccess(createLiveData(users));
-                });
-            }
-
-        }.asLiveData();
     }
 
     /**
@@ -379,11 +137,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
      * @param groupId
      * @return
      */
-    public LiveData<Resource<Map<String, Long>>> getGroupMuteMap(String groupId) {
-        return new NetworkOnlyResource<Map<String, Long>>() {
-
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<Map<String, Long>>> callBack) {
+    public void getGroupMuteMap(String groupId, ResultCallBack<Map<String, Long>> callBack) {
                 EaseThreadManager.getInstance().runOnIOThread(() -> {
                     Map<String, Long> map = null;
                     Map<String, Long> result = new HashMap<>();
@@ -400,55 +154,8 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             result.putAll(map);
                         }
                     }while (map != null && map.size() >= 200);
-                    callBack.onSuccess(createLiveData(result));
+                    callBack.onSuccess(result);
                 });
-
-            }
-
-        }.asLiveData();
-    }
-
-    /**
-     * 获取群组黑名单列表
-     * @param groupId
-     * @return
-     */
-    public LiveData<Resource<List<String>>> getGroupBlackList(String groupId) {
-        return new NetworkOnlyResource<List<String>>() {
-
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<List<String>>> callBack) {
-                EaseThreadManager.getInstance().runOnIOThread(() -> {
-                    List<String> list = null;
-                    try {
-                        list = fetchGroupBlacklistFromServer(groupId);
-                    } catch (HyphenateException e) {
-                        e.printStackTrace();
-                        callBack.onError(e.getErrorCode(), e.getMessage());
-                        return;
-                    }
-                    if(list == null) {
-                        list = new ArrayList<>();
-                    }
-                    callBack.onSuccess(createLiveData(list));
-                });
-
-            }
-
-        }.asLiveData();
-    }
-
-    private List<String> fetchGroupBlacklistFromServer(String groupId) throws HyphenateException {
-        int pageSize = 200;
-        List<String> list = null;
-        List<String> result = new ArrayList<>();
-        do{
-            list = getGroupManager().fetchGroupBlackList(groupId, 0, pageSize);
-            if(list != null) {
-                result.addAll(list);
-            }
-        }while (list != null && list.size() >= pageSize);
-        return result;
     }
 
     /**
@@ -456,26 +163,11 @@ public class EMGroupManagerRepository extends BaseEMRepository{
      * @param groupId
      * @return
      */
-    public LiveData<Resource<String>> getGroupAnnouncement(String groupId) {
-        return new NetworkBoundResource<String, String>() {
-
-            @Override
-            protected boolean shouldFetch(String data) {
-                return true;
-            }
-
-            @Override
-            protected LiveData<String> loadFromDb() {
-                String announcement = EaseIMHelper.getInstance().getGroupManager().getGroup(groupId).getAnnouncement();
-                return createLiveData(announcement);
-            }
-
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<String>> callBack) {
+    public void getGroupAnnouncement(String groupId, ResultCallBack<String> callBack) {
                 getGroupManager().asyncFetchGroupAnnouncement(groupId, new EMValueCallBack<String>() {
                     @Override
                     public void onSuccess(String value) {
-                        callBack.onSuccess(createLiveData(value));
+                        callBack.onSuccess(value);
                     }
 
                     @Override
@@ -483,14 +175,6 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                         callBack.onError(error, errorMsg);
                     }
                 });
-            }
-
-            @Override
-            protected void saveCallResult(String item) {
-
-            }
-
-        }.asLiveData();
     }
 
     /**
@@ -535,91 +219,13 @@ public class EMGroupManagerRepository extends BaseEMRepository{
         });
     }
 
-    public List<EMGroup> getAllManageGroups(List<EMGroup> allGroups) {
-        if(allGroups != null && allGroups.size() > 0) {
-            List<EMGroup> manageGroups = new ArrayList<>();
-            for (EMGroup group : allGroups) {
-                if(TextUtils.equals(group.getOwner(), getCurrentUser()) || group.getAdminList().contains(getCurrentUser())) {
-                    manageGroups.add(group);
-                }
-            }
-            // 对数据进行排序
-            sortData(manageGroups);
-            return manageGroups;
-        }
-        return new ArrayList<>();
-    }
-
-    /**
-     * get all join groups, not contain manage groups
-     * @return
-     */
-    public List<EMGroup> getAllJoinGroups(List<EMGroup> allGroups) {
-        if(allGroups != null && allGroups.size() > 0) {
-            List<EMGroup> joinGroups = new ArrayList<>();
-            for (EMGroup group : allGroups) {
-                if(!TextUtils.equals(group.getOwner(), getCurrentUser()) && !group.getAdminList().contains(getCurrentUser())) {
-                    joinGroups.add(group);
-                }
-            }
-            // 对数据进行排序
-            sortData(joinGroups);
-            return joinGroups;
-        }
-        return new ArrayList<>();
-    }
-
-    /**
-     * 对数据进行排序
-     * @param groups
-     */
-    private void sortData(List<EMGroup> groups) {
-        Collections.sort(groups, new Comparator<EMGroup>() {
-            @Override
-            public int compare(EMGroup o1, EMGroup o2) {
-                String name1 = EaseCommonUtils.getLetter(o1.getGroupName());
-                String name2 = EaseCommonUtils.getLetter(o2.getGroupName());
-                if(name1.equals(name2)){
-                    return o1.getGroupId().compareTo(o2.getGroupId());
-                }else{
-                    if("#".equals(name1)){
-                        return 1;
-                    }else if("#".equals(name2)){
-                        return -1;
-                    }
-                    return name1.compareTo(name2);
-                }
-            }
-        });
-    }
-
     /**
      * 设置群组名称
      * @param groupId
      * @param groupName
      * @return
      */
-    public LiveData<Resource<String>> setGroupName(String groupId, String groupName) {
-        return new NetworkOnlyResource<String>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<String>> callBack) {
-//                getGroupManager().asyncChangeGroupName(groupId, groupName, new EMCallBack() {
-//                    @Override
-//                    public void onSuccess() {
-//                        callBack.onSuccess(createLiveData(groupName));
-//                    }
-//
-//                    @Override
-//                    public void onError(int code, String error) {
-//                        callBack.onError(code,  error);
-//                    }
-//
-//                    @Override
-//                    public void onProgress(int progress, String status) {
-//
-//                    }
-//                });
-
+    public void setGroupName(String groupId, String groupName, ResultCallBack<String> callBack) {
                 try{
                     MediaType JSON = MediaType.get("application/json; charset=utf-8");
                     OkHttpClient client = new OkHttpClient();
@@ -651,7 +257,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                     JSONObject result = new JSONObject(responseBody);
                                     String status = result.optString("status");
                                     if (TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)) {
-                                        callBack.onSuccess(createLiveData(groupName));
+                                        callBack.onSuccess(groupName);
                                     } else {
                                         callBack.onError(EMError.GENERAL_ERROR, "modify groupName failed");
                                     }
@@ -667,8 +273,6 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     e.printStackTrace();
                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                 }
-            }
-        }.asLiveData();
     }
 
     /**
@@ -677,14 +281,11 @@ public class EMGroupManagerRepository extends BaseEMRepository{
      * @param announcement
      * @return
      */
-    public LiveData<Resource<String>> setGroupAnnouncement(String groupId, String announcement) {
-        return new NetworkOnlyResource<String>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<String>> callBack) {
+    public void setGroupAnnouncement(String groupId, String announcement, ResultCallBack<String> callBack) {
                 getGroupManager().asyncUpdateGroupAnnouncement(groupId, announcement, new EMCallBack() {
                     @Override
                     public void onSuccess() {
-                        callBack.onSuccess(createLiveData(announcement));
+                        callBack.onSuccess(announcement);
                     }
 
                     @Override
@@ -697,8 +298,6 @@ public class EMGroupManagerRepository extends BaseEMRepository{
 
                     }
                 });
-            }
-        }.asLiveData();
     }
 
     /**
@@ -707,10 +306,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
      * @param description
      * @return
      */
-    public LiveData<Resource<String>> setGroupDescription(String groupId, String description) {
-        return new NetworkOnlyResource<String>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<String>> callBack) {
+    public void setGroupDescription(String groupId, String description, ResultCallBack<String> callBack) {
                 getGroupManager().asyncChangeGroupDescription(groupId, description, new EMCallBack() {
                     @Override
                     public void onSuccess() {
@@ -724,7 +320,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                         message.setAttribute(EaseConstant.MESSAGE_ATTR_GROUP_ID, groupId);
                         message.setAttribute(EaseConstant.MESSAGE_ATTR_GROUP_INTRO, description);
                         EMClient.getInstance().chatManager().sendMessage(message);
-                        callBack.onSuccess(createLiveData(description));
+                        callBack.onSuccess(description);
                     }
 
                     @Override
@@ -737,134 +333,12 @@ public class EMGroupManagerRepository extends BaseEMRepository{
 
                     }
                 });
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 获取共享文件
-     * @param groupId
-     * @param pageNum
-     * @param pageSize
-     * @return
-     */
-    public LiveData<Resource<List<EMMucSharedFile>>> getSharedFiles(String groupId, int pageNum, int pageSize) {
-        return new NetworkOnlyResource<List<EMMucSharedFile>>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<List<EMMucSharedFile>>> callBack) {
-                getGroupManager().asyncFetchGroupSharedFileList(groupId, pageNum, pageSize, new EMValueCallBack<List<EMMucSharedFile>>() {
-                    @Override
-                    public void onSuccess(List<EMMucSharedFile> value) {
-                        callBack.onSuccess(createLiveData(value));
-                    }
-
-                    @Override
-                    public void onError(int error, String errorMsg) {
-                        callBack.onError(error, errorMsg);
-                    }
-                });
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 下载共享文件
-     * @param groupId
-     * @param fileId
-     * @param localFile
-     * @return
-     */
-    public LiveData<Resource<File>> downloadFile(String groupId, String fileId, File localFile) {
-        return new NetworkOnlyResource<File>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<File>> callBack) {
-                getGroupManager().asyncDownloadGroupSharedFile(groupId, fileId, localFile.getAbsolutePath(), new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        callBack.onSuccess(createLiveData(localFile));
-                    }
-
-                    @Override
-                    public void onError(int code, String error) {
-                        callBack.onError(code, error);
-                    }
-
-                    @Override
-                    public void onProgress(int progress, String status) {
-
-                    }
-                });
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 删除服务器端的文件
-     * @param groupId
-     * @param fileId
-     * @return
-     */
-    public LiveData<Resource<Boolean>> deleteFile(String groupId, String fileId) {
-        return new NetworkOnlyResource<Boolean>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<Boolean>> callBack) {
-                getGroupManager().asyncDeleteGroupSharedFile(groupId, fileId, new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        callBack.onSuccess(createLiveData(true));
-                    }
-
-                    @Override
-                    public void onError(int code, String error) {
-                        callBack.onError(code, error);
-                    }
-
-                    @Override
-                    public void onProgress(int progress, String status) {
-
-                    }
-                });
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 上传文件
-     * @param groupId
-     * @param filePath
-     * @return
-     */
-    public LiveData<Resource<Boolean>> uploadFile(String groupId, String filePath) {
-        return new NetworkOnlyResource<Boolean>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<Boolean>> callBack) {
-                getGroupManager().asyncUploadGroupSharedFile(groupId, filePath, new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        callBack.onSuccess(createLiveData(true));
-                    }
-
-                    @Override
-                    public void onError(int code, String error) {
-                        callBack.onError(code, error);
-                    }
-
-                    @Override
-                    public void onProgress(int progress, String status) {
-
-                    }
-                });
-            }
-        }.asLiveData();
     }
 
     /**
      * 运管端邀请群成员
      */
-    public LiveData<Resource<Boolean>> addMembersWithAdmin(String groupId, List<String> customerList, List<String> waiterList) {
-        return new NetworkOnlyResource<Boolean>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<Boolean>> callBack) {
+    public void addMembersWithAdmin(String groupId, List<String> customerList, List<String> waiterList, EMCallBack callBack) {
                 try{
                     MediaType JSON = MediaType.get("application/json; charset=utf-8");
                     OkHttpClient client = new OkHttpClient();
@@ -906,7 +380,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                     JSONObject result = new JSONObject(responseBody);
                                     String status = result.optString("status");
                                     if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
-                                        callBack.onSuccess(createLiveData(true));
+                                        callBack.onSuccess();
                                     } else {
                                         callBack.onError(EMError.GENERAL_ERROR, "add member failed");
                                     }
@@ -922,17 +396,12 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     e.printStackTrace();
                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                 }
-            }
-        }.asLiveData();
     }
 
     /**
      * 极狐app邀请群成员
      */
-    public LiveData<Resource<Boolean>> addMembersWithCustomer(String groupId, List<String> customerList, List<String> waiterList) {
-        return new NetworkOnlyResource<Boolean>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<Boolean>> callBack) {
+    public void addMembersWithCustomer(String groupId, List<String> customerList, List<String> waiterList, EMCallBack callBack) {
                 try{
                     MediaType JSON = MediaType.get("application/json; charset=utf-8");
                     OkHttpClient client = new OkHttpClient();
@@ -975,7 +444,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                     JSONObject result = new JSONObject(responseBody);
                                     String status = result.optString("status");
                                     if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
-                                        callBack.onSuccess(createLiveData(true));
+                                        callBack.onSuccess();
                                     } else {
                                         callBack.onError(EMError.GENERAL_ERROR, "add member failed");
                                     }
@@ -991,143 +460,6 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     e.printStackTrace();
                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                 }
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 移交群主权限
-     * @param groupId
-     * @param username
-     * @return
-     */
-    public LiveData<Resource<Boolean>> changeOwner(String groupId, String username) {
-        return new NetworkOnlyResource<Boolean>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<Boolean>> callBack) {
-                getGroupManager().asyncChangeOwner(groupId, username, new EMValueCallBack<EMGroup>() {
-                    @Override
-                    public void onSuccess(EMGroup value) {
-                        callBack.onSuccess(createLiveData(true));
-                    }
-
-                    @Override
-                    public void onError(int error, String errorMsg) {
-                        callBack.onError(error, errorMsg);
-                    }
-                });
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 设为群管理员
-     * @param groupId
-     * @param username
-     * @return
-     */
-    public LiveData<Resource<String>> addGroupAdmin(String groupId, String username) {
-        return new NetworkOnlyResource<String>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<String>> callBack) {
-                getGroupManager().asyncAddGroupAdmin(groupId, username, new EMValueCallBack<EMGroup>() {
-                    @Override
-                    public void onSuccess(EMGroup value) {
-                        callBack.onSuccess(createLiveData(getContext().getString(R.string.demo_group_member_add_admin, username)));
-                    }
-
-                    @Override
-                    public void onError(int error, String errorMsg) {
-                        callBack.onError(error, errorMsg);
-                    }
-                });
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 移除群管理员
-     * @param groupId
-     * @param username
-     * @return
-     */
-    public LiveData<Resource<String>> removeGroupAdmin(String groupId, String username) {
-        return new NetworkOnlyResource<String>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<String>> callBack) {
-                getGroupManager().asyncRemoveGroupAdmin(groupId, username, new EMValueCallBack<EMGroup>() {
-                    @Override
-                    public void onSuccess(EMGroup value) {
-                        callBack.onSuccess(createLiveData(getContext().getString(R.string.demo_group_member_remove_admin, username)));
-                    }
-
-                    @Override
-                    public void onError(int error, String errorMsg) {
-                        callBack.onError(error, errorMsg);
-                    }
-                });
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 移出群
-     * @param groupId
-     * @param username
-     * @return
-     */
-    public LiveData<Resource<String>> removeUserFromGroup(String groupId, String username) {
-        return new NetworkOnlyResource<String>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<String>> callBack) {
-                getGroupManager().asyncRemoveUserFromGroup(groupId, username, new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        callBack.onSuccess(createLiveData(getContext().getString(R.string.demo_group_member_remove, username)));
-                    }
-
-                    @Override
-                    public void onError(int code, String error) {
-                        callBack.onError(code, error);
-                    }
-
-                    @Override
-                    public void onProgress(int progress, String status) {
-
-                    }
-                });
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 移出群
-     * @param groupId
-     * @param usernames
-     * @return
-     */
-    public LiveData<Resource<String>> removeUsersFromGroup(String groupId, List<String> usernames) {
-        return new NetworkOnlyResource<String>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<String>> callBack) {
-                getGroupManager().asyncRemoveUsersFromGroup(groupId, usernames, new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        callBack.onSuccess(createLiveData("remove success"));
-                    }
-
-                    @Override
-                    public void onError(int code, String error) {
-                        callBack.onError(code, error);
-                    }
-
-                    @Override
-                    public void onProgress(int progress, String status) {
-
-                    }
-                });
-            }
-        }.asLiveData();
     }
 
     /**
@@ -1136,10 +468,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
      * @param size
      * @return
      */
-    public LiveData<Resource<List<GroupApplyBean>>> fetchGroupApply(int page, int size){
-        return new NetworkOnlyResource<List<GroupApplyBean>>(){
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<List<GroupApplyBean>>> callBack) {
+    public void fetchGroupApply(int page, int size, ResultCallBack<List<GroupApplyBean>> callBack){
                 try{
                     MediaType JSON = MediaType.get("application/json; charset=utf-8");
                     OkHttpClient client = new OkHttpClient();
@@ -1194,7 +523,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                             }
                                         }
 
-                                        callBack.onSuccess(createLiveData(list));
+                                        callBack.onSuccess(list);
                                     } else {
                                         callBack.onError(EMError.GENERAL_ERROR, "get group apply failed");
                                     }
@@ -1210,8 +539,6 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     e.printStackTrace();
                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                 }
-            }
-        }.asLiveData();
     }
 
     /**
@@ -1220,10 +547,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
      * @param state
      * @return
      */
-    public LiveData<Resource<GroupApplyBean>> operationGroupApply(GroupApplyBean bean, String state){
-        return new NetworkOnlyResource<GroupApplyBean>(){
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<GroupApplyBean>> callBack) {
+    public void operationGroupApply(GroupApplyBean bean, String state, ResultCallBack<GroupApplyBean> callBack){
                 try{
                     MediaType JSON = MediaType.get("application/json; charset=utf-8");
                     OkHttpClient client = new OkHttpClient();
@@ -1259,7 +583,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                     if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
                                         bean.setOperated(true);
                                         bean.setOperatedResult(state);
-                                        callBack.onSuccess(createLiveData(bean));
+                                        callBack.onSuccess(bean);
                                     } else {
                                         callBack.onError(EMError.GENERAL_ERROR, "operation group apply failed");
                                     }
@@ -1275,68 +599,6 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     e.printStackTrace();
                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                 }
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 添加到群黑名单
-     * @param groupId
-     * @param username
-     * @return
-     */
-    public LiveData<Resource<String>> blockUser(String groupId, String username) {
-        return new NetworkOnlyResource<String>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<String>> callBack) {
-                getGroupManager().asyncBlockUser(groupId, username, new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        callBack.onSuccess(createLiveData(getContext().getString(R.string.demo_group_member_add_black, username)));
-                    }
-
-                    @Override
-                    public void onError(int code, String error) {
-                        callBack.onError(code, error);
-                    }
-
-                    @Override
-                    public void onProgress(int progress, String status) {
-
-                    }
-                });
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 移出群黑名单
-     * @param groupId
-     * @param username
-     * @return
-     */
-    public LiveData<Resource<String>> unblockUser(String groupId, String username) {
-        return new NetworkOnlyResource<String>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<String>> callBack) {
-                getGroupManager().asyncUnblockUser(groupId, username, new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        callBack.onSuccess(createLiveData(getContext().getString(R.string.demo_group_member_remove_black, username)));
-                    }
-
-                    @Override
-                    public void onError(int code, String error) {
-                        callBack.onError(code, error);
-                    }
-
-                    @Override
-                    public void onProgress(int progress, String status) {
-
-                    }
-                });
-            }
-        }.asLiveData();
     }
 
     /**
@@ -1345,14 +607,11 @@ public class EMGroupManagerRepository extends BaseEMRepository{
      * @param usernames
      * @return
      */
-    public LiveData<Resource<String>> muteGroupMembers(String groupId, List<String> usernames, long duration) {
-        return new NetworkOnlyResource<String>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<String>> callBack) {
+    public void muteGroupMembers(String groupId, List<String> usernames, long duration, ResultCallBack<String> callBack) {
                 getGroupManager().aysncMuteGroupMembers(groupId, usernames, duration, new EMValueCallBack<EMGroup>() {
                     @Override
                     public void onSuccess(EMGroup value) {
-                        callBack.onSuccess(createLiveData(getContext().getString(R.string.demo_group_member_mute, usernames.get(0))));
+                        callBack.onSuccess(getContext().getString(R.string.demo_group_member_mute, usernames.get(0)));
                     }
 
                     @Override
@@ -1360,8 +619,6 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                         callBack.onError(error, errorMsg);
                     }
                 });
-            }
-        }.asLiveData();
     }
 
     /**
@@ -1370,14 +627,11 @@ public class EMGroupManagerRepository extends BaseEMRepository{
      * @param usernames
      * @return
      */
-    public LiveData<Resource<String>> unMuteGroupMembers(String groupId, List<String> usernames) {
-        return new NetworkOnlyResource<String>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<String>> callBack) {
+    public void unMuteGroupMembers(String groupId, List<String> usernames, ResultCallBack<String> callBack) {
                 getGroupManager().asyncUnMuteGroupMembers(groupId, usernames, new EMValueCallBack<EMGroup>() {
                     @Override
                     public void onSuccess(EMGroup value) {
-                        callBack.onSuccess(createLiveData(getContext().getString(R.string.demo_group_member_remove_mute, usernames.get(0))));
+                        callBack.onSuccess(getContext().getString(R.string.demo_group_member_remove_mute, usernames.get(0)));
                     }
 
                     @Override
@@ -1385,86 +639,12 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                         callBack.onError(error, errorMsg);
                     }
                 });
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 退群
-     * @param groupId
-     * @return
-     */
-    public LiveData<Resource<Boolean>> leaveGroup(String groupId) {
-        return new NetworkOnlyResource<Boolean>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<Boolean>> callBack) {
-                getGroupManager().asyncLeaveGroup(groupId, new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        callBack.onSuccess(createLiveData(true));
-                    }
-
-                    @Override
-                    public void onError(int code, String error) {
-                        callBack.onError(code, error);
-                    }
-
-                    @Override
-                    public void onProgress(int progress, String status) {
-
-                    }
-                });
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 解散群
-     * @param groupId
-     * @return
-     */
-    public LiveData<Resource<Boolean>> destroyGroup(String groupId) {
-        return new NetworkOnlyResource<Boolean>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<Boolean>> callBack) {
-                getGroupManager().asyncDestroyGroup(groupId, new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        callBack.onSuccess(createLiveData(true));
-                    }
-
-                    @Override
-                    public void onError(int code, String error) {
-                        callBack.onError(code, error);
-                    }
-
-                    @Override
-                    public void onProgress(int progress, String status) {
-
-                    }
-                });
-            }
-        }.asLiveData();
     }
 
     /**
      * 创建群组
      */
-    public LiveData<Resource<String>> createGroup(String groupName, String desc, List<String> customerList, List<String> waiterList) {
-        return new NetworkOnlyResource<String>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<String>> callBack) {
-//                getGroupManager().asyncCreateGroup(groupName, desc, allMembers, reason, option, new EMValueCallBack<EMGroup>() {
-//                    @Override
-//                    public void onSuccess(EMGroup value) {
-//                        callBack.onSuccess(createLiveData(value));
-//                    }
-//
-//                    @Override
-//                    public void onError(int error, String errorMsg) {
-//                        callBack.onError(error, errorMsg);
-//                    }
-//                });
+    public void createGroup(String groupName, String desc, List<String> customerList, List<String> waiterList, ResultCallBack<String> callBack) {
 
                 try{
                     MediaType JSON = MediaType.get("application/json; charset=utf-8");
@@ -1512,7 +692,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                     if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
                                         JSONObject data = result.getJSONObject("data");
                                         String groupId = data.getString("groupId");
-                                        callBack.onSuccess(createLiveData(groupId));
+                                        callBack.onSuccess(groupId);
                                     }else {
                                         callBack.onError(EMError.GENERAL_ERROR, "create group failed");
                                     }
@@ -1528,76 +708,12 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     e.printStackTrace();
                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                 }
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 屏蔽群消息
-     * @param groupId
-     * @return
-     */
-    public LiveData<Resource<Boolean>> blockGroupMessage(String groupId) {
-        return new NetworkOnlyResource<Boolean>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<Boolean>> callBack) {
-                getGroupManager().asyncBlockGroupMessage(groupId, new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        callBack.onSuccess(createLiveData(true));
-                    }
-
-                    @Override
-                    public void onError(int code, String error) {
-                        callBack.onError(code, error);
-                    }
-
-                    @Override
-                    public void onProgress(int progress, String status) {
-
-                    }
-                });
-            }
-        }.asLiveData();
-    }
-
-    /**
-     * 取消屏蔽群消息
-     * @param groupId
-     * @return
-     */
-    public LiveData<Resource<Boolean>> unblockGroupMessage(String groupId) {
-        return new NetworkOnlyResource<Boolean>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<Boolean>> callBack) {
-                getGroupManager().asyncUnblockGroupMessage(groupId, new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        callBack.onSuccess(createLiveData(true));
-                    }
-
-                    @Override
-                    public void onError(int code, String error) {
-                        callBack.onError(code, error);
-                    }
-
-                    @Override
-                    public void onProgress(int progress, String status) {
-
-                    }
-                });
-            }
-        }.asLiveData();
     }
 
     /**
      * 获取服务备注
      */
-    public LiveData<Resource<List<String>>> getServiceNote(String groupId){
-        return new NetworkOnlyResource<List<String>>(){
-
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<List<String>>> callBack) {
+    public void getServiceNote(String groupId, ResultCallBack<List<String>> callBack){
                     OkHttpClient client = new OkHttpClient();
                     Headers headers = new Headers.Builder()
                             .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())
@@ -1628,7 +744,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                         List<String> list = new ArrayList<>();
                                         list.add(sysDesc);
                                         list.add(businessRemark);
-                                        callBack.onSuccess(createLiveData(list));
+                                        callBack.onSuccess(list);
                                     } else {
                                         callBack.onError(EMError.GENERAL_ERROR, "get service note failed");
                                     }
@@ -1640,17 +756,12 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             }
                         }
                     });
-            }
-        }.asLiveData();
     }
 
     /**
      * 编辑服务备注
      */
-    public LiveData<Resource<String>> changeServiceNote(String groupId, String note){
-        return new NetworkOnlyResource<String>() {
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<String>> callBack) {
+    public void changeServiceNote(String groupId, String note, ResultCallBack callBack){
                 try{
                     MediaType JSON = MediaType.get("application/json; charset=utf-8");
                     OkHttpClient client = new OkHttpClient();
@@ -1681,7 +792,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                     JSONObject result = new JSONObject(responseBody);
                                     String status = result.optString("status");
                                     if (TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)) {
-                                        callBack.onSuccess(createLiveData(note));
+                                        callBack.onSuccess(note);
                                     } else {
                                         callBack.onError(EMError.GENERAL_ERROR, "modify service note failed");
                                     }
@@ -1697,19 +808,13 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     e.printStackTrace();
                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                 }
-            }
-        }.asLiveData();
     }
 
     /**
      * 查询群列表
      * @return
      */
-    public LiveData<Resource<List<SearchResult>>> searchGroupChat(String aid, String mobile, String orderId, String vin, String groupType, String groupName, String source){
-        return new NetworkOnlyResource<List<SearchResult>>(){
-
-            @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<List<SearchResult>>> callBack) {
+    public void searchGroupChat(String aid, String mobile, String orderId, String vin, String groupName, String source, ResultCallBack<List<SearchResult>> callBack){
                 try{
                     MediaType JSON = MediaType.get("application/json; charset=utf-8");
                     OkHttpClient client = new OkHttpClient();
@@ -1718,7 +823,6 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                     json.put("mobile", mobile);
                     json.put("orderId", orderId);
                     json.put("vin", vin);
-                    json.put("groupType", groupType);
                     json.put("groupName", groupName);
                     json.put("source", source);
                     RequestBody body = RequestBody.create(JSON, json.toString());
@@ -1757,7 +861,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                                                 list.add(searchResult);
                                             }
                                         }
-                                        callBack.onSuccess(createLiveData(list));
+                                        callBack.onSuccess(list);
                                     } else {
                                         callBack.onError(EMError.GENERAL_ERROR, "search group list failed");
                                     }
@@ -1772,7 +876,126 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                 }catch(JSONException e){
                     callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
                 }
-            }
-        }.asLiveData();
+    }
+
+    /**
+     * 极狐app搜索用户
+     * @param keyword
+     * @return
+     */
+    public void searchUserWithCustomer(String keyword, ResultCallBack<List<String>> callBack) {
+        try{
+            MediaType JSON = MediaType.get("application/json; charset=utf-8");
+            OkHttpClient client = new OkHttpClient();
+            JSONObject json = new JSONObject();
+            json.put("username", keyword);
+            RequestBody body = RequestBody.create(JSON, json.toString());
+
+            Headers headers = new Headers.Builder()
+                    .add("Authorization", EMClient.getInstance().getAccessToken())
+                    .add("username", EaseIMHelper.getInstance().getCurrentUser())
+                    .build();
+            Request request = new Request.Builder()
+                    .url(EaseIMHelper.getInstance().getServerHost()+"/v1/gov/arcfox/user/"+EaseIMHelper.getInstance().getCurrentUser())
+                    .headers(headers)
+                    .post(body)
+                    .build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String responseBody = response.body().string();
+                    if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
+                        try {
+                            JSONObject result = new JSONObject(responseBody);
+                            String status = result.optString("status");
+                            if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
+                                JSONArray entities = result.getJSONArray("entities");
+                                List<String> list = new ArrayList<>();
+                                if(entities.length() > 0){
+                                    JSONObject item = entities.getJSONObject(0);
+                                    list.add(item.optString("userName"));
+                                }
+                                callBack.onSuccess(list);
+                            } else {
+                                callBack.onError(EMError.GENERAL_ERROR, "search user failed");
+                            }
+                        } catch (JSONException e) {
+                            callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                        }
+                    } else {
+                        callBack.onError(EMError.GENERAL_ERROR, "search user failed");
+                    }
+                }
+            });
+        }catch(JSONException e){
+            e.printStackTrace();
+            callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+        }
+    }
+
+    /**
+     * 运管端搜索用户
+     * @param keyword
+     * @return
+     */
+    public void searchUserWithAdmin(String keyword, ResultCallBack<List<String>> callBack) {
+        try{
+            MediaType JSON = MediaType.get("application/json; charset=utf-8");
+            OkHttpClient client = new OkHttpClient();
+            JSONObject json = new JSONObject();
+            json.put("username", keyword);
+            RequestBody body = RequestBody.create(JSON, json.toString());
+
+            Headers headers = new Headers.Builder()
+                    .add("Authorization", EaseIMHelper.getInstance().getModel().getAppToken())
+                    .add("username", EaseIMHelper.getInstance().getCurrentUser())
+                    .build();
+            Request request = new Request.Builder()
+                    .url(EaseIMHelper.getInstance().getServerHost()+"/v2/gov/arcfox/user/"+EaseIMHelper.getInstance().getCurrentUser())
+                    .headers(headers)
+                    .post(body)
+                    .build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String responseBody = response.body().string();
+                    if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
+                        try {
+                            JSONObject result = new JSONObject(responseBody);
+                            String status = result.optString("status");
+                            if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
+                                JSONArray entities = result.getJSONArray("entities");
+                                List<String> list = new ArrayList<>();
+                                if(entities.length() > 0){
+                                    JSONObject item = entities.getJSONObject(0);
+                                    list.add(item.optString("userName"));
+                                }
+                                callBack.onSuccess(list);
+                            } else {
+                                callBack.onError(EMError.GENERAL_ERROR, "search user failed");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+                        }
+                    } else {
+                        callBack.onError(EMError.GENERAL_ERROR, "search user failed");
+                    }
+                }
+            });
+        }catch(JSONException e){
+            e.printStackTrace();
+            callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
+        }
     }
 }

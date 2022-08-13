@@ -1,10 +1,10 @@
 package com.hyphenate.easeim;
 
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatTextView;
 
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;

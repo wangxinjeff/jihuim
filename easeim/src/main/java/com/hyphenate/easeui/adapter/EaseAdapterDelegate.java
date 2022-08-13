@@ -1,12 +1,11 @@
 package com.hyphenate.easeui.adapter;
 
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * （1）作为代理类的基类，通过{@link EaseAdapterDelegatesManager}实现与{@link RecyclerView.Adapter}的关联。

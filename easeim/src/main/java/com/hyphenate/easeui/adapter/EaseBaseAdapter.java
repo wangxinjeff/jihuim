@@ -1,6 +1,7 @@
 package com.hyphenate.easeui.adapter;
 
-import androidx.recyclerview.widget.RecyclerView;
+
+import android.support.v7.widget.RecyclerView;
 
 public abstract class EaseBaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 

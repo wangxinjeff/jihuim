@@ -5,11 +5,11 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.StringRes;
 
 import com.hyphenate.EMChatRoomChangeListener;
 import com.hyphenate.EMConnectionListener;
@@ -40,7 +40,6 @@ import com.hyphenate.easeim.common.db.entity.InviteMessageStatus;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.common.manager.PushAndMessageHelper;
-import com.hyphenate.easeim.common.repositories.EMContactManagerRepository;
 import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.repositories.EMPushManagerRepository;
 import com.hyphenate.easeim.section.chat.activity.ChatActivity;
@@ -411,30 +410,6 @@ public class ChatPresenter extends EaseChatPresenter {
                     }
                 });
                 isGroupsSyncedWithServer = true;
-            }
-            if(!isContactsSyncedWithServer) {
-                EMLog.i(TAG, "isContactsSyncedWithServer");
-                new EMContactManagerRepository().getContactList(new ResultCallBack<List<EaseUser>>() {
-                    @Override
-                    public void onSuccess(List<EaseUser> value) {
-                        EmUserDao userDao = EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).getUserDao();
-                        if(userDao != null) {
-                            userDao.clearUsers();
-                            userDao.insert(EmUserEntity.parseList(value));
-                        }
-                    }
-
-                    @Override
-                    public void onError(int error, String errorMsg) {
-
-                    }
-                });
-                isContactsSyncedWithServer = true;
-            }
-            if(!isBlackListSyncedWithServer) {
-                EMLog.i(TAG, "isBlackListSyncedWithServer");
-                new EMContactManagerRepository().getBlackContactList(null);
-                isBlackListSyncedWithServer = true;
             }
             if(!isPushConfigsWithServer) {
                 EMLog.i(TAG, "isPushConfigsWithServer");

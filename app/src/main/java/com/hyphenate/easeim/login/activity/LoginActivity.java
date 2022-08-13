@@ -1,18 +1,14 @@
 package com.hyphenate.easeim.login.activity;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.lifecycle.ViewModelProvider;
-
-import com.hyphenate.easeim.EaseIMHelper;
-import com.hyphenate.easeim.MainActivity;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.section.base.BaseFragment;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.login.fragment.LoginFragment;
-import com.hyphenate.easeim.login.viewmodels.LoginViewModel;
 
 public class LoginActivity extends BaseInitActivity {
 
@@ -43,12 +39,6 @@ public class LoginActivity extends BaseInitActivity {
     @Override
     protected void initData() {
         super.initData();
-        LoginViewModel viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
-        viewModel.getPageSelect().observe(this, page -> {
-            if(page == 0) {
-                return;
-            }
-        });
     }
 
     private void replace(BaseFragment fragment) {

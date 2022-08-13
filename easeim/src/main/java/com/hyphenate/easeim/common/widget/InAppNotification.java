@@ -7,6 +7,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IntRange;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,10 +20,6 @@ import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.DrawableRes;
-import androidx.annotation.IntRange;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;

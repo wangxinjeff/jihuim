@@ -1,10 +1,7 @@
 package com.hyphenate.easeim.common.repositories;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
@@ -53,34 +50,18 @@ import okhttp3.Response;
 public class EMClientRepository extends BaseEMRepository{
 
     private static final String TAG = EMClientRepository.class.getSimpleName();
+    private static EMClientRepository instance;
 
-    /**
-     * 登录过后需要加载的数据
-     * @return
-     */
-    public LiveData<Resource<Boolean>> loadAllInfoFromHX() {
-        return new NetworkOnlyResource<Boolean>() {
-
-            @Override
-            protected void createCall(ResultCallBack<LiveData<Boolean>> callBack) {
-                if(isAutoLogin()) {
-                    runOnIOThread(() -> {
-                        if(isLoggedIn()) {
-                            loadAllConversationsAndGroups();
-                            callBack.onSuccess(createLiveData(true));
-                        }else {
-                            callBack.onError(ErrorCode.EM_NOT_LOGIN);
-                        }
-
-                    });
-                }else {
-                    callBack.onError(ErrorCode.EM_NOT_LOGIN);
+    public static EMClientRepository getInstance() {
+        if(instance == null) {
+            synchronized (EMClientRepository.class) {
+                if(instance == null) {
+                    instance = new EMClientRepository();
                 }
-
             }
-        }.asLiveData();
+        }
+        return instance;
     }
-
     /**
      * 从本地数据库加载所有的对话及群组
      */
@@ -271,19 +252,6 @@ public class EMClientRepository extends BaseEMRepository{
         EaseIMHelper.getInstance().setAutoLogin(autoLogin);
     }
 
-    private void successForCallBack(@NonNull ResultCallBack<LiveData<EaseUser>> callBack) {
-        // ** manually load all local groups and conversation
-        loadAllConversationsAndGroups();
-        //从服务器拉取加入的群，防止进入会话页面只显示id
-        getAllJoinGroup();
-        // get contacts from server
-        getContactsFromServer();
-        // get current user id
-        String currentUser = EMClient.getInstance().getCurrentUser();
-        EaseUser user = new EaseUser(currentUser);
-        callBack.onSuccess(new MutableLiveData<>(user));
-    }
-
     public void loginSuccess(){
         // ** manually load all local groups and conversation
         loadAllConversationsAndGroups();
@@ -291,25 +259,8 @@ public class EMClientRepository extends BaseEMRepository{
         getAllJoinGroup();
     }
 
-    private void getContactsFromServer() {
-        new EMContactManagerRepository().getContactList(new ResultCallBack<List<EaseUser>>() {
-            @Override
-            public void onSuccess(List<EaseUser> value) {
-                if(getUserDao() != null) {
-                    getUserDao().clearUsers();
-                    getUserDao().insert(EmUserEntity.parseList(value));
-                }
-            }
-
-            @Override
-            public void onError(int error, String errorMsg) {
-
-            }
-        });
-    }
-
     private void getAllJoinGroup() {
-        new EMGroupManagerRepository().getAllGroups(new ResultCallBack<List<EMGroup>>() {
+        EMGroupManagerRepository.getInstance().getAllGroups(new ResultCallBack<List<EMGroup>>() {
             @Override
             public void onSuccess(List<EMGroup> value) {
                 //加载完群组信息后，刷新会话列表页面，保证展示群组名称

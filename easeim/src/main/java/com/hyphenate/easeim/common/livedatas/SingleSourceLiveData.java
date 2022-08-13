@@ -1,8 +1,8 @@
 package com.hyphenate.easeim.common.livedatas;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 
 /**
  * 设置并监听单一数据源时使用 LiveData

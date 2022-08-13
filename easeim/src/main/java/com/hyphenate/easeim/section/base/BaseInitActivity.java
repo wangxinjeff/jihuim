@@ -2,6 +2,7 @@ package com.hyphenate.easeim.section.base;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.hyphenate.easecallkit.EaseCallKit;
@@ -14,8 +15,6 @@ import com.hyphenate.easeim.common.widget.InAppNotification;
 import com.hyphenate.easeim.section.av.MultipleVideoActivity;
 import com.hyphenate.easeim.section.av.VideoCallActivity;
 
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 

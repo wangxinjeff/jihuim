@@ -1,24 +1,22 @@
 package com.hyphenate.easeim.section.chat.activity;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.View;
 
-import androidx.lifecycle.ViewModelProvider;
-
-import com.google.android.material.snackbar.Snackbar;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.chat.fragment.ChatFragment;
-import com.hyphenate.easeim.section.chat.viewmodel.ChatViewModel;
-import com.hyphenate.easeim.section.chat.viewmodel.MessageViewModel;
 import com.hyphenate.easeim.section.group.GroupHelper;
 import com.hyphenate.easeim.section.group.activity.GroupDetailActivity;
 import com.hyphenate.easeui.EaseIM;
@@ -34,7 +32,6 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
     private int chatType;
     private ChatFragment fragment;
     private String historyMsgId;
-    private ChatViewModel viewModel;
 
     public static void actionStart(Context context, String conversationId, int chatType) {
         Intent intent = new Intent(context, ChatActivity.class);
@@ -109,19 +106,7 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
             titleBarMessage.getConIdView().setVisibility(View.VISIBLE);
         }
         EMConversation conversation = EMClient.getInstance().chatManager().getConversation(conversationId);
-        MessageViewModel messageViewModel = new ViewModelProvider(this).get(MessageViewModel.class);
-        viewModel = new ViewModelProvider(this).get(ChatViewModel.class);
-        viewModel.getDeleteObservable().observe(this, response -> {
-            parseResource(response, new OnResourceParseCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                    finish();
-                    EaseEvent event = EaseEvent.create(EaseConstant.CONVERSATION_DELETE, EaseEvent.TYPE.MESSAGE);
-                    messageViewModel.setMessageChange(event);
-                }
-            });
-        });
-        messageViewModel.getMessageChange().with(EaseConstant.GROUP_CHANGE, EaseEvent.class).observe(this, event -> {
+        LiveDataBus.get().with(EaseConstant.GROUP_CHANGE, EaseEvent.class).observe(this, event -> {
             if(event == null) {
                 return;
             }
@@ -131,7 +116,7 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
                 titleBarMessage.setTitle(GroupHelper.getGroupName(conversationId));
             }
         });
-        messageViewModel.getMessageChange().with(EaseConstant.CHAT_ROOM_CHANGE, EaseEvent.class).observe(this, event -> {
+        LiveDataBus.get().with(EaseConstant.CHAT_ROOM_CHANGE, EaseEvent.class).observe(this, event -> {
             if(event == null) {
                 return;
             }
@@ -139,7 +124,7 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
                 finish();
             }
         });
-        messageViewModel.getMessageChange().with(EaseConstant.MESSAGE_FORWARD, EaseEvent.class).observe(this, event -> {
+        LiveDataBus.get().with(EaseConstant.MESSAGE_FORWARD, EaseEvent.class).observe(this, event -> {
             if(event == null) {
                 return;
             }
@@ -147,7 +132,7 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
                 showSnackBar(event.event);
             }
         });
-        messageViewModel.getMessageChange().with(EaseConstant.CONTACT_CHANGE, EaseEvent.class).observe(this, event -> {
+        LiveDataBus.get().with(EaseConstant.CONTACT_CHANGE, EaseEvent.class).observe(this, event -> {
             if(event == null) {
                 return;
             }

@@ -2,6 +2,7 @@ package com.hyphenate.easeim.common.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -10,8 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.widget.EaseImageView;

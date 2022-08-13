@@ -18,7 +18,7 @@ package com.hyphenate.mediapicker.internal.ui;
 import android.database.Cursor;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import com.hyphenate.mediapicker.internal.entity.Album;
 import com.hyphenate.mediapicker.internal.entity.Item;

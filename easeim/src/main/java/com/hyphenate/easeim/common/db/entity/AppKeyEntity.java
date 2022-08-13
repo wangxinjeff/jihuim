@@ -1,9 +1,9 @@
 package com.hyphenate.easeim.common.db.entity;
 
-import java.io.Serializable;
+import android.arch.persistence.room.Entity;
+import android.support.annotation.NonNull;
 
-import androidx.annotation.NonNull;
-import androidx.room.Entity;
+import java.io.Serializable;
 
 @Entity(tableName = "app_key", primaryKeys = {"appKey"})
 public class AppKeyEntity implements Serializable {

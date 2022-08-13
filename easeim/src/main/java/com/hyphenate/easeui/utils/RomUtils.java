@@ -2,9 +2,9 @@ package com.hyphenate.easeui.utils;
 
 import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.StringDef;
 import android.text.TextUtils;
 
-import androidx.annotation.StringDef;
 
 import java.io.File;
 import java.io.FileInputStream;
