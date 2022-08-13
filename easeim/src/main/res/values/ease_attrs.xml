@@ -333,6 +333,7 @@
     <attr name="conContentTimeColor" format="color"/>
     <attr name="conItemColor" format="color"/>
     <attr name="conGroupIdColor" format="color"/>
+    <attr name="titleTextColor" format="color"/>
     <attr name="normalTextColor" format="color"/>
     <attr name="groupDetailMid" format="color"/>
     <attr name="groupDetailContent" format="color"/>

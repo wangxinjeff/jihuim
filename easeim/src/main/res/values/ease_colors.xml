@@ -18,6 +18,7 @@
     <!-- AdminTheme -->
     <color name="theme_bg">#f5f5f5</color>
     <color name="theme_float_bg">#ffffff</color>
+    <color name="title_text">#171717</color>
     <color name="normal_text">#171717</color>
     <color name="con_content_time">#7f7f7f</color>
     <color name="con_group_id">#a5a5a5</color>
@@ -57,6 +58,7 @@
     <!-- CustomerTheme -->
     <color name="theme_bg_color">#141414</color>
     <color name="theme_float_bg_color">#171717</color>
+    <color name="title_text_color">#f5f5f5</color>
     <color name="normal_text_color">#b9b9b9</color>
     <color name="con_content_time_color">#7f7f7f</color>
     <color name="con_group_id_color">#a5a5a5</color>

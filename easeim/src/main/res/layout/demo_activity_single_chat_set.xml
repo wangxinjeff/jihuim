@@ -13,7 +13,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:titleBarTitle="@string/em_single_set_title"
-        app:titleBarTitleTextColor="?attr/normalTextColor"
+        app:titleBarTitleTextColor="?attr/titleTextColor"
         android:background="?attr/themeBgColor"
         app:titleBarLeftImage="@drawable/icon_back"/>
 

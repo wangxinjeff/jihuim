@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:titleBarTitleTextColor="?attr/normalTextColor"
+        app:titleBarTitleTextColor="?attr/titleTextColor"
         />
 
     <com.google.android.material.tabs.TabLayout

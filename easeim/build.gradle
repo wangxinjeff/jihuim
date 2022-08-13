@@ -104,8 +104,8 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:3.11.0")
     implementation 'androidx.documentfile:documentfile:1.0.1'
 
-    compileOnly 'com.baidu.lbsyun:BaiduMapSDK_Map:7.5.2'
-    compileOnly 'com.baidu.lbsyun:BaiduMapSDK_Search:7.5.2'
-    compileOnly 'com.baidu.lbsyun:BaiduMapSDK_Util:7.5.2'
+    compileOnly 'com.baidu.lbsyun:BaiduMapSDK_Map:7.4.0'
+    compileOnly 'com.baidu.lbsyun:BaiduMapSDK_Search:7.4.0'
+    compileOnly 'com.baidu.lbsyun:BaiduMapSDK_Util:7.4.0'
     compileOnly 'com.baidu.lbsyun:BaiduMapSDK_Location:9.1.8'
 }

@@ -10,7 +10,7 @@
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/em_common_title_bar_height"
-        app:titleBarTitleTextColor="?attr/normalTextColor"
+        app:titleBarTitleTextColor="?attr/titleTextColor"
         app:titleBarLeftImage="@drawable/icon_back_admin"
         app:titleBarTitle="@string/em_group_apply"
         android:background="?attr/themeBgColor"

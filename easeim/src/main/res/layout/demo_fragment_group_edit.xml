@@ -17,7 +17,7 @@
         app:titleBarRightVisible="true"
         app:titleBarLeftImage="@drawable/icon_back"
         android:background="?attr/themeBgColor"
-        app:titleBarTitleTextColor="?attr/normalTextColor"
+        app:titleBarTitleTextColor="?attr/titleTextColor"
         />
 
     <EditText

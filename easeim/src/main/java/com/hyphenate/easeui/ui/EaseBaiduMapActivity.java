@@ -148,14 +148,14 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 			setTheme(R.style.CustomerTheme);
 		}
 		//initialize SDK with context, should call this before setContentView
-		SDKInitializer.setAgreePrivacy(getApplicationContext(), true);
-		try {
+//		SDKInitializer.setAgreePrivacy(getApplicationContext(), true);
+//		try {
 			// 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
 			SDKInitializer.initialize(getApplicationContext());
-		} catch (BaiduMapSDKException e) {
-			ToastUtils.showCenterToast("", "百度地图初始化失败", 0, Toast.LENGTH_SHORT);
-			return;
-		}
+//		} catch (BaiduMapSDKException e) {
+//			ToastUtils.showCenterToast("", "百度地图初始化失败", 0, Toast.LENGTH_SHORT);
+//			return;
+//		}
 		setContentView(R.layout.ease_activity_baidumap);
 		setFitSystemForTheme(false, R.color.transparent, true);
 		initIntent();

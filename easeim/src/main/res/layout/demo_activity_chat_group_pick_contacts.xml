@@ -15,7 +15,7 @@
         app:titleBarRightVisible="true"
         app:titleBarDisplayHomeAsUpEnabled="true"
         app:titleBarLeftImage="@drawable/icon_back"
-        app:titleBarTitleTextColor="?attr/normalTextColor"
+        app:titleBarTitleTextColor="?attr/titleTextColor"
         />
 
     <com.hyphenate.easeim.common.widget.SearchBar

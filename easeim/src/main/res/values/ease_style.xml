@@ -85,6 +85,7 @@
         <item name="conContentTimeColor">@color/con_content_time</item>
         <item name="conItemColor">@color/con_item</item>
         <item name="conGroupIdColor">@color/con_group_id</item>
+        <item name="titleTextColor">@color/title_text</item>
         <item name="normalTextColor">@color/normal_text</item>
         <item name="groupDetailMid">@color/group_detail_mid</item>
         <item name="groupDetailContent">@color/group_detail_content</item>
@@ -145,6 +146,7 @@
         <item name="conContentTimeColor">@color/con_content_time_color</item>
         <item name="conItemColor">@color/con_item_color</item>
         <item name="conGroupIdColor">@color/con_group_id_color</item>
+        <item name="titleTextColor">@color/title_text_color</item>
         <item name="normalTextColor">@color/normal_text_color</item>
         <item name="groupDetailMid">@color/group_detail_mid_color</item>
         <item name="groupDetailContent">@color/group_detail_content_color</item>

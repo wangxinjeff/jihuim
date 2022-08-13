@@ -9,7 +9,7 @@
         android:id="@+id/title_bar"
         app:titleBarLeftImage="@drawable/icon_back"
         android:layout_width="match_parent"
-        app:titleBarTitleTextColor="?attr/conContentTimeColor"
+        app:titleBarTitleTextColor="?attr/titleTextColor"
         android:layout_height="@dimen/em_common_title_bar_height"/>
 
     <ProgressBar
