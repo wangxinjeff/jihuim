@@ -17,7 +17,6 @@ import com.hyphenate.EMContactListener;
 import com.hyphenate.EMConversationListener;
 import com.hyphenate.EMError;
 import com.hyphenate.EMMultiDeviceListener;
-import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
@@ -25,7 +24,6 @@ import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMucSharedFile;
 import com.hyphenate.chat.EMTextMessageBody;
-import com.hyphenate.chat.EMUserInfo;
 import com.hyphenate.chat.adapter.EMAChatRoomManagerListener;
 import com.hyphenate.easecallkit.utils.EaseMsgUtils;
 import com.hyphenate.easeim.EaseIMHelper;
@@ -33,19 +31,12 @@ import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.common.widget.InAppNotification;
 import com.hyphenate.easeim.section.conversation.ConversationListActivity;
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeim.common.db.EaseDbHelper;
-import com.hyphenate.easeim.common.db.dao.EmUserDao;
-import com.hyphenate.easeim.common.db.entity.EmUserEntity;
-import com.hyphenate.easeim.common.db.entity.InviteMessageStatus;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
-import com.hyphenate.easeim.common.manager.PushAndMessageHelper;
 import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.repositories.EMPushManagerRepository;
 import com.hyphenate.easeim.section.chat.activity.ChatActivity;
-import com.hyphenate.easeim.section.group.GroupHelper;
 import com.hyphenate.easeui.constants.EaseConstant;
-import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.interfaces.EaseGroupListener;
 import com.hyphenate.easeui.manager.EaseAtMessageHelper;
 import com.hyphenate.easeui.manager.EaseChatPresenter;
@@ -58,9 +49,7 @@ import com.hyphenate.util.EMLog;
 import org.json.JSONObject;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -457,79 +446,16 @@ public class ChatPresenter extends EaseChatPresenter {
         @Override
         public void onInvitationReceived(String groupId, String groupName, String inviter, String reason) {
             super.onInvitationReceived(groupId, groupName, inviter, reason);
-            //移除相同的请求
-            List<EMMessage> allMessages = EaseSystemMsgManager.getInstance().getAllMessages();
-            if(allMessages != null && !allMessages.isEmpty()) {
-                for (EMMessage message : allMessages) {
-                    Map<String, Object> ext = message.ext();
-                    if(ext != null && (ext.containsKey(EaseConstant.SYSTEM_MESSAGE_GROUP_ID) && TextUtils.equals(groupId, (String)ext.get(EaseConstant.SYSTEM_MESSAGE_GROUP_ID)))
-                            && (ext.containsKey(EaseConstant.SYSTEM_MESSAGE_INVITER) && TextUtils.equals(inviter, (String)ext.get(EaseConstant.SYSTEM_MESSAGE_INVITER)))) {
-                        EaseSystemMsgManager.getInstance().removeMessage(message);
-                    }
-                }
-            }
-            groupName = TextUtils.isEmpty(groupName) ? groupId : groupName;
-            Map<String, Object> ext = EaseSystemMsgManager.getInstance().createMsgExt();
-            ext.put(EaseConstant.SYSTEM_MESSAGE_FROM, groupId);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_GROUP_ID, groupId);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_REASON, reason);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_NAME, groupName);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_INVITER, inviter);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_STATUS, InviteMessageStatus.GROUPINVITATION.name());
-            EMMessage message = EaseSystemMsgManager.getInstance().createMessage(PushAndMessageHelper.getSystemMessage(ext), ext);
-
-            notifyNewInviteMessage(message);
-            EaseEvent event = EaseEvent.create(EaseConstant.NOTIFY_GROUP_INVITE_RECEIVE, EaseEvent.TYPE.NOTIFY);
-            messageChangeLiveData.with(EaseConstant.NOTIFY_CHANGE).postValue(event);
-
-            showToast(context.getString(InviteMessageStatus.GROUPINVITATION.getMsgContent(), inviter, groupName));
-            EMLog.i(TAG, context.getString(InviteMessageStatus.GROUPINVITATION.getMsgContent(), inviter, groupName));
         }
 
         @Override
         public void onInvitationAccepted(String groupId, String invitee, String reason) {
             super.onInvitationAccepted(groupId, invitee, reason);
-            //user accept your invitation
-            String groupName = GroupHelper.getGroupName(groupId);
-
-            Map<String, Object> ext = EaseSystemMsgManager.getInstance().createMsgExt();
-            ext.put(EaseConstant.SYSTEM_MESSAGE_FROM, groupId);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_GROUP_ID, groupId);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_REASON, reason);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_NAME, groupName);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_INVITER, invitee);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_STATUS, InviteMessageStatus.GROUPINVITATION_ACCEPTED.name());
-            EMMessage message = EaseSystemMsgManager.getInstance().createMessage(PushAndMessageHelper.getSystemMessage(ext), ext);
-
-            notifyNewInviteMessage(message);
-            EaseEvent event = EaseEvent.create(EaseConstant.NOTIFY_GROUP_INVITE_ACCEPTED, EaseEvent.TYPE.NOTIFY);
-            messageChangeLiveData.with(EaseConstant.NOTIFY_CHANGE).postValue(event);
-
-            showToast(context.getString(InviteMessageStatus.GROUPINVITATION_ACCEPTED.getMsgContent(), invitee));
-            EMLog.i(TAG, context.getString(InviteMessageStatus.GROUPINVITATION_ACCEPTED.getMsgContent(), invitee));
         }
 
         @Override
         public void onInvitationDeclined(String groupId, String invitee, String reason) {
             super.onInvitationDeclined(groupId, invitee, reason);
-            //user declined your invitation
-            String groupName = GroupHelper.getGroupName(groupId);
-
-            Map<String, Object> ext = EaseSystemMsgManager.getInstance().createMsgExt();
-            ext.put(EaseConstant.SYSTEM_MESSAGE_FROM, groupId);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_GROUP_ID, groupId);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_REASON, reason);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_NAME, groupName);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_INVITER, invitee);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_STATUS, InviteMessageStatus.GROUPINVITATION_DECLINED.name());
-            EMMessage message = EaseSystemMsgManager.getInstance().createMessage(PushAndMessageHelper.getSystemMessage(ext), ext);
-
-            notifyNewInviteMessage(message);
-            EaseEvent event = EaseEvent.create(EaseConstant.NOTIFY_GROUP_INVITE_DECLINED, EaseEvent.TYPE.NOTIFY);
-            messageChangeLiveData.with(EaseConstant.NOTIFY_CHANGE).postValue(event);
-
-            showToast(context.getString(InviteMessageStatus.GROUPINVITATION_DECLINED.getMsgContent(), invitee));
-            EMLog.i(TAG, context.getString(InviteMessageStatus.GROUPINVITATION_DECLINED.getMsgContent(), invitee));
         }
 
         @Override
@@ -553,55 +479,11 @@ public class ChatPresenter extends EaseChatPresenter {
         @Override
         public void onRequestToJoinReceived(String groupId, String groupName, String applicant, String reason) {
             super.onRequestToJoinReceived(groupId, groupName, applicant, reason);
-            //移除相同的请求
-            List<EMMessage> allMessages = EaseSystemMsgManager.getInstance().getAllMessages();
-            if(allMessages != null && !allMessages.isEmpty()) {
-                for (EMMessage message : allMessages) {
-                    Map<String, Object> ext = message.ext();
-                    if(ext != null && (ext.containsKey(EaseConstant.SYSTEM_MESSAGE_GROUP_ID) && TextUtils.equals(groupId, (String)ext.get(EaseConstant.SYSTEM_MESSAGE_GROUP_ID)))
-                            && (ext.containsKey(EaseConstant.SYSTEM_MESSAGE_FROM) && TextUtils.equals(applicant, (String)ext.get(EaseConstant.SYSTEM_MESSAGE_FROM)))) {
-                        EaseSystemMsgManager.getInstance().removeMessage(message);
-                    }
-                }
-            }
-            // user apply to join group
-            Map<String, Object> ext = EaseSystemMsgManager.getInstance().createMsgExt();
-            ext.put(EaseConstant.SYSTEM_MESSAGE_FROM, applicant);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_GROUP_ID, groupId);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_REASON, reason);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_NAME, groupName);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_STATUS, InviteMessageStatus.BEAPPLYED.name());
-            EMMessage message = EaseSystemMsgManager.getInstance().createMessage(PushAndMessageHelper.getSystemMessage(ext), ext);
-
-            notifyNewInviteMessage(message);
-            EaseEvent event = EaseEvent.create(EaseConstant.NOTIFY_GROUP_JOIN_RECEIVE, EaseEvent.TYPE.NOTIFY);
-            messageChangeLiveData.with(EaseConstant.NOTIFY_CHANGE).postValue(event);
-
-            showToast(context.getString(InviteMessageStatus.BEAPPLYED.getMsgContent(), applicant, groupName));
-            EMLog.i(TAG, context.getString(InviteMessageStatus.BEAPPLYED.getMsgContent(), applicant, groupName));
         }
 
         @Override
         public void onRequestToJoinAccepted(String groupId, String groupName, String accepter) {
             super.onRequestToJoinAccepted(groupId, groupName, accepter);
-            // your application was accepted
-            EMMessage msg = EMMessage.createReceiveMessage(EMMessage.Type.TXT);
-            msg.setChatType(EMMessage.ChatType.GroupChat);
-            msg.setFrom(accepter);
-            msg.setTo(groupId);
-            msg.setMsgId(UUID.randomUUID().toString());
-            msg.setAttribute(EaseConstant.EM_NOTIFICATION_TYPE, true);
-            msg.addBody(new EMTextMessageBody(context.getString(R.string.demo_group_listener_onRequestToJoinAccepted, accepter, groupName)));
-            msg.setStatus(EMMessage.Status.SUCCESS);
-            // save accept message
-            EMClient.getInstance().chatManager().saveMessage(msg);
-            // notify the accept message
-            getNotifier().vibrateAndPlayTone(msg);
-
-            EaseEvent event = EaseEvent.create(EaseConstant.MESSAGE_GROUP_JOIN_ACCEPTED, EaseEvent.TYPE.MESSAGE);
-            messageChangeLiveData.with(EaseConstant.MESSAGE_CHANGE_CHANGE).postValue(event);
-
-            EMLog.i(TAG, context.getString(R.string.demo_group_listener_onRequestToJoinAccepted, accepter, groupName));
         }
 
         @Override
@@ -613,23 +495,6 @@ public class ChatPresenter extends EaseChatPresenter {
         @Override
         public void onAutoAcceptInvitationFromGroup(String groupId, String inviter, String inviteMessage) {
             super.onAutoAcceptInvitationFromGroup(groupId, inviter, inviteMessage);
-//            String groupName = GroupHelper.getGroupName(groupId);
-//            EMMessage msg = EMMessage.createReceiveMessage(EMMessage.Type.TXT);
-//            msg.setChatType(EMMessage.ChatType.GroupChat);
-//            msg.setFrom(inviter);
-//            msg.setTo(groupId);
-//            msg.setMsgId(UUID.randomUUID().toString());
-//            msg.setAttribute(EaseConstant.EM_NOTIFICATION_TYPE, true);
-//            msg.addBody(new EMTextMessageBody(context.getString(R.string.demo_group_listener_onAutoAcceptInvitationFromGroup, groupName)));
-//            msg.setStatus(EMMessage.Status.SUCCESS);
-//            // save invitation as messages
-//            EMClient.getInstance().chatManager().saveMessage(msg);
-//            // notify invitation message
-//            getNotifier().vibrateAndPlayTone(msg);
-//            EaseEvent event = EaseEvent.create(EaseConstant.MESSAGE_GROUP_AUTO_ACCEPT, EaseEvent.TYPE.MESSAGE);
-//            messageChangeLiveData.with(EaseConstant.MESSAGE_CHANGE_CHANGE).postValue(event);
-//
-//            EMLog.i(TAG, context.getString(R.string.demo_group_listener_onAutoAcceptInvitationFromGroup, groupName));
         }
 
         @Override
@@ -746,135 +611,25 @@ public class ChatPresenter extends EaseChatPresenter {
 
         @Override
         public void onContactAdded(String username) {
-            EMLog.i("ChatContactListener", "onContactAdded");
-            String[] userId = new String[1];
-            userId[0] = username;
-            EMClient.getInstance().userInfoManager().fetchUserInfoByUserId(userId, new EMValueCallBack<Map<String, EMUserInfo>>() {
-                @Override
-                public void onSuccess(Map<String, EMUserInfo> value) {
-                    EMUserInfo userInfo = value.get(username);
-                    EmUserEntity entity = new EmUserEntity();
-                    entity.setUsername(username);
-                    if(userInfo != null){
-                        entity.setNickname(userInfo.getNickName());
-                        entity.setEmail(userInfo.getEmail());
-                        entity.setAvatar(userInfo.getAvatarUrl());
-                        entity.setBirth(userInfo.getBirth());
-                        entity.setGender(userInfo.getGender());
-                        entity.setExt(userInfo.getExt());
-                        entity.setContact(0);
-                        entity.setSign(userInfo.getSignature());
-                    }
-                    EaseIMHelper.getInstance().getModel().insert(entity);
-                    EaseIMHelper.getInstance().updateContactList();
-                    EaseEvent event = EaseEvent.create(EaseConstant.CONTACT_ADD, EaseEvent.TYPE.CONTACT);
-                    event.message = username;
-                    messageChangeLiveData.with(EaseConstant.CONTACT_ADD).postValue(event);
-
-                    EMLog.i(TAG, context.getString(R.string.demo_contact_listener_onContactAdded, username));
-                }
-
-                @Override
-                public void onError(int error, String errorMsg) {
-                    EMLog.i(TAG, context.getString(R.string.demo_contact_get_userInfo_failed) +  username + "error:" + error + " errorMsg:" +errorMsg);
-                }
-            });
         }
 
         @Override
         public void onContactDeleted(String username) {
-            EMLog.i("ChatContactListener", "onContactDeleted");
-            boolean deleteUsername = EaseIMHelper.getInstance().getModel().isDeleteUsername(username);
-            int num = EaseIMHelper.getInstance().deleteContact(username);
-            EaseIMHelper.getInstance().updateContactList();
-            EaseEvent event = EaseEvent.create(EaseConstant.CONTACT_DELETE, EaseEvent.TYPE.CONTACT);
-            event.message = username;
-            messageChangeLiveData.with(EaseConstant.CONTACT_DELETE).postValue(event);
-
-            if(deleteUsername || num == 0) {
-                EMLog.i(TAG, context.getString(R.string.demo_contact_listener_onContactDeleted, username));
-            }else {
-                EMLog.i(TAG, context.getString(R.string.demo_contact_listener_onContactDeleted_by_other, username));
-            }
         }
 
 
 
         @Override
         public void onContactInvited(String username, String reason) {
-            EMLog.i("ChatContactListener", "onContactInvited");
-            List<EMMessage> allMessages = EaseSystemMsgManager.getInstance().getAllMessages();
-            if(allMessages != null && !allMessages.isEmpty()) {
-                for (EMMessage message : allMessages) {
-                    Map<String, Object> ext = message.ext();
-                    if(ext != null && !ext.containsKey(EaseConstant.SYSTEM_MESSAGE_GROUP_ID)
-                            && (ext.containsKey(EaseConstant.SYSTEM_MESSAGE_FROM) && TextUtils.equals(username, (String)ext.get(EaseConstant.SYSTEM_MESSAGE_FROM)))) {
-                        EaseSystemMsgManager.getInstance().removeMessage(message);
-                    }
-                }
-            }
-
-            Map<String, Object> ext = EaseSystemMsgManager.getInstance().createMsgExt();
-            ext.put(EaseConstant.SYSTEM_MESSAGE_FROM, username);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_REASON, reason);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_STATUS, InviteMessageStatus.BEINVITEED.name());
-            EMMessage message = EaseSystemMsgManager.getInstance().createMessage(PushAndMessageHelper.getSystemMessage(ext), ext);
-
-            notifyNewInviteMessage(message);
-            EaseEvent event = EaseEvent.create(EaseConstant.CONTACT_CHANGE, EaseEvent.TYPE.CONTACT);
-            messageChangeLiveData.with(EaseConstant.CONTACT_CHANGE).postValue(event);
-
-            EMLog.i(TAG, context.getString(InviteMessageStatus.BEINVITEED.getMsgContent(), username));
         }
 
         @Override
         public void onFriendRequestAccepted(String username) {
-            EMLog.i("ChatContactListener", "onFriendRequestAccepted");
-            List<EMMessage> allMessages = EaseSystemMsgManager.getInstance().getAllMessages();
-            if(allMessages != null && !allMessages.isEmpty()) {
-                for (EMMessage message : allMessages) {
-                    Map<String, Object> ext = message.ext();
-                    if(ext != null && (ext.containsKey(EaseConstant.SYSTEM_MESSAGE_FROM)
-                            && TextUtils.equals(username, (String)ext.get(EaseConstant.SYSTEM_MESSAGE_FROM)))) {
-                        updateMessage(message);
-                        return;
-                    }
-                }
-            }
-            Map<String, Object> ext = EaseSystemMsgManager.getInstance().createMsgExt();
-            ext.put(EaseConstant.SYSTEM_MESSAGE_FROM, username);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_STATUS, InviteMessageStatus.BEAGREED.name());
-            EMMessage message = EaseSystemMsgManager.getInstance().createMessage(PushAndMessageHelper.getSystemMessage(ext), ext);
-
-            notifyNewInviteMessage(message);
-            EaseEvent event = EaseEvent.create(EaseConstant.CONTACT_CHANGE, EaseEvent.TYPE.CONTACT);
-            messageChangeLiveData.with(EaseConstant.CONTACT_CHANGE).postValue(event);
-
-            EMLog.i(TAG, context.getString(InviteMessageStatus.BEAGREED.getMsgContent()));
         }
 
         @Override
         public void onFriendRequestDeclined(String username) {
-            EMLog.i("ChatContactListener", "onFriendRequestDeclined");
-            Map<String, Object> ext = EaseSystemMsgManager.getInstance().createMsgExt();
-            ext.put(EaseConstant.SYSTEM_MESSAGE_FROM, username);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_STATUS, InviteMessageStatus.BEREFUSED.name());
-            EMMessage message = EaseSystemMsgManager.getInstance().createMessage(PushAndMessageHelper.getSystemMessage(ext), ext);
-
-            notifyNewInviteMessage(message);
-
-            EaseEvent event = EaseEvent.create(EaseConstant.CONTACT_CHANGE, EaseEvent.TYPE.CONTACT);
-            messageChangeLiveData.with(EaseConstant.CONTACT_CHANGE).postValue(event);
-            EMLog.i(TAG, context.getString(InviteMessageStatus.BEREFUSED.getMsgContent(), username));
         }
-    }
-
-
-    private void updateMessage(EMMessage message) {
-        message.setAttribute(EaseConstant.SYSTEM_MESSAGE_STATUS, InviteMessageStatus.BEAGREED.name());
-        EMTextMessageBody body = new EMTextMessageBody(PushAndMessageHelper.getSystemMessage(message.ext()));
-        message.addBody(body);
-        EaseSystemMsgManager.getInstance().updateMessage(message);
     }
 
     private class ChatMultiDeviceListener implements EMMultiDeviceListener {
@@ -891,129 +646,75 @@ public class ChatPresenter extends EaseChatPresenter {
             String message = null;
             switch (event) {
                 case GROUP_CREATE:
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/"", /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_CREATE);
 
                     break;
                 case GROUP_DESTROY:
-                    removeTargetSystemMessage(groupId, EaseConstant.SYSTEM_MESSAGE_GROUP_ID);
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/"", /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_DESTROY);
                     message = EaseConstant.GROUP_CHANGE;
 
                     break;
                 case GROUP_JOIN:
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/"", /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_JOIN);
                     message = EaseConstant.GROUP_CHANGE;
 
                     break;
                 case GROUP_LEAVE:
-                    removeTargetSystemMessage(groupId, EaseConstant.SYSTEM_MESSAGE_GROUP_ID);
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/"", /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_LEAVE);
                     message = EaseConstant.GROUP_CHANGE;
 
                     break;
                 case GROUP_APPLY:
-                    removeTargetSystemMessage(groupId, EaseConstant.SYSTEM_MESSAGE_GROUP_ID);
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/"", /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_APPLY);
 
                     break;
                 case GROUP_APPLY_ACCEPT:
-                    removeTargetSystemMessage(groupId, EaseConstant.SYSTEM_MESSAGE_GROUP_ID, usernames.get(0), EaseConstant.SYSTEM_MESSAGE_FROM);
-                    // TODO: person, reason from ext
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/usernames.get(0), /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_APPLY_ACCEPT);
 
                     break;
                 case GROUP_APPLY_DECLINE:
-                    removeTargetSystemMessage(groupId, EaseConstant.SYSTEM_MESSAGE_GROUP_ID, usernames.get(0), EaseConstant.SYSTEM_MESSAGE_FROM);
-                    // TODO: person, reason from ext
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/usernames.get(0), /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_APPLY_DECLINE);
 
                     break;
                 case GROUP_INVITE:
-                    // TODO: person, reason from ext
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/usernames.get(0), /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_INVITE);
 
                     break;
                 case GROUP_INVITE_ACCEPT:
-                    String st3 = context.getString(R.string.Invite_you_to_join_a_group_chat);
-                    EMMessage msg = EMMessage.createReceiveMessage(EMMessage.Type.TXT);
-                    msg.setChatType(EMMessage.ChatType.GroupChat);
-                    // TODO: person, reason from ext
-                    String from = "";
-                    if (usernames != null && usernames.size() > 0) {
-                        msg.setFrom(usernames.get(0));
-                    }
-                    msg.setTo(groupId);
-                    msg.setMsgId(UUID.randomUUID().toString());
-                    msg.setAttribute(EaseConstant.EM_NOTIFICATION_TYPE, true);
-                    msg.addBody(new EMTextMessageBody(msg.getFrom() + " " +st3));
-                    msg.setStatus(EMMessage.Status.SUCCESS);
-                    // save invitation as messages
-                    EMClient.getInstance().chatManager().saveMessage(msg);
-
-                    removeTargetSystemMessage(groupId, EaseConstant.SYSTEM_MESSAGE_GROUP_ID);
-                    // TODO: person, reason from ext
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/"", /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_INVITE_ACCEPT);
                     message = EaseConstant.GROUP_CHANGE;
 
                     break;
                 case GROUP_INVITE_DECLINE:
-                    removeTargetSystemMessage(groupId, EaseConstant.SYSTEM_MESSAGE_GROUP_ID);
-                    // TODO: person, reason from ext
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/usernames.get(0), /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_INVITE_DECLINE);
 
                     showToast("GROUP_INVITE_DECLINE");
                     break;
                 case GROUP_KICK:
-                    // TODO: person, reason from ext
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/usernames.get(0), /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_KICK);
                     message = EaseConstant.GROUP_CHANGE;
 
                     break;
                 case GROUP_BAN:
-                    // TODO: person from ext
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/usernames.get(0), /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_BAN);
                     message = EaseConstant.GROUP_CHANGE;
 
                     break;
                 case GROUP_ALLOW:
-                    // TODO: person from ext
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/usernames.get(0), /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_ALLOW);
 
                     break;
                 case GROUP_BLOCK:
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/"", /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_BLOCK);
 
                     break;
                 case GROUP_UNBLOCK:
                     // TODO: person from ext
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/"", /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_UNBLOCK);
 
                     break;
                 case GROUP_ASSIGN_OWNER:
                     // TODO: person from ext
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/usernames.get(0), /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_ASSIGN_OWNER);
 
                     break;
                 case GROUP_ADD_ADMIN:
                     // TODO: person from ext
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/usernames.get(0), /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_ADD_ADMIN);
                     message = EaseConstant.GROUP_CHANGE;
 
                     break;
                 case GROUP_REMOVE_ADMIN:
-                    // TODO: person from ext
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/usernames.get(0), /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_REMOVE_ADMIN);
                     message = EaseConstant.GROUP_CHANGE;
 
                     break;
                 case GROUP_ADD_MUTE:
-                    // TODO: person from ext
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/usernames.get(0), /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_ADD_MUTE);
 
                     break;
                 case GROUP_REMOVE_MUTE:
-                    // TODO: person from ext
-                    saveGroupNotification(groupId, /*groupName*/"",  /*person*/usernames.get(0), /*reason*/"", InviteMessageStatus.MULTI_DEVICE_GROUP_REMOVE_MUTE);
 
                     break;
                 default:
@@ -1070,43 +771,6 @@ public class ChatPresenter extends EaseChatPresenter {
                 }
             }
         }
-    }
-
-
-    private void notifyNewInviteMessage(EMMessage msg) {
-        // notify there is new message
-        getNotifier().vibrateAndPlayTone(null);
-    }
-
-    private void updateContactNotificationStatus(String from, String reason, InviteMessageStatus status) {
-        EMMessage msg = null;
-        EMConversation conversation = EaseSystemMsgManager.getInstance().getConversation();
-        List<EMMessage> allMessages = conversation.getAllMessages();
-        if(allMessages != null && !allMessages.isEmpty()) {
-            for (EMMessage message : allMessages) {
-                Map<String, Object> ext = message.ext();
-                if(ext != null && (ext.containsKey(EaseConstant.SYSTEM_MESSAGE_FROM)
-                        && TextUtils.equals(from, (String)ext.get(EaseConstant.SYSTEM_MESSAGE_FROM)))) {
-                    msg = message;
-                }
-            }
-        }
-
-        if (msg != null) {
-            msg.setAttribute(EaseConstant.SYSTEM_MESSAGE_STATUS, status.name());
-            EaseSystemMsgManager.getInstance().updateMessage(msg);
-        } else {
-            // save invitation as message
-            Map<String, Object> ext = EaseSystemMsgManager.getInstance().createMsgExt();
-            ext.put(EaseConstant.SYSTEM_MESSAGE_FROM, from);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_REASON, reason);
-            ext.put(EaseConstant.SYSTEM_MESSAGE_STATUS, status.name());
-            msg = EaseSystemMsgManager.getInstance().createMessage(PushAndMessageHelper.getSystemMessage(ext), ext);
-            notifyNewInviteMessage(msg);
-        }
-    }
-
-    private void saveGroupNotification(String groupId, String groupName, String inviter, String reason, InviteMessageStatus status) {
     }
 
     private class ChatRoomListener implements EMChatRoomChangeListener {

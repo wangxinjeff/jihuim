@@ -501,22 +501,6 @@ public class EaseIMHelper {
     }
 
     /**
-     * 向数据库中插入数据
-     * @param object
-     */
-    public void insert(Object object) {
-        easeModel.insert(object);
-    }
-
-    /**
-     * update
-     * @param object
-     */
-    public void update(Object object) {
-        easeModel.update(object);
-    }
-
-    /**
      * update user list
      * @param users
      */
@@ -575,29 +559,6 @@ public class EaseIMHelper {
 //        if(pushType == EMPushType.OPPOPUSH && HeytapPushManager.isSupportPush(mainContext)) {
 //            HeytapPushManager.requestNotificationPermission();
 //        }
-    }
-
-    /**
-     * 删除联系人
-     * @param username
-     * @return
-     */
-    public synchronized int deleteContact(String username) {
-        if(TextUtils.isEmpty(username)) {
-            return 0;
-        }
-        EaseDbHelper helper = EaseDbHelper.getInstance(application);
-        if(helper.getUserDao() == null) {
-            return 0;
-        }
-        int num = helper.getUserDao().deleteUser(username);
-        if(helper.getInviteMessageDao() != null) {
-            helper.getInviteMessageDao().deleteByFrom(username);
-        }
-        EMClient.getInstance().chatManager().deleteConversation(username, false);
-        getModel().deleteUsername(username, false);
-        Log.e(TAG, "delete num = "+num);
-        return num;
     }
 
     /**

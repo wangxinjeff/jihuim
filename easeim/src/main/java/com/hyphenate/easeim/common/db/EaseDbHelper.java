@@ -2,23 +2,27 @@ package com.hyphenate.easeim.common.db;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
-import com.hyphenate.easeim.common.db.dao.AppKeyDao;
-import com.hyphenate.easeim.common.db.dao.EmUserDao;
-import com.hyphenate.easeim.common.db.dao.InviteMessageDao;
-import com.hyphenate.easeim.common.db.dao.MsgTypeManageDao;
+import com.hyphenate.easeim.common.greendao.db.DaoMaster;
+import com.hyphenate.easeim.common.greendao.db.DaoSession;
+import com.hyphenate.easeim.common.greendao.db.EaseUserDao;
 import com.hyphenate.easeim.common.utils.MD5;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.util.EMLog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EaseDbHelper {
     private static final String TAG = "DemoDbHelper";
     private static EaseDbHelper instance;
     private Context mContext;
     private String currentUser;
-    private AppDatabase mDatabase;
+    private DaoMaster.DevOpenHelper helper;
+    private DaoSession daoSession;
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 
     private EaseDbHelper(Context context){
@@ -54,11 +58,11 @@ public class EaseDbHelper {
         // 可以采用addMigrations()的方式，进行数据库的升级
         String dbName = String.format("em_%1$s.db", userMd5);
         EMLog.i(TAG, "db name = "+dbName);
-        mDatabase = Room.databaseBuilder(mContext, AppDatabase.class, dbName)
-                        .allowMainThreadQueries()
-                        .fallbackToDestructiveMigration()
-                        .build();
-        mIsDatabaseCreated.postValue(true);
+
+        helper = new DaoMaster.DevOpenHelper(mContext, dbName, null);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
     }
 
     public LiveData<Boolean> getDatabaseCreatedObservable() {
@@ -69,42 +73,47 @@ public class EaseDbHelper {
      * 关闭数据库
      */
     public void closeDb() {
-        if(mDatabase != null) {
-            mDatabase.close();
-            mDatabase = null;
-        }
         currentUser = null;
+
+        if(helper != null){
+            helper.close();
+            helper = null;
+        }
+
+        if(daoSession != null){
+            daoSession.clear();
+            daoSession = null;
+        }
     }
 
-    public EmUserDao getUserDao() {
-        if(mDatabase != null) {
-            return mDatabase.userDao();
+    public boolean insertUsers(List<EaseUser> users){
+        try {
+            daoSession.runInTx(() -> {
+                for (EaseUser entity : users) {
+                    daoSession.insertOrReplace(entity);
+                }
+            });
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        EMLog.i(TAG, "get userDao failed, should init db first");
-        return null;
+        return false;
     }
 
-    public InviteMessageDao getInviteMessageDao() {
-        if(mDatabase != null) {
-            return mDatabase.inviteMessageDao();
-        }
-        EMLog.i(TAG, "get inviteMessageDao failed, should init db first");
-        return null;
+    public List<EaseUser> loadAllEaseUsers(){
+        return daoSession.loadAll(EaseUser.class);
     }
 
-    public MsgTypeManageDao getMsgTypeManageDao() {
-        if(mDatabase != null) {
-            return mDatabase.msgTypeManageDao();
+    public List<String> loadTimeOutEaseUsers(long arg0,long arg1){
+        List<EaseUser> list = daoSession.queryBuilder(EaseUser.class).where(EaseUserDao.Properties.LastModifyTimestamp.le(arg1 - arg0)).list();
+        List<String> names = new ArrayList<>();
+        for(EaseUser entity : list){
+            names.add(entity.getUsername());
         }
-        EMLog.i(TAG, "get msgTypeManageDao failed, should init db first");
-        return null;
+        return names;
     }
 
-    public AppKeyDao getAppKeyDao() {
-        if(mDatabase != null) {
-            return mDatabase.appKeyDao();
-        }
-        EMLog.i(TAG, "get appKeyDao failed, should init db first");
-        return null;
+    public DaoSession getDaoSession(){
+        return daoSession;
     }
 }

@@ -1,7 +1,5 @@
 package com.hyphenate.easeim.common.repositories;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 
 import com.hyphenate.chat.EMChatManager;
@@ -12,9 +10,6 @@ import com.hyphenate.chat.EMGroupManager;
 import com.hyphenate.chat.EMPushManager;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.common.db.EaseDbHelper;
-import com.hyphenate.easeim.common.db.dao.EmUserDao;
-import com.hyphenate.easeim.common.db.dao.InviteMessageDao;
-import com.hyphenate.easeim.common.db.dao.MsgTypeManageDao;
 import com.hyphenate.easeui.manager.EaseThreadManager;
 
 public class BaseEMRepository {
@@ -89,30 +84,6 @@ public class BaseEMRepository {
      */
     public void initDb() {
         EaseDbHelper.getInstance(getContext()).initDb(getCurrentUser());
-    }
-
-    /**
-     * EmUserDao
-     * @return
-     */
-    public EmUserDao getUserDao() {
-        return EaseDbHelper.getInstance(getContext()).getUserDao();
-    }
-
-    /**
-     * get MsgTypeManageDao
-     * @return
-     */
-    public MsgTypeManageDao getMsgTypeManageDao() {
-        return EaseDbHelper.getInstance(getContext()).getMsgTypeManageDao();
-    }
-
-    /**
-     * get invite message dao
-     * @return
-     */
-    public InviteMessageDao getInviteMessageDao() {
-        return EaseDbHelper.getInstance(getContext()).getInviteMessageDao();
     }
 
     /**

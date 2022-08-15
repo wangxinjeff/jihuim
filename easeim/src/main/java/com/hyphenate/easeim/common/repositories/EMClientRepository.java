@@ -1,27 +1,19 @@
 package com.hyphenate.easeim.common.repositories;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easecallkit.base.EaseCallKitTokenCallback;
 import com.hyphenate.easecallkit.base.EaseGetUserAccountCallback;
 import com.hyphenate.easecallkit.base.EaseUserAccount;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.common.db.EaseDbHelper;
-import com.hyphenate.easeim.common.db.entity.EmUserEntity;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
-import com.hyphenate.easeim.common.net.ErrorCode;
-import com.hyphenate.easeim.common.net.Resource;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
-import com.hyphenate.easeim.common.utils.PreferenceManager;
-import com.hyphenate.easeui.EaseIM;
 import com.hyphenate.easeui.constants.EaseConstant;
-import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.manager.EaseThreadManager;
 import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.util.EMLog;

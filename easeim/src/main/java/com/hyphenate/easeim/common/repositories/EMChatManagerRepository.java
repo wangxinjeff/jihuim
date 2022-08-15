@@ -15,8 +15,6 @@ import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeim.EaseIMHelper;
-import com.hyphenate.easeim.common.db.entity.InviteMessage;
-import com.hyphenate.easeim.common.db.entity.MsgTypeManageEntity;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.model.EMOrder;
 import com.hyphenate.easeim.common.net.ErrorCode;

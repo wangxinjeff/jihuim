@@ -1,12 +1,9 @@
 package com.hyphenate.easeui.domain;
 
-import android.arch.persistence.room.Ignore;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
-import android.support.annotation.Nullable;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMUserInfo;
@@ -18,7 +15,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Transient;
 
+@Entity
 public class EaseUser implements Parcelable {
     /**
      * \~chinese
@@ -81,8 +82,11 @@ public class EaseUser implements Parcelable {
         isCustomer = customer;
     }
 
+    @Transient
     private boolean isChecked = false;
+    @Transient
     private boolean isCustomer = false;
+    @Transient
     private boolean isNotUse = false;
 
     public boolean isNotUse() {
@@ -284,12 +288,32 @@ public class EaseUser implements Parcelable {
     public void setModifyInitialLetterTimestamp(long modifyInitialLetterTimestamp) {
         this.modifyInitialLetterTimestamp = modifyInitialLetterTimestamp;
     }
-    @Ignore
     public EaseUser() {
     }
 
     public EaseUser(@NonNull String username) {
         this.username = username;
+    }
+
+    @Generated(hash = 145210655)
+    public EaseUser(@NonNull String username, String nickname, boolean isOwner,
+            String initialLetter, String avatar, int contact, long lastModifyTimestamp,
+            long modifyInitialLetterTimestamp, String email, String phone, int gender,
+            String sign, String birth, String ext) {
+        this.username = username;
+        this.nickname = nickname;
+        this.isOwner = isOwner;
+        this.initialLetter = initialLetter;
+        this.avatar = avatar;
+        this.contact = contact;
+        this.lastModifyTimestamp = lastModifyTimestamp;
+        this.modifyInitialLetterTimestamp = modifyInitialLetterTimestamp;
+        this.email = email;
+        this.phone = phone;
+        this.gender = gender;
+        this.sign = sign;
+        this.birth = birth;
+        this.ext = ext;
     }
 
     @Override
@@ -386,6 +410,38 @@ public class EaseUser implements Parcelable {
         dest.writeString(sign);
         dest.writeString(birth);
         dest.writeString(ext);
+    }
+
+    public boolean getIsOwner() {
+        return this.isOwner;
+    }
+
+    public void setIsOwner(boolean isOwner) {
+        this.isOwner = isOwner;
+    }
+
+    public boolean getIsChecked() {
+        return this.isChecked;
+    }
+
+    public void setIsChecked(boolean isChecked) {
+        this.isChecked = isChecked;
+    }
+
+    public boolean getIsCustomer() {
+        return this.isCustomer;
+    }
+
+    public void setIsCustomer(boolean isCustomer) {
+        this.isCustomer = isCustomer;
+    }
+
+    public boolean getIsNotUse() {
+        return this.isNotUse;
+    }
+
+    public void setIsNotUse(boolean isNotUse) {
+        this.isNotUse = isNotUse;
     }
 
     public class GetInitialLetter {

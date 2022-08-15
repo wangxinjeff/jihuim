@@ -1,8 +1,5 @@
 package com.hyphenate.easeim.common.repositories;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.hyphenate.EMCallBack;
@@ -12,24 +9,16 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMGroup;
-import com.hyphenate.chat.EMGroupInfo;
-import com.hyphenate.chat.EMGroupOptions;
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMMucSharedFile;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeim.common.db.entity.EmUserEntity;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
-import com.hyphenate.easeim.common.livedatas.SingleSourceLiveData;
 import com.hyphenate.easeim.common.model.GroupApplyBean;
 import com.hyphenate.easeim.common.model.SearchResult;
 import com.hyphenate.easeim.common.net.ErrorCode;
-import com.hyphenate.easeim.common.net.Resource;
-import com.hyphenate.easeim.common.net.Result;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.manager.EaseThreadManager;
 import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.exceptions.HyphenateException;
 
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +26,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -112,7 +100,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                         members.addAll(value.getAdminList());
                         members.add(value.getOwner());
                         if(!members.isEmpty()) {
-                            List<EaseUser> users = EmUserEntity.parse(members);
+                            List<EaseUser> users = EaseUser.parse(members);
                             sortUserData(users);
                             for(EaseUser item : users){
                                 if(TextUtils.equals(value.getOwner(), item.getUsername())){

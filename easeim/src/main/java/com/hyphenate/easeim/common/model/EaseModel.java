@@ -2,24 +2,14 @@ package com.hyphenate.easeim.common.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.text.TextUtils;
 
 import com.hyphenate.chat.EMChatRoom;
-import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.common.db.EaseDbHelper;
-import com.hyphenate.easeim.common.db.dao.AppKeyDao;
-import com.hyphenate.easeim.common.db.dao.EmUserDao;
-import com.hyphenate.easeim.common.db.entity.AppKeyEntity;
-import com.hyphenate.easeim.common.db.entity.EmUserEntity;
-import com.hyphenate.easeim.common.db.entity.InviteMessage;
-import com.hyphenate.easeim.common.db.entity.MsgTypeManageEntity;
-import com.hyphenate.easeim.common.manager.OptionsHelper;
 import com.hyphenate.easeim.common.utils.PreferenceManager;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.manager.EasePreferenceManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +18,6 @@ import java.util.Map;
  * DemoModel主要用于SP存取及一些数据库的存取
  */
 public class EaseModel {
-    EmUserDao dao = null;
     protected Context context = null;
     protected Map<Key,Object> valueCache = new HashMap<Key,Object>();
     public List<EMChatRoom> chatRooms;
@@ -53,22 +42,19 @@ public class EaseModel {
 
 
     public boolean updateContactList(List<EaseUser> contactList) {
-        List<EmUserEntity> userEntities = EmUserEntity.parseList(contactList);
-        EmUserDao dao = EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).getUserDao();
-        if(dao != null) {
-            dao.insert(userEntities);
+        if(EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).getDaoSession() != null) {
+            EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).insertUsers(contactList);
             return true;
         }
         return false;
     }
 
     public Map<String, EaseUser> getContactList() {
-        EmUserDao dao = EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).getUserDao();
-        if(dao == null) {
+        if(EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).getDaoSession() == null) {
             return new HashMap<>();
         }
         Map<String, EaseUser> map = new HashMap<>();
-        List<EaseUser> users = dao.loadAllContactUsers();
+        List<EaseUser> users = EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).loadAllEaseUsers();
         if(users != null && !users.isEmpty()) {
             for (EaseUser user : users) {
                 map.put(user.getUsername(), user);
@@ -79,12 +65,11 @@ public class EaseModel {
 
 
     public Map<String, EaseUser> getAllUserList() {
-        EmUserDao dao = EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).getUserDao();
-        if(dao == null) {
+        if(EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).getDaoSession() == null) {
             return new HashMap<>();
         }
         Map<String, EaseUser> map = new HashMap<>();
-        List<EaseUser> users = dao.loadAllEaseUsers();
+        List<EaseUser> users = EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).loadAllEaseUsers();
         if(users != null && !users.isEmpty()) {
             for (EaseUser user : users) {
                 map.put(user.getUsername(), user);
@@ -102,57 +87,14 @@ public class EaseModel {
     }
 
     /**
-     * 向数据库中插入数据
-     * @param object
-     */
-    public void insert(Object object) {
-        EaseDbHelper dbHelper = getDbHelper();
-        if(object instanceof InviteMessage) {
-            if(dbHelper.getInviteMessageDao() != null) {
-                dbHelper.getInviteMessageDao().insert((InviteMessage) object);
-            }
-        }else if(object instanceof MsgTypeManageEntity) {
-            if(dbHelper.getMsgTypeManageDao() != null) {
-                dbHelper.getMsgTypeManageDao().insert((MsgTypeManageEntity) object);
-            }
-        }else if(object instanceof EmUserEntity) {
-            if(dbHelper.getUserDao() != null) {
-                dbHelper.getUserDao().insert((EmUserEntity) object);
-            }
-        }
-    }
-
-    /**
-     * update
-     * @param object
-     */
-    public void update(Object object) {
-        EaseDbHelper dbHelper = getDbHelper();
-        if(object instanceof InviteMessage) {
-            if(dbHelper.getInviteMessageDao() != null) {
-                dbHelper.getInviteMessageDao().update((InviteMessage) object);
-            }
-        }else if(object instanceof MsgTypeManageEntity) {
-            if(dbHelper.getMsgTypeManageDao() != null) {
-                dbHelper.getMsgTypeManageDao().update((MsgTypeManageEntity) object);
-            }
-        }else if(object instanceof EmUserEntity) {
-            if(dbHelper.getUserDao() != null) {
-                dbHelper.getUserDao().insert((EmUserEntity) object);
-            }
-        }
-    }
-
-
-    /**
      * 查找有关用户用户属性过期的用户ID
      *
      */
     public List<String> selectTimeOutUsers() {
         EaseDbHelper dbHelper = getDbHelper();
         List<String> users = null;
-        if(dbHelper.getUserDao() != null) {
-            users = dbHelper.getUserDao().loadTimeOutEaseUsers(userInfoTimeOut,System.currentTimeMillis());
+        if(dbHelper.getDaoSession() != null) {
+            users = dbHelper.loadTimeOutEaseUsers(userInfoTimeOut,System.currentTimeMillis());
         }
         return users;
     }

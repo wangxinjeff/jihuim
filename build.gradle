@@ -6,18 +6,19 @@ buildscript {
             url 'https://maven.aliyun.com/repository/public/'
         }
         google()
-        //jcenter()
+        jcenter()
         mavenCentral()
 
         maven {url 'http://developer.huawei.com/repo/'}
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.2'
+        classpath 'com.android.tools.build:gradle:3.5.4'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         classpath 'com.huawei.agconnect:agcp:1.2.1.301'
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.3.0' // add plugin
     }
 }
 
