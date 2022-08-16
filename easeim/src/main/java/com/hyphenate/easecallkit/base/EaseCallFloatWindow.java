@@ -7,7 +7,6 @@ import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.SystemClock;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.util.EMLog;
@@ -151,12 +149,12 @@ public class EaseCallFloatWindow {
         callView = floatView.findViewById(R.id.call_view);
 
         if(EaseIMHelper.getInstance().isAdmin()){
-            floatView.setBackground(ContextCompat.getDrawable(context, R.drawable.call_float_bg));
-            callView.setBackground(ContextCompat.getDrawable(context, R.drawable.call_float_time_bg));
+            floatView.setBackground(ContextCompat.getDrawable(context, R.drawable.em_call_float_bg));
+            callView.setBackground(ContextCompat.getDrawable(context, R.drawable.em_call_float_time_bg));
             callTime.setTextColor(ContextCompat.getColor(context, R.color.normal_text));
         } else {
-            floatView.setBackground(ContextCompat.getDrawable(context, R.drawable.call_float_bg_dark));
-            callView.setBackground(ContextCompat.getDrawable(context, R.drawable.call_float_time_bg_dark));
+            floatView.setBackground(ContextCompat.getDrawable(context, R.drawable.em_call_float_bg_dark));
+            callView.setBackground(ContextCompat.getDrawable(context, R.drawable.em_call_float_time_bg_dark));
             callTime.setTextColor(ContextCompat.getColor(context, R.color.normal_text_color));
         }
 

@@ -16,6 +16,7 @@ import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.manager.EaseThreadManager;
 import com.hyphenate.easeui.model.EaseEvent;
+import com.hyphenate.easeui.modules.conversation.model.EaseConversationInfo;
 import com.hyphenate.util.EMLog;
 
 import org.jetbrains.annotations.NotNull;
@@ -155,6 +156,18 @@ public class EMClientRepository extends BaseEMRepository{
                 EaseIMHelper.getInstance().getModel().setCurrentUserName(userName);
                 loginSuccess();
                 setAutoLogin(true);
+                EMChatManagerRepository.getInstance().fetchConversationsFromServer(new ResultCallBack<List<EaseConversationInfo>>() {
+                    @Override
+                    public void onSuccess(List<EaseConversationInfo> data) {
+                        // 拉取服务器的会话列表之后设置为不是初次登录
+                        EaseIMHelper.getInstance().makeNotFirstInstall();
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+
+                    }
+                });
                 callBack.onSuccess();
             }
 

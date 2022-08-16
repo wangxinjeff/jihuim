@@ -77,11 +77,11 @@ public class EaseChatPrimaryMenu extends RelativeLayout implements IChatPrimaryM
         buttonSend = findViewById(R.id.btn_send);
 
         if(EaseIMHelper.getInstance().isAdmin()){
-            buttonSetModeVoice.setImageResource(R.drawable.icon_input_voice);
-            buttonSetModeKeyboard.setImageResource(R.drawable.icon_input_keyboard);
-            buttonMore.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.icon_input_add));
-            faceNormal.setImageResource(R.drawable.icon_input_emoji);
-            faceChecked.setImageResource(R.drawable.icon_input_keyboard);
+            buttonSetModeVoice.setImageResource(R.drawable.em_icon_input_voice);
+            buttonSetModeKeyboard.setImageResource(R.drawable.em_icon_input_keyboard);
+            buttonMore.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.em_icon_input_add));
+            faceNormal.setImageResource(R.drawable.em_icon_input_emoji);
+            faceChecked.setImageResource(R.drawable.em_icon_input_keyboard);
         }
 
         editText.requestFocus();

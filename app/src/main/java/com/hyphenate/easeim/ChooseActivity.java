@@ -37,6 +37,7 @@ public class ChooseActivity extends BaseInitActivity {
 
         customer = findViewById(R.id.customer);
         admin = findViewById(R.id.admin);
+        customer.setVisibility(View.GONE);
     }
 
     @Override

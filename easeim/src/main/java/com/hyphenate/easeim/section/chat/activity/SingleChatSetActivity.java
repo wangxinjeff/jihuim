@@ -1,6 +1,5 @@
 package com.hyphenate.easeim.section.chat.activity;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.common.repositories.EMChatManagerRepository;
@@ -61,7 +59,7 @@ public class SingleChatSetActivity extends BaseInitActivity implements EaseTitle
         super.initView(savedInstanceState);
         titleBar = findViewById(R.id.title_bar);
         if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.icon_back_admin);
+            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
         }
         itemUserInfo = findViewById(R.id.item_user_info);
         itemSearchHistory = findViewById(R.id.item_search_history);

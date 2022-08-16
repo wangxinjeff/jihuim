@@ -15,7 +15,6 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 
-import com.hyphenate.EMCallBack;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMPushConfigs;
@@ -182,7 +181,7 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
         fetchSelfInfo();
         ChatPresenter.getInstance().init();
 
-        requestPermissions();
+//        requestPermissions();
         // 获取华为 HMS 推送 token
         HMSPushHelper.getInstance().getHMSToken(this);
 
@@ -244,7 +243,10 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
 
     private void switchToHome() {
         if(mConversationListFragment == null) {
-            mConversationListFragment = new ConversationListFragment(conversationsType);
+            mConversationListFragment = new ConversationListFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("conversationsType", conversationsType);
+            mConversationListFragment.setArguments(bundle);
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_main_fragment, mConversationListFragment, "conversation").commit();
     }
@@ -331,9 +333,9 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
     private void showNotifyIcon(){
         isNotify = EaseIMHelper.getInstance().getModel().getSettingMsgNotification();
         if(isNotify){
-            notifyIcon.setImageResource(R.drawable.icon_message_notify);
+            notifyIcon.setImageResource(R.drawable.em_icon_message_notify);
         } else {
-            notifyIcon.setImageResource(R.drawable.icon_message_unnotify);
+            notifyIcon.setImageResource(R.drawable.em_icon_message_unnotify);
         }
     }
 

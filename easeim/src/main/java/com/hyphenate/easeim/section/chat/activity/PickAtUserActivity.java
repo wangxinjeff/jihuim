@@ -1,6 +1,5 @@
 package com.hyphenate.easeim.section.chat.activity;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,12 +9,10 @@ import android.view.View;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.widget.SearchBar;
-import com.hyphenate.easeim.section.chat.adapter.PickAllUserAdapter;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.chat.adapter.PickUserAdapter;
 import com.hyphenate.easeui.constants.EaseConstant;
@@ -61,9 +58,9 @@ public class PickAtUserActivity extends BaseInitActivity implements OnItemClickL
         super.initView(savedInstanceState);
         mTitleBarPick = findViewById(R.id.title_bar_pick);
         if(EaseIMHelper.getInstance().isAdmin()){
-            mTitleBarPick.setLeftImageResource(R.drawable.icon_back_admin);
+            mTitleBarPick.setLeftImageResource(R.drawable.em_icon_back_admin);
         } else {
-            mTitleBarPick.setLeftImageResource(R.drawable.icon_back);
+            mTitleBarPick.setLeftImageResource(R.drawable.em_icon_back);
         }
         mRvPickUserList = findViewById(R.id.rv_pick_user_list);
 

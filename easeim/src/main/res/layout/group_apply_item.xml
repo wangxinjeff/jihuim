@@ -4,7 +4,7 @@
     android:layout_height="100dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
-    android:background="@drawable/recycler_item_selector">
+    android:background="@drawable/em_recycler_item_selector">
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/customer_name"
@@ -76,7 +76,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btn_agree"
         android:layout_marginEnd="16dp"
         android:text="@string/em_notify_refuse"
-        android:background="@drawable/refused_btn_bg"
+        android:background="@drawable/em_refused_btn_bg"
         android:textSize="@dimen/em_size_normal"
         android:textColor="@color/black"
         />
@@ -90,7 +90,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="15dp"
         android:text="@string/em_notify_agree"
-        android:background="@drawable/agree_btn_bg"
+        android:background="@drawable/em_agree_btn_bg"
         android:textSize="@dimen/em_size_normal"
         android:textColor="@color/white"
         />
@@ -103,7 +103,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/operat_btn_bg"
+        android:background="@drawable/em_operat_btn_bg"
         android:textSize="@dimen/em_size_normal"
         android:text="@string/Has_refused_to"
         android:textColor="@color/con_content_time"

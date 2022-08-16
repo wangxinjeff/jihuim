@@ -24,18 +24,12 @@ import com.hyphenate.util.EMLog;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressLint("ValidFragment")
 public class SearchMultiMediaFragment extends BaseInitFragment {
 
     private RecyclerView mediaList;
     private MultiMediaListAdapter adapter;
     private EMConversation conversation;
     private String conversationId;
-
-    public SearchMultiMediaFragment(String conversationId) {
-        this.conversationId = conversationId;
-        conversation = EMClient.getInstance().chatManager().getConversation(conversationId);
-    }
 
     @Override
     protected int getLayoutId() {
@@ -50,6 +44,10 @@ public class SearchMultiMediaFragment extends BaseInitFragment {
 
         adapter = new MultiMediaListAdapter();
         mediaList.setAdapter(adapter);
+
+        Bundle bundle = getArguments();
+        conversationId = bundle.getString("conversationId");
+        conversation = EMClient.getInstance().chatManager().getConversation(conversationId);
     }
 
     @Override

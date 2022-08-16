@@ -14,7 +14,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:titleBarTitle="@string/em_chat_group_detail_title"
-        app:titleBarLeftImage="@drawable/icon_back"
+        app:titleBarLeftImage="@drawable/em_icon_back"
         app:titleBarTitleTextColor="?attr/normalTextColor"
         />
 
@@ -89,7 +89,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_group_info"
                 android:layout_marginStart="@dimen/em_margin_15"
                 android:layout_marginEnd="@dimen/em_margin_15"
-                android:background="@drawable/demo_default_divider_list"/>
+                android:background="@drawable/em_default_divider_list"/>
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/cl_member"

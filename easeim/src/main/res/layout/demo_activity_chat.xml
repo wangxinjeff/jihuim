@@ -13,8 +13,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:titleBarTitleTextColor="?attr/normalTextColor"
-        app:titleBarLeftImage="@drawable/icon_back"
-        app:titleBarRightImage="@drawable/icon_more"
+        app:titleBarLeftImage="@drawable/em_icon_back"
+        app:titleBarRightImage="@drawable/em_icon_more"
         app:titleBarRightVisible="true"/>
 
     <FrameLayout

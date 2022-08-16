@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/call_float_size"
     android:layout_height="@dimen/call_float_size"
-    android:background="@drawable/call_float_bg"
+    android:background="@drawable/em_call_float_bg"
     android:padding="8dp"
     >
 
@@ -12,7 +12,7 @@
         android:layout_height="@dimen/call_float_size"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@drawable/call_float_time_bg"
+        android:background="@drawable/em_call_float_time_bg"
         android:visibility="gone"
         >
     </LinearLayout>
@@ -33,13 +33,13 @@
         android:layout_height="64dp"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@drawable/call_float_time_bg"
+        android:background="@drawable/em_call_float_time_bg"
         >
 
         <ImageView
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:src="@drawable/icon_call_float" />
+            android:src="@drawable/em_icon_call_float" />
 
         <TextView
             android:id="@+id/call_time"

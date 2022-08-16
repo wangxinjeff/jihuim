@@ -21,7 +21,6 @@ import com.hyphenate.easeui.interfaces.OnItemClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressLint("ValidFragment")
 public class SearchAllFragment extends BaseInitFragment {
 
     private SearchBar searchBar;
@@ -30,12 +29,6 @@ public class SearchAllFragment extends BaseInitFragment {
     private EMConversation conversation;
     private String conversationId;
     private int chatType;
-
-    public SearchAllFragment(String conversationId, int chatType) {
-        this.conversationId = conversationId;
-        this.chatType = chatType;
-        conversation = EMClient.getInstance().chatManager().getConversation(conversationId);
-    }
 
     @Override
     protected int getLayoutId() {
@@ -51,6 +44,11 @@ public class SearchAllFragment extends BaseInitFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         allAdapter = new SearchAllAdapter();
         recyclerView.setAdapter(allAdapter);
+
+        Bundle bundle = getArguments();
+        chatType = bundle.getInt("chatType");
+        conversationId = bundle.getString("conversationId");
+        conversation = EMClient.getInstance().chatManager().getConversation(conversationId);
     }
 
     @Override

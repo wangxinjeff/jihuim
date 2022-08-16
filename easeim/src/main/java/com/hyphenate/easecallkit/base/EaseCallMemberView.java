@@ -4,7 +4,6 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -20,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.RequestOptions;
-import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 
 import com.hyphenate.easecallkit.utils.EaseCallKitUtils;
@@ -115,22 +113,22 @@ public class EaseCallMemberView extends RelativeLayout {
     }
 
     public void updateUserInfo(){
-//        if(userInfo != null){
-//            EaseUserProfileProvider userProvider = EaseIM.getInstance().getUserProvider();
-//            if(userProvider != null) {
-//                EaseUser user = userProvider.getUser(userInfo.getUserName());
-//                if(user != null) {
-//                    if(!TextUtils.isEmpty(user.getNickname())) {
-//                        nameView.setText(user.getNickname());
-//                    }
-//                    if(!TextUtils.isEmpty(user.getAvatar())) {
-//                        Glide.with(context).load(user.getAvatar()).apply(RequestOptions.bitmapTransform(new CircleCrop())).error(R.drawable.call_memberview_background).into(avatarView);
-//                    }
-//                }
-//            }
-//        }
+        if(userInfo != null){
+            EaseUserProfileProvider userProvider = EaseIM.getInstance().getUserProvider();
+            if(userProvider != null) {
+                EaseUser user = userProvider.getUser(userInfo.getUserName());
+                if(user != null) {
+                    if(!TextUtils.isEmpty(user.getNickname())) {
+                        nameView.setText(user.getNickname());
+                    }
+                    if(!TextUtils.isEmpty(user.getAvatar())) {
+                        Glide.with(context).load(user.getAvatar()).apply(RequestOptions.noTransformation().error(R.drawable.ease_default_avatar)).into(avatarView);
+                    }
+                }
+            }
+        }
 
-        EaseUserUtils.setUserAvatar(context, userInfo.getUserName(), avatarView);
+//        EaseUserUtils.setUserAvatar(context, userInfo.getUserName(), avatarView);
         EaseUserUtils.setUserNick(userInfo.getUserName(), nameView);
     }
 
@@ -254,7 +252,7 @@ public class EaseCallMemberView extends RelativeLayout {
     public void setUsername(String username) {
         headUrl = EaseCallKitUtils.getUserHeadImage(username);
         if(headUrl != null){
-            avatarView.setImageResource(R.drawable.call_memberview_background);
+            avatarView.setImageResource(R.drawable.em_call_memberview_background);
         }else{
             loadHeadImage();
         }

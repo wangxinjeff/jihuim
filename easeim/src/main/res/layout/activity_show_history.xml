@@ -12,7 +12,7 @@
         app:titleBarTitle="@string/em_show_chat_history"
         app:titleBarTitleTextColor="?attr/normalTextColor"
         android:background="?attr/themeBgColor"
-        app:titleBarLeftImage="@drawable/icon_back"
+        app:titleBarLeftImage="@drawable/em_icon_back"
         />
 
     <com.hyphenate.easeui.modules.chat.EaseChatMessageListLayout

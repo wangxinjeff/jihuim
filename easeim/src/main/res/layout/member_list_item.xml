@@ -25,7 +25,7 @@
         android:id="@+id/member_item_owner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_member_owner"
+        android:src="@drawable/em_icon_member_owner"
         android:layout_marginStart="5dp"
         android:visibility="gone"
         />

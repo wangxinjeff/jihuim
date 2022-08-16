@@ -83,7 +83,7 @@
 
             <com.hyphenate.mediapicker.internal.ui.widget.CheckRadioView
                 android:id="@+id/original"
-                android:src="@drawable/ic_preview_radio_off"
+                android:src="@drawable/em_ic_preview_radio_off"
                 android:layout_gravity="center_vertical"
                 android:layout_width="16dp"
                 android:layout_height="16dp" />

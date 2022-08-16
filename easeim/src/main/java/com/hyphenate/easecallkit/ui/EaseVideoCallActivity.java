@@ -498,7 +498,7 @@ public class EaseVideoCallActivity extends EaseBaseCallActivity implements View.
 
         //如果是语音通话
         if(callType == EaseCallType.SINGLE_VOICE_CALL){
-            rootView.setBackground(getResources().getDrawable(R.drawable.call_bg_voice));
+            rootView.setBackground(getResources().getDrawable(R.drawable.em_call_bg_voice));
             //sufaceview不可见
             localSurface_layout.setVisibility(View.GONE);
             oppositeSurface_layout.setVisibility(View.GONE);
@@ -781,12 +781,12 @@ public class EaseVideoCallActivity extends EaseBaseCallActivity implements View.
         } else if (id == R.id.iv_mute) { // mute
             if (isMuteState) {
                 // resume voice transfer
-                muteImage.setImageResource(R.drawable.call_mute_normal);
+                muteImage.setImageResource(R.drawable.em_call_mute_normal);
                 mRtcEngine.muteLocalAudioStream(false);
                 isMuteState = false;
             } else {
                 // pause voice transfer
-                muteImage.setImageResource(R.drawable.call_mute_on);
+                muteImage.setImageResource(R.drawable.em_call_mute_on);
                 mRtcEngine.muteLocalAudioStream(true);
                 isMuteState = true;
             }
@@ -834,7 +834,7 @@ public class EaseVideoCallActivity extends EaseBaseCallActivity implements View.
             }
             localSurface_layout.setVisibility(View.GONE);
             oppositeSurface_layout.setVisibility(View.GONE);
-            rootView.setBackground(getResources().getDrawable(R.drawable.call_bg_voice));
+            rootView.setBackground(getResources().getDrawable(R.drawable.em_call_bg_voice));
 
             loadHeadImage();
 
@@ -934,7 +934,7 @@ public class EaseVideoCallActivity extends EaseBaseCallActivity implements View.
         }else{ // 切换到音频通话UI
             localSurface_layout.setVisibility(View.GONE);
             oppositeSurface_layout.setVisibility(View.GONE);
-            rootView.setBackground(getResources().getDrawable(R.drawable.call_bg_voice));
+            rootView.setBackground(getResources().getDrawable(R.drawable.em_call_bg_voice));
 
             //已经在通话中
             if(EaseCallKit.getInstance().getCallState() == EaseCallState.CALL_ANSWERED){
@@ -946,7 +946,7 @@ public class EaseVideoCallActivity extends EaseBaseCallActivity implements View.
             }else{
                 localSurface_layout.setVisibility(View.GONE);
                 oppositeSurface_layout.setVisibility(View.GONE);
-                rootView.setBackground(getResources().getDrawable(R.drawable.call_bg_voice));
+                rootView.setBackground(getResources().getDrawable(R.drawable.em_call_bg_voice));
 
                 if(isInComingCall){
                     tv_call_state_voice.setText(getApplicationContext().getString(R.string.em_invite_you_for_audio_and_video_call));

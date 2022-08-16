@@ -13,7 +13,7 @@
         android:layout_height="@dimen/em_common_title_bar_height"
         app:layout_constraintTop_toTopOf="parent"
         android:background="?attr/themeBgColor"
-        app:titleBarLeftImage="@drawable/icon_back"
+        app:titleBarLeftImage="@drawable/em_icon_back"
         app:titleBarTitleTextColor="?attr/normalTextColor"
         app:titleBarTitle="@string/em_file_details" />
 
@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="62dp"
         android:layout_marginTop="64dp"
-        android:src="@drawable/icon_file_other"
+        android:src="@drawable/em_icon_file_other"
         />
 
     <android.support.v7.widget.AppCompatTextView
@@ -67,7 +67,7 @@
         android:layout_marginStart="62dp"
         android:layout_marginEnd="62dp"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:progressDrawable="@drawable/progress_par"
+        android:progressDrawable="@drawable/em_progress_par"
         android:visibility="gone"
         />
 
@@ -80,7 +80,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="166dp"
         android:textColor="@color/white"
-        android:background="@drawable/file_detail_btn_bg"
+        android:background="@drawable/em_file_detail_btn_bg"
         />
 
 

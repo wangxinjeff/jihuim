@@ -70,11 +70,11 @@
         <!-- Customize EditText text color -->
         <item name="android:editTextColor">@color/normal_text</item>
         <!-- Customize text cursor -->
-        <item name="android:textCursorDrawable">@drawable/demo_text_cursor_drawable</item>
+        <item name="android:textCursorDrawable">@drawable/em_text_cursor_drawable</item>
         <!-- Customize text color hint -->
         <item name="android:textColorHint">@color/em_base_color_text_hint</item>
         <item name="android:windowBackground">@color/em_base_color_window_bg</item>
-        <item name="android:divider">@drawable/demo_default_divider_list</item>
+        <item name="android:divider">@drawable/em_default_divider_list</item>
         <!-- remove button default shadow effect -->
         <item name="android:buttonStyle">@style/Button.BorderLess</item>
         <item name="android:navigationBarColor">@color/theme_bg</item>
@@ -130,11 +130,11 @@
         <!-- Customize EditText text color -->
         <item name="android:editTextColor">@color/normal_text_color</item>
         <!-- Customize text cursor -->
-        <item name="android:textCursorDrawable">@drawable/demo_text_cursor_drawable</item>
+        <item name="android:textCursorDrawable">@drawable/em_text_cursor_drawable</item>
         <!-- Customize text color hint -->
         <item name="android:textColorHint">@color/em_base_color_text_hint</item>
         <item name="android:windowBackground">@color/theme_bg_color</item>
-        <item name="android:divider">@drawable/demo_default_divider_list</item>
+        <item name="android:divider">@drawable/em_default_divider_list</item>
         <!-- remove button default shadow effect -->
         <item name="android:buttonStyle">@style/Button.BorderLess</item>
         <item name="android:navigationBarColor">@color/theme_bg_color</item>
@@ -234,7 +234,7 @@
         <item name="android:layout_marginLeft">@dimen/em_login_margin_left</item>
         <item name="android:layout_marginRight">@dimen/em_login_margin_right</item>
         <item name="android:maxWidth">400dp</item>
-        <item name="android:background">@drawable/demo_login_et_bg</item>
+        <item name="android:background">@drawable/em_login_et_bg</item>
         <item name="android:paddingLeft">@dimen/em_login_padding_left</item>
         <item name="android:paddingRight">@dimen/em_login_padding_right</item>
         <item name="android:textSize">@dimen/em_login_text_size</item>
@@ -251,7 +251,7 @@
         <item name="android:gravity">center</item>
         <item name="android:layout_marginBottom">44dp</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/demo_login_tv_click_selector</item>
+        <item name="android:textColor">@color/em_login_tv_click_selector</item>
     </style>
 
     <style name="em_login_btn">
@@ -260,9 +260,9 @@
         <item name="android:layout_marginTop">40dp</item>
         <item name="android:layout_marginLeft">@dimen/em_login_margin_left</item>
         <item name="android:layout_marginRight">@dimen/em_login_margin_right</item>
-        <item name="android:background">@drawable/demo_login_btn_bg</item>
-        <item name="android:foreground">@drawable/demo_ripple_click_gray</item>
-        <item name="android:textColor">@color/demo_login_btn_text_color</item>
+        <item name="android:background">@drawable/ease_login_btn_bg</item>
+        <item name="android:foreground">@drawable/em_ripple_click_gray</item>
+        <item name="android:textColor">@color/em_login_btn_text_color</item>
         <item name="android:enabled">false</item>
         <item name="android:textSize">16sp</item>
 <!--        <item name="android:drawableRight">@drawable/demo_login_btn_right_unable</item>-->
@@ -285,7 +285,7 @@
     <style name="em_group_arrow_item">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">@dimen/em_common_item_height</item>
-        <item name="android:foreground">@drawable/demo_ripple_click_gray</item>
+        <item name="android:foreground">@drawable/em_ripple_click_gray</item>
     </style>
 
     <style name="EaseCheckBox">
@@ -294,7 +294,7 @@
     </style>
     
     <style name="EaseRadioButton">
-        <item name="android:button">@drawable/radio_selector</item>
+        <item name="android:button">@drawable/em_radio_selector</item>
     </style>
 
     <style name="PhotoDialog" parent="@android:style/Theme.Dialog">
@@ -302,8 +302,8 @@
         <item name="android:backgroundDimEnabled">false</item>
         <!-- activity不变暗 -->
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:windowEnterAnimation">@anim/camera_push_bottom_in</item>
-        <item name="android:windowExitAnimation">@anim/camera_push_bottom_out</item>
+        <item name="android:windowEnterAnimation">@anim/em_camera_push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/em_camera_push_bottom_out</item>
     </style>
 
     <!-- Base application theme. -->
@@ -322,17 +322,17 @@
         <item name="album.dropdown.count.color">@color/zhihu_album_dropdown_count_text</item>
         <item name="album.element.color">@android:color/white</item>
         <item name="album.thumbnail.placeholder">@color/zhihu_album_dropdown_thumbnail_placeholder</item>
-        <item name="album.emptyView">@drawable/ic_empty_zhihu</item>
+        <item name="album.emptyView">@drawable/em_ic_empty_zhihu</item>
         <item name="album.emptyView.textColor">@color/zhihu_album_empty_view</item>
         <item name="item.placeholder">@color/zhihu_item_placeholder</item>
         <item name="item.checkCircle.backgroundColor">@color/zhihu_item_checkCircle_backgroundColor</item>
         <item name="item.checkCircle.borderColor">@color/zhihu_item_checkCircle_borderColor</item>
         <item name="page.bg">@color/zhihu_page_bg</item>
         <item name="bottomToolbar.bg">@color/zhihu_bottom_toolbar_bg</item>
-        <item name="bottomToolbar.preview.textColor">@color/zhihu_bottom_toolbar_preview</item>
-        <item name="bottomToolbar.apply.textColor">@color/zhihu_bottom_toolbar_apply</item>
+        <item name="bottomToolbar.preview.textColor">@color/em_bottom_toolbar_preview</item>
+        <item name="bottomToolbar.apply.textColor">@color/em_bottom_toolbar_apply</item>
         <item name="preview.bottomToolbar.back.textColor">@color/zhihu_preview_bottom_toolbar_back_text</item>
-        <item name="preview.bottomToolbar.apply.textColor">@color/zhihu_preview_bottom_toolbar_apply</item>
+        <item name="preview.bottomToolbar.apply.textColor">@color/em_preview_bottom_toolbar_apply</item>
         <item name="listPopupWindowStyle">@style/Popup.Zhihu</item>
         <item name="capture.textColor">@color/zhihu_capture</item>
     </style>
@@ -355,17 +355,17 @@
         <item name="album.dropdown.count.color">@color/dracula_album_dropdown_count_text</item>
         <item name="album.element.color">@android:color/white</item>
         <item name="album.thumbnail.placeholder">@color/theme_float_bg_color</item>
-        <item name="album.emptyView">@drawable/ic_empty_dracula</item>
+        <item name="album.emptyView">@drawable/em_ic_empty_dracula</item>
         <item name="album.emptyView.textColor">@color/dracula_album_empty_view</item>
         <item name="item.placeholder">@color/theme_float_bg_color</item>
         <item name="item.checkCircle.backgroundColor">@color/dracula_item_checkCircle_backgroundColor</item>
         <item name="item.checkCircle.borderColor">@color/dracula_item_checkCircle_borderColor</item>
         <item name="page.bg">@color/theme_bg_color</item>
         <item name="bottomToolbar.bg">@color/theme_float_bg_color</item>
-        <item name="bottomToolbar.preview.textColor">@color/dracula_bottom_toolbar_preview</item>
-        <item name="bottomToolbar.apply.textColor">@color/dracula_bottom_toolbar_apply</item>
+        <item name="bottomToolbar.preview.textColor">@color/em_dracula_bottom_toolbar_preview</item>
+        <item name="bottomToolbar.apply.textColor">@color/em_dracula_bottom_toolbar_apply</item>
         <item name="preview.bottomToolbar.back.textColor">@color/dracula_preview_bottom_toolbar_back_text</item>
-        <item name="preview.bottomToolbar.apply.textColor">@color/dracula_preview_bottom_toolbar_apply</item>
+        <item name="preview.bottomToolbar.apply.textColor">@color/em_dracula_preview_bottom_toolbar_apply</item>
         <item name="android:listPopupWindowStyle">@style/Popup.Dracula</item>
         <item name="listPopupWindowStyle">@style/Popup.Dracula</item>
         <item name="capture.textColor">@color/dracula_capture</item>

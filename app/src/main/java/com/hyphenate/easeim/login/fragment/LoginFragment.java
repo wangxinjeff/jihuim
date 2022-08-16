@@ -1,6 +1,5 @@
 package com.hyphenate.easeim.login.fragment;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -117,9 +116,9 @@ public class LoginFragment extends BaseInitFragment implements View.OnClickListe
         tvAgreement.setText(getSpannable());
         tvAgreement.setMovementMethod(LinkMovementMethod.getInstance());
         //切换密码可见不可见的两张图片
-        eyeClose = getResources().getDrawable(R.drawable.d_pwd_hide);
-        eyeOpen = getResources().getDrawable(R.drawable.d_pwd_show);
-        clear = getResources().getDrawable(R.drawable.d_clear);
+        eyeClose = getResources().getDrawable(R.drawable.em_d_pwd_hide);
+        eyeOpen = getResources().getDrawable(R.drawable.em_d_pwd_show);
+        clear = getResources().getDrawable(R.drawable.em_d_clear);
         EaseEditTextUtils.showRightDrawable(mEtLoginName, clear);
         EaseEditTextUtils.changePwdDrawableRight(mEtLoginPwd, eyeClose, eyeOpen, null, null, null);
     }

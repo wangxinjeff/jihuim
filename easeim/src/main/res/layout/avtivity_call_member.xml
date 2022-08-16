@@ -15,7 +15,7 @@
         android:id="@+id/img_call_avatar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/call_memberview_background"
+        android:src="@drawable/em_call_memberview_background"
         android:scaleType="fitXY"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         <ProgressBar
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:indeterminateDrawable="@drawable/call_load_progress" />
+            android:indeterminateDrawable="@drawable/em_call_load_progress" />
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"

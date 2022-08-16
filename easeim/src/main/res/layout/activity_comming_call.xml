@@ -16,7 +16,7 @@
             android:layout_height="26dp"
             android:layout_marginTop="9dp"
             android:layout_marginLeft="23dp"
-            android:background="@drawable/call_float_small"/>
+            android:background="@drawable/em_call_float_small"/>
         <TextView
             android:layout_width="80dp"
             android:layout_height="22dp"
@@ -106,7 +106,7 @@
                     android:layout_width="65dp"
                     android:layout_height="65dp"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/call_btn_bg"
+                    android:background="@drawable/ease_call_btn_bg"
                     android:scaleType="fitCenter"
                     android:src="@drawable/em_call_hangup" />
                 <TextView
@@ -134,7 +134,7 @@
                     android:layout_width="65dp"
                     android:layout_height="65dp"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/call_btn_bg"
+                    android:background="@drawable/ease_call_btn_bg"
                     android:scaleType="fitCenter"
                     android:src="@drawable/em_call_pickup" />
                 <TextView

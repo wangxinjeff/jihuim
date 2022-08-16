@@ -9,7 +9,7 @@
         android:id="@+id/title_bar"
         android:layout_width="0dp"
         android:layout_height="@dimen/em_common_title_bar_height"
-        app:titleBarLeftImage="@drawable/icon_back_admin"
+        app:titleBarLeftImage="@drawable/em_icon_back_admin"
         app:titleBarTitle="@string/em_push_message_style_title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

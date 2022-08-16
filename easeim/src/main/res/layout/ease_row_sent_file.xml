@@ -46,7 +46,7 @@
                 android:layout_marginStart="@dimen/ease_chat_file_icon_margin"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
-                android:src="@drawable/icon_file_other" />
+                android:src="@drawable/em_icon_file_other" />
 
             <LinearLayout
                 android:layout_width="match_parent"

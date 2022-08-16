@@ -1,6 +1,5 @@
 package com.hyphenate.easeim.section.chat.activity;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +9,8 @@ import android.view.View;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
-import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.chat.fragment.ChatFragment;
@@ -63,7 +60,7 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
         super.initView(savedInstanceState);
         titleBarMessage = findViewById(R.id.title_bar_message);
         if(EaseIMHelper.getInstance().isAdmin()){
-            titleBarMessage.setLeftImageResource(R.drawable.icon_back_admin);
+            titleBarMessage.setLeftImageResource(R.drawable.em_icon_back_admin);
             titleBarMessage.setRightImageResource(R.drawable.em_icon_more_admin);
         }
         initChatFragment();

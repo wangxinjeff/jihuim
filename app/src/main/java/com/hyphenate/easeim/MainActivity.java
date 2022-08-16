@@ -44,7 +44,7 @@ public class MainActivity extends BaseInitActivity implements View.OnClickListen
         userChat = findViewById(R.id.user_chat);
         chatUnread = findViewById(R.id.chat_unread);
         chatId = findViewById(R.id.chat_id);
-        requestPermissions();
+//        requestPermissions();
     }
 
     @Override

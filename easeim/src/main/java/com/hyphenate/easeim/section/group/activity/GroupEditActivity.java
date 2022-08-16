@@ -1,7 +1,6 @@
 package com.hyphenate.easeim.section.group.activity;
 
 import android.app.Activity;
-import android.arch.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
@@ -10,13 +9,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v4.content.ContextCompat;
 
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.utils.ToastUtils;
@@ -97,7 +94,7 @@ public class GroupEditActivity extends BaseInitActivity {
         serviceNote = findViewById(R.id.service_note);
 
         if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.icon_back_admin);
+            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
         }
 
         if(isShowNote){

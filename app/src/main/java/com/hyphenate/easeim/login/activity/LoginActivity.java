@@ -1,6 +1,5 @@
 package com.hyphenate.easeim.login.activity;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,10 +44,10 @@ public class LoginActivity extends BaseInitActivity {
         getSupportFragmentManager().
                 beginTransaction().
                 setCustomAnimations(
-                        R.anim.slide_in_from_right,
-                        R.anim.slide_out_to_left,
-                        R.anim.slide_in_from_left,
-                        R.anim.slide_out_to_right
+                        R.anim.em_slide_in_from_right,
+                        R.anim.em_slide_out_to_left,
+                        R.anim.em_slide_in_from_left,
+                        R.anim.em_slide_out_to_right
                 ).
                 replace(R.id.fl_fragment, fragment).
                 addToBackStack(null).

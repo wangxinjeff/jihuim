@@ -76,8 +76,16 @@ public class EaseDingAckUserListActivity extends BaseInitActivity {
 
     private void refreshView(){
         fragmentList = new ArrayList<>();
-        readFragment = new GroupReadAckListFragment(readList);
-        unReadFragment = new GroupReadAckListFragment(unReadList);
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("data", (ArrayList<String>)readList);
+        readFragment = new GroupReadAckListFragment();
+        readFragment.setArguments(bundle);
+
+        Bundle bundle1 = new Bundle();
+        bundle1.putStringArrayList("data", (ArrayList<String>)unReadList);
+        unReadFragment = new GroupReadAckListFragment();
+        unReadFragment.setArguments(bundle1);
+
         fragmentList.add(readFragment);
         fragmentList.add(unReadFragment);
         List<String> titleList = new ArrayList<>();

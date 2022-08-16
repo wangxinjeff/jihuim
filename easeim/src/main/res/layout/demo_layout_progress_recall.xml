@@ -8,13 +8,13 @@
     android:paddingLeft="40dp"
     android:paddingRight="40dp"
     android:paddingBottom="10dp"
-    android:background="@drawable/demo_bg_progress_recall"
+    android:background="@drawable/em_bg_progress_recall"
     tools:ignore="MissingDefaultResource">
 
     <ProgressBar
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:indeterminateDrawable="@drawable/demo_loading_recall_progress_bar"/>
+        android:indeterminateDrawable="@drawable/em_loading_recall_progress_bar"/>
 
     <TextView
         android:layout_width="wrap_content"

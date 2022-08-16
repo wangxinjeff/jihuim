@@ -1,6 +1,5 @@
 package com.hyphenate.easeim.section.group.activity;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.view.View;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
@@ -21,7 +19,6 @@ import com.hyphenate.easeim.section.group.adapter.GroupMemberListAdapter;
 import com.hyphenate.easeim.section.group.delegate.GroupMemberDelegate;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.manager.EaseThreadManager;
 import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.easeui.widget.EaseRecyclerView;
 import com.hyphenate.easeui.widget.EaseTitleBar;
@@ -65,7 +62,7 @@ public class GroupMemberTypeActivity extends BaseInitActivity implements EaseTit
         titleBar = findViewById(R.id.title_bar);
 
         if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.icon_back_admin);
+            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
         }
 
         searchBar = findViewById(R.id.search_bar);

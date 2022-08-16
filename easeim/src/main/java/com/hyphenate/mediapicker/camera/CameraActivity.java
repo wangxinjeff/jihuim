@@ -167,7 +167,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private void finishActivityWithAnim() {
         finish();
-        overridePendingTransition(0, R.anim.camera_push_bottom_out);
+        overridePendingTransition(0, R.anim.em_camera_push_bottom_out);
     }
 
     @Override

@@ -61,6 +61,7 @@ import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
 import com.baidu.mapapi.search.poi.PoiDetailSearchResult;
 import com.baidu.mapapi.search.poi.PoiIndoorResult;
@@ -71,7 +72,6 @@ import com.baidu.mapapi.search.poi.PoiSortType;
 import com.baidu.mapapi.utils.CoordinateConverter;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeui.adapter.EaseBaiduMapAdapter;
 import com.hyphenate.easeui.manager.EaseThreadManager;
 import com.hyphenate.easeui.ui.base.EaseBaseActivity;
@@ -557,13 +557,18 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 		EaseThreadManager.getInstance().runOnIOThread(new Runnable() {
 			@Override
 			public void run() {
-				PoiNearbySearchOption option = new PoiNearbySearchOption();
-				option.keyword(key);
-				option.sortType(PoiSortType.distance_from_near_to_far);
-				option.location(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
-				option.radius(2000);
-				option.pageCapacity(30);
-				mPoiSearch.searchNearby(option);
+//				PoiNearbySearchOption option = new PoiNearbySearchOption();
+//				option.keyword(key);
+//				option.sortType(PoiSortType.distance_from_near_to_far);
+//				option.location(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
+//				option.radius(2000);
+//				option.pageCapacity(30);
+//				mPoiSearch.searchNearby(option);
+
+				// 搜索城市Poi
+				PoiCitySearchOption citySearchOption = new PoiCitySearchOption();
+				citySearchOption.city(lastLocation.getCity()).keyword(key).pageNum(0);
+				mPoiSearch.searchInCity(citySearchOption);
 			}
 		});
 	}

@@ -31,7 +31,7 @@
         android:id="@+id/btn_remove_mute"
         android:layout_width="58dp"
         android:layout_height="28dp"
-        android:background="@drawable/agree_btn_bg"
+        android:background="@drawable/em_agree_btn_bg"
         android:text="@string/em_group_remove_mute"
         android:textSize="@dimen/em_size_normal"
         android:textColor="@color/white"

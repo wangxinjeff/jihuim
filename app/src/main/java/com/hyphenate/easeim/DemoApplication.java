@@ -40,8 +40,8 @@ public class DemoApplication extends Application implements Thread.UncaughtExcep
     private void initHx() {
         SDKInitializer.initialize(getApplicationContext());
         EaseIMHelper.getInstance().init(this);
-        InAppNotification.getInstance().setNotifyName("极狐App")
-                .setNotifyIcon(R.drawable.ease_chatfrom_voice_playing_f3);
+//        InAppNotification.getInstance().setNotifyName("极狐App")
+//                .setNotifyIcon(R.drawable.ease_chatfrom_voice_playing_f3);
         // init hx sdk
         if(EaseIMHelper.getInstance().getAutoLogin()) {
             EMLog.i("DemoApplication", "application initHx");

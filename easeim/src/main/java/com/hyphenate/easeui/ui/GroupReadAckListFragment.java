@@ -24,15 +24,10 @@ import com.hyphenate.easeui.utils.EaseUserUtils;
 
 import java.util.List;
 
-@SuppressLint("ValidFragment")
 public class GroupReadAckListFragment extends BaseInitFragment{
     private RecyclerView ackList;
     private GroupAckListAdapter ackListAdapter;
     private List<String> data;
-
-    public GroupReadAckListFragment(List<String> data) {
-        this.data = data;
-    }
 
     @Override
     protected int getLayoutId() {
@@ -46,6 +41,9 @@ public class GroupReadAckListFragment extends BaseInitFragment{
         ackList.setLayoutManager(new LinearLayoutManager(getContext()));
         ackListAdapter = new GroupAckListAdapter();
         ackList.setAdapter(ackListAdapter);
+
+        Bundle bundle = getArguments();
+        data = bundle.getStringArrayList("data");
     }
 
     @Override

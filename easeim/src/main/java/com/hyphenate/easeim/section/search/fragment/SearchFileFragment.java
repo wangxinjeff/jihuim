@@ -22,18 +22,12 @@ import com.hyphenate.util.EMLog;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressLint("ValidFragment")
 public class SearchFileFragment extends BaseInitFragment {
     private SearchBar searchBar;
     private RecyclerView recyclerView;
     private SearchAllAdapter allAdapter;
     private EMConversation conversation;
     private String conversationId;
-
-    public SearchFileFragment(String conversationId) {
-        this.conversationId = conversationId;
-        conversation = EMClient.getInstance().chatManager().getConversation(conversationId);
-    }
 
     @Override
     protected int getLayoutId() {
@@ -49,6 +43,10 @@ public class SearchFileFragment extends BaseInitFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         allAdapter = new SearchAllAdapter();
         recyclerView.setAdapter(allAdapter);
+
+        Bundle bundle = getArguments();
+        conversationId = bundle.getString("conversationId");
+        conversation = EMClient.getInstance().chatManager().getConversation(conversationId);
     }
 
     @Override

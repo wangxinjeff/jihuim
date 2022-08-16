@@ -95,7 +95,7 @@ public class CheckView extends View {
         mStrokePaint.setColor(color);
 
         mCheckDrawable = ResourcesCompat.getDrawable(context.getResources(),
-                R.drawable.ic_check_white_18dp, context.getTheme());
+                R.drawable.em_ic_check_white_18dp, context.getTheme());
     }
 
     public void setChecked(boolean checked) {

@@ -55,7 +55,7 @@
         android:id="@+id/input_account"
         android:layout_width="match_parent"
         android:layout_height="@dimen/normal_height"
-        android:background="@drawable/white_corner_bg"
+        android:background="@drawable/em_white_corner_bg"
         app:layout_constraintTop_toBottomOf="@+id/welcome"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
@@ -88,7 +88,7 @@
             android:id="@+id/empty_phone"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/icon_search_close"
+            android:src="@drawable/em_icon_search_close"
             android:layout_marginEnd="12dp"
             android:layout_marginStart="8dp"
             android:visibility="invisible"
@@ -100,7 +100,7 @@
         android:id="@+id/input_password"
         android:layout_width="match_parent"
         android:layout_height="@dimen/normal_height"
-        android:background="@drawable/white_corner_bg"
+        android:background="@drawable/em_white_corner_bg"
         app:layout_constraintTop_toBottomOf="@+id/input_account"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
@@ -170,7 +170,7 @@
         android:textColor="@color/con_content_time"
         android:gravity="center"
         android:enabled="false"
-        android:background="@drawable/login_btn_unable_bg"
+        android:background="@drawable/em_login_btn_unable_bg"
         />
 
 

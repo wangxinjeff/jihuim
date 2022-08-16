@@ -14,7 +14,7 @@
         app:titleBarDisplayHomeAsUpEnabled="true"
         app:titleBarRightTitle="@string/em_group_new_save"
         app:titleBarRightVisible="false"
-        app:titleBarLeftImage="@drawable/icon_back_admin"
+        app:titleBarLeftImage="@drawable/em_icon_back_admin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
@@ -87,7 +87,7 @@
                 android:layout_marginRight="@dimen/em_margin_15"
                 android:layout_marginStart="@dimen/em_margin_15"
                 android:layout_marginEnd="@dimen/em_margin_15"
-                android:background="@drawable/demo_default_divider_list"/>
+                android:background="@drawable/em_default_divider_list"/>
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/cl_member"
@@ -108,7 +108,7 @@
                     style="@style/em_group_text_item_title"
                     android:layout_width="0dp"
                     android:gravity="center_vertical"
-                    android:foreground="@drawable/demo_ripple_click_gray"/>
+                    android:foreground="@drawable/em_ripple_click_gray"/>
 
                 <ImageView
                     android:id="@+id/iv_group_member_right"

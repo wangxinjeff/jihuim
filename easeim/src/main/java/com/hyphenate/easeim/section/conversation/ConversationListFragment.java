@@ -35,37 +35,12 @@ import com.hyphenate.easeui.utils.EaseCommonUtils;
 import java.util.List;
 
 
-@SuppressLint("ValidFragment")
 public class ConversationListFragment extends EaseConversationListFragment{
-
-    public ConversationListFragment(int conversationsType) {
-        super(conversationsType);
-    }
 
     @Override
     public void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
-        if(conversationsType == EaseConstant.CON_TYPE_MY_CHAT){
-            //添加搜索会话布局
-            SearchBar searchBar = new SearchBar(getContext());
-            searchBar.init(false);
-            searchBar.setOnSearchBarListener(new SearchBar.OnSearchBarListener() {
-                @Override
-                public void onSearchContent(String text) {
-                    conversationListLayout.getListAdapter().getFilter().filter(text);
-                }
-            });
-            llRoot.addView(searchBar, 0);
-        }
-
-        if(conversationsType == EaseConstant.CON_TYPE_EXCLUSIVE){
-            conversationListLayout.getListAdapter().setEmptyLayoutId(R.layout.ease_layout_no_exclusive_service);
-        } else if(conversationsType == EaseConstant.CON_TYPE_MY_CHAT){
-            conversationListLayout.getListAdapter().setEmptyLayoutId(R.layout.ease_layout_no_data);
-        } else if(conversationsType == EaseConstant.CON_TYPE_ADMIN){
-            conversationListLayout.getListAdapter().setEmptyLayoutId(R.layout.ease_layout_no_data_admin);
-        }
-
+        conversationListLayout.getListAdapter().setEmptyLayoutId(R.layout.ease_layout_no_data_admin);
         initViewModel();
     }
 
@@ -111,24 +86,25 @@ public class ConversationListFragment extends EaseConversationListFragment{
 
     @Override
     public void initData() {
+        super.initData();
         //需要两个条件，判断是否触发从服务器拉取会话列表的时机，一是第一次安装，二则本地数据库没有会话列表数据
-        if(EaseIMHelper.getInstance().isFirstInstall() && EMClient.getInstance().chatManager().getAllConversations().isEmpty()) {
-            EMChatManagerRepository.getInstance().fetchConversationsFromServer(new ResultCallBack<List<EaseConversationInfo>>() {
-                @Override
-                public void onSuccess(List<EaseConversationInfo> data) {
-                    conversationListLayout.setData(data);
-                    // 拉取服务器的会话列表之后设置为不是初次登录
-                    EaseIMHelper.getInstance().makeNotFirstInstall();
-                }
-
-                @Override
-                public void onError(int i, String s) {
-
-                }
-            });
-        }else {
-            super.initData();
-        }
+//        if(EaseIMHelper.getInstance().isFirstInstall() && EMClient.getInstance().chatManager().getAllConversations().isEmpty()) {
+//            EMChatManagerRepository.getInstance().fetchConversationsFromServer(new ResultCallBack<List<EaseConversationInfo>>() {
+//                @Override
+//                public void onSuccess(List<EaseConversationInfo> data) {
+//                    conversationListLayout.setData(data);
+//                    // 拉取服务器的会话列表之后设置为不是初次登录
+//                    EaseIMHelper.getInstance().makeNotFirstInstall();
+//                }
+//
+//                @Override
+//                public void onError(int i, String s) {
+//
+//                }
+//            });
+//        }else {
+//            super.initData();
+//        }
     }
 
     private void initViewModel() {

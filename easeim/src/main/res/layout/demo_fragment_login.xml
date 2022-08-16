@@ -36,7 +36,7 @@
         tools:text="V4.1.0"
         android:textSize="10sp"
         android:textColor="@color/white"
-        android:background="@drawable/demo_login_version_bg"/>
+        android:background="@drawable/em_login_version_bg"/>
 
     <EditText
         android:id="@+id/et_login_name"
@@ -67,7 +67,7 @@
         android:layout_marginTop="@dimen/em_margin_10"
         app:layout_constraintTop_toBottomOf="@id/et_login_pwd"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:button="@drawable/demo_cb_agreement_select"
+        android:button="@drawable/em_cb_agreement_select"
         android:textSize="12sp"
         android:visibility="invisible"
         android:textColor="@color/white"

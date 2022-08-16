@@ -3,7 +3,6 @@ package com.hyphenate.easeim.section.search;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -30,6 +29,9 @@ public class SearchHistoryChatActivity extends BaseInitActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private List<Fragment> fragmentList;
+    private SearchAllFragment  searchAllFragment;
+    private SearchFileFragment searchFileFragment;
+    private SearchMultiMediaFragment searchMultiMediaFragment;
     private EMConversation conversation;
     private int chatType;
 
@@ -58,18 +60,28 @@ public class SearchHistoryChatActivity extends BaseInitActivity {
         super.initView(savedInstanceState);
         titleBar = findViewById(R.id.title_bar);
         if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.icon_back_admin);
+            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
         }
 
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.view_pager);
 
         fragmentList = new ArrayList<>();
-        fragmentList.add(new SearchAllFragment(toUsername, chatType));
+        Bundle bundle = new Bundle();
+        bundle.putString("conversationId", toUsername);
+        bundle.putInt("chatType", chatType);
+        searchAllFragment = new SearchAllFragment();
+        searchAllFragment.setArguments(bundle);
+        searchFileFragment = new SearchFileFragment();
+        searchFileFragment.setArguments(bundle);
+        searchMultiMediaFragment = new SearchMultiMediaFragment();
+        searchMultiMediaFragment.setArguments(bundle);
+
+        fragmentList.add(searchAllFragment);
         if(conversation.getType() == EMConversation.EMConversationType.GroupChat){
-            fragmentList.add(new SearchFileFragment(toUsername));
+            fragmentList.add(searchFileFragment);
         }
-        fragmentList.add(new SearchMultiMediaFragment(toUsername));
+        fragmentList.add(searchMultiMediaFragment);
 
         List<String> titleList = new ArrayList<>();
         titleList.add(getString(R.string.em_search_message));

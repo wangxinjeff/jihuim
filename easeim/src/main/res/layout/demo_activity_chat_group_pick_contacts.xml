@@ -14,7 +14,7 @@
         app:titleBarRightTitle="@string/finish"
         app:titleBarRightVisible="true"
         app:titleBarDisplayHomeAsUpEnabled="true"
-        app:titleBarLeftImage="@drawable/icon_back"
+        app:titleBarLeftImage="@drawable/em_icon_back"
         app:titleBarTitleTextColor="?attr/normalTextColor"
         />
 
@@ -120,6 +120,6 @@
             android:layout_height="1dp"
             android:layout_below="@+id/rb_group"
             android:layout_marginTop="@dimen/em_margin_15"
-            android:background="@drawable/demo_default_divider_list"/>
+            android:background="@drawable/em_default_divider_list"/>
     </RelativeLayout>
 </LinearLayout>

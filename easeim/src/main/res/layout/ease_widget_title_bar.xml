@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:scaleType="centerInside"
-            tools:src="@drawable/icon_back"/>
+            tools:src="@drawable/em_icon_back"/>
 
     </RelativeLayout>
 

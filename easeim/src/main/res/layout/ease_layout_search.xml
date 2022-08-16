@@ -50,7 +50,7 @@
                     android:id="@+id/search_empty"
                     android:layout_width="@dimen/em_margin_20"
                     android:layout_height="@dimen/em_margin_20"
-                    android:src="@drawable/icon_search_close"
+                    android:src="@drawable/em_icon_search_close"
                     android:layout_gravity="center_vertical"
                     />
 

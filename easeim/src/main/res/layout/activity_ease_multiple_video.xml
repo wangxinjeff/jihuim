@@ -20,7 +20,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="@dimen/em_margin_10"
             android:layout_marginBottom="@dimen/em_margin_10"
-            android:src="@drawable/call_mini" />
+            android:src="@drawable/em_call_mini" />
 
         <ImageView
             android:id="@+id/btn_invite"
@@ -31,7 +31,7 @@
             android:layout_marginBottom="@dimen/em_margin_10"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/call_invite" />
+            android:src="@drawable/em_call_invite" />
     </RelativeLayout>
 
 
@@ -72,7 +72,7 @@
                 android:layout_width="62dp"
                 android:layout_height="62dp"
                 android:layout_marginLeft="40dp"
-                android:background="@drawable/audio_unmute" />
+                android:background="@drawable/em_audio_unmute" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
@@ -89,7 +89,7 @@
                 android:layout_width="62dp"
                 android:layout_height="62dp"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/voice_on"/>
+                android:background="@drawable/em_voice_on"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
@@ -108,7 +108,7 @@
                 android:layout_marginRight="40dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/video_0ff"/>
+                android:background="@drawable/em_video_0ff"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
@@ -129,7 +129,7 @@
             android:layout_height="62dp"
             android:layout_marginTop="120dp"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/audio_call_end"
+            android:background="@drawable/em_audio_call_end"
             android:scaleType="fitCenter" />
         <TextView
             android:id="@+id/tv_hangup"
@@ -152,7 +152,7 @@
             android:layout_marginTop="120dp"
             android:layout_marginRight="40dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/call_switch" />
+            android:background="@drawable/em_call_switch" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="20dp"

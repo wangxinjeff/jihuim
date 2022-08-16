@@ -256,11 +256,7 @@ public class EaseChatMessageListLayout extends RelativeLayout implements IChatMe
         }else if(loadDataType == LoadDataType.HISTORY) {
             presenter.loadMoreLocalHistoryMessages(msgId, pageSize, null);
         }else {
-            if(conversation.getAllMsgCount() <= conversation.getAllMessages().size()){
-                presenter.loadServerMessages(pageSize);
-            } else {
-                presenter.loadLocalMessages(pageSize);
-            }
+            presenter.loadLocalMessages(pageSize);
         }
     }
 
@@ -274,11 +270,7 @@ public class EaseChatMessageListLayout extends RelativeLayout implements IChatMe
         }else if(loadDataType == LoadDataType.HISTORY) {
             presenter.loadMoreLocalHistoryMessages(msgId, pageSize, EMConversation.EMSearchDirection.UP);
         }else {
-            if(conversation.getAllMsgCount() > conversation.getAllMessages().size()){
-                presenter.loadMoreLocalMessages(msgId, pageSize);
-            } else {
-                presenter.loadMoreServerMessages(msgId, pageSize);
-            }
+            presenter.loadMoreLocalMessages(msgId, pageSize);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.hyphenate.easeui.modules.chat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.support.annotation.Nullable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
@@ -52,6 +54,7 @@ import java.util.List;
 import com.hyphenate.mediapicker.SmartMediaPicker;
 import com.hyphenate.mediapicker.config.Constant;
 import com.hyphenate.mediapicker.config.MediaPickerEnum;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -342,7 +345,17 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
      * @param requestCode
      */
     protected void startMapLocation(int requestCode) {
-        EaseBaiduMapActivity.actionStartForResult(this, requestCode);
+        RxPermissions rxPermissions = new RxPermissions(getActivity());
+        rxPermissions.request(
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.ACCESS_FINE_LOCATION
+        ).subscribe(granted -> {
+            if(granted){
+                EaseBaiduMapActivity.actionStartForResult(this, requestCode);
+            }else{
+                Toast.makeText(getActivity(), "请确认开启定位权限", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**

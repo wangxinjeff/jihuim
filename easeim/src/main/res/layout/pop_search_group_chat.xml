@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/popup_win_bg"
+    android:background="@drawable/em_popup_win_bg"
     android:paddingTop="4dp"
     android:paddingBottom="4dp"
     android:paddingStart="1dp"
@@ -17,7 +17,7 @@
         android:text="@string/group_name"
         android:gravity="center"
         android:textColor="?attr/normalTextColor"
-        android:background="@drawable/pop_item_selector"
+        android:background="@drawable/em_pop_item_selector"
         />
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/item2"
@@ -26,7 +26,7 @@
         android:text="@string/em_order_id"
         android:gravity="center"
         android:textColor="?attr/normalTextColor"
-        android:background="@drawable/pop_item_selector"
+        android:background="@drawable/em_pop_item_selector"
         />
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/item3"
@@ -35,7 +35,7 @@
         android:text="@string/em_phone_number"
         android:gravity="center"
         android:textColor="?attr/normalTextColor"
-        android:background="@drawable/pop_item_selector"
+        android:background="@drawable/em_pop_item_selector"
         />
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/item4"
@@ -44,7 +44,7 @@
         android:text="@string/em_win_code"
         android:gravity="center"
         android:textColor="?attr/normalTextColor"
-        android:background="@drawable/pop_item_selector"
+        android:background="@drawable/em_pop_item_selector"
         />
 
 </LinearLayout>

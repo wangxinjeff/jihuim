@@ -20,14 +20,14 @@
             android:id="@+id/icon_back"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:src="@drawable/icon_back_admin"
+            android:src="@drawable/em_icon_back_admin"
             />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/search_group_chat_bar"
+            android:background="@drawable/em_search_group_chat_bar"
             android:gravity="center_vertical"
             >
             
@@ -43,7 +43,7 @@
             <android.support.v7.widget.AppCompatImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:src="@drawable/icon_down"
+                android:src="@drawable/em_icon_down"
                 />
             <View
                 android:layout_width="0.5dp"

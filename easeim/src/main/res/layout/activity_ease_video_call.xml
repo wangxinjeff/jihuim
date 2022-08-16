@@ -70,7 +70,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/call_bg_ring"/>
+        android:background="@drawable/em_call_bg_ring"/>
 
 
     <com.hyphenate.easecallkit.widget.EaseImageView
@@ -152,7 +152,7 @@
         app:layout_constraintRight_toLeftOf="@id/btn_hangup_call"
         android:layout_marginBottom="40dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/call_mute_normal"
+        android:src="@drawable/em_call_mute_normal"
         />
 
     <TextView
@@ -207,7 +207,7 @@
             android:layout_width="18.5dp"
             android:layout_height="16dp"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/call_switch"/>
+            android:background="@drawable/em_call_switch"/>
         <TextView
             android:layout_width="33dp"
             android:layout_height="15dp"
@@ -232,7 +232,7 @@
             android:layout_width="18.5dp"
             android:layout_height="16dp"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/call_switch"/>
+            android:background="@drawable/em_call_switch"/>
         <TextView
             android:layout_width="33dp"
             android:layout_height="15dp"
@@ -252,7 +252,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="40dp"
-        android:background="@drawable/call_end"/>
+        android:background="@drawable/em_call_end"/>
 
     <TextView
         android:id="@+id/tv_hangup"
@@ -311,7 +311,7 @@
         android:layout_height="65dp"
         android:layout_marginLeft="37dp"
         android:layout_marginBottom="40dp"
-        android:background="@drawable/call_end"
+        android:background="@drawable/em_call_end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -336,7 +336,7 @@
         android:layout_height="65dp"
         android:layout_marginLeft="37dp"
         android:layout_marginBottom="40dp"
-        android:background="@drawable/call_voice_transe"
+        android:background="@drawable/em_call_voice_transe"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
@@ -362,7 +362,7 @@
         android:layout_height="65dp"
         android:layout_marginRight="37dp"
         android:layout_marginBottom="40dp"
-        android:background="@drawable/call_switch"
+        android:background="@drawable/em_call_switch"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/btn_hangup_call"
         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -386,7 +386,7 @@
         android:layout_height="65dp"
         android:layout_marginRight="37dp"
         android:layout_marginEnd="37dp"
-        android:background="@drawable/call_answer"
+        android:background="@drawable/em_call_answer"
         app:layout_constraintTop_toTopOf="@id/btn_refuse_call"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/btn_refuse_call"/>
@@ -414,7 +414,7 @@
         android:layout_marginLeft="@dimen/em_margin_15"
         android:layout_marginStart="@dimen/em_margin_15"
         android:layout_marginEnd="4dp"
-        android:src="@drawable/demo_float_icon" />
+        android:src="@drawable/em_float_icon" />
 
     <TextView
         android:layout_width="wrap_content"

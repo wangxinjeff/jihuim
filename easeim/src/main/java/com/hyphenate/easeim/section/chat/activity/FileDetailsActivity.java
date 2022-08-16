@@ -62,7 +62,7 @@ public class FileDetailsActivity extends BaseInitActivity implements EaseTitleBa
         super.initView(savedInstanceState);
         titleBar = findViewById(R.id.title_bar);
         if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.icon_back_admin);
+            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
         }
         fileTypeImg = findViewById(R.id.file_type);
         fileNameView = findViewById(R.id.file_name);
@@ -82,21 +82,21 @@ public class FileDetailsActivity extends BaseInitActivity implements EaseTitleBa
             if(fileName.contains(".jpg") || fileName.contains(".JPG")
                     || fileName.contains(".png") || fileName.contains(".PNG")
                     || fileName.contains(".jpeg") || fileName.contains(".JPEG")){
-                fileTypeImg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.icon_file_img));
+                fileTypeImg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.em_icon_file_img));
             } else if (fileName.contains(".doc")){
-                fileTypeImg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.icon_file_doc));
+                fileTypeImg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.em_icon_file_doc));
             } else if (fileName.contains(".exel") || fileName.contains(".xlsx")){
-                fileTypeImg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.icon_file_exel));
+                fileTypeImg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.em_icon_file_exel));
             } else if (fileName.contains(".pdf")){
-                fileTypeImg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.icon_file_pdf));
+                fileTypeImg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.em_icon_file_pdf));
             } else if (fileName.contains(".txt")){
-                fileTypeImg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.icon_file_text));
+                fileTypeImg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.em_icon_file_text));
             } else if (fileName.contains(".docx")){
-                fileTypeImg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.icon_file_docx));
+                fileTypeImg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.em_icon_file_docx));
             } else if (fileName.contains(".ppt")){
-                fileTypeImg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.icon_file_ppt));
+                fileTypeImg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.em_icon_file_ppt));
             } else {
-                fileTypeImg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.icon_file_other));
+                fileTypeImg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.em_icon_file_other));
             }
 
             fileSizeView.setText(TextFormater.getDataSize(fileMessageBody.getFileSize()));

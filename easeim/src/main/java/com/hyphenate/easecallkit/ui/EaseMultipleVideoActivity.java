@@ -40,7 +40,6 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.constants.EaseConstant;
@@ -719,13 +718,13 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
         localMemberView.setAudioOff(isMute);
         mRtcEngine.muteLocalAudioStream(isMute);
         isMuteState = isMute;
-        micSwitch.setBackground(isMute ? getResources().getDrawable(R.drawable.audio_mute) : getResources().getDrawable(R.drawable.audio_unmute));
+        micSwitch.setBackground(isMute ? getResources().getDrawable(R.drawable.em_audio_mute) : getResources().getDrawable(R.drawable.em_audio_unmute));
     }
 
     private void changeSpeakerState(boolean isActive) {
         localMemberView.setSpeakActivated(isActive);
         speakerSwitch.setActivated(isActive);
-        speakerSwitch.setBackground(isActive ? getResources().getDrawable(R.drawable.voice_on) : getResources().getDrawable(R.drawable.voice_off));
+        speakerSwitch.setBackground(isActive ? getResources().getDrawable(R.drawable.em_voice_on) : getResources().getDrawable(R.drawable.em_voice_off));
         if(isActive) {
             openSpeakerOn();
         }else {
@@ -737,7 +736,7 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
         localMemberView.setVideoOff(videoOff);
         mRtcEngine.muteLocalVideoStream(videoOff);
         isVideoMute = videoOff;
-        cameraSwitch.setBackground(videoOff ? getResources().getDrawable(R.drawable.video_0ff) : getResources().getDrawable(R.drawable.video_on));
+        cameraSwitch.setBackground(videoOff ? getResources().getDrawable(R.drawable.em_video_0ff) : getResources().getDrawable(R.drawable.em_video_on));
     }
 
     private void changeCameraDirect(boolean isFront) {

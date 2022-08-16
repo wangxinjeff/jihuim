@@ -1,7 +1,6 @@
 package com.hyphenate.easeim.section.group.activity;
 
 import android.app.Activity;
-import android.arch.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +19,6 @@ import com.google.android.flexbox.JustifyContent;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.utils.ToastUtils;
@@ -34,7 +32,6 @@ import com.hyphenate.easeui.widget.EaseTitleBar;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v4.content.ContextCompat;
@@ -96,7 +93,7 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
         super.initView(savedInstanceState);
         titleBar = findViewById(R.id.title_bar);
         if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.icon_back_admin);
+            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
         }
 
         rvList = findViewById(R.id.rl_user_list);

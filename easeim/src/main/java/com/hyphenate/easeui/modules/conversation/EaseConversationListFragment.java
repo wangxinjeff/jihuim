@@ -1,6 +1,5 @@
 package com.hyphenate.easeui.modules.conversation;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -26,17 +25,12 @@ import com.hyphenate.util.EMLog;
 
 import java.util.List;
 
-@SuppressLint("ValidFragment")
 public class EaseConversationListFragment extends EaseBaseFragment implements OnItemClickListener, OnPopupMenuItemClickListener, OnPopupMenuPreShowListener, SwipeRefreshLayout.OnRefreshListener, OnConversationLoadListener, OnConversationChangeListener {
     private static final String TAG = EaseConversationListFragment.class.getSimpleName();
     public LinearLayout llRoot;
     public EaseConversationListLayout conversationListLayout;
     public SwipeRefreshLayout srlRefresh;
-    protected int conversationsType = EaseConstant.CON_TYPE_EXCLUSIVE;
-
-    public EaseConversationListFragment(int conversationsType) {
-        this.conversationsType = conversationsType;
-    }
+    protected int conversationsType = EaseConstant.CON_TYPE_ADMIN;
 
     @Nullable
     @Override
