@@ -64,7 +64,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.2.0'
     // resolve 64k limit
     implementation 'com.android.support:multidex:1.0.3'
-    api files('libs/hyphenatechat_3.9.4.jar')
+    api files('libs/hyphenatechat_3.9.4.1.jar')
     api files('libs/mi_push_v3.6.12.jar')
     implementation files('libs/pinyin4j-2.5.0.jar')
     api files('libs/vivo_push_v3.0.0.4_484.jar')
