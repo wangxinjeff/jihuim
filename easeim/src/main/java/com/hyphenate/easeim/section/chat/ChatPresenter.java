@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.StringRes;
 
+import com.hyphenate.EMCallBack;
 import com.hyphenate.EMChatRoomChangeListener;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMContactListener;
@@ -27,8 +28,10 @@ import com.hyphenate.chat.EMMucSharedFile;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.chat.EMUserInfo;
 import com.hyphenate.chat.adapter.EMAChatRoomManagerListener;
+import com.hyphenate.easecallkit.EaseCallKit;
 import com.hyphenate.easecallkit.utils.EaseMsgUtils;
 import com.hyphenate.easeim.EaseIMHelper;
+import com.hyphenate.easeim.common.repositories.EMClientRepository;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.common.widget.InAppNotification;
 import com.hyphenate.easeim.section.conversation.ConversationListActivity;
@@ -45,6 +48,7 @@ import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.repositories.EMPushManagerRepository;
 import com.hyphenate.easeim.section.chat.activity.ChatActivity;
 import com.hyphenate.easeim.section.group.GroupHelper;
+import com.hyphenate.easeui.EaseIM;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.interfaces.EaseGroupListener;
@@ -56,6 +60,7 @@ import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -266,6 +271,7 @@ public class ChatPresenter extends EaseChatPresenter {
         super.onCmdMessageReceived(messages);
         EaseEvent event = EaseEvent.create(EaseConstant.MESSAGE_CHANGE_CMD_RECEIVE, EaseEvent.TYPE.MESSAGE);
 
+        EaseCallKit.getInstance().onCmdMessageReceived(messages);
         for(EMMessage message : messages){
             if(message.getChatType() == EMMessage.ChatType.GroupChat){
                 String callState = message.getStringAttribute(EaseConstant.MESSAGE_ATTR_CALL_STATE, "");
@@ -276,6 +282,7 @@ public class ChatPresenter extends EaseChatPresenter {
                     textMessage.setAttribute(EaseConstant.MESSAGE_ATTR_CALL_USER, message.getFrom());
                     textMessage.setMsgTime(message.getMsgTime());
                     textMessage.setStatus(EMMessage.Status.SUCCESS);
+                    textMessage.setMsgId(message.getMsgId());
                     JSONObject userInfo = null;
                     try{
                         userInfo = message.getJSONObjectAttribute(EaseConstant.MESSAGE_ATTR_USER_INFO);
@@ -291,12 +298,29 @@ public class ChatPresenter extends EaseChatPresenter {
                 String eventType = message.getStringAttribute(EaseConstant.MESSAGE_ATTR_EVENT_TYPE, "");
                 if(!TextUtils.isEmpty(eventType)){
                     if(TextUtils.equals(EaseConstant.CREATE_GROUP_PROMPT, eventType)){
+                        if(message.getBooleanAttribute("action", false)){
+                            try {
+                                String json = EaseIMHelper.getInstance().getModel().getServiceGroup();
+                                JSONObject jsonObject;
+                                if(TextUtils.isEmpty(json)){
+                                    jsonObject = new JSONObject();
+                                } else {
+                                    jsonObject = new JSONObject(json);
+                                }
+                                jsonObject.put(message.getTo(), message.getStringAttribute(EaseConstant.GROUP_NAME, message.getTo()));
+                                EaseIMHelper.getInstance().getModel().setServiceGroup(jsonObject.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
                         EMMessage promptMessage = EMMessage.createTextSendMessage("groupEvent", message.getTo());
                         promptMessage.setChatType(EMMessage.ChatType.GroupChat);
                         promptMessage.setAttribute(EaseConstant.CREATE_GROUP_PROMPT, true);
                         promptMessage.setAttribute(EaseConstant.GROUP_NAME, message.getStringAttribute(EaseConstant.GROUP_NAME, message.getTo()));
                         promptMessage.setStatus(EMMessage.Status.SUCCESS);
                         promptMessage.setMsgTime(message.getMsgTime());
+                        promptMessage.setMsgId(message.getMsgId());
                         EMClient.getInstance().chatManager().saveMessage(promptMessage);
                     } else if(TextUtils.equals(EaseConstant.JOIN_GROUP_PROMPT, eventType)){
                         EMMessage promptMessage = EMMessage.createTextSendMessage("groupEvent", message.getTo());
@@ -305,6 +329,7 @@ public class ChatPresenter extends EaseChatPresenter {
                         promptMessage.setAttribute(EaseConstant.USER_NAME, message.getStringAttribute(EaseConstant.USER_NAME, ""));
                         promptMessage.setStatus(EMMessage.Status.SUCCESS);
                         promptMessage.setMsgTime(message.getMsgTime());
+                        promptMessage.setMsgId(message.getMsgId());
                         EMClient.getInstance().chatManager().saveMessage(promptMessage);
                     }
                 }
@@ -441,6 +466,17 @@ public class ChatPresenter extends EaseChatPresenter {
                 //首先获取push配置，否则获取push配置项会为空
                 new EMPushManagerRepository().fetchPushConfigsFromServer();
                 isPushConfigsWithServer = true;
+                new EMClientRepository().getServiceGroups(new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+
+                    }
+                });
             }
 
             LiveDataBus.get().with(EaseConstant.ACCOUNT_CHANGE).postValue(new EaseEvent(EaseConstant.ACCOUNT_CONNECT, EaseEvent.TYPE.ACCOUNT));

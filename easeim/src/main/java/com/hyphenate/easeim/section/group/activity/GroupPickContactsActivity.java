@@ -77,7 +77,7 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_activity_chat_group_pick_contacts;
+        return R.layout.em_activity_chat_group_pick_contacts;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
         super.initView(savedInstanceState);
         titleBar = findViewById(R.id.title_bar);
         if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.icon_back_admin);
+            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
         }
 
         rvList = findViewById(R.id.rl_user_list);

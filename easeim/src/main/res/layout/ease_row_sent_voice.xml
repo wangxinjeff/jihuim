@@ -48,7 +48,7 @@
 	            android:paddingEnd="5dp"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:src="@drawable/ease_chatto_voice_playing" />
+	            android:src="@drawable/em_chatto_voice_playing" />
 
             <TextView
                 android:id="@+id/tv_length"
@@ -74,7 +74,7 @@
             android:layout_alignTop="@id/bubble"
             android:layout_toLeftOf="@id/bubble"
             android:visibility="gone"
-            android:src="@drawable/ease_chat_voice_unread_icon" />
+            android:src="@drawable/em_chat_voice_unread_icon" />
 
         <ImageView
             android:id="@+id/msg_status"
@@ -120,7 +120,7 @@
             android:visibility="invisible"
             android:id="@+id/progress_bar"
             style="?android:attr/progressBarStyle"
-            android:indeterminateDrawable="@drawable/ease_chat_loading_progress_bar"
+            android:indeterminateDrawable="@drawable/em_chat_loading_progress_bar"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_toLeftOf="@id/bubble" />

@@ -38,7 +38,7 @@ public class SearchMultiMediaFragment extends BaseInitFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_multimedia;
+        return R.layout.em_fragment_multimedia;
     }
 
     @Override

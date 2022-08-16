@@ -6,7 +6,7 @@
     android:minHeight="72dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list_itease_layout"
-    android:background="@drawable/recycler_item_selector"
+    android:background="@drawable/em_recycler_item_selector"
     android:longClickable="true">
 
     <com.hyphenate.easeui.widget.EaseImageView
@@ -19,7 +19,7 @@
         android:layout_marginStart="10dp"
         android:scaleType="fitXY"
         app:ease_shape_type="round"
-        android:src="@drawable/ease_default_avatar" />
+        android:src="@drawable/em_default_avatar" />
 
     <TextView
         android:id="@+id/unread_msg_number"
@@ -89,7 +89,7 @@
         app:layout_constraintTop_toTopOf="@id/message"
         app:layout_constraintBottom_toBottomOf="@id/message"
         android:layout_marginStart="11dp"
-        android:src="@drawable/ease_msg_state_fail_resend"
+        android:src="@drawable/em_msg_state_fail_resend"
         android:visibility="gone" />
 
     <TextView
@@ -156,7 +156,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/ease_unread_count_bg"
+            android:background="@drawable/em_unread_count_bg"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="12sp"

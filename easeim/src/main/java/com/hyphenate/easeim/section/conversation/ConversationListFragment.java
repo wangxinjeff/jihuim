@@ -114,12 +114,13 @@ public class ConversationListFragment extends EaseConversationListFragment{
 
     @Override
     public void initData() {
+        super.initData();
         //需要两个条件，判断是否触发从服务器拉取会话列表的时机，一是第一次安装，二则本地数据库没有会话列表数据
-        if(EaseIMHelper.getInstance().isFirstInstall() && EMClient.getInstance().chatManager().getAllConversations().isEmpty()) {
-            mViewModel.fetchConversationsFromServer();
-        }else {
-            super.initData();
-        }
+//        if(EaseIMHelper.getInstance().isFirstInstall()) {
+//            mViewModel.fetchConversationsFromServer();
+//        }else {
+//            super.initData();
+//        }
     }
 
     private void initViewModel() {

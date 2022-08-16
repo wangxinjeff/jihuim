@@ -15,7 +15,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:titleBarTitleTextColor="?attr/titleTextColor"
-        app:titleBarLeftImage="@drawable/icon_back"
+        app:titleBarLeftImage="@drawable/em_icon_back"
         app:titleBarTitle="主页"
         />
 
@@ -35,7 +35,7 @@
         android:id="@+id/chat_unread"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/demo_unread_count_bg"
+        android:background="@drawable/em_demo_unread_count_bg"
         app:layout_constraintTop_toTopOf="@+id/user_chat"
         app:layout_constraintStart_toEndOf="@+id/user_chat"
         />
@@ -56,7 +56,7 @@
         android:id="@+id/group_unread"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/demo_unread_count_bg"
+        android:background="@drawable/em_demo_unread_count_bg"
         app:layout_constraintTop_toTopOf="@+id/group_chat"
         app:layout_constraintStart_toEndOf="@+id/group_chat"
         />

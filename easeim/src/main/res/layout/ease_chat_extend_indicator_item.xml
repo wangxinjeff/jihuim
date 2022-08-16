@@ -4,4 +4,4 @@
     android:layout_height="6dp"
     android:button="@null"
     android:clickable="false"
-    android:background="@drawable/ease_selector_chat_menu_extend_indicator"/>
+    android:background="@drawable/em_selector_chat_menu_extend_indicator"/>

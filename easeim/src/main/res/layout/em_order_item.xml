@@ -39,7 +39,7 @@
             app:layout_constraintTop_toBottomOf="@+id/order_title"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/demo_default_divider_list"
+            android:background="@drawable/em_default_divider_list"
             android:layout_marginTop="14dp"
             />
 
@@ -81,7 +81,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:textSize="@dimen/em_size_normal"
             android:textColor="@color/white"
-            android:background="@drawable/agree_btn_bg"
+            android:background="@drawable/em_agree_btn_bg"
             android:text="@string/em_send_to_group"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"

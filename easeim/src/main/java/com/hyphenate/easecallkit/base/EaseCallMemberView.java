@@ -4,7 +4,6 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -20,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.RequestOptions;
-import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 
 import com.hyphenate.easecallkit.utils.EaseCallKitUtils;
@@ -75,7 +73,7 @@ public class EaseCallMemberView extends RelativeLayout {
     public EaseCallMemberView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        LayoutInflater.from(context).inflate(R.layout.avtivity_call_member, this);
+        LayoutInflater.from(context).inflate(R.layout.em_avtivity_call_member, this);
         init();
     }
 
@@ -115,22 +113,22 @@ public class EaseCallMemberView extends RelativeLayout {
     }
 
     public void updateUserInfo(){
-//        if(userInfo != null){
-//            EaseUserProfileProvider userProvider = EaseIM.getInstance().getUserProvider();
-//            if(userProvider != null) {
-//                EaseUser user = userProvider.getUser(userInfo.getUserName());
-//                if(user != null) {
-//                    if(!TextUtils.isEmpty(user.getNickname())) {
-//                        nameView.setText(user.getNickname());
-//                    }
-//                    if(!TextUtils.isEmpty(user.getAvatar())) {
-//                        Glide.with(context).load(user.getAvatar()).apply(RequestOptions.bitmapTransform(new CircleCrop())).error(R.drawable.call_memberview_background).into(avatarView);
-//                    }
-//                }
-//            }
-//        }
+        if(userInfo != null){
+            EaseUserProfileProvider userProvider = EaseIM.getInstance().getUserProvider();
+            if(userProvider != null) {
+                EaseUser user = userProvider.getUser(userInfo.getUserName());
+                if(user != null) {
+                    if(!TextUtils.isEmpty(user.getNickname())) {
+                        nameView.setText(user.getNickname());
+                    }
+                    if(!TextUtils.isEmpty(user.getAvatar())) {
+                        Glide.with(context).load(user.getAvatar()).error(R.drawable.em_call_memberview_background).into(avatarView);
+                    }
+                }
+            }
+        }
 
-        EaseUserUtils.setUserAvatar(context, userInfo.getUserName(), avatarView);
+//        EaseUserUtils.setUserAvatar(context, userInfo.getUserName(), avatarView);
         EaseUserUtils.setUserNick(userInfo.getUserName(), nameView);
     }
 
@@ -186,34 +184,34 @@ public class EaseCallMemberView extends RelativeLayout {
                   value =14;
               }
               if(value == 1){
-                  talkingView.setImageResource(R.drawable.ease_mic_level_01);
+                  talkingView.setImageResource(R.drawable.em_mic_level_01);
               }else if(value == 2){
-                  talkingView.setImageResource(R.drawable.ease_mic_level_02);
+                  talkingView.setImageResource(R.drawable.em_mic_level_02);
               }else if(value == 3){
-                  talkingView.setImageResource(R.drawable.ease_mic_level_03);
+                  talkingView.setImageResource(R.drawable.em_mic_level_03);
               }else if(value ==4){
-                  talkingView.setImageResource(R.drawable.ease_mic_level_04);
+                  talkingView.setImageResource(R.drawable.em_mic_level_04);
               }else if(value ==5){
-                  talkingView.setImageResource(R.drawable.ease_mic_level_05);
+                  talkingView.setImageResource(R.drawable.em_mic_level_05);
               }else if(value ==6){
-                  talkingView.setImageResource(R.drawable.ease_mic_level_06);
+                  talkingView.setImageResource(R.drawable.em_mic_level_06);
               }else if(value ==7){
-                  talkingView.setImageResource(R.drawable.ease_mic_level_07);
+                  talkingView.setImageResource(R.drawable.em_mic_level_07);
               }else if(value ==8){
-                  talkingView.setImageResource(R.drawable.ease_mic_level_08);
+                  talkingView.setImageResource(R.drawable.em_mic_level_08);
               }else if(value ==9){
-                  talkingView.setImageResource(R.drawable.ease_mic_level_09);
+                  talkingView.setImageResource(R.drawable.em_mic_level_09);
               }else if(value ==10){
-                  talkingView.setImageResource(R.drawable.ease_mic_level_10);
+                  talkingView.setImageResource(R.drawable.em_mic_level_10);
               }else if(value ==11){
-                  talkingView.setImageResource(R.drawable.ease_mic_level_11);
+                  talkingView.setImageResource(R.drawable.em_mic_level_11);
               }else if(value ==12){
-                  talkingView.setImageResource(R.drawable.ease_mic_level_12);
+                  talkingView.setImageResource(R.drawable.em_mic_level_12);
               }else if(value ==13){
-                  talkingView.setImageResource(R.drawable.ease_mic_level_13);
+                  talkingView.setImageResource(R.drawable.em_mic_level_13);
               }
         }else{
-            talkingView.setImageResource(R.drawable.ease_mic_level_on);
+            talkingView.setImageResource(R.drawable.em_mic_level_on);
         }
     }
 
@@ -254,7 +252,7 @@ public class EaseCallMemberView extends RelativeLayout {
     public void setUsername(String username) {
         headUrl = EaseCallKitUtils.getUserHeadImage(username);
         if(headUrl != null){
-            avatarView.setImageResource(R.drawable.call_memberview_background);
+            avatarView.setImageResource(R.drawable.em_call_memberview_background);
         }else{
             loadHeadImage();
         }

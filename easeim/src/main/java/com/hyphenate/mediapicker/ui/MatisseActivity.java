@@ -31,13 +31,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
-import com.hyphenate.easeim.section.base.BaseInitFragment;
 import com.hyphenate.mediapicker.internal.entity.Album;
 import com.hyphenate.mediapicker.internal.entity.Item;
 import com.hyphenate.mediapicker.internal.entity.SelectionSpec;
@@ -97,7 +94,7 @@ public class MatisseActivity extends BaseInitActivity implements
     protected int getLayoutId() {
         mSpec = SelectionSpec.getInstance();
         setTheme(mSpec.themeId);
-        return R.layout.activity_matisse;
+        return R.layout.em_activity_matisse;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.hyphenate.easeim.section.chat.fragment;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -11,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -31,7 +33,9 @@ import com.hyphenate.easeui.modules.chat.interfaces.IChatExtendMenu;
 import com.hyphenate.easeui.modules.chat.interfaces.OnRecallMessageResultListener;
 import com.hyphenate.easeui.modules.menu.EasePopupWindowHelper;
 import com.hyphenate.easeui.modules.menu.MenuItemBean;
+import com.hyphenate.easeui.ui.EaseBaiduMapActivity;
 import com.hyphenate.easeui.ui.EaseDingAckUserListActivity;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,18 +61,18 @@ public class ChatFragment extends EaseChatFragment implements OnRecallMessageRes
         IChatExtendMenu chatExtendMenu = chatLayout.getChatInputMenu().getChatExtendMenu();
         chatExtendMenu.clear();
         if(EaseIMHelper.getInstance().isAdmin()){
-            chatExtendMenu.registerMenuItem(R.string.attach_take_pic, R.drawable.icon_chat_camera, R.id.extend_item_take_picture);
-            chatExtendMenu.registerMenuItem(R.string.attach_picture, R.drawable.icon_chat_image, R.id.extend_item_picture);
-            chatExtendMenu.registerMenuItem(R.string.attach_location, R.drawable.icon_chat_location, R.id.extend_item_location);
+            chatExtendMenu.registerMenuItem(R.string.attach_take_pic, R.drawable.em_icon_chat_camera, R.id.extend_item_take_picture);
+            chatExtendMenu.registerMenuItem(R.string.attach_picture, R.drawable.em_icon_chat_image, R.id.extend_item_picture);
+            chatExtendMenu.registerMenuItem(R.string.attach_location, R.drawable.em_icon_chat_location, R.id.extend_item_location);
 
             if (chatType == EaseConstant.CHATTYPE_GROUP) { // 音视频
-                chatExtendMenu.registerMenuItem(R.string.attach_media_call, R.drawable.icon_chat_video_call, R.id.extend_item_call);
-                chatExtendMenu.registerMenuItem(R.string.attach_file, R.drawable.icon_chat_file, R.id.extend_item_file);
+                chatExtendMenu.registerMenuItem(R.string.attach_media_call, R.drawable.em_icon_chat_video_call, R.id.extend_item_call);
+                chatExtendMenu.registerMenuItem(R.string.attach_file, R.drawable.em_icon_chat_file, R.id.extend_item_file);
             }
         } else {
-            chatExtendMenu.registerMenuItem(R.string.attach_take_pic, R.drawable.ease_chat_takepic_pressed, R.id.extend_item_take_picture);
-            chatExtendMenu.registerMenuItem(R.string.attach_picture, R.drawable.ease_chat_image_pressed, R.id.extend_item_picture);
-            chatExtendMenu.registerMenuItem(R.string.attach_location, R.drawable.ease_chat_location_pressed, R.id.extend_item_location);
+            chatExtendMenu.registerMenuItem(R.string.attach_take_pic, R.drawable.em_chat_takepic_pressed, R.id.extend_item_take_picture);
+            chatExtendMenu.registerMenuItem(R.string.attach_picture, R.drawable.em_chat_image_pressed, R.id.extend_item_picture);
+            chatExtendMenu.registerMenuItem(R.string.attach_location, R.drawable.em_chat_location_pressed, R.id.extend_item_location);
 
             if (chatType == EaseConstant.CHATTYPE_GROUP) { // 音视频
                 chatExtendMenu.registerMenuItem(R.string.attach_media_call, R.drawable.em_chat_video_call_pressed, R.id.extend_item_call);
@@ -160,9 +164,19 @@ public class ChatFragment extends EaseChatFragment implements OnRecallMessageRes
         //                showSelectDialog();
         //                break;
         if (itemId == R.id.extend_item_call) {
-            Intent intent = new Intent(getContext(), ConferenceInviteActivity.class).addFlags(FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(EaseConstant.EXTRA_CONFERENCE_GROUP_ID, conversationId);
-            getContext().startActivity(intent);
+            RxPermissions rxPermissions = new RxPermissions(getActivity());
+            rxPermissions.request(
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.CAMERA
+            ).subscribe(granted -> {
+                if(granted){
+                    Intent intent = new Intent(getContext(), ConferenceInviteActivity.class).addFlags(FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra(EaseConstant.EXTRA_CONFERENCE_GROUP_ID, conversationId);
+                    getContext().startActivity(intent);
+                }else{
+                    Toast.makeText(getActivity(), "请确认开启权限", Toast.LENGTH_SHORT).show();
+                }
+            });
         } else if (itemId == R.id.extend_item_order) {
             OrderListActivity.actionStart(this, REQUEST_CODE_ORDER);
         }
@@ -301,7 +315,7 @@ public class ChatFragment extends EaseChatFragment implements OnRecallMessageRes
     }
 
     private void showProgressBar() {
-        View view = View.inflate(mContext, R.layout.demo_layout_progress_recall, null);
+        View view = View.inflate(mContext, R.layout.em_layout_progress_recall, null);
         dialog = new Dialog(mContext,R.style.dialog_recall);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setContentView(view, layoutParams);

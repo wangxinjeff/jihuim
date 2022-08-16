@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -29,7 +28,6 @@ import com.hyphenate.easeim.section.group.viewmodels.GroupDetailViewModel;
 import com.hyphenate.easeim.section.search.adapter.SearchGroupChatAdapter;
 import com.hyphenate.easeui.constants.EaseConstant;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchGroupChatActivity extends BaseInitActivity implements View.OnClickListener{
@@ -53,7 +51,7 @@ public class SearchGroupChatActivity extends BaseInitActivity implements View.On
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_search_group_chat;
+        return R.layout.em_activity_search_group_chat;
     }
 
     @Override
@@ -64,7 +62,7 @@ public class SearchGroupChatActivity extends BaseInitActivity implements View.On
         searchContent = findViewById(R.id.search_content);
         searchStart = findViewById(R.id.search_start);
 
-        popView = LayoutInflater.from(this).inflate(R.layout.pop_search_group_chat, null, false);
+        popView = LayoutInflater.from(this).inflate(R.layout.em_pop_search_group_chat, null, false);
         item1 = popView.findViewById(R.id.item1);
         item2 = popView.findViewById(R.id.item2);
         item3 = popView.findViewById(R.id.item3);

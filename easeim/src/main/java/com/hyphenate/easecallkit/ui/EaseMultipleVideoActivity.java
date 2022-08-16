@@ -39,9 +39,9 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
+import com.hyphenate.easeim.section.conference.ConferenceInviteActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.util.EMLog;
 
@@ -82,12 +82,15 @@ import com.hyphenate.easecallkit.utils.EaseCallAction;
 import com.hyphenate.easecallkit.utils.EaseCallKitUtils;
 import com.hyphenate.easecallkit.utils.EaseCallState;
 import com.hyphenate.easecallkit.utils.EaseMsgUtils;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.models.UserInfo;
 import io.agora.rtc.video.VideoCanvas;
 import io.agora.rtc.video.VideoEncoderConfiguration;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.hyphenate.easecallkit.utils.EaseMsgUtils.CALL_INVITE_EXT;
 import static com.hyphenate.easecallkit.utils.EaseMsgUtils.CALL_TIMER_CALL_TIME;
 import static com.hyphenate.easecallkit.utils.EaseMsgUtils.CALL_TIMER_TIMEOUT;
@@ -155,8 +158,7 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
     private static final int PERMISSION_REQ_ID = 22;
     private static final String[] REQUESTED_PERMISSIONS = {
             Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.CAMERA
     };
 
     private final Map<Integer, EaseCallMemberView> mUidsList = new HashMap<>();
@@ -516,7 +518,7 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.CustomerTheme);
-        setContentView(R.layout.activity_ease_multiple_video);
+        setContentView(R.layout.em_activity_ease_multiple_video);
         //初始化
         if(savedInstanceState == null){
             initParams(getIntent().getExtras());
@@ -531,8 +533,7 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
 
         //开启设备权限
         if (checkSelfPermission(REQUESTED_PERMISSIONS[0], PERMISSION_REQ_ID) &&
-                checkSelfPermission(REQUESTED_PERMISSIONS[1], PERMISSION_REQ_ID) &&
-                checkSelfPermission(REQUESTED_PERMISSIONS[2], PERMISSION_REQ_ID)) {
+                checkSelfPermission(REQUESTED_PERMISSIONS[1], PERMISSION_REQ_ID)) {
         }
         timehandler = new TimeHandler();
         timeUpdataTimer = new TimeHandler();
@@ -718,13 +719,13 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
         localMemberView.setAudioOff(isMute);
         mRtcEngine.muteLocalAudioStream(isMute);
         isMuteState = isMute;
-        micSwitch.setBackground(isMute ? getResources().getDrawable(R.drawable.audio_mute) : getResources().getDrawable(R.drawable.audio_unmute));
+        micSwitch.setBackground(isMute ? getResources().getDrawable(R.drawable.em_audio_mute) : getResources().getDrawable(R.drawable.em_audio_unmute));
     }
 
     private void changeSpeakerState(boolean isActive) {
         localMemberView.setSpeakActivated(isActive);
         speakerSwitch.setActivated(isActive);
-        speakerSwitch.setBackground(isActive ? getResources().getDrawable(R.drawable.voice_on) : getResources().getDrawable(R.drawable.voice_off));
+        speakerSwitch.setBackground(isActive ? getResources().getDrawable(R.drawable.em_voice_on) : getResources().getDrawable(R.drawable.em_voice_off));
         if(isActive) {
             openSpeakerOn();
         }else {
@@ -736,7 +737,7 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
         localMemberView.setVideoOff(videoOff);
         mRtcEngine.muteLocalVideoStream(videoOff);
         isVideoMute = videoOff;
-        cameraSwitch.setBackground(videoOff ? getResources().getDrawable(R.drawable.video_0ff) : getResources().getDrawable(R.drawable.video_on));
+        cameraSwitch.setBackground(videoOff ? getResources().getDrawable(R.drawable.em_video_0ff) : getResources().getDrawable(R.drawable.em_video_on));
     }
 
     private void changeCameraDirect(boolean isFront) {
@@ -1819,7 +1820,7 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
     public void exitChannelDisplay() {
         AlertDialog.Builder builder = new AlertDialog.Builder(EaseMultipleVideoActivity.this);
         final AlertDialog dialog = builder.create();
-        View dialogView = View.inflate(EaseMultipleVideoActivity.this, R.layout.activity_exit_channel, null);
+        View dialogView = View.inflate(EaseMultipleVideoActivity.this, R.layout.em_activity_exit_channel, null);
         dialog.setView(dialogView);
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

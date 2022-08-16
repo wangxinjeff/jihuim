@@ -21,7 +21,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="horizontal"
-                android:background="@drawable/ease_search_bg_shape"
+                android:background="@drawable/em_search_bg_shape"
                 android:paddingStart="@dimen/padding_search_bar"
                 android:paddingEnd="@dimen/padding_search_bar"
                 >
@@ -29,7 +29,7 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="@dimen/em_margin_20"
                     android:layout_height="@dimen/em_margin_20"
-                    android:src="@drawable/ease_search_icon"
+                    android:src="@drawable/em_search_icon"
                     android:layout_gravity="center_vertical"
                     />
 
@@ -50,7 +50,7 @@
                     android:id="@+id/search_empty"
                     android:layout_width="@dimen/em_margin_20"
                     android:layout_height="@dimen/em_margin_20"
-                    android:src="@drawable/icon_search_close"
+                    android:src="@drawable/em_icon_search_close"
                     android:layout_gravity="center_vertical"
                     />
 
@@ -85,7 +85,7 @@
             android:id="@+id/search_tv_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/ease_search_bg_shape"
+            android:background="@drawable/em_search_bg_shape"
             />
 
         <LinearLayout
@@ -99,7 +99,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/em_margin_20"
                 android:layout_height="@dimen/em_margin_20"
-                android:src="@drawable/ease_search_icon"
+                android:src="@drawable/em_search_icon"
                 android:layout_gravity="center_vertical"
                 />
 

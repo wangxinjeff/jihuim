@@ -52,7 +52,7 @@ public class PickAtUserActivity extends BaseInitActivity implements OnItemClickL
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_activity_chat_pick_at_user;
+        return R.layout.em_activity_chat_pick_at_user;
     }
 
     @Override
@@ -66,9 +66,9 @@ public class PickAtUserActivity extends BaseInitActivity implements OnItemClickL
         super.initView(savedInstanceState);
         mTitleBarPick = findViewById(R.id.title_bar_pick);
         if(EaseIMHelper.getInstance().isAdmin()){
-            mTitleBarPick.setLeftImageResource(R.drawable.icon_back_admin);
+            mTitleBarPick.setLeftImageResource(R.drawable.em_icon_back_admin);
         } else {
-            mTitleBarPick.setLeftImageResource(R.drawable.icon_back);
+            mTitleBarPick.setLeftImageResource(R.drawable.em_icon_back);
         }
         mRvPickUserList = findViewById(R.id.rv_pick_user_list);
 
@@ -167,7 +167,7 @@ public class PickAtUserActivity extends BaseInitActivity implements OnItemClickL
         if( headerAdapter == null) {
             headerAdapter = new PickAllUserAdapter();
             EaseUser user = new EaseUser(getString(R.string.all_members));
-            user.setAvatar(R.drawable.ease_group_icon+"");
+            user.setAvatar(R.drawable.em_group_icon +"");
             List<EaseUser> users = new ArrayList<>();
             users.add(user);
             headerAdapter.setData(users);

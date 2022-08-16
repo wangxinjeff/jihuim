@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.snackbar.Snackbar;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
-import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
@@ -50,7 +49,7 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
         } else {
             setTheme(R.style.CustomerChatTheme);
         }
-        return R.layout.demo_activity_chat;
+        return R.layout.em_activity_chat;
     }
 
     @Override
@@ -66,7 +65,7 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
         super.initView(savedInstanceState);
         titleBarMessage = findViewById(R.id.title_bar_message);
         if(EaseIMHelper.getInstance().isAdmin()){
-            titleBarMessage.setLeftImageResource(R.drawable.icon_back_admin);
+            titleBarMessage.setLeftImageResource(R.drawable.em_icon_back_admin);
             titleBarMessage.setRightImageResource(R.drawable.em_icon_more_admin);
         }
         initChatFragment();

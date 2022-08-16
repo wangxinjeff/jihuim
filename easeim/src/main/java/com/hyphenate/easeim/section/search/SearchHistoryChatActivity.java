@@ -44,7 +44,7 @@ public class SearchHistoryChatActivity extends BaseInitActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_search_history;
+        return R.layout.em_activity_search_history;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class SearchHistoryChatActivity extends BaseInitActivity {
         super.initView(savedInstanceState);
         titleBar = findViewById(R.id.title_bar);
         if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.icon_back_admin);
+            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
         }
 
         tabLayout = findViewById(R.id.tab_layout);

@@ -74,7 +74,7 @@ public class EaseSearchTextView extends AppCompatTextView {
         Drawable left = existingAbs[0];
         Drawable right = existingAbs[2];
         if(left == null) {
-            left = ContextCompat.getDrawable(mContext, R.drawable.ease_search_icon);
+            left = ContextCompat.getDrawable(mContext, R.drawable.em_search_icon);
         }
         if(left != null && (mLeftWidth != 0 && mLeftHeight != 0)) {
             left.setBounds(0, 0, (int)mLeftWidth, (int)mLeftHeight);
@@ -91,7 +91,7 @@ public class EaseSearchTextView extends AppCompatTextView {
 
         Drawable background = getBackground();
         if(background == null) {
-            background = ContextCompat.getDrawable(mContext, R.drawable.ease_search_bg_shape);
+            background = ContextCompat.getDrawable(mContext, R.drawable.em_search_bg_shape);
             setBackground(background);
         }
 

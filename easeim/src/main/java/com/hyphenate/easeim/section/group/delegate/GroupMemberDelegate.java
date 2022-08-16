@@ -1,7 +1,6 @@
 package com.hyphenate.easeim.section.group.delegate;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,7 @@ public class GroupMemberDelegate extends EaseAdapterDelegate<EaseUser, GroupMemb
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, String tag) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.member_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.em_member_list_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -44,7 +43,7 @@ public class GroupMemberDelegate extends EaseAdapterDelegate<EaseUser, GroupMemb
                 item.setNickname(easeUser.getNickname());
             }
         }
-        Glide.with(holder.mContext).load(item.getAvatar()).apply(RequestOptions.bitmapTransform(new CircleCrop())).error(R.drawable.ease_default_avatar).into(holder.avatarView);
+        Glide.with(holder.mContext).load(item.getAvatar()).apply(RequestOptions.bitmapTransform(new CircleCrop())).error(R.drawable.em_default_avatar).into(holder.avatarView);
         holder.nickView.setText(item.getNickname());
     }
 

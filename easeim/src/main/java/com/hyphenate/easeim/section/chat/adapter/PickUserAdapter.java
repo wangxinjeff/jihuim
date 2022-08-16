@@ -10,10 +10,8 @@ import android.widget.TextView;
 
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeui.EaseIM;
 import com.hyphenate.easeui.adapter.EaseBaseRecyclerViewAdapter;
 import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.provider.EaseUserProfileProvider;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseImageView;
@@ -29,7 +27,7 @@ public class PickUserAdapter extends EaseBaseRecyclerViewAdapter<EaseUser> {
 
     @Override
     public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        return new PickUserViewHolder(LayoutInflater.from(mContext).inflate(R.layout.demo_widget_contact_item, parent, false));
+        return new PickUserViewHolder(LayoutInflater.from(mContext).inflate(R.layout.em_widget_contact_item, parent, false));
     }
 
     private class PickUserViewHolder extends ViewHolder<EaseUser> {

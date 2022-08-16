@@ -42,7 +42,7 @@ public class GroupMemberTypeActivity extends BaseInitActivity implements EaseTit
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_activity_chat_group_member_type;
+        return R.layout.em_activity_chat_group_member_type;
     }
 
     public static void actionStart(Context context, String groupId, boolean owner) {
@@ -66,7 +66,7 @@ public class GroupMemberTypeActivity extends BaseInitActivity implements EaseTit
         titleBar = findViewById(R.id.title_bar);
 
         if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.icon_back_admin);
+            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
         }
 
         searchBar = findViewById(R.id.search_bar);

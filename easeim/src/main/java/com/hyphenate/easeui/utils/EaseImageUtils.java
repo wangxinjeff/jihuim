@@ -25,7 +25,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMImageMessageBody;
@@ -40,7 +39,6 @@ import com.hyphenate.util.PathUtil;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Optional;
 
 public class EaseImageUtils extends com.hyphenate.util.ImageUtils{
 	
@@ -303,7 +301,7 @@ public class EaseImageUtils extends com.hyphenate.util.ImageUtils{
 		Glide.with(context)
 				.load(imageUri == null ? imageUrl : imageUri)
 				.apply(new RequestOptions()
-						.error(R.drawable.ease_default_image))
+						.error(R.drawable.em_default_image))
 				.diskCacheStrategy(DiskCacheStrategy.ALL)
 				.override(params.width, params.height)
 				.into(imageView);

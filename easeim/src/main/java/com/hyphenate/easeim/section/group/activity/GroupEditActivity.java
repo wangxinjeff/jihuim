@@ -1,7 +1,6 @@
 package com.hyphenate.easeim.section.group.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -98,7 +97,7 @@ public class GroupEditActivity extends BaseInitActivity {
         serviceNote = findViewById(R.id.service_note);
 
         if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.icon_back_admin);
+            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
         }
 
         if(isShowNote){

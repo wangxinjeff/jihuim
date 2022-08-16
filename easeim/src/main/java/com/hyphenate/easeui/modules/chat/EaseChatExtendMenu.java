@@ -3,7 +3,6 @@ package com.hyphenate.easeui.modules.chat;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -53,8 +52,8 @@ public class EaseChatExtendMenu extends FrameLayout implements PagingScrollHelpe
 
     private int[] itemStrings = { R.string.attach_take_pic, R.string.attach_picture,
             R.string.attach_location};
-    private int[] itemdrawables = { R.drawable.ease_chat_takepic_selector, R.drawable.ease_chat_image_selector,
-            R.drawable.ease_chat_location_selector};
+    private int[] itemdrawables = { R.drawable.em_chat_takepic_selector, R.drawable.em_chat_image_selector,
+            R.drawable.em_chat_location_selector};
     private int[] itemIds = { R.id.extend_item_take_picture, R.id.extend_item_picture, R.id.extend_item_location};
 
     public EaseChatExtendMenu(Context context) {
@@ -119,7 +118,7 @@ public class EaseChatExtendMenu extends FrameLayout implements PagingScrollHelpe
         indicatorAdapter = new EaseChatExtendMenuIndicatorAdapter();
         rvIndicator.setAdapter(indicatorAdapter);
         DividerItemDecoration itemDecoration = new DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL);
-        itemDecoration.setDrawable(ContextCompat.getDrawable(context, R.drawable.ease_chat_extend_menu_indicator_divider));
+        itemDecoration.setDrawable(ContextCompat.getDrawable(context, R.drawable.em_chat_extend_menu_indicator_divider));
         rvIndicator.addItemDecoration(itemDecoration);
         indicatorAdapter.setSelectedPosition(currentPosition);
     }

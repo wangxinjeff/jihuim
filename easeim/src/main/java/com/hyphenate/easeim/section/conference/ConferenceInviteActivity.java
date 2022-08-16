@@ -8,7 +8,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -54,7 +53,7 @@ public class ConferenceInviteActivity extends BaseInitActivity implements View.O
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_conference_invite;
+        return R.layout.em_activity_conference_invite;
     }
 
     @Override
@@ -72,7 +71,7 @@ public class ConferenceInviteActivity extends BaseInitActivity implements View.O
         super.initView(savedInstanceState);
         mTitleBar = findViewById(R.id.title_bar);
         mTitleBar.getRightText().setTextColor(ContextCompat.getColor(this, R.color.white));
-        mTitleBar.getRightText().setBackgroundResource(R.drawable.ease_title_bar_invite_call_right_selector);
+        mTitleBar.getRightText().setBackgroundResource(R.drawable.em_title_bar_invite_call_right_selector);
         int left = (int) EaseCommonUtils.dip2px(this, 10);
         int top = (int) EaseCommonUtils.dip2px(this, 5);
         mTitleBar.getRightText().setPadding(left, top, left, top);

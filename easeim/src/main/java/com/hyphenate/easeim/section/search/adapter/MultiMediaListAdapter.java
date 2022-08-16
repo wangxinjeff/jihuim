@@ -3,48 +3,33 @@ package com.hyphenate.easeim.section.search.adapter;
 
 import android.content.Context;
 import android.net.Uri;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMVideoMessageBody;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.adapter.EaseBaseRecyclerViewAdapter;
-import com.hyphenate.easeui.utils.EaseCommonUtils;
-import com.hyphenate.easeui.utils.EaseDateUtils;
-import com.hyphenate.easeui.utils.EaseEditTextUtils;
 import com.hyphenate.easeui.utils.EaseFileUtils;
-import com.hyphenate.easeui.utils.EaseImageUtils;
-import com.hyphenate.easeui.utils.EaseSmileUtils;
 import com.hyphenate.easeui.widget.EaseImageView;
-import com.hyphenate.util.EMLog;
-
-import java.util.Date;
 
 public class MultiMediaListAdapter extends EaseBaseRecyclerViewAdapter<EMMessage> {
     @Override
     public int getEmptyLayoutId() {
-        return R.layout.empty_layout;
+        return R.layout.em_empty_layout;
     }
 
     @Override
     public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        return new SearchAllViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.multimedia_item, parent, false));
+        return new SearchAllViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.em_multimedia_item, parent, false));
     }
 
     private class SearchAllViewHolder extends ViewHolder<EMMessage>{
@@ -86,7 +71,7 @@ public class MultiMediaListAdapter extends EaseBaseRecyclerViewAdapter<EMMessage
                 }
                 Glide.with(context)
                         .load(imageUri == null ? thumbnailUrl : imageUri)
-                        .error(R.drawable.ease_default_image)
+                        .error(R.drawable.em_default_image)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(image);
             } else if(item.getType() == EMMessage.Type.VIDEO){
@@ -101,7 +86,7 @@ public class MultiMediaListAdapter extends EaseBaseRecyclerViewAdapter<EMMessage
                 if(!EaseFileUtils.isFileExistByUri(context, localThumbUri)) {
                     localThumbUri = null;
                 }
-                Glide.with(context).load(localThumbUri == null ? thumbnailUrl : localThumbUri).error(R.drawable.ease_default_image).diskCacheStrategy(DiskCacheStrategy.ALL).into(image);
+                Glide.with(context).load(localThumbUri == null ? thumbnailUrl : localThumbUri).error(R.drawable.em_default_image).diskCacheStrategy(DiskCacheStrategy.ALL).into(image);
             }
         }
     }

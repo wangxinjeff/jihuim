@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/margin_start_normal"
-                android:src="@drawable/ease_chatfrom_voice_playing" />
+                android:src="@drawable/em_chatfrom_voice_playing" />
 
         </com.hyphenate.easeim.common.widget.ChatView>
 
@@ -72,7 +72,7 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/bubble"
             android:layout_centerVertical="true"
-            android:src="@drawable/ease_chat_voice_unread_icon" />
+            android:src="@drawable/em_chat_voice_unread_icon" />
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -81,7 +81,7 @@
             android:layout_height="30dp"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/iv_unread_voice"
-            android:indeterminateDrawable="@drawable/ease_chat_loading_progress_bar"
+            android:indeterminateDrawable="@drawable/em_chat_loading_progress_bar"
             android:visibility="invisible" />
 
          <TextView

@@ -159,7 +159,7 @@ public class EMClientRepository extends BaseEMRepository{
             @Override
             public void onSuccess() {
                 getServiceGroups(callBack);
-
+                new EMChatManagerRepository().fetchConversationsFromServer();
             }
 
             @Override

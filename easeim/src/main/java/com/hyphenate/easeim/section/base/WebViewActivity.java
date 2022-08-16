@@ -38,7 +38,7 @@ public class WebViewActivity extends BaseInitActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_activity_base_webview;
+        return R.layout.em_activity_base_webview;
     }
 
     @Override
@@ -46,9 +46,9 @@ public class WebViewActivity extends BaseInitActivity {
         super.initView(savedInstanceState);
         titleBar = findViewById(R.id.title_bar);
         if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.icon_back_admin);
+            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
         } else {
-            titleBar.setLeftImageResource(R.drawable.icon_back);
+            titleBar.setLeftImageResource(R.drawable.em_icon_back);
         }
         webview = findViewById(R.id.webview);
         progressBar = findViewById(R.id.progress_bar);

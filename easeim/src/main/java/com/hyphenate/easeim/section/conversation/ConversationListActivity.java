@@ -15,22 +15,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 
-import com.hyphenate.EMCallBack;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMPushConfigs;
 import com.hyphenate.chat.EMUserInfo;
 import com.hyphenate.easecallkit.base.EaseCallType;
 
-import com.hyphenate.easeim.AdminLoginActivity;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.common.manager.HMSPushHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.common.permission.PermissionsManager;
 import com.hyphenate.easeim.common.permission.PermissionsResultAction;
-import com.hyphenate.easeim.common.repositories.EMClientRepository;
 import com.hyphenate.easeim.common.repositories.EMPushManagerRepository;
 import com.hyphenate.easeim.common.utils.PreferenceManager;
 import com.hyphenate.easeim.common.utils.PushUtils;
@@ -40,7 +36,6 @@ import com.hyphenate.easeim.section.av.VideoCallActivity;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.chat.ChatPresenter;
 import com.hyphenate.easeim.section.group.activity.GroupApplyActivity;
-import com.hyphenate.easeim.section.group.activity.GroupPickContactsActivity;
 import com.hyphenate.easeim.section.group.activity.NewGroupActivity;
 import com.hyphenate.easeim.section.search.SearchGroupChatActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
@@ -52,11 +47,7 @@ import com.hyphenate.easeui.widget.EaseTitleBar;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.chat.EMUserInfo.*;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
 
 
@@ -98,7 +89,7 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_activity_conversation_list;
+        return R.layout.em_activity_conversation_list;
     }
 
     @Override
@@ -123,7 +114,7 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
         disconnectView = findViewById(R.id.disconnect_view);
         switchToHome();
 
-        popView = LayoutInflater.from(this).inflate(R.layout.pop_conversation_list, null, false);
+        popView = LayoutInflater.from(this).inflate(R.layout.em_pop_conversation_list, null, false);
         notifyView = popView.findViewById(R.id.notify_view);
         searchView = popView.findViewById(R.id.search_view);
         createView = popView.findViewById(R.id.create_view);
@@ -169,7 +160,7 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
         fetchSelfInfo();
         ChatPresenter.getInstance().init();
 
-        requestPermissions();
+//        requestPermissions();
         // 获取华为 HMS 推送 token
         HMSPushHelper.getInstance().getHMSToken(this);
 
@@ -322,9 +313,9 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
     private void showNotifyIcon(){
         isNotify = EaseIMHelper.getInstance().getModel().getSettingMsgNotification();
         if(isNotify){
-            notifyIcon.setImageResource(R.drawable.icon_message_notify);
+            notifyIcon.setImageResource(R.drawable.em_icon_message_notify);
         } else {
-            notifyIcon.setImageResource(R.drawable.icon_message_unnotify);
+            notifyIcon.setImageResource(R.drawable.em_icon_message_unnotify);
         }
     }
 

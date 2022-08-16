@@ -1,7 +1,6 @@
 package com.hyphenate.easeim.section.search.fragment;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,7 +38,7 @@ public class SearchAllFragment extends BaseInitFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_search_all;
+        return R.layout.em_fragment_search_all;
     }
 
     @Override

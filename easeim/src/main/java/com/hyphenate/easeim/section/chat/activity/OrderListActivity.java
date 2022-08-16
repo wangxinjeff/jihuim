@@ -37,7 +37,7 @@ public class OrderListActivity extends BaseInitActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_order_list;
+        return R.layout.em_activity_order_list;
     }
 
     @Override

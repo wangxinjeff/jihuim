@@ -72,7 +72,7 @@ public class GroupReadAckListFragment extends BaseInitFragment{
 
         @Override
         public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
-            return new AckViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.member_list_item, parent, false));
+            return new AckViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.em_member_list_item, parent, false));
         }
 
         class AckViewHolder extends EaseBaseRecyclerViewAdapter.ViewHolder<String>{

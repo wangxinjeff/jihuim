@@ -47,7 +47,7 @@ public class CameraDialogFragment extends DialogFragment {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().setCanceledOnTouchOutside(true);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        View view = inflater.inflate(R.layout.camera_select_photo_popout, null);
+        View view = inflater.inflate(R.layout.em_camera_select_photo_popout, null);
         initView(view);
         return view;
     }

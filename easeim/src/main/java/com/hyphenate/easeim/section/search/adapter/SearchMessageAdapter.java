@@ -17,7 +17,6 @@ import com.hyphenate.easeui.adapter.EaseBaseRecyclerViewAdapter;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseSmileUtils;
 import com.hyphenate.easeui.widget.EaseImageView;
-import com.hyphenate.util.DateUtils;
 
 import java.util.Date;
 
@@ -26,7 +25,7 @@ public class SearchMessageAdapter extends EaseBaseRecyclerViewAdapter<EMMessage>
 
     @Override
     public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.demo_item_row_chat_history, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.em_item_row_chat_history, parent, false);
         return new MessageViewHolder(view);
     }
 

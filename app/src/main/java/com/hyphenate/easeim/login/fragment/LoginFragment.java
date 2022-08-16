@@ -34,13 +34,11 @@ import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.MainActivity;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.db.EaseDbHelper;
-import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
 import com.hyphenate.easeui.utils.EaseEditTextUtils;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.section.base.BaseInitFragment;
 import com.hyphenate.easeim.login.viewmodels.LoginFragmentViewModel;
 import com.hyphenate.easeim.login.viewmodels.LoginViewModel;
-import com.hyphenate.easeui.domain.EaseUser;
 
 public class LoginFragment extends BaseInitFragment implements View.OnClickListener, TextWatcher, CompoundButton.OnCheckedChangeListener, TextView.OnEditorActionListener {
     private EditText mEtLoginName;
@@ -64,7 +62,7 @@ public class LoginFragment extends BaseInitFragment implements View.OnClickListe
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_fragment_login;
+        return R.layout.em_fragment_login;
     }
 
     @Override
@@ -126,9 +124,9 @@ public class LoginFragment extends BaseInitFragment implements View.OnClickListe
         tvAgreement.setText(getSpannable());
         tvAgreement.setMovementMethod(LinkMovementMethod.getInstance());
         //切换密码可见不可见的两张图片
-        eyeClose = getResources().getDrawable(R.drawable.d_pwd_hide);
-        eyeOpen = getResources().getDrawable(R.drawable.d_pwd_show);
-        clear = getResources().getDrawable(R.drawable.d_clear);
+        eyeClose = getResources().getDrawable(R.drawable.em_d_pwd_hide);
+        eyeOpen = getResources().getDrawable(R.drawable.em_d_pwd_show);
+        clear = getResources().getDrawable(R.drawable.em_d_clear);
         EaseEditTextUtils.showRightDrawable(mEtLoginName, clear);
         EaseEditTextUtils.changePwdDrawableRight(mEtLoginPwd, eyeClose, eyeOpen, null, null, null);
     }

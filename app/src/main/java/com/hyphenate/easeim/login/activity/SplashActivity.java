@@ -21,7 +21,7 @@ public class SplashActivity extends BaseInitActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_splash_activity;
+        return R.layout.em_splash_activity;
     }
 
     @Override

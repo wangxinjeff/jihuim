@@ -49,7 +49,7 @@ public class SingleChatSetActivity extends BaseInitActivity implements EaseTitle
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_activity_single_chat_set;
+        return R.layout.em_activity_single_chat_set;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class SingleChatSetActivity extends BaseInitActivity implements EaseTitle
         super.initView(savedInstanceState);
         titleBar = findViewById(R.id.title_bar);
         if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.icon_back_admin);
+            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
         }
         itemUserInfo = findViewById(R.id.item_user_info);
         itemSearchHistory = findViewById(R.id.item_search_history);

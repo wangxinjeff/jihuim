@@ -27,7 +27,7 @@
             style="@style/ease_chat_input_button_size"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="16dp"
-            android:src="@drawable/ease_chatting_setmode_voice_btn_pressed"
+            android:src="@drawable/em_chatting_setmode_voice_btn_pressed"
             android:visibility="visible" />
 
         <ImageView
@@ -35,7 +35,7 @@
             style="@style/ease_chat_input_button_size"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="16dp"
-            android:src="@drawable/ease_chatting_setmode_keyboard_btn_pressed"
+            android:src="@drawable/em_chatting_setmode_keyboard_btn_pressed"
             android:visibility="gone" />
 
         <FrameLayout
@@ -60,7 +60,7 @@
                 android:paddingTop="3dp"
                 android:paddingBottom="3dp"
                 android:gravity="center"
-                android:background="@drawable/ease_chat_press_speak_btn"
+                android:background="@drawable/em_chat_press_speak_btn"
                 android:textSize="14sp"
                 />
 
@@ -82,7 +82,7 @@
                 android:id="@+id/et_sendmessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ease_send_message_et_bg"
+                android:background="@drawable/em_send_message_et_bg"
                 android:focusableInTouchMode="true"
                 android:imeOptions="actionSend"
                 android:maxLines="4"
@@ -111,7 +111,7 @@
                 android:layout_width="@dimen/ease_chat_primary_menu_icon_size"
                 android:layout_height="@dimen/ease_chat_primary_menu_icon_size"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ease_chatting_biaoqing_btn_normal"
+                android:src="@drawable/em_chatting_biaoqing_btn_normal"
                 android:padding="5dp"
                 android:visibility="visible" />
 
@@ -121,7 +121,7 @@
                 android:layout_height="@dimen/ease_chat_primary_menu_icon_size"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ease_chatting_setmode_keyboard_btn_pressed"
+                android:src="@drawable/em_chatting_setmode_keyboard_btn_pressed"
                 android:visibility="invisible" />
 
         </RelativeLayout>
@@ -134,7 +134,7 @@
             android:layout_marginEnd="@dimen/ease_chat_primary_margin_right"
             android:button="@null"
             android:visibility="visible"
-            android:background="@drawable/ease_type_select_btn_nor" />
+            android:background="@drawable/em_type_select_btn_nor" />
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -147,7 +147,7 @@
                 android:layout_marginRight="@dimen/ease_chat_primary_margin_right"
                 android:layout_marginEnd="@dimen/ease_chat_primary_margin_right"
                 android:layout_marginBottom="6dp"
-                android:background="@drawable/ease_chat_send_btn_selector"
+                android:background="@drawable/em_chat_send_btn_selector"
                 android:text="@string/button_send"
                 android:textColor="@color/white"
                 android:textSize="16sp"

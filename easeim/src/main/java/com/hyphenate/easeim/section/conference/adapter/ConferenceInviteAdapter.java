@@ -2,7 +2,6 @@ package com.hyphenate.easeim.section.conference.adapter;
 
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +20,7 @@ import com.hyphenate.easeui.EaseIM;
 import com.hyphenate.easeui.adapter.EaseBaseRecyclerViewAdapter;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.provider.EaseUserProfileProvider;
-import com.hyphenate.easeui.utils.EaseCommonUtils;
-import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseImageView;
-import com.hyphenate.util.EMLog;
 
 public class ConferenceInviteAdapter extends EaseBaseRecyclerViewAdapter<EaseUser> {
 
@@ -37,7 +33,7 @@ public class ConferenceInviteAdapter extends EaseBaseRecyclerViewAdapter<EaseUse
 
     @Override
     public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        return new InviteViewHolder(LayoutInflater.from(mContext).inflate(R.layout.demo_widget_contact_item, parent, false));
+        return new InviteViewHolder(LayoutInflater.from(mContext).inflate(R.layout.em_widget_contact_item, parent, false));
     }
 
     @Override
@@ -86,7 +82,7 @@ public class ConferenceInviteAdapter extends EaseBaseRecyclerViewAdapter<EaseUse
             String avatarUrl = item.getAvatar();
             String nickname = item.getNickname();
             if(!TextUtils.isEmpty(avatarUrl)){
-                Glide.with(mContext).load(avatarUrl).apply(RequestOptions.bitmapTransform(new CircleCrop())).error(R.drawable.ease_default_avatar).into(mAvatar);
+                Glide.with(mContext).load(avatarUrl).apply(RequestOptions.bitmapTransform(new CircleCrop())).error(R.drawable.em_default_avatar).into(mAvatar);
             }
             mName.setText(nickname);
 

@@ -33,7 +33,7 @@ public class GroupDetailMemberAdapter extends RecyclerView.Adapter<GroupDetailMe
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.group_detail_member_item, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.em_group_detail_member_item, parent, false));
     }
 
     @Override
@@ -47,7 +47,7 @@ public class GroupDetailMemberAdapter extends RecyclerView.Adapter<GroupDetailMe
                 }
             });
 //            holder.memberAvatar.setImageDrawable(ContextCompat.getDrawable(holder.mContext, R.drawable.icon_group_edit));
-            Glide.with(holder.mContext).load(R.drawable.icon_group_edit).into(holder.memberAvatar);
+            Glide.with(holder.mContext).load(R.drawable.em_icon_group_edit).into(holder.memberAvatar);
             holder.memberNick.setText(user.getNickname());
         } else if(TextUtils.equals(user.getUsername(), "em_addUser") && position == 0){
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -58,10 +58,10 @@ public class GroupDetailMemberAdapter extends RecyclerView.Adapter<GroupDetailMe
             });
             if(EaseIMHelper.getInstance().isAdmin()){
 //                holder.memberAvatar.setImageDrawable(ContextCompat.getDrawable(holder.mContext, R.drawable.icon_invite_admin));
-                Glide.with(holder.mContext).load(R.drawable.icon_invite_admin).into(holder.memberAvatar);
+                Glide.with(holder.mContext).load(R.drawable.em_icon_invite_admin).into(holder.memberAvatar);
             } else {
 //                holder.memberAvatar.setImageDrawable(ContextCompat.getDrawable(holder.mContext, R.drawable.icon_group_invite));
-                Glide.with(holder.mContext).load(R.drawable.icon_group_invite).into(holder.memberAvatar);
+                Glide.with(holder.mContext).load(R.drawable.em_icon_group_invite).into(holder.memberAvatar);
             }
             holder.memberNick.setText(user.getNickname());
         } else if(TextUtils.equals(user.getUsername(), "em_removeUser") && position == 1){
@@ -71,7 +71,7 @@ public class GroupDetailMemberAdapter extends RecyclerView.Adapter<GroupDetailMe
                     memberClickListener.onRemoveClick();
                 }
             });
-            holder.memberAvatar.setImageDrawable(ContextCompat.getDrawable(holder.mContext, R.drawable.icon_remove_admin));
+            holder.memberAvatar.setImageDrawable(ContextCompat.getDrawable(holder.mContext, R.drawable.em_icon_remove_admin));
             holder.memberNick.setText(user.getNickname());
         } else {
             EaseUserProfileProvider provider = EaseIM.getInstance().getUserProvider();
@@ -82,7 +82,7 @@ public class GroupDetailMemberAdapter extends RecyclerView.Adapter<GroupDetailMe
                     user.setNickname(easeUser.getNickname());
                 }
             }
-            Glide.with(holder.mContext).load(user.getAvatar()).apply(RequestOptions.bitmapTransform(new CircleCrop())).error(R.drawable.ease_default_avatar).into(holder.memberAvatar);
+            Glide.with(holder.mContext).load(user.getAvatar()).apply(RequestOptions.bitmapTransform(new CircleCrop())).error(R.drawable.em_default_avatar).into(holder.memberAvatar);
             holder.memberNick.setText(user.getNickname());
         }
     }

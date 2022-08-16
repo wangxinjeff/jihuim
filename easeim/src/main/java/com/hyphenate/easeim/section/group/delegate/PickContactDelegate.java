@@ -1,7 +1,6 @@
 package com.hyphenate.easeim.section.group.delegate;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ public class PickContactDelegate extends EaseAdapterDelegate<EaseUser, PickConta
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, String tag) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.selected_user_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.em_selected_user_item, parent, false);
         return new ViewHolder(view);
     }
 

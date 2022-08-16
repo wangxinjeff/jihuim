@@ -30,7 +30,7 @@ public class OrderListFragment extends BaseInitFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_order_list;
+        return R.layout.em_fragment_order_list;
     }
 
     @Override

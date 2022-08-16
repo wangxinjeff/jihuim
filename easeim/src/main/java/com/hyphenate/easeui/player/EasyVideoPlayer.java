@@ -183,9 +183,9 @@ public class EasyVideoPlayer extends FrameLayout
         }
 
         if (mPlayDrawable == null)
-            mPlayDrawable = AppCompatResources.getDrawable(context, R.drawable.easy_action_play);
+            mPlayDrawable = AppCompatResources.getDrawable(context, R.drawable.em_action_play);
         if (mPauseDrawable == null)
-            mPauseDrawable = AppCompatResources.getDrawable(context, R.drawable.easy_action_pause);
+            mPauseDrawable = AppCompatResources.getDrawable(context, R.drawable.em_action_pause);
     }
 
     @Override

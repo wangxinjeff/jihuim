@@ -45,8 +45,8 @@ public class EaseEmojiconIndicatorView extends LinearLayout{
     private void init(Context context, AttributeSet attrs){
         this.context = context;
         dotHeight = DensityUtil.dip2px(context, dotHeight);
-        selectedBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ease_dot_emojicon_selected);
-        unselectedBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ease_dot_emojicon_unselected);
+        selectedBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.em_dot_emojicon_selected);
+        unselectedBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.em_dot_emojicon_unselected);
         setGravity(Gravity.CENTER_HORIZONTAL);
     }
     

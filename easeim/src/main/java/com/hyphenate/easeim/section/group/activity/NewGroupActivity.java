@@ -9,23 +9,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMGroup;
-
-import com.hyphenate.chat.EMGroupOptions;
-import com.hyphenate.chat.EMMessage;
-import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
-import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.common.widget.ArrowItemView;
 
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 
 import com.hyphenate.easeim.section.chat.activity.ChatActivity;
-import com.hyphenate.easeim.section.dialog.SimpleDialogFragment;
 import com.hyphenate.easeim.section.group.viewmodels.NewGroupViewModel;
 
 import com.hyphenate.easeim.section.group.adapter.GroupDetailMemberAdapter;
@@ -36,17 +27,12 @@ import com.hyphenate.easeui.widget.EaseTitleBar;
 
 
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.hyphenate.chat.EMGroupManager.EMGroupStyle.EMGroupStylePrivateOnlyOwnerInvite;
 
 public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.OnBackPressListener, View.OnClickListener{
     private static final int ADD_NEW_MEMBERS = 10;
@@ -79,7 +65,7 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_activity_new_group;
+        return R.layout.em_activity_new_group;
     }
 
     @Override

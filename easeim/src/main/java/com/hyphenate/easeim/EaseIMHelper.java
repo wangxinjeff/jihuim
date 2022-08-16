@@ -184,13 +184,12 @@ public class EaseIMHelper {
                 setCallOptions(application);
                 //初始化推送
 //                initPush(application);
+                //callKit初始化
+                InitCallKit(application);
                 //初始化ease ui相关
                 initEaseUI(application);
                 //注册对话类型
                 registerConversationType();
-
-                //callKit初始化
-                InitCallKit(application);
 
                 //启动获取用户信息线程
                 fetchUserInfoList = FetchUserInfoList.getInstance();
@@ -1067,17 +1066,17 @@ public class EaseIMHelper {
                     ConversationListActivity.actionStart(context, conversationType);
                 }
 
-                clientRepository.getServiceGroups(new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-
-                    }
-
-                    @Override
-                    public void onError(int i, String s) {
-
-                    }
-                });
+//                clientRepository.getServiceGroups(new EMCallBack() {
+//                    @Override
+//                    public void onSuccess() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(int i, String s) {
+//
+//                    }
+//                });
             } else {
                 ConversationListActivity.actionStart(context, conversationType);
             }

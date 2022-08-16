@@ -36,7 +36,6 @@ import com.hyphenate.mediapicker.internal.entity.IncapableCause;
 import com.hyphenate.mediapicker.internal.entity.Item;
 import com.hyphenate.mediapicker.internal.entity.SelectionSpec;
 import com.hyphenate.mediapicker.internal.model.SelectedItemCollection;
-import com.hyphenate.mediapicker.internal.ui.adapter.RecyclerViewCursorAdapter;
 import com.hyphenate.mediapicker.internal.ui.widget.CheckView;
 import com.hyphenate.mediapicker.internal.ui.widget.MediaGrid;
 
@@ -69,7 +68,7 @@ public class AlbumMediaAdapter extends
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_CAPTURE) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.photo_capture_item, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.em_photo_capture_item, parent, false);
             CaptureViewHolder holder = new CaptureViewHolder(v);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -81,7 +80,7 @@ public class AlbumMediaAdapter extends
             });
             return holder;
         } else if (viewType == VIEW_TYPE_MEDIA) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.media_grid_item, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.em_media_grid_item, parent, false);
             return new MediaViewHolder(v);
         }
         return null;

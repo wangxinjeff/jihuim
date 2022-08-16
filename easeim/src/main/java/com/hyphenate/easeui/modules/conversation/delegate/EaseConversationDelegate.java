@@ -5,8 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
 
-import androidx.core.content.ContextCompat;
-
 import com.bumptech.glide.Glide;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
@@ -70,7 +68,7 @@ public class EaseConversationDelegate extends EaseDefaultConversationDelegate {
                 holder.mentioned.setText(R.string.were_mentioned);
                 holder.mentioned.setVisibility(View.VISIBLE);
             }
-            defaultAvatar = R.drawable.ease_group_icon;
+            defaultAvatar = R.drawable.em_group_icon;
             EMGroup group = EMClient.getInstance().groupManager().getGroup(username);
             showName = group != null ? group.getGroupName() : username;
             List<String> noPushGroups = EMClient.getInstance().pushManager().getNoPushGroups();
@@ -83,11 +81,11 @@ public class EaseConversationDelegate extends EaseDefaultConversationDelegate {
                 holder.noPush.setVisibility(View.GONE);
             }
         }else if(item.getType() == EMConversation.EMConversationType.ChatRoom) {
-            defaultAvatar = R.drawable.ease_chat_room_icon;
+            defaultAvatar = R.drawable.em_chat_room_icon;
             EMChatRoom chatRoom = EMClient.getInstance().chatroomManager().getChatRoom(username);
             showName = chatRoom != null && !TextUtils.isEmpty(chatRoom.getName()) ? chatRoom.getName() : username;
         }else {
-            defaultAvatar = R.drawable.ease_default_avatar;
+            defaultAvatar = R.drawable.em_default_avatar;
             showName = username;
             List<String> noPushUsers = EMClient.getInstance().pushManager().getNoPushUsers();
             if(noPushUsers != null && noPushUsers.contains(username)){

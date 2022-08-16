@@ -142,8 +142,6 @@ public class EaseCallKit {
         //init notifier
         initNotifier();
 
-        //增加接收消息回调
-        addMessageListener();
         callKitInit = true;
 
         handler = new Handler(appContext.getMainLooper());
@@ -352,89 +350,6 @@ public class EaseCallKit {
     /**
      * 增加消息监听
      */
-    private void addMessageListener() {
-        this.messageListener = new EMMessageListener() {
-            @Override
-            public void onMessageReceived(List<EMMessage> messages) {
-                for(EMMessage message: messages){
-                    String messageType = message.getStringAttribute(EaseMsgUtils.CALL_MSG_TYPE, "");
-                    EMLog.d(TAG,"Receive msg:" + message.getMsgId() + " from:" + message.getFrom()+ "  messageType:"+ messageType);
-                    //有关通话控制信令
-                    if(TextUtils.equals(messageType, EaseMsgUtils.CALL_MSG_INFO)
-                            && !TextUtils.equals(message.getFrom(), EMClient.getInstance().getCurrentUser())) {
-                        String action = message.getStringAttribute(EaseMsgUtils.CALL_ACTION, "");
-                        String callerDevId = message.getStringAttribute(EaseMsgUtils.CALL_DEVICE_ID, "");
-                        String fromCallId = message.getStringAttribute(EaseMsgUtils.CLL_ID, "");
-                        String fromUser = message.getFrom();
-                        String channel = message.getStringAttribute(EaseMsgUtils.CALL_CHANNELNAME, "");
-                        JSONObject ext = null;
-                        try {
-                            ext = message.getJSONObjectAttribute(CALL_INVITE_EXT);
-                        } catch (HyphenateException exception) {
-                            exception.printStackTrace();
-                        }
-
-                        if(action == null || callerDevId == null || fromCallId == null || fromUser ==null || channel == null){
-                            if(callListener != null){
-                                callListener.onCallError(EaseCallError.PROCESS_ERROR, CALL_PROCESS_ERROR.CALL_RECEIVE_ERROR.code,"receive message error");
-                            }
-                            continue;
-                        }
-                        EaseCallAction callAction = EaseCallAction.getfrom(action);
-                        switch (callAction) {
-                            case CALL_INVITE: //收到通话邀请
-                                int calltype = message.getIntAttribute
-                                        (EaseMsgUtils.CALL_TYPE, 0);
-                                EaseCallType callkitType =
-                                        EaseCallType.getfrom(calltype);
-                                if (callState != EaseCallState.CALL_IDLE) {
-                                    if(TextUtils.equals(fromCallId, callID) && TextUtils.equals(fromUser, fromUserId)
-                                            && callkitType == EaseCallType.SINGLE_VOICE_CALL && callType == EaseCallType.SINGLE_VIDEO_CALL) {
-                                        InviteEvent inviteEvent = new InviteEvent();
-                                        inviteEvent.callId = fromCallId;
-                                        inviteEvent.type = callkitType;
-
-                                        //发布消息
-                                        LiveDataBus.get().with(EaseCallType.SINGLE_VIDEO_CALL.toString()).postValue(inviteEvent);
-                                    } else {
-                                        //发送忙碌状态
-                                        AnswerEvent callEvent = new AnswerEvent();
-                                        callEvent.result = EaseMsgUtils.CALL_ANSWER_BUSY;
-                                        callEvent.callerDevId = callerDevId;
-                                        callEvent.callId = fromCallId;
-                                        sendCmdMsg(callEvent, fromUser);
-                                    }
-                                } else {
-                                    callInfo.setCallerDevId(callerDevId);
-                                    callInfo.setCallId(fromCallId);
-                                    callInfo.setCallKitType(callkitType);
-                                    callInfo.setChannelName(channel);
-                                    callInfo.setComming(true);
-                                    callInfo.setFromUser(fromUser);
-                                    callInfo.setExt(ext);
-
-                                    //邀请信息放入列表中
-                                    callInfoMap.put(fromCallId, callInfo);
-
-                                    //发送alert消息
-                                    AlertEvent callEvent = new AlertEvent();
-                                    callEvent.callerDevId = callerDevId;
-                                    callEvent.callId = fromCallId;
-                                    sendCmdMsg(callEvent, fromUser);
-
-                                    //启动定时器
-                                    timeHandler.startTime();
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                        EMClient.getInstance().chatManager().getConversation(message.getFrom(), EMConversation.EMConversationType.Chat, true).removeMessage(message.getMsgId());
-                    }
-                }
-            }
-
-            @Override
             public void onCmdMessageReceived(List<EMMessage> messages) {
                 for(EMMessage message: messages){
                     String messageType = message.getStringAttribute(EaseMsgUtils.CALL_MSG_TYPE, "");
@@ -636,31 +551,6 @@ public class EaseCallKit {
                     }
                 }
             }
-
-            @Override
-            public void onMessageRead(List<EMMessage> messages) {
-
-            }
-
-            @Override
-            public void onMessageDelivered(List<EMMessage> messages) {
-
-            }
-
-            @Override
-            public void onMessageRecalled(List<EMMessage> messages) {
-
-            }
-
-            @Override
-            public void onMessageChanged(EMMessage message, Object change) {
-
-            }
-        };
-        //增加消息监听
-        EMClient.getInstance().chatManager().addMessageListener(this.messageListener);
-
-    }
 
     /***
      * 设置call kit监听

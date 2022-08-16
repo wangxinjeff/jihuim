@@ -2,27 +2,18 @@ package com.hyphenate.easeui.widget.chatrow;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.webkit.MimeTypeMap;
-import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
-import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMNormalFileMessageBody;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.utils.EaseEditTextUtils;
 import com.hyphenate.easeui.utils.EaseFileUtils;
-import com.hyphenate.util.EMLog;
 import com.hyphenate.util.TextFormater;
-
-import java.io.File;
 
 /**
  * file for row
@@ -83,21 +74,21 @@ public class EaseChatRowFile extends EaseChatRow {
         if(fileMessageBody.getFileName().contains(".jpg") || fileMessageBody.getFileName().contains(".JPG")
                 || fileMessageBody.getFileName().contains(".png") || fileMessageBody.getFileName().contains(".PNG")
                 || fileMessageBody.getFileName().contains(".jpeg") || fileMessageBody.getFileName().contains(".JPEG")){
-            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_file_img));
+            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.em_icon_file_img));
         } else if (fileMessageBody.getFileName().contains(".doc")){
-            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_file_doc));
+            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.em_icon_file_doc));
         } else if (fileMessageBody.getFileName().contains(".exel") || fileMessageBody.getFileName().contains(".xlsx")){
-            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_file_exel));
+            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.em_icon_file_exel));
         } else if (fileMessageBody.getFileName().contains(".pdf")){
-            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_file_pdf));
+            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.em_icon_file_pdf));
         } else if (fileMessageBody.getFileName().contains(".txt")){
-            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_file_text));
+            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.em_icon_file_text));
         } else if (fileMessageBody.getFileName().contains(".docx")){
-            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_file_docx));
+            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.em_icon_file_docx));
         } else if (fileMessageBody.getFileName().contains(".ppt")){
-            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_file_ppt));
+            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.em_icon_file_ppt));
         } else {
-            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_file_other));
+            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.em_icon_file_other));
         }
 
         fileSizeView.setText(TextFormater.getDataSize(fileMessageBody.getFileSize()));

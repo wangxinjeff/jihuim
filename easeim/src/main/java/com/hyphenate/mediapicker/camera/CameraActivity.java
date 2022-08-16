@@ -53,7 +53,7 @@ public class CameraActivity extends AppCompatActivity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        setContentView(R.layout.camera_layout);
+        setContentView(R.layout.em_camera_layout);
         jCameraView = findViewById(R.id.jcameraview);
         //设置视频保存路径
         jCameraView.setFeatures(JCameraView.BUTTON_STATE_BOTH);
@@ -167,7 +167,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private void finishActivityWithAnim() {
         finish();
-        overridePendingTransition(0, R.anim.camera_push_bottom_out);
+        overridePendingTransition(0, R.anim.em_camera_push_bottom_out);
     }
 
     @Override

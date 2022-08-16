@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/call_float_size"
+    android:layout_height="@dimen/call_float_size"
+    android:background="@drawable/em_call_float_bg"
+    android:padding="8dp"
+    >
+
+    <LinearLayout
+        android:id="@+id/layout_call_voice"
+        android:layout_width="@dimen/call_float_size"
+        android:layout_height="@dimen/call_float_size"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/em_call_float_time_bg"
+        android:visibility="gone"
+        >
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_call_video"
+        android:layout_width="@dimen/call_float_size"
+        android:layout_height="@dimen/call_float_size"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/call_view"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/em_call_float_time_bg"
+        >
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/em_icon_call_float" />
+
+        <TextView
+            android:id="@+id/call_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="@dimen/em_size_small"
+            android:textColor="@color/normal_text_color"
+            />
+    </LinearLayout>
+</RelativeLayout>

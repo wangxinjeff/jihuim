@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,8 +43,8 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
-import com.baidu.mapapi.common.BaiduMapSDKException;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMapOptions;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -61,6 +60,7 @@ import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
 import com.baidu.mapapi.search.poi.PoiDetailSearchResult;
 import com.baidu.mapapi.search.poi.PoiIndoorResult;
@@ -68,14 +68,18 @@ import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.poi.PoiSortType;
+import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
+import com.baidu.mapapi.search.sug.SuggestionResult;
+import com.baidu.mapapi.search.sug.SuggestionSearch;
+import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.baidu.mapapi.utils.CoordinateConverter;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeui.adapter.EaseBaiduMapAdapter;
 import com.hyphenate.easeui.manager.EaseThreadManager;
 import com.hyphenate.easeui.ui.base.EaseBaseActivity;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.easeui.utils.PositionUtil;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 import com.hyphenate.util.EMLog;
 
@@ -87,7 +91,8 @@ import static android.view.View.VISIBLE;
 
 public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleBar.OnBackPressListener,
 																		EaseTitleBar.OnRightClickListener,
-																		OnGetPoiSearchResultListener, View.OnClickListener {
+																		OnGetPoiSearchResultListener, View.OnClickListener,
+		OnGetSuggestionResultListener {
 	private final static String TAG = "map";
 
 	private EaseTitleBar titleBarMap;
@@ -96,6 +101,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 	private BaiduMap mBaiduMap;
 	private BDLocation lastLocation;
 	private UiSettings mUiSettings;
+	private boolean isLocationed;
 
 	protected double latitude;
 	protected double longitude;
@@ -124,6 +130,9 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 	private LinearLayout searchIconView;
 	private ConstraintLayout searchResultView;
 	private boolean moveToPoi = false;
+
+	private SuggestionSearch suggestionSearch;
+	private String city;
 
 	public static void actionStartForResult(Fragment fragment, int requestCode) {
 		Intent intent = new Intent(fragment.getContext(), EaseBaiduMapActivity.class);
@@ -186,8 +195,8 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 
 		if(EaseIMHelper.getInstance().isAdmin()){
 			searchBar.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_float_bg));
-			inputView.setBackground(ContextCompat.getDrawable(this, R.drawable.ease_search_bg_admin));
-			searchTextView.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.ease_search_bg_admin));
+			inputView.setBackground(ContextCompat.getDrawable(this, R.drawable.em_search_bg_admin));
+			searchTextView.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.em_search_bg_admin));
 		}
 
 		searchResultView = findViewById(R.id.result_view);
@@ -210,7 +219,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 		params.topMargin = (int) EaseCommonUtils.dip2px(this, 24);
 		titleBarMap.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
 		titleBarMap.getRightText().setTextColor(ContextCompat.getColor(this, R.color.white));
-		titleBarMap.getRightText().setBackgroundResource(R.drawable.ease_title_bar_right_selector);
+		titleBarMap.getRightText().setBackgroundResource(R.drawable.em_title_bar_right_selector);
 		int left = (int) EaseCommonUtils.dip2px(this, 10);
 		int top = (int) EaseCommonUtils.dip2px(this, 5);
 		titleBarMap.getRightText().setPadding(left, top, left, top);
@@ -299,11 +308,13 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 			mBaiduMap.setMyLocationConfiguration(
 					new MyLocationConfiguration(MyLocationConfiguration.LocationMode.NORMAL, true, null));
 			showMapWithLocationClient();
+			suggestionSearch = SuggestionSearch.newInstance();
+			suggestionSearch.setOnGetSuggestionResultListener(this);
 		}else {
 			searchResultView.setVisibility(GONE);
-			LatLng lng = new LatLng(latitude, longitude);
-			mapView = new MapView(this,
-					new BaiduMapOptions().mapStatus(new MapStatus.Builder().target(lng).build()));
+//			LatLng lng = new LatLng(latitude, longitude);
+//			mapView = new MapView(this,
+//					new BaiduMapOptions().mapStatus(new MapStatus.Builder().target(lng).build()));
 			showMap(latitude, longitude);
 		}
 		IntentFilter iFilter = new IntentFilter();
@@ -325,8 +336,8 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 		LocationClientOption option = new LocationClientOption();
 		option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
 		option.setCoorType("gcj02");//可选，默认gcj02，设置返回的定位结果坐标系
-		option.setOnceLocation(true);
-		int span = 0;
+//		option.setOnceLocation(true);
+		int span = 3000;
 		option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
 		option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
 		option.setOpenGps(true);//可选，默认false,设置是否使用gps
@@ -374,6 +385,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 		intent.putExtra("longitude", mCurrentLongitude);
 		intent.putExtra("address", mCurrentAddress);
 		intent.putExtra("buildingName", mCurrentBuildingName);
+		EMLog.e("location:", mCurrentLatitude + ":" + mCurrentLongitude);
 		this.setResult(RESULT_OK, intent);
 		finish();
 	}
@@ -435,8 +447,11 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 
 	private void moveToPoi(PoiInfo info){
 		MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(info.location);
-		mCurrentLatitude = info.location.latitude;
-		mCurrentLongitude = info.location.longitude;
+		PositionUtil.Gps gps = PositionUtil.bd09_To_Gcj02(info.location.latitude, info.location.longitude);
+		mCurrentLatitude = gps.getWgLat();
+		mCurrentLongitude = gps.getWgLon();
+//		mCurrentLatitude = info.location.latitude;
+//		mCurrentLongitude = info.location.longitude;
 		mCurrentAddress = info.address;
 		mCurrentBuildingName = info.name;
 		Log.e(TAG, "moveToPoi:" + mCurrentLatitude + ", " + mCurrentLongitude + ", " + mCurrentAddress + ", " + mCurrentBuildingName);
@@ -477,6 +492,11 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 		}
 	}
 
+	@Override
+	public void onGetSuggestionResult(SuggestionResult suggestionResult) {
+
+	}
+
 	public class BaiduSDKReceiver extends BroadcastReceiver {
 
 		@Override
@@ -501,7 +521,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 	class MyLocationListener extends BDAbstractLocationListener {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
-			if (location == null) {
+			if (location == null || "4.9E-324".equals(location.getLatitude())) {
 				return;
 			}
 
@@ -533,12 +553,16 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 			if (lastLocation != null){
 				nearList.clear();
 				PoiInfo poiInfo = new PoiInfo();
-				poiInfo.location = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+				PositionUtil.Gps gps = PositionUtil.gcj02_To_Bd09(lastLocation.getLatitude(), lastLocation.getLongitude());
+				poiInfo.location = new LatLng(gps.getWgLat(), gps.getWgLon());
 				poiInfo.name = lastLocation.getAddrStr();
 				poiInfo.address = lastLocation.getAddrStr();
 				Log.e(TAG, poiInfo.toString());
 				nearList.add(poiInfo);
 			}
+			mLocClient.stop();
+			mLocClient.unRegisterLocationListener(this);
+
 			moveToPoi = false;
 			searchNearBy("大厦");
 		}
@@ -548,17 +572,24 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 	 * 搜索周边地理位置
 	 */
 	private void searchNearBy(String key) {
+//		searchSug(key);
 		searchRefreshUI();
 		EaseThreadManager.getInstance().runOnIOThread(new Runnable() {
 			@Override
 			public void run() {
-				PoiNearbySearchOption option = new PoiNearbySearchOption();
-				option.keyword(key);
-				option.sortType(PoiSortType.distance_from_near_to_far);
-				option.location(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
-				option.radius(2000);
-				option.pageCapacity(30);
-				mPoiSearch.searchNearby(option);
+				// 搜索附近Poi
+//				PoiNearbySearchOption option = new PoiNearbySearchOption();
+//				option.keyword(key);
+//				option.sortType(PoiSortType.distance_from_near_to_far);
+//				option.location(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
+//				option.radius(2000);
+//				option.pageCapacity(30);
+//				mPoiSearch.searchNearby(option);
+
+				// 搜索城市Poi
+				PoiCitySearchOption citySearchOption = new PoiCitySearchOption();
+				citySearchOption.city(lastLocation.getCity()).keyword(key).pageNum(0);
+				mPoiSearch.searchInCity(citySearchOption);
 			}
 		});
 	}
@@ -581,5 +612,10 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 		}
 		resetSearchBar();
 
+	}
+
+	// Sug检索
+	private void searchSug(String key){
+		suggestionSearch.requestSuggestion(new SuggestionSearchOption().city(lastLocation.getCity()).keyword(key));
 	}
 }

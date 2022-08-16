@@ -96,13 +96,13 @@ public class EaseVoiceRecorderView extends RelativeLayout {
         voiceRecorder = new EaseVoiceRecorder(micImageHandler);
 
         // animation resources, used for recording
-        micImages = new Drawable[] {ContextCompat.getDrawable(context, R.drawable.ease_record_animate_01),
-                ContextCompat.getDrawable(context, R.drawable.ease_record_animate_02),
-                ContextCompat.getDrawable(context, R.drawable.ease_record_animate_03),
-                ContextCompat.getDrawable(context, R.drawable.ease_record_animate_04),
-                ContextCompat.getDrawable(context, R.drawable.ease_record_animate_05),
-                ContextCompat.getDrawable(context, R.drawable.ease_record_animate_06),
-                ContextCompat.getDrawable(context, R.drawable.ease_record_animate_07)};
+        micImages = new Drawable[] {ContextCompat.getDrawable(context, R.drawable.em_record_animate_01),
+                ContextCompat.getDrawable(context, R.drawable.em_record_animate_02),
+                ContextCompat.getDrawable(context, R.drawable.em_record_animate_03),
+                ContextCompat.getDrawable(context, R.drawable.em_record_animate_04),
+                ContextCompat.getDrawable(context, R.drawable.em_record_animate_05),
+                ContextCompat.getDrawable(context, R.drawable.em_record_animate_06),
+                ContextCompat.getDrawable(context, R.drawable.em_record_animate_07)};
 
         wakeLock = ((PowerManager) context.getSystemService(Context.POWER_SERVICE)).newWakeLock(
                 PowerManager.SCREEN_DIM_WAKE_LOCK, "demo");
@@ -228,7 +228,7 @@ public class EaseVoiceRecorderView extends RelativeLayout {
             this.setVisibility(View.VISIBLE);
             recordingHint.setText(context.getString(R.string.move_up_to_cancel));
             recordingHint.setBackgroundColor(Color.TRANSPARENT);
-            ivIcon.setImageResource(R.drawable.ease_record_icon);
+            ivIcon.setImageResource(R.drawable.em_record_icon);
             micImage.setVisibility(VISIBLE);
             voiceRecorder.startRecording(context);
         } catch (Exception e) {
@@ -247,14 +247,14 @@ public class EaseVoiceRecorderView extends RelativeLayout {
     public void showReleaseToCancelHint() {
         recordingHint.setText(context.getString(R.string.release_to_cancel));
         //recordingHint.setBackgroundResource(R.drawable.ease_recording_text_hint_bg);
-        ivIcon.setImageResource(R.drawable.ease_record_cancel);
+        ivIcon.setImageResource(R.drawable.em_record_cancel);
         micImage.setVisibility(GONE);
     }
 
     public void showMoveUpToCancelHint() {
         recordingHint.setText(context.getString(R.string.move_up_to_cancel));
         recordingHint.setBackgroundColor(Color.TRANSPARENT);
-        ivIcon.setImageResource(R.drawable.ease_record_icon);
+        ivIcon.setImageResource(R.drawable.em_record_icon);
         micImage.setVisibility(VISIBLE);
     }
 

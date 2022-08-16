@@ -34,7 +34,7 @@ public class SearchGroupChatAdapter extends EaseBaseRecyclerViewAdapter<SearchRe
 
     @Override
     public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        return new GroupChatViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.search_group_chat_item, parent, false));
+        return new GroupChatViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.em_search_group_chat_item, parent, false));
     }
 
     private class GroupChatViewHolder extends ViewHolder<SearchResult>{
@@ -63,7 +63,7 @@ public class SearchGroupChatAdapter extends EaseBaseRecyclerViewAdapter<SearchRe
             String groupId = item.getId();
             String name = item.getName();
             if(!TextUtils.isEmpty(avatarUrl)){
-                Glide.with(context).load(avatarUrl).apply(RequestOptions.bitmapTransform(new CircleCrop())).error(R.drawable.ease_group_icon).into(avatar);
+                Glide.with(context).load(avatarUrl).apply(RequestOptions.bitmapTransform(new CircleCrop())).error(R.drawable.em_group_icon).into(avatar);
             }
 
             EMGroup group = EaseIMHelper.getInstance().getGroupManager().getGroup(groupId);

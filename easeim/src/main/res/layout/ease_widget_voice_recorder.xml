@@ -4,7 +4,7 @@
     android:layout_height="162dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
-    android:background="@drawable/ease_recording_hint_bg"
+    android:background="@drawable/em_recording_hint_bg"
     android:padding="10dp">
 
     <LinearLayout
@@ -23,7 +23,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/ease_record_icon" />
+            android:src="@drawable/em_record_icon" />
 
         <ImageView
             android:id="@+id/mic_image"
@@ -31,7 +31,7 @@
             android:layout_height="78dp"
             app:layout_constraintBottom_toBottomOf="@id/iv_icon"
             app:layout_constraintLeft_toRightOf="@id/iv_icon"
-            android:src="@drawable/ease_record_animate_04" />
+            android:src="@drawable/em_record_animate_04" />
 
     </LinearLayout>
 

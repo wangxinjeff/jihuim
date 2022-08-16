@@ -25,7 +25,7 @@
         <ProgressBar
             android:id="@+id/progress_bar"
             style="?android:attr/progressBarStyle"
-            android:indeterminateDrawable="@drawable/ease_loading_progress_bar"
+            android:indeterminateDrawable="@drawable/em_loading_progress_bar"
             android:layout_width="44dp"
             android:layout_height="44dp" />
 
@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:background="@drawable/image_download_bg"
+        android:background="@drawable/em_image_download_bg"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="16dp"

@@ -2,7 +2,6 @@ package com.hyphenate.easeui.widget.chatrow;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -15,8 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -269,7 +266,7 @@ public abstract class EaseChatRow extends LinearLayout {
 
         if(EaseIMHelper.getInstance().isAdmin()){
             if(statusView != null){
-                statusView.setImageResource(R.drawable.ease_msg_state_fail_resend);
+                statusView.setImageResource(R.drawable.em_msg_state_fail_resend);
             }
 
 
@@ -429,7 +426,7 @@ public abstract class EaseChatRow extends LinearLayout {
                     }
                     Glide.with(context).load(avatar)
                             .apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                            .error(R.drawable.ease_default_avatar)
+                            .error(R.drawable.em_default_avatar)
                             .into(userAvatarView);
 
                     return;

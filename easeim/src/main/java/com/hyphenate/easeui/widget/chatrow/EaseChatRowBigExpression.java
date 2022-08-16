@@ -51,14 +51,14 @@ public class EaseChatRowBigExpression extends EaseChatRowText {
             if(emojicon.getBigIcon() != 0){
 
                 Glide.with(context).load(emojicon.getBigIcon())
-                        .apply(RequestOptions.placeholderOf(R.drawable.ease_default_expression))
+                        .apply(RequestOptions.placeholderOf(R.drawable.em_default_expression))
                         .into(imageView);
             }else if(emojicon.getBigIconPath() != null){
                 Glide.with(context).load(emojicon.getBigIconPath())
-                        .apply(RequestOptions.placeholderOf(R.drawable.ease_default_expression))
+                        .apply(RequestOptions.placeholderOf(R.drawable.em_default_expression))
                         .into(imageView);
             }else{
-                imageView.setImageResource(R.drawable.ease_default_expression);
+                imageView.setImageResource(R.drawable.em_default_expression);
             }
         }
     }

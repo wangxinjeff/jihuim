@@ -35,7 +35,6 @@ import com.hyphenate.mediapicker.internal.entity.IncapableCause;
 import com.hyphenate.mediapicker.internal.entity.Item;
 import com.hyphenate.mediapicker.internal.entity.SelectionSpec;
 import com.hyphenate.mediapicker.internal.model.SelectedItemCollection;
-import com.hyphenate.mediapicker.internal.ui.PreviewItemFragment;
 import com.hyphenate.mediapicker.internal.ui.adapter.PreviewPagerAdapter;
 import com.hyphenate.mediapicker.internal.ui.widget.CheckRadioView;
 import com.hyphenate.mediapicker.internal.ui.widget.CheckView;
@@ -83,7 +82,7 @@ public abstract class BasePreviewActivity extends AppCompatActivity implements V
             finish();
             return;
         }
-        setContentView(R.layout.activity_media_preview);
+        setContentView(R.layout.em_activity_media_preview);
         if (Platform.hasKitKat()) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }

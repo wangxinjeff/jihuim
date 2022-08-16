@@ -31,7 +31,7 @@ public class EaseBaiduMapAdapter extends EaseBaseRecyclerViewAdapter<PoiInfo>{
 
     @Override
     public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        return new EaseMapViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.map_result_item, parent, false));
+        return new EaseMapViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.em_map_result_item, parent, false));
     }
 
     class EaseMapViewHolder extends EaseBaseRecyclerViewAdapter.ViewHolder<PoiInfo> {
@@ -63,9 +63,11 @@ public class EaseBaiduMapAdapter extends EaseBaseRecyclerViewAdapter<PoiInfo>{
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    selectPosition = position;
-                    if(listener != null){
-                        listener.onItemClick(item);
+                    if(selectPosition != position) {
+                        selectPosition = position;
+                        if (listener != null) {
+                            listener.onItemClick(item);
+                        }
                     }
                 }
             });

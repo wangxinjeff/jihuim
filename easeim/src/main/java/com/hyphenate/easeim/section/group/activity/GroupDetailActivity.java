@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -21,15 +20,11 @@ import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
-import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.common.widget.ArrowItemView;
 import com.hyphenate.easeim.common.widget.SwitchItemView;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
-import com.hyphenate.easeim.section.dialog.DemoDialogFragment;
-import com.hyphenate.easeim.section.dialog.SimpleDialogFragment;
 import com.hyphenate.easeim.section.group.GroupHelper;
 import com.hyphenate.easeim.section.group.adapter.GroupDetailMemberAdapter;
-import com.hyphenate.easeim.section.group.fragment.GroupEditFragment;
 import com.hyphenate.easeim.section.group.viewmodels.GroupDetailViewModel;
 import com.hyphenate.easeim.section.search.SearchHistoryChatActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
@@ -78,7 +73,7 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_activity_chat_group_detail;
+        return R.layout.em_activity_chat_group_detail;
     }
 
     @Override
@@ -113,7 +108,7 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
         group = EaseIMHelper.getInstance().getGroupManager().getGroup(groupId);
 
         if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.icon_back_admin);
+            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
             itemGroupNote.setVisibility(View.VISIBLE);
             itemGroupIntroduction.setItemShowDivider(true);
             if(isOwner()){

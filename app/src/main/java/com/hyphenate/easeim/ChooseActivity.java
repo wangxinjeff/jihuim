@@ -9,6 +9,8 @@ import com.hyphenate.easeim.login.activity.LoginActivity;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
 
+import static android.view.View.GONE;
+
 public class ChooseActivity extends BaseInitActivity {
 
     Button customer;
@@ -37,6 +39,7 @@ public class ChooseActivity extends BaseInitActivity {
 
         customer = findViewById(R.id.customer);
         admin = findViewById(R.id.admin);
+        admin.setVisibility(GONE);
     }
 
     @Override

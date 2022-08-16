@@ -27,7 +27,7 @@ public class GroupAddMuteAdapter extends EaseBaseRecyclerViewAdapter<EaseUser>{
 
     @Override
     public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        return new GroupMuteViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.demo_widget_contact_item, parent, false));
+        return new GroupMuteViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.em_widget_contact_item, parent, false));
     }
 
     class GroupMuteViewHolder extends ViewHolder<EaseUser> {
@@ -76,7 +76,7 @@ public class GroupAddMuteAdapter extends EaseBaseRecyclerViewAdapter<EaseUser>{
             String avatarUrl = item.getAvatar();
             String nickname = item.getNickname();
             if(!TextUtils.isEmpty(avatarUrl)){
-                Glide.with(mContext).load(avatarUrl).apply(RequestOptions.bitmapTransform(new CircleCrop())).error(R.drawable.ease_default_avatar).into(mAvatar);
+                Glide.with(mContext).load(avatarUrl).apply(RequestOptions.bitmapTransform(new CircleCrop())).error(R.drawable.em_default_avatar).into(mAvatar);
             }
             mName.setText(nickname);
 

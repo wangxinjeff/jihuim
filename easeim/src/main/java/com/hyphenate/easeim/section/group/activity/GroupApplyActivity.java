@@ -9,7 +9,6 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
@@ -27,10 +26,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Observable;
 
 public class GroupApplyActivity extends BaseInitActivity implements OnRefreshLoadMoreListener {
 
@@ -45,7 +41,7 @@ public class GroupApplyActivity extends BaseInitActivity implements OnRefreshLoa
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_group_apply;
+        return R.layout.em_activity_group_apply;
     }
 
     @Override

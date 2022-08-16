@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:scaleType="centerInside"
-            tools:src="@drawable/icon_back"/>
+            tools:src="@drawable/em_icon_back"/>
 
     </RelativeLayout>
 
@@ -69,7 +69,7 @@
         android:minWidth="50dp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:foreground="@drawable/ease_ripple_click_gray">
+        android:foreground="@drawable/em_ripple_click_gray">
 
         <ImageView
             android:id="@+id/right_image"
