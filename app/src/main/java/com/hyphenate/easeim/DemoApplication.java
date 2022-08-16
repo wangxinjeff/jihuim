@@ -6,8 +6,12 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
+import android.widget.Toast;
 
+import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.common.BaiduMapSDKException;
 import com.hyphenate.easeim.common.interfaceOrImplement.UserActivityLifecycleCallbacks;
+import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.common.widget.InAppNotification;
 import com.hyphenate.util.EMLog;
 
@@ -34,6 +38,7 @@ public class DemoApplication extends Application implements Thread.UncaughtExcep
     }
 
     private void initHx() {
+        SDKInitializer.initialize(getApplicationContext());
         EaseIMHelper.getInstance().init(this);
         InAppNotification.getInstance().setNotifyName("极狐App")
                 .setNotifyIcon(R.drawable.ease_chatfrom_voice_playing_f3);

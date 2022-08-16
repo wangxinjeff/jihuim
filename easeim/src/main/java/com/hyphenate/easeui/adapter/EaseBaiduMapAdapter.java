@@ -64,9 +64,11 @@ public class EaseBaiduMapAdapter extends EaseBaseRecyclerViewAdapter<PoiInfo>{
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    selectPosition = position;
-                    if(listener != null){
-                        listener.onItemClick(item);
+                    if(selectPosition != position) {
+                        selectPosition = position;
+                        if (listener != null) {
+                            listener.onItemClick(item);
+                        }
                     }
                 }
             });

@@ -76,6 +76,7 @@ import com.hyphenate.easeui.adapter.EaseBaiduMapAdapter;
 import com.hyphenate.easeui.manager.EaseThreadManager;
 import com.hyphenate.easeui.ui.base.EaseBaseActivity;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.easeui.utils.PositionUtil;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 import com.hyphenate.util.EMLog;
 
@@ -147,15 +148,13 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 		} else {
 			setTheme(R.style.CustomerTheme);
 		}
-		//initialize SDK with context, should call this before setContentView
-		SDKInitializer.setAgreePrivacy(getApplicationContext(), true);
-		try {
+//		try {
 			// 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
 			SDKInitializer.initialize(getApplicationContext());
-		} catch (BaiduMapSDKException e) {
-			ToastUtils.showCenterToast("", "百度地图初始化失败", 0, Toast.LENGTH_SHORT);
-			return;
-		}
+//		} catch (BaiduMapSDKException e) {
+//			ToastUtils.showCenterToast("", "百度地图初始化失败", 0, Toast.LENGTH_SHORT);
+//			return;
+//		}
 		setContentView(R.layout.ease_activity_baidumap);
 		setFitSystemForTheme(false, R.color.transparent, true);
 		initIntent();
@@ -301,9 +300,9 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 			showMapWithLocationClient();
 		}else {
 			searchResultView.setVisibility(GONE);
-			LatLng lng = new LatLng(latitude, longitude);
-			mapView = new MapView(this,
-					new BaiduMapOptions().mapStatus(new MapStatus.Builder().target(lng).build()));
+//			LatLng lng = new LatLng(latitude, longitude);
+//			mapView = new MapView(this,
+//					new BaiduMapOptions().mapStatus(new MapStatus.Builder().target(lng).build()));
 			showMap(latitude, longitude);
 		}
 		IntentFilter iFilter = new IntentFilter();
@@ -325,8 +324,8 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 		LocationClientOption option = new LocationClientOption();
 		option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
 		option.setCoorType("gcj02");//可选，默认gcj02，设置返回的定位结果坐标系
-		option.setOnceLocation(true);
-		int span = 0;
+		//		option.setOnceLocation(true);
+		int span = 3000;
 		option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
 		option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
 		option.setOpenGps(true);//可选，默认false,设置是否使用gps
@@ -435,8 +434,11 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 
 	private void moveToPoi(PoiInfo info){
 		MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(info.location);
-		mCurrentLatitude = info.location.latitude;
-		mCurrentLongitude = info.location.longitude;
+		PositionUtil.Gps gps = PositionUtil.bd09_To_Gcj02(info.location.latitude, info.location.longitude);
+		mCurrentLatitude = gps.getWgLat();
+		mCurrentLongitude = gps.getWgLon();
+//		mCurrentLatitude = info.location.latitude;
+//		mCurrentLongitude = info.location.longitude;
 		mCurrentAddress = info.address;
 		mCurrentBuildingName = info.name;
 		Log.e(TAG, "moveToPoi:" + mCurrentLatitude + ", " + mCurrentLongitude + ", " + mCurrentAddress + ", " + mCurrentBuildingName);
@@ -501,7 +503,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 	class MyLocationListener extends BDAbstractLocationListener {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
-			if (location == null) {
+			if (location == null || "4.9E-324".equals(location.getLatitude())) {
 				return;
 			}
 
@@ -533,12 +535,15 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 			if (lastLocation != null){
 				nearList.clear();
 				PoiInfo poiInfo = new PoiInfo();
-				poiInfo.location = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+				PositionUtil.Gps gps = PositionUtil.gcj02_To_Bd09(lastLocation.getLatitude(), lastLocation.getLongitude());
+				poiInfo.location = new LatLng(gps.getWgLat(), gps.getWgLon());
 				poiInfo.name = lastLocation.getAddrStr();
 				poiInfo.address = lastLocation.getAddrStr();
 				Log.e(TAG, poiInfo.toString());
 				nearList.add(poiInfo);
 			}
+			mLocClient.stop();
+			mLocClient.unRegisterLocationListener(this);
 			moveToPoi = false;
 			searchNearBy("大厦");
 		}
