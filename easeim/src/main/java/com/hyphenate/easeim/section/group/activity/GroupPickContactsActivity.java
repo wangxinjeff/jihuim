@@ -18,13 +18,17 @@ import com.google.android.flexbox.JustifyContent;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.common.widget.SearchBar;
 import com.hyphenate.easeim.section.group.delegate.PickContactDelegate;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.group.adapter.GroupPickContactsAdapter;
 import com.hyphenate.easeim.section.group.viewmodels.GroupPickContactsViewModel;
+import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.model.EaseEvent;
+import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
 import java.util.ArrayList;
@@ -235,7 +239,8 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
                             if(data.size() > 0){
                                 result = data.get(0);
                                 resultView.setVisibility(View.VISIBLE);
-                                userName.setText(result);
+                                EaseUserUtils.setUserNick(result, userName);
+                                EaseUserUtils.setUserAvatar(mContext, result, userAvatar);
                             } else {
                                 resultView.setVisibility(View.GONE);
                                 result = "";
@@ -263,6 +268,19 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
                     ToastUtils.showCenterToast("", "搜索失败:" + code + ":" + message, 0, Toast.LENGTH_SHORT);
                 }
             });
+        });
+
+        LiveDataBus.get().with(EaseConstant.CONTACT_UPDATE, EaseEvent.class).observe(this, event -> {
+            if(event == null) {
+                return;
+            }
+
+            if(event.isContactChange()) {
+                if(resultView.getVisibility() == View.VISIBLE) {
+                    EaseUserUtils.setUserNick(result, userName);
+                    EaseUserUtils.setUserAvatar(mContext, result, userAvatar);
+                }
+            }
         });
     }
 

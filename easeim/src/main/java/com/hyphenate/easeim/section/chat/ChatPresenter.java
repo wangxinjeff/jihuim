@@ -217,14 +217,21 @@ public class ChatPresenter extends EaseChatPresenter {
                 return;
             }
 
-            // 如果设置群组离线消息免打扰，则不进行消息通知
-            List<String> disabledIds = EaseIMHelper.getInstance().getPushManager().getNoPushGroups();
-            if(disabledIds != null && disabledIds.contains(message.conversationId())) {
-                return;
-            }
-            List<String> noPushUserIds = EaseIMHelper.getInstance().getPushManager().getNoPushUsers();
-            if(noPushUserIds != null && noPushUserIds.contains(message.conversationId())) {
-                return;
+            if(message.getChatType() == EMMessage.ChatType.GroupChat){
+                if(EaseAtMessageHelper.get().isAtMeMessage(message)) {
+
+                } else {
+                    // 如果设置群组离线消息免打扰，则不进行消息通知
+                    List<String> disabledIds = EaseIMHelper.getInstance().getPushManager().getNoPushGroups();
+                    if(disabledIds != null && disabledIds.contains(message.conversationId())) {
+                        return;
+                    }
+                }
+            } else if(message.getChatType() == EMMessage.ChatType.Chat){
+                List<String> noPushUserIds = EaseIMHelper.getInstance().getPushManager().getNoPushUsers();
+                if(noPushUserIds != null && noPushUserIds.contains(message.conversationId())) {
+                    return;
+                }
             }
 
             if(EaseIMHelper.getInstance().getLifecycleCallbacks().isFront()) {
@@ -416,9 +423,7 @@ public class ChatPresenter extends EaseChatPresenter {
         @Override
         public void onConnected() {
             EMLog.i(TAG, "onConnected");
-            if(!EaseIMHelper.getInstance().isLoggedIn()) {
-                return;
-            }
+
             if(!isGroupsSyncedWithServer) {
                 EMLog.i(TAG, "isGroupsSyncedWithServer");
                 new EMGroupManagerRepository().getAllGroups(new ResultCallBack<List<EMGroup>>() {
@@ -437,34 +442,11 @@ public class ChatPresenter extends EaseChatPresenter {
                 });
                 isGroupsSyncedWithServer = true;
             }
-            if(!isContactsSyncedWithServer) {
-                EMLog.i(TAG, "isContactsSyncedWithServer");
-                new EMContactManagerRepository().getContactList(new ResultCallBack<List<EaseUser>>() {
-                    @Override
-                    public void onSuccess(List<EaseUser> value) {
-                        EmUserDao userDao = EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).getUserDao();
-                        if(userDao != null) {
-                            userDao.clearUsers();
-                            userDao.insert(EmUserEntity.parseList(value));
-                        }
-                    }
-
-                    @Override
-                    public void onError(int error, String errorMsg) {
-
-                    }
-                });
-                isContactsSyncedWithServer = true;
-            }
-            if(!isBlackListSyncedWithServer) {
-                EMLog.i(TAG, "isBlackListSyncedWithServer");
-                new EMContactManagerRepository().getBlackContactList(null);
-                isBlackListSyncedWithServer = true;
-            }
             if(!isPushConfigsWithServer) {
                 EMLog.i(TAG, "isPushConfigsWithServer");
                 //首先获取push配置，否则获取push配置项会为空
                 new EMPushManagerRepository().fetchPushConfigsFromServer();
+                new EMClientRepository().fetchSelfInfo();
                 isPushConfigsWithServer = true;
             }
 

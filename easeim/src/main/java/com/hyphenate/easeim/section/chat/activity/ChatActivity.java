@@ -14,6 +14,7 @@ import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
+import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.chat.fragment.ChatFragment;
 import com.hyphenate.easeim.section.chat.viewmodel.ChatViewModel;
@@ -25,7 +26,9 @@ import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.easeui.provider.EaseUserProfileProvider;
+import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseTitleBar;
+import com.hyphenate.util.EMLog;
 
 public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBackPressListener, EaseTitleBar.OnRightClickListener, ChatFragment.OnFragmentInfoListener {
     private EaseTitleBar titleBarMessage;
@@ -146,12 +149,13 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
                 showSnackBar(event.event);
             }
         });
-        messageViewModel.getMessageChange().with(EaseConstant.CONTACT_CHANGE, EaseEvent.class).observe(this, event -> {
+        messageViewModel.getMessageChange().with(EaseConstant.CONTACT_UPDATE, EaseEvent.class).observe(this, event -> {
             if(event == null) {
                 return;
             }
-            if(conversation == null) {
-                finish();
+
+            if(event.isContactChange() && chatType == EaseConstant.CHATTYPE_SINGLE) {
+                setDefaultTitle();
             }
         });
 

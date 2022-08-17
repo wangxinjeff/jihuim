@@ -153,7 +153,30 @@ public class EaseAtMessageHelper {
             }
         }
     }
-    
+
+    public boolean isAtMeMessage(EMMessage message){
+        if(message.getChatType() == ChatType.GroupChat){
+            try {
+                JSONArray jsonArray = message.getJSONArrayAttribute(EaseConstant.MESSAGE_ATTR_AT_MSG);
+                for(int i = 0; i < jsonArray.length(); i++){
+                    String username = jsonArray.getString(i);
+                    if(EMClient.getInstance().getCurrentUser().equals(username)){
+                        return true;
+                    }
+                }
+            } catch (Exception e1) {
+                //Determine whether is @ all message
+                String usernameStr = message.getStringAttribute(EaseConstant.MESSAGE_ATTR_AT_MSG, null);
+                if(usernameStr != null){
+                    if(usernameStr.toUpperCase().equals(EaseConstant.MESSAGE_ATTR_VALUE_AT_MSG_ALL)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * get groups which I was mentioned
      * @return

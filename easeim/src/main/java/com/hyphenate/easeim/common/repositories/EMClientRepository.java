@@ -8,9 +8,11 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
+import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMGroup;
+import com.hyphenate.chat.EMUserInfo;
 import com.hyphenate.easecallkit.base.EaseCallKitTokenCallback;
 import com.hyphenate.easecallkit.base.EaseGetUserAccountCallback;
 import com.hyphenate.easecallkit.base.EaseUserAccount;
@@ -38,6 +40,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import okhttp3.Call;
@@ -55,6 +58,45 @@ import okhttp3.Response;
 public class EMClientRepository extends BaseEMRepository{
 
     private static final String TAG = EMClientRepository.class.getSimpleName();
+
+    public void fetchSelfInfo(){
+        String[] userId = new String[1];
+        userId[0] = EMClient.getInstance().getCurrentUser();
+        EMUserInfo.EMUserInfoType[] userInfoTypes = new EMUserInfo.EMUserInfoType[2];
+        userInfoTypes[0] = EMUserInfo.EMUserInfoType.NICKNAME;
+        userInfoTypes[1] = EMUserInfo.EMUserInfoType.AVATAR_URL;
+        EMClient.getInstance().userInfoManager().fetchUserInfoByAttribute(userId, userInfoTypes,new EMValueCallBack<Map<String, EMUserInfo>>() {
+            @Override
+            public void onSuccess(Map<String, EMUserInfo> userInfos) {
+                runOnMainThread(new Runnable() {
+                    public void run() {
+                        EMUserInfo userInfo = userInfos.get(EMClient.getInstance().getCurrentUser());
+                        //昵称
+                        if(userInfo != null && userInfo.getNickName() != null &&
+                                userInfo.getNickName().length() > 0){
+                            EaseEvent event = EaseEvent.create(EaseConstant.NICK_NAME_CHANGE, EaseEvent.TYPE.CONTACT);
+                            event.message = userInfo.getNickname();
+                            LiveDataBus.get().with(EaseConstant.NICK_NAME_CHANGE).postValue(event);
+                            PreferenceManager.getInstance().setCurrentUserNick(userInfo.getNickname());
+                        }
+                        //头像
+                        if(userInfo != null && userInfo.getAvatarUrl() != null && userInfo.getAvatarUrl().length() > 0){
+
+                            EaseEvent event = EaseEvent.create(EaseConstant.AVATAR_CHANGE, EaseEvent.TYPE.CONTACT);
+                            event.message = userInfo.getAvatarUrl();
+                            LiveDataBus.get().with(EaseConstant.AVATAR_CHANGE).postValue(event);
+                            PreferenceManager.getInstance().setCurrentUserAvatar(userInfo.getAvatarUrl());
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onError(int error, String errorMsg) {
+                EMLog.e(TAG,"fetchUserInfoByIds error:" + error + " errorMsg:" + errorMsg);
+            }
+        });
+    }
 
     /**
      * 登录过后需要加载的数据

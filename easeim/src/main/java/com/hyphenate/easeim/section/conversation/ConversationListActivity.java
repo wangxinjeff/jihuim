@@ -157,7 +157,6 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
     protected void initData() {
         super.initData();
         initViewModel();
-        fetchSelfInfo();
         ChatPresenter.getInstance().init();
 
 //        requestPermissions();
@@ -221,45 +220,6 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
             mConversationListFragment = new ConversationListFragment(conversationsType);
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_main_fragment, mConversationListFragment, "conversation").commit();
-    }
-
-    private void fetchSelfInfo(){
-        String[] userId = new String[1];
-        userId[0] = EMClient.getInstance().getCurrentUser();
-        EMUserInfoType[] userInfoTypes = new EMUserInfoType[2];
-        userInfoTypes[0] = EMUserInfoType.NICKNAME;
-        userInfoTypes[1] = EMUserInfoType.AVATAR_URL;
-        EMClient.getInstance().userInfoManager().fetchUserInfoByAttribute(userId, userInfoTypes,new EMValueCallBack<Map<String, EMUserInfo>>() {
-            @Override
-            public void onSuccess(Map<String, EMUserInfo> userInfos) {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                       EMUserInfo userInfo = userInfos.get(EMClient.getInstance().getCurrentUser());
-                        //昵称
-                        if(userInfo != null && userInfo.getNickName() != null &&
-                                userInfo.getNickName().length() > 0){
-                            EaseEvent event = EaseEvent.create(EaseConstant.NICK_NAME_CHANGE, EaseEvent.TYPE.CONTACT);
-                            event.message = userInfo.getNickname();
-                            LiveDataBus.get().with(EaseConstant.NICK_NAME_CHANGE).postValue(event);
-                            PreferenceManager.getInstance().setCurrentUserNick(userInfo.getNickname());
-                        }
-                        //头像
-                        if(userInfo != null && userInfo.getAvatarUrl() != null && userInfo.getAvatarUrl().length() > 0){
-
-                            EaseEvent event = EaseEvent.create(EaseConstant.AVATAR_CHANGE, EaseEvent.TYPE.CONTACT);
-                            event.message = userInfo.getAvatarUrl();
-                            LiveDataBus.get().with(EaseConstant.AVATAR_CHANGE).postValue(event);
-                            PreferenceManager.getInstance().setCurrentUserAvatar(userInfo.getAvatarUrl());
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onError(int error, String errorMsg) {
-                EMLog.e("MainActivity","fetchUserInfoByIds error:" + error + " errorMsg:" + errorMsg);
-            }
-        });
     }
 
     @Override
