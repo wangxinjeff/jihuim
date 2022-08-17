@@ -130,7 +130,6 @@ public class MainActivity extends BaseInitActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
-        refreshUI();
 //        InAppNotification.getInstance().init(this);
     }
 

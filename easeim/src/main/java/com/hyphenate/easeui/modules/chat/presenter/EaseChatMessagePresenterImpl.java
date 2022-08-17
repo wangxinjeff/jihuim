@@ -8,6 +8,9 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeim.common.livedatas.LiveDataBus;
+import com.hyphenate.easeui.constants.EaseConstant;
+import com.hyphenate.easeui.model.EaseEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -207,6 +210,8 @@ public class EaseChatMessagePresenterImpl extends EaseChatMessagePresenter {
         }
         conversation.markAllMessagesAsRead();
         List<EMMessage> allMessages = conversation.getAllMessages();
+        EaseEvent event = EaseEvent.create(EaseConstant.MESSAGE_UNREAD_CHANGE, EaseEvent.TYPE.MESSAGE);
+        LiveDataBus.get().with(EaseConstant.MESSAGE_CHANGE_CHANGE).postValue(event);
         if(isActive()) {
             runOnUI(()->mView.refreshCurrentConSuccess(allMessages, true));
         }

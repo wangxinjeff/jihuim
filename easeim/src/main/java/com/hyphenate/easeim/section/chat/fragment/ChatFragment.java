@@ -10,6 +10,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -112,7 +113,7 @@ public class ChatFragment extends EaseChatFragment implements OnRecallMessageRes
             if(event == null) {
                 return;
             }
-            if(event.isMessageChange()) {
+            if(event.isMessageChange() && !TextUtils.equals(EaseConstant.MESSAGE_UNREAD_CHANGE, event.event)) {
                 chatLayout.getChatMessageListLayout().refreshToLatest();
             }
         });

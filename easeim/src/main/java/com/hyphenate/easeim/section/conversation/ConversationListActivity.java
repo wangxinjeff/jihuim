@@ -184,14 +184,6 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
                 if(TextUtils.equals(EaseConstant.MESSAGE_CHANGE_CMD_RECEIVE, event.event)){
                     if(TextUtils.equals(EaseConstant.NEW_GROUP_APPLY, event.message)){
                         showRedIcon(View.VISIBLE);
-                    } else if(TextUtils.equals(EaseConstant.NO_PUSH_CHANGE, event.message)){
-                        EaseThreadManager.getInstance().runOnIOThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                EMPushConfigs emPushConfigs = new EMPushManagerRepository().fetchPushConfigsFromServer();
-
-                            }
-                        });
                     }
                 }
             }
