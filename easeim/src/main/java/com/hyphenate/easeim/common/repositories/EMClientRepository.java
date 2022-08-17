@@ -36,7 +36,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -475,23 +477,15 @@ public class EMClientRepository extends BaseEMRepository{
                         String status = result.optString("status");
                         if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
                             JSONObject entity = result.getJSONObject("entity");
-                            JSONArray rtcChannels = entity.getJSONArray("rtcChannels");
+                            JSONObject rtcChannels = entity.getJSONObject("rtcChannels");
                             List<EaseUserAccount> userAccounts = new ArrayList<>();
-                            if(rtcChannels.length() > 0){
-                                for(int i =0; i< rtcChannels.length(); i++){
-                                    String item = rtcChannels.getString(i);
-                                    String subItem = item.substring(2, item.length() - 2);
-                                    String[] subItems = subItem.split(", ");
-                                    String[] uIds = subItems[0].split("=");
-                                    String[] channels = subItems[1].split("=");
-                                    String[] userNames = subItems[2].split("=");
-                                    EMLog.e("getUid:", uIds[1] + " = " + channels[1] + " = " + userNames[1]);
-                                    if(TextUtils.equals(String.valueOf(uid), uIds[1])){
-                                        EaseIMHelper.getInstance().setEaseCallKitUserInfo(userNames[1]);
-                                    }
-
-                                    userAccounts.add(new EaseUserAccount(Integer.parseInt(uIds[1]), userNames[1]));
+                            for (Iterator<String> it = rtcChannels.keys(); it.hasNext(); ) {
+                                String name = it.next();
+                                String id = rtcChannels.optString(name);
+                                if(TextUtils.equals(String.valueOf(uid), id)){
+                                    EaseIMHelper.getInstance().setEaseCallKitUserInfo(name);
                                 }
+                                userAccounts.add(new EaseUserAccount(Integer.parseInt(id), name));
                             }
                             EaseThreadManager.getInstance().runOnMainThread(() -> callBack.onUserAccount(userAccounts));
                         } else {
@@ -600,23 +594,15 @@ public class EMClientRepository extends BaseEMRepository{
                         String status = result.optString("status");
                         if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
                             JSONObject entity = result.getJSONObject("entity");
-                            JSONArray rtcChannels = entity.getJSONArray("rtcChannels");
+                            JSONObject rtcChannels = entity.getJSONObject("rtcChannels");
                             List<EaseUserAccount> userAccounts = new ArrayList<>();
-                            if(rtcChannels.length() > 0){
-                                for(int i =0; i< rtcChannels.length(); i++){
-                                    String item = rtcChannels.getString(i);
-                                    String subItem = item.substring(2, item.length() - 2);
-                                    String[] subItems = subItem.split(", ");
-                                    String[] uIds = subItems[0].split("=");
-                                    String[] channels = subItems[1].split("=");
-                                    String[] userNames = subItems[2].split("=");
-                                    EMLog.e("getUid:", uIds[1] + " = " + channels[1] + " = " + userNames[1]);
-                                    if(TextUtils.equals(String.valueOf(uid), uIds[1])){
-                                        EaseIMHelper.getInstance().setEaseCallKitUserInfo(userNames[1]);
-                                    }
-
-                                    userAccounts.add(new EaseUserAccount(Integer.parseInt(uIds[1]), userNames[1]));
+                            for (Iterator<String> it = rtcChannels.keys(); it.hasNext(); ) {
+                                String name = it.next();
+                                String id = rtcChannels.optString(name);
+                                if(TextUtils.equals(String.valueOf(uid), id)){
+                                    EaseIMHelper.getInstance().setEaseCallKitUserInfo(name);
                                 }
+                                userAccounts.add(new EaseUserAccount(Integer.parseInt(id), name));
                             }
                             EaseThreadManager.getInstance().runOnMainThread(() -> callBack.onUserAccount(userAccounts));
                         } else {
