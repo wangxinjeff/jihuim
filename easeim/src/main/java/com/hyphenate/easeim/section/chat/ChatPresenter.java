@@ -466,17 +466,6 @@ public class ChatPresenter extends EaseChatPresenter {
                 //首先获取push配置，否则获取push配置项会为空
                 new EMPushManagerRepository().fetchPushConfigsFromServer();
                 isPushConfigsWithServer = true;
-                new EMClientRepository().getServiceGroups(new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-
-                    }
-
-                    @Override
-                    public void onError(int i, String s) {
-
-                    }
-                });
             }
 
             LiveDataBus.get().with(EaseConstant.ACCOUNT_CHANGE).postValue(new EaseEvent(EaseConstant.ACCOUNT_CONNECT, EaseEvent.TYPE.ACCOUNT));

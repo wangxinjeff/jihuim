@@ -38,7 +38,7 @@ public class HMSPushHelper {
      *
      * 4、服务端识别token过期后刷新token，以onNewToken接口返回。
      */
-    public void getHMSToken(Activity activity){
+    public void getHMSToken(Activity activity, String appId){
         // 判断是否启用FCM推送
         if (EMClient.getInstance().isFCMAvailable()) {
             return;
@@ -56,8 +56,7 @@ public class HMSPushHelper {
                         public void run() {
                             try {
                                 // read from agconnect-services.json
-                                String appId = AGConnectServicesConfig.fromContext(activity).getString("client/app_id");
-
+//                                String appId = AGConnectServicesConfig.fromContext(activity).getString("client/app_id");
                                 // 申请华为推送token
                                 String token = HmsInstanceId.getInstance(activity).getToken(appId, "HCM");
                                 EMLog.d("HWHMSPush", "get huawei hms push token:" + token);

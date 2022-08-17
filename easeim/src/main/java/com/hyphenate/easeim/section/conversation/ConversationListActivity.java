@@ -162,7 +162,7 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
 
 //        requestPermissions();
         // 获取华为 HMS 推送 token
-        HMSPushHelper.getInstance().getHMSToken(this);
+//        HMSPushHelper.getInstance().getHMSToken(this, "102920687");
 
         //判断是否为来电推送
         if(PushUtils.isRtcCall){

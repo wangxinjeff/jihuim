@@ -1066,17 +1066,17 @@ public class EaseIMHelper {
                     ConversationListActivity.actionStart(context, conversationType);
                 }
 
-//                clientRepository.getServiceGroups(new EMCallBack() {
-//                    @Override
-//                    public void onSuccess() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(int i, String s) {
-//
-//                    }
-//                });
+                clientRepository.getServiceGroups(new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+
+                    }
+                });
             } else {
                 ConversationListActivity.actionStart(context, conversationType);
             }
