@@ -154,8 +154,7 @@ public class ChatFragment extends EaseChatFragment implements OnRecallMessageRes
             RxPermissions rxPermissions = new RxPermissions(getActivity());
             rxPermissions.request(
                     Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    Manifest.permission.CAMERA
             ).subscribe(granted -> {
                 if(granted){
                     Intent intent = new Intent(getContext(), ConferenceInviteActivity.class).addFlags(FLAG_ACTIVITY_NEW_TASK);

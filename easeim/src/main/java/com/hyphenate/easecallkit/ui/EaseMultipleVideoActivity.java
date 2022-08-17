@@ -155,8 +155,7 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
     private static final int PERMISSION_REQ_ID = 22;
     private static final String[] REQUESTED_PERMISSIONS = {
             Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.CAMERA
     };
 
     private final Map<Integer, EaseCallMemberView> mUidsList = new HashMap<>();
@@ -531,8 +530,7 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
 
         //开启设备权限
         if (checkSelfPermission(REQUESTED_PERMISSIONS[0], PERMISSION_REQ_ID) &&
-                checkSelfPermission(REQUESTED_PERMISSIONS[1], PERMISSION_REQ_ID) &&
-                checkSelfPermission(REQUESTED_PERMISSIONS[2], PERMISSION_REQ_ID)) {
+                checkSelfPermission(REQUESTED_PERMISSIONS[1], PERMISSION_REQ_ID)) {
         }
         timehandler = new TimeHandler();
         timeUpdataTimer = new TimeHandler();
