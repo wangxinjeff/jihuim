@@ -102,15 +102,9 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
         super.initView(savedInstanceState);
         mTitleBar = findViewById(R.id.title_bar_main);
         titleBarUnread = findViewById(R.id.apply_unread);
-        if(conversationsType == EaseConstant.CON_TYPE_EXCLUSIVE){
-            mTitleBar.setTitle(getString(R.string.my_exclusive_service));
-        } else if(conversationsType == EaseConstant.CON_TYPE_MY_CHAT){
-            mTitleBar.setTitle(getString(R.string.my_chat));
-        } else if(conversationsType == EaseConstant.CON_TYPE_ADMIN){
-            mTitleBar.setTitle(getString(R.string.my_conversations));
-            mTitleBar.setLeftLayoutVisibility(View.GONE);
-            mTitleBar.setRightImageResource(R.drawable.em_home_menu_add);
-        }
+        mTitleBar.setTitle(getString(R.string.my_conversations));
+        mTitleBar.setLeftLayoutVisibility(View.GONE);
+        mTitleBar.setRightImageResource(R.drawable.em_home_menu_add);
         disconnectView = findViewById(R.id.disconnect_view);
         switchToHome();
 
@@ -209,6 +203,7 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
                 }
             }
         });
+
         LiveDataBus.get().with(EaseConstant.ACCOUNT_CHANGE, EaseEvent.class).observe(this, event -> {
             if(event == null) {
                 return;
@@ -219,14 +214,17 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
 
             String accountEvent = event.event;
             if(TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_DIS)){
-                disconnectView.setVisibility(View.VISIBLE);
+                if(!EMClient.getInstance().isConnected()){
+                    disconnectView.setVisibility(View.VISIBLE);
+                }
             } else if (TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_CONNECT)){
                 disconnectView.setVisibility(View.GONE);
             } else {
-                disconnectView.setVisibility(View.VISIBLE);
+                if(!EMClient.getInstance().isConnected()){
+                    disconnectView.setVisibility(View.VISIBLE);
+                }
             }
         });
-
     }
 
     private void initViewModel() {

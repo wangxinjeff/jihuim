@@ -200,14 +200,21 @@ public class ChatPresenter extends EaseChatPresenter {
                 return;
             }
 
-            // 如果设置群组离线消息免打扰，则不进行消息通知
-            List<String> disabledIds = EaseIMHelper.getInstance().getPushManager().getNoPushGroups();
-            if(disabledIds != null && disabledIds.contains(message.conversationId())) {
-                return;
-            }
-            List<String> noPushUserIds = EaseIMHelper.getInstance().getPushManager().getNoPushUsers();
-            if(noPushUserIds != null && noPushUserIds.contains(message.conversationId())) {
-                return;
+            if(message.getChatType() == EMMessage.ChatType.GroupChat){
+                if(EaseAtMessageHelper.get().isAtMeMessage(message)) {
+
+                } else {
+                    // 如果设置群组离线消息免打扰，则不进行消息通知
+                    List<String> disabledIds = EaseIMHelper.getInstance().getPushManager().getNoPushGroups();
+                    if(disabledIds != null && disabledIds.contains(message.conversationId())) {
+                        return;
+                    }
+                }
+            } else if(message.getChatType() == EMMessage.ChatType.Chat){
+                List<String> noPushUserIds = EaseIMHelper.getInstance().getPushManager().getNoPushUsers();
+                if(noPushUserIds != null && noPushUserIds.contains(message.conversationId())) {
+                    return;
+                }
             }
 
             if(EaseIMHelper.getInstance().getLifecycleCallbacks().isFront()) {
@@ -215,7 +222,6 @@ public class ChatPresenter extends EaseChatPresenter {
                     EaseThreadManager.getInstance().runOnMainThread(() -> InAppNotification.getInstance().show(message));
                     getNotifier().notify(message);
                 } else if(message.getChatType() == EMMessage.ChatType.Chat && !TextUtils.equals(message.getFrom(), EaseIMHelper.getInstance().getChatPageConId())){
-                    EaseThreadManager.getInstance().runOnMainThread(() -> InAppNotification.getInstance().show(message));
                     getNotifier().notify(message);
                 }
             } else {

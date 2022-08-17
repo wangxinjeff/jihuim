@@ -123,12 +123,13 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
                 showSnackBar(event.event);
             }
         });
-        LiveDataBus.get().with(EaseConstant.CONTACT_CHANGE, EaseEvent.class).observe(this, event -> {
+        LiveDataBus.get().with(EaseConstant.CONTACT_UPDATE, EaseEvent.class).observe(this, event -> {
             if(event == null) {
                 return;
             }
-            if(conversation == null) {
-                finish();
+
+            if(event.isContactChange() && chatType == EaseConstant.CHATTYPE_SINGLE) {
+                setDefaultTitle();
             }
         });
 

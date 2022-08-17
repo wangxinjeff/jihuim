@@ -111,23 +111,25 @@ public class GroupMuteActivity extends BaseInitActivity {
     }
 
     private void getMuteMembers(){
-        showLoading();
-        EMGroupManagerRepository.getInstance().getGroupMuteMap(groupId, new ResultCallBack<Map<String, Long>>() {
-            @Override
-            public void onSuccess(Map<String, Long> data) {
-                dismissLoading();
-                runOnUiThread(() -> {
-                            muteList.clear();
-                            muteList.addAll(data.keySet());
-                            adapter.setData(muteList);
-                        }
-                );
-            }
+        runOnUiThread(() -> {
+            showLoading();
+            EMGroupManagerRepository.getInstance().getGroupMuteMap(groupId, new ResultCallBack<Map<String, Long>>() {
+                @Override
+                public void onSuccess(Map<String, Long> data) {
+                    dismissLoading();
+                    runOnUiThread(() -> {
+                                muteList.clear();
+                                muteList.addAll(data.keySet());
+                                adapter.setData(muteList);
+                            }
+                    );
+                }
 
-            @Override
-            public void onError(int i, String s) {
-                dismissLoading();
-            }
+                @Override
+                public void onError(int i, String s) {
+                    dismissLoading();
+                }
+            });
         });
     }
 }

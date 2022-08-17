@@ -35,6 +35,7 @@ public class AdminLoginActivity extends BaseInitActivity implements View.OnClick
 
     @Override
     protected int getLayoutId() {
+        setTheme(R.style.AdminLoginTheme);
         return R.layout.em_activity_admin_login;
     }
 

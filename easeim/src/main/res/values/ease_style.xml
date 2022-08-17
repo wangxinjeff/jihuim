@@ -189,6 +189,10 @@
         <item name="android:navigationBarColor">@color/input_view_bg</item>
     </style>
 
+    <style name="AdminLoginTheme" parent="AdminTheme">
+        <item name="android:navigationBarColor">@color/theme_bg_color</item>
+    </style>
+
     <style name="NoActionBar.SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!--<item name="android:windowBackground">@android:color/transparent</item>-->
         <item name="android:windowBackground">@color/blue</item>
