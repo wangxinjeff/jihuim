@@ -39,7 +39,7 @@
         android:requestLegacyExternalStorage="false"
         android:usesCleartextTraffic="true"
         android:name=".DemoApplication"
-        android:theme="@style/CustomerTheme">
+        android:theme="@style/AdminTheme">
 
         <!--启动页-->
         <activity

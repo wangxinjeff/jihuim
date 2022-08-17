@@ -15,7 +15,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:titleBarTitleTextColor="?attr/normalTextColor"
-        app:titleBarLeftImage="@drawable/em_icon_back"
+        app:titleBarLeftImage="@drawable/em_icon_back_admin"
         />
 
     <LinearLayout

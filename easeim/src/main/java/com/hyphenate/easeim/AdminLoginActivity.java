@@ -41,7 +41,8 @@ public class AdminLoginActivity extends BaseInitActivity implements View.OnClick
     @Override
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
-
+        setFitSystemForTheme(true, R.color.theme_bg_color);
+        setStatusBarTextColor(true);
         if(EaseIMHelper.getInstance().getAutoLogin()){
             EaseIMHelper.getInstance().loginSuccess();
             EaseIMHelper.getInstance().startChat(mContext, EaseConstant.CON_TYPE_ADMIN);

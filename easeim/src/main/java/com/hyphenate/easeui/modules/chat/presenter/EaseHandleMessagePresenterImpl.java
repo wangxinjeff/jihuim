@@ -139,9 +139,7 @@ public class EaseHandleMessagePresenterImpl extends EaseHandleMessagePresenter {
         addMessageAttributes(message);
         if (chatType == EaseConstant.CHATTYPE_GROUP){
             message.setChatType(EMMessage.ChatType.GroupChat);
-            if(EaseIMHelper.getInstance().isAdmin()){
-                message.setIsNeedGroupAck(true);
-            }
+            message.setIsNeedGroupAck(true);
         }else if(chatType == EaseConstant.CHATTYPE_CHATROOM){
             message.setChatType(EMMessage.ChatType.ChatRoom);
         }

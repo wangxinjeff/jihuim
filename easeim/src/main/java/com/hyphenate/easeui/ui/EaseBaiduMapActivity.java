@@ -143,11 +143,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(EaseIMHelper.getInstance().isAdmin()){
-			setTheme(R.style.AdminTheme);
-		} else {
-			setTheme(R.style.CustomerTheme);
-		}
+		setTheme(R.style.AdminTheme);
 //		try {
 			// 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
 			SDKInitializer.initialize(getApplicationContext());
@@ -183,11 +179,9 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 		searchTextView = searchBar.findViewById(R.id.search_tv_view);
 		searchIconView = searchBar.findViewById(R.id.search_icon_view);
 
-		if(EaseIMHelper.getInstance().isAdmin()){
 			searchBar.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_float_bg));
 			inputView.setBackground(ContextCompat.getDrawable(this, R.drawable.ease_search_bg_admin));
 			searchTextView.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.ease_search_bg_admin));
-		}
 
 		searchResultView = findViewById(R.id.result_view);
 

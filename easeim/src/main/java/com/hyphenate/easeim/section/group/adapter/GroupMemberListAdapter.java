@@ -10,7 +10,7 @@ public class GroupMemberListAdapter extends EaseBaseDelegateAdapter<EaseUser> {
 
     @Override
     public int getEmptyLayoutId() {
-        return EaseIMHelper.getInstance().isAdmin() ? R.layout.ease_layout_no_data_admin : R.layout.ease_layout_no_data;
+        return R.layout.ease_layout_no_data_admin;
     }
 
 

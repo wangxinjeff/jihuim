@@ -58,9 +58,7 @@ public class SingleChatSetActivity extends BaseInitActivity implements EaseTitle
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         titleBar = findViewById(R.id.title_bar);
-        if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
-        }
+        titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
         itemUserInfo = findViewById(R.id.item_user_info);
         itemSearchHistory = findViewById(R.id.item_search_history);
         itemClearHistory = findViewById(R.id.item_clear_history);

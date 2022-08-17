@@ -13,7 +13,7 @@
         app:titleBarTitle="@string/em_group_member_type_title"
         app:titleBarRightTitle="@string/em_add_member"
         app:titleBarRightVisible="true"
-        app:titleBarLeftImage="@drawable/em_icon_back"
+        app:titleBarLeftImage="@drawable/em_icon_back_admin"
         app:titleBarTitleTextColor="?attr/normalTextColor"
         />
 

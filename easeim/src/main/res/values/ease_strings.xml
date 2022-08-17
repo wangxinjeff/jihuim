@@ -83,6 +83,7 @@
     <string name="action_copy">Copy</string>
     <string name="action_recall">Recall</string>
     <string name="action_delete">Delete</string>
+    <string name="action_roam">Roam</string>
     <string name="delete_voice">Delete voice</string>
     <string name="delete_video">Delete video </string>
 

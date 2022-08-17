@@ -46,7 +46,7 @@ import java.util.List;
 
 public class EaseChatMessageListLayout extends RelativeLayout implements IChatMessageListView, IRecyclerViewHandle
                                                                         , IChatMessageItemSet, IChatMessageListLayout {
-    private static final int DEFAULT_PAGE_SIZE = 10;
+    private static final int DEFAULT_PAGE_SIZE = 20;
     private static final String TAG = EaseChatMessageListLayout.class.getSimpleName();
     private EaseChatMessagePresenter presenter;
     private EaseMessageAdapter messageAdapter;
@@ -272,6 +272,10 @@ public class EaseChatMessageListLayout extends RelativeLayout implements IChatMe
         }else {
             presenter.loadMoreLocalMessages(msgId, pageSize);
         }
+    }
+
+    public void loadBeforeMsgFromServer(String msgId){
+        presenter.loadMoreServerMessages(msgId, pageSize);
     }
 
     /**
@@ -578,7 +582,7 @@ public class EaseChatMessageListLayout extends RelativeLayout implements IChatMe
     public void loadMoreServerMsgSuccess(List<EMMessage> data) {
         finishRefresh();
         presenter.refreshCurrentConversation();
-        post(()-> smoothSeekToPosition(data.size() - 1));
+        post(()-> messageAdapter.notifyDataSetChanged());
     }
 
     @Override

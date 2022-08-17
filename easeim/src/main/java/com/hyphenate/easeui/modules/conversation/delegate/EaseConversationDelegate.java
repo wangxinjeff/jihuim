@@ -45,12 +45,8 @@ public class EaseConversationDelegate extends EaseDefaultConversationDelegate {
     @Override
     protected void onBindConViewHolder(ViewHolder holder, int position, EaseConversationInfo bean) {
 
-        if(EaseIMHelper.getInstance().isAdmin()){
-            holder.mUnreadMsgNumber.setBackgroundResource(R.drawable.em_unread_bg_admin);
-        } else {
-            holder.mUnreadMsgNumber.setBackgroundResource(R.drawable.em_unread_bg);
-        }
-        
+        holder.mUnreadMsgNumber.setBackgroundResource(R.drawable.em_unread_bg_admin);
+
         EMConversation item = (EMConversation) bean.getInfo();
         Context context = holder.itemView.getContext();
         String username = item.conversationId();
@@ -63,10 +59,8 @@ public class EaseConversationDelegate extends EaseDefaultConversationDelegate {
         }
 
         if(item.getType() == EMConversation.EMConversationType.GroupChat) {
-            if(EaseIMHelper.getInstance().isAdmin()){
                 holder.groupId.setVisibility(View.VISIBLE);
                 holder.groupId.setText("群组ID："+username);
-            }
             if(EaseAtMessageHelper.get().hasAtMeMsg(username)) {
                 holder.mentioned.setText(R.string.were_mentioned);
                 holder.mentioned.setVisibility(View.VISIBLE);

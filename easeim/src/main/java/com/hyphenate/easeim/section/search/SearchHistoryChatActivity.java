@@ -59,9 +59,7 @@ public class SearchHistoryChatActivity extends BaseInitActivity {
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         titleBar = findViewById(R.id.title_bar);
-        if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
-        }
+        titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
 
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.view_pager);

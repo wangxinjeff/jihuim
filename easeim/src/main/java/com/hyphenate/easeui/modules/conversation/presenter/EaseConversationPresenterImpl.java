@@ -42,22 +42,6 @@ public class EaseConversationPresenterImpl extends EaseConversationPresenter {
 
         List<EaseConversationInfo> infos = new ArrayList<>();
         synchronized (this) {
-             if(conversationsType != EaseConstant.CON_TYPE_ADMIN){
-                Map<String, EMConversation> conversationMap = new HashMap<>();
-                for(EMConversation conversation : conversations.values()){
-                    if(conversationsType == EaseConstant.CON_TYPE_EXCLUSIVE){
-                        if(EaseIMHelper.getInstance().isExclusiveGroup(conversation)){
-                            conversationMap.put(conversation.conversationId(), conversation);
-                        }
-                    } else if(conversationsType == EaseConstant.CON_TYPE_MY_CHAT){
-                        if(!EaseIMHelper.getInstance().isExclusiveGroup(conversation)){
-                            conversationMap.put(conversation.conversationId(), conversation);
-                        }
-                    }
-                }
-                 conversations = conversationMap;
-             }
-
             EaseConversationInfo info = null;
             for (EMConversation conversation : conversations.values()) {
                 if(conversation.getAllMessages().size() != 0) {

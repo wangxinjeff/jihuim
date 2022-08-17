@@ -29,6 +29,7 @@ import com.hyphenate.easeim.section.chat.activity.ChatActivity;
 import com.hyphenate.easeim.section.search.adapter.SearchGroupChatAdapter;
 import com.hyphenate.easeui.constants.EaseConstant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchGroupChatActivity extends BaseInitActivity implements View.OnClickListener{
@@ -167,6 +168,10 @@ public class SearchGroupChatActivity extends BaseInitActivity implements View.On
             @Override
             public void onError(int i, String s) {
                 dismissLoading();
+                runOnUiThread(() -> {
+                    List<SearchResult> data = new ArrayList<>();
+                    adapter.setData(data);
+                });
             }
         });
     }

@@ -102,7 +102,7 @@ public class EaseIMHelper {
     private FetchUserRunnable fetchUserRunnable;
     private Thread fetchUserTread;
     private FetchUserInfoList fetchUserInfoList;
-    private boolean isAdmin = false;
+    private boolean isAdmin = true;
     private String chatPageConId = "";
     private Application application;
     private UserActivityLifecycleCallbacks mLifecycleCallbacks = new UserActivityLifecycleCallbacks();
@@ -170,7 +170,7 @@ public class EaseIMHelper {
 
     public void initChat(boolean isAdmin){
         if(application != null){
-            this.isAdmin = isAdmin;
+            this.isAdmin = true;
             //初始化IM SDK
             if(initSDK(application)) {
                 clientRepository = new EMClientRepository();
@@ -586,20 +586,6 @@ public class EaseIMHelper {
         return getModel().isConComeFromServer();
     }
 
-    /**
-     * Determine if it is from the current user account of another device
-     * @param username
-     * @return
-     */
-    public boolean isCurrentUserFromOtherDevice(String username) {
-        if(TextUtils.isEmpty(username)) {
-            return false;
-        }
-        if(username.contains("/") && username.contains(EMClient.getInstance().getCurrentUser())) {
-            return true;
-        }
-        return false;
-    }
 
 
     /**
@@ -638,22 +624,7 @@ public class EaseIMHelper {
             @Override
             public void onGenerateToken(String userId, String channelName, String appKey, EaseCallKitTokenCallback callback){
                 EMLog.d(TAG,"onGenerateToken userId:" + userId + " channelName:" + channelName + " appKey:"+ appKey);
-//                String url = tokenUrl;
-//                url += "?";
-//                url += "userAccount=";
-//                url += userId;
-//                url += "&channelName=";
-//                url += channelName;
-//                url += "&appkey=";
-//                url +=  appKey;
-//
-//                //获取声网Token
-//                getRtcToken(url, callback);
-                if(isAdmin()){
-                    clientRepository.getRtcTokenWithAdmin(userId, channelName,callback);
-                } else {
-                    clientRepository.getRtcTokenWithCustomer(userId, channelName,callback);
-                }
+                clientRepository.getRtcTokenWithAdmin(userId, channelName,callback);
             }
 
             @Override
@@ -674,21 +645,7 @@ public class EaseIMHelper {
             @Override
             public void onRemoteUserJoinChannel(String channelName, String userName, int uid, EaseGetUserAccountCallback callback){
                 if(userName == null || userName == ""){
-//                    String url = uIdUrl;
-//                    url += "?";
-//                    url += "channelName=";
-//                    url += channelName;
-//                    url += "&userAccount=";
-//                    url += EMClient.getInstance().getCurrentUser();
-//                    url += "&appkey=";
-//                    url +=  EMClient.getInstance().getOptions().getAppKey();
-//                    getUserIdAgoraUid(uid,url,callback);
-                    if(isAdmin()){
-                        clientRepository.getAgoraUidWithAdmin(uid, channelName, callback);
-                    } else {
-                        clientRepository.getAgoraUidWithCustomer(uid, channelName, callback);
-                    }
-
+                    clientRepository.getAgoraUidWithAdmin(uid, channelName, callback);
                 }else{
                     //设置用户昵称 头像
                     setEaseCallKitUserInfo(userName);
@@ -701,121 +658,6 @@ public class EaseIMHelper {
         };
         EaseCallKit.getInstance().setCallKitListener(callKitListener);
     }
-
-
-    /**
-     * 获取声网Token
-     *
-     */
-    private void getRtcToken(String tokenUrl,EaseCallKitTokenCallback callback){
-        new AsyncTask<String, Void, Pair<Integer, String>>(){
-            @Override
-            protected Pair<Integer, String> doInBackground(String... str) {
-                try {
-                    Pair<Integer, String> response = EMHttpClient.getInstance().sendRequestWithToken(tokenUrl, null,EMHttpClient.GET);
-                    return response;
-                }catch (HyphenateException exception) {
-                    exception.printStackTrace();
-                }
-                return  null;
-            }
-            @Override
-            protected void onPostExecute(Pair<Integer, String> response) {
-                if(response != null) {
-                    try {
-                          int resCode = response.first;
-                          if(resCode == 200){
-                              String responseInfo = response.second;
-                              if(responseInfo != null && responseInfo.length() > 0){
-                                  try {
-                                      JSONObject object = new JSONObject(responseInfo);
-                                      String token = object.getString("accessToken");
-                                      int uId = object.getInt("agoraUserId");
-
-                                      //设置自己头像昵称
-                                      setEaseCallKitUserInfo(EMClient.getInstance().getCurrentUser());
-                                      callback.onSetToken(token,uId);
-                                  }catch (Exception e){
-                                      e.getStackTrace();
-                                  }
-                              }else{
-                                  callback.onGetTokenError(response.first,response.second);
-                              }
-                          }else{
-                              callback.onGetTokenError(response.first,response.second);
-                          }
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }else{
-                    callback.onSetToken(null,0);
-                }
-            }
-        }.execute(tokenUrl);
-    }
-
-    /**
-     * 根据channelName和声网uId获取频道内所有人的UserId
-     * @param uId
-     * @param url
-     * @param callback
-     */
-    private void getUserIdAgoraUid(int uId, String url, EaseGetUserAccountCallback callback){
-        new AsyncTask<String, Void, Pair<Integer, String>>(){
-            @Override
-            protected Pair<Integer, String> doInBackground(String... str) {
-                try {
-                    Pair<Integer, String> response = EMHttpClient.getInstance().sendRequestWithToken(url, null,EMHttpClient.GET);
-                    return response;
-                }catch (HyphenateException exception) {
-                    exception.printStackTrace();
-                }
-                return  null;
-            }
-            @Override
-            protected void onPostExecute(Pair<Integer, String> response) {
-                if(response != null) {
-                    try {
-                        int resCode = response.first;
-                        if(resCode == 200){
-                            String responseInfo = response.second;
-                            List<EaseUserAccount> userAccounts = new ArrayList<>();
-                            if(responseInfo != null && responseInfo.length() > 0){
-                                try {
-                                    JSONObject object = new JSONObject(responseInfo);
-                                    JSONObject resToken = object.getJSONObject("result");
-                                    Iterator it = resToken.keys();
-                                    while(it.hasNext()) {
-                                        String uIdStr = it.next().toString();
-                                        int uid = 0;
-                                        uid = Integer.valueOf(uIdStr).intValue();
-                                        String username = resToken.optString(uIdStr);
-                                        if(uid == uId){
-                                            //获取到当前用户的userName 设置头像昵称等信息
-                                            setEaseCallKitUserInfo(username);
-                                        }
-                                        userAccounts.add(new EaseUserAccount(uid, username));
-                                    }
-                                    callback.onUserAccount(userAccounts);
-                                }catch (Exception e){
-                                    e.getStackTrace();
-                                }
-                            }else{
-                                callback.onSetUserAccountError(response.first,response.second);
-                            }
-                        }else{
-                            callback.onSetUserAccountError(response.first,response.second);
-                        }
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }else{
-                    callback.onSetUserAccountError(100,"response is null");
-                }
-            }
-        }.execute(url);
-    }
-
 
     /**
      * 设置callKit 用户头像昵称
@@ -857,7 +699,6 @@ public class EaseIMHelper {
 
     //登录
     public void loginChat(String username, String password, EMCallBack callBack){
-        if(isAdmin){
             clientRepository.loginWithAdmin(username, password, new EMCallBack() {
                 @Override
                 public void onSuccess() {
@@ -872,28 +713,6 @@ public class EaseIMHelper {
                     callBack.onError(i,s);
                 }
             });
-        } else {
-            if(getAutoLogin()){
-                loginSuccess();
-                callBack.onSuccess();
-            } else {
-                clientRepository.loginWithCustomer(username, password, new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        if(fetchUserTread != null && fetchUserRunnable != null){
-                            fetchUserRunnable.setStop(false);
-                        }
-                        callBack.onSuccess();
-                    }
-
-                    @Override
-                    public void onError(int i, String s) {
-                        callBack.onError(i,s);
-                    }
-                });
-            }
-
-        }
     }
 
     //登出
@@ -936,54 +755,22 @@ public class EaseIMHelper {
         Map<String, EMConversation> map = EMClient.getInstance().chatManager().getAllConversations();
         List<String> noPushGroupIds = EaseIMHelper.getInstance().getPushManager().getNoPushGroups();
         List<String> noPushUserIds = EaseIMHelper.getInstance().getPushManager().getNoPushUsers();
-        if(isAdmin()){
-            for(EMConversation conversation : map.values()){
-                if(conversation.getType() == EMConversation.EMConversationType.GroupChat){
-                    if(noPushGroupIds != null){
-                        if(!noPushGroupIds.contains(conversation.conversationId())){
-                            totalUnread += conversation.getUnreadMsgCount();
-                        }
-                    } else {
+        for(EMConversation conversation : map.values()){
+            if(conversation.getType() == EMConversation.EMConversationType.GroupChat){
+                if(noPushGroupIds != null){
+                    if(!noPushGroupIds.contains(conversation.conversationId())){
                         totalUnread += conversation.getUnreadMsgCount();
-                    }
-                } else if(conversation.getType() == EMConversation.EMConversationType.Chat){
-                    if(noPushUserIds != null) {
-                        if(!noPushUserIds.contains(conversation.conversationId())){
-                            totalUnread += conversation.getUnreadMsgCount();
-                        }
-                    } else {
-                        totalUnread += conversation.getUnreadMsgCount();
-                    }
-                }
-            }
-        } else {
-            for(EMConversation conversation : map.values()){
-                if(isExclusiveGroup(conversation)){
-                    if(noPushGroupIds != null){
-                        if(!noPushGroupIds.contains(conversation.conversationId())){
-                            exclusiveUnread += conversation.getUnreadMsgCount();
-                        }
-                    } else {
-                        exclusiveUnread += conversation.getUnreadMsgCount();
                     }
                 } else {
-                    if(conversation.getType() == EMConversation.EMConversationType.GroupChat){
-                        if(noPushGroupIds != null) {
-                            if(!noPushGroupIds.contains(conversation.conversationId())){
-                                unread += conversation.getUnreadMsgCount();
-                            }
-                        } else {
-                            unread += conversation.getUnreadMsgCount();
-                        }
-                    } else if(conversation.getType() == EMConversation.EMConversationType.Chat){
-                        if(noPushUserIds != null) {
-                            if(!noPushUserIds.contains(conversation.conversationId())){
-                                unread += conversation.getUnreadMsgCount();
-                            }
-                        } else {
-                            unread += conversation.getUnreadMsgCount();
-                        }
+                    totalUnread += conversation.getUnreadMsgCount();
+                }
+            } else if(conversation.getType() == EMConversation.EMConversationType.Chat){
+                if(noPushUserIds != null) {
+                    if(!noPushUserIds.contains(conversation.conversationId())){
+                        totalUnread += conversation.getUnreadMsgCount();
                     }
+                } else {
+                    totalUnread += conversation.getUnreadMsgCount();
                 }
             }
         }
@@ -1001,69 +788,7 @@ public class EaseIMHelper {
      * @param conversationType
      */
     public void startChat(Context context, int conversationType){
-        if(isAdmin()){
-            ConversationListActivity.actionStart(context, EaseConstant.CON_TYPE_ADMIN);
-        } else {
-            if(conversationType == EaseConstant.CON_TYPE_EXCLUSIVE){
-                List<String> idList = new ArrayList<>();
-                String serviceGroupJson = getModel().getServiceGroup();
-                if(!TextUtils.isEmpty(serviceGroupJson)){
-                    try {
-                        JSONObject json = new JSONObject(serviceGroupJson);
-                        for (Iterator<String> it = json.keys(); it.hasNext(); ) {
-                            String groupId = it.next();
-                            idList.add(groupId);
-                            EMConversation conversation = EMClient.getInstance().chatManager().getConversation(groupId, EMConversation.EMConversationType.GroupChat, true);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                if(idList.size() == 1){
-                    ChatActivity.actionStart(context, idList.get(0), EaseConstant.CHATTYPE_GROUP);
-                } else {
-                    ConversationListActivity.actionStart(context, conversationType);
-                }
-
-                clientRepository.getServiceGroups(new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-
-                    }
-
-                    @Override
-                    public void onError(int i, String s) {
-
-                    }
-                });
-            } else {
-                ConversationListActivity.actionStart(context, conversationType);
-            }
-        }
-    }
-
-    /**
-     * 判断是否是专属群
-     * @param conversation
-     * @return
-     */
-    public boolean isExclusiveGroup(EMConversation conversation){
-        if(conversation.getType() == EMConversation.EMConversationType.GroupChat){
-            String serviceGroup = getModel().getServiceGroup();
-            if(!TextUtils.isEmpty(serviceGroup)){
-                try {
-                    JSONObject json = new JSONObject(serviceGroup);
-                    String groupName = json.optString(conversation.conversationId());
-                    if(!TextUtils.isEmpty(groupName)){
-                        return true;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return false;
+        ConversationListActivity.actionStart(context, EaseConstant.CON_TYPE_ADMIN);
     }
 
     /**

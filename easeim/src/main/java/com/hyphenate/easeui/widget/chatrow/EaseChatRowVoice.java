@@ -56,18 +56,10 @@ public class EaseChatRowVoice extends EaseChatRowFile {
             voiceLengthView.setVisibility(View.INVISIBLE);
         }
         if (!showSenderType) {
-            if(EaseIMHelper.getInstance().isAdmin()){
-                voiceImageView.setImageResource(R.drawable.ease_chatfrom_voice_playing_admin);
-            } else {
-                voiceImageView.setImageResource(R.drawable.ease_chatfrom_voice_playing);
-            }
+            voiceImageView.setImageResource(R.drawable.ease_chatfrom_voice_playing_admin);
             bubbleLayout.setPadding(0, 0, padding, 0);
         } else {
-            if(EaseIMHelper.getInstance().isAdmin()){
-                voiceImageView.setImageResource(R.drawable.ease_chatto_voice_playing_admin);
-            } else {
-                voiceImageView.setImageResource(R.drawable.ease_chatto_voice_playing);
-            }
+            voiceImageView.setImageResource(R.drawable.ease_chatto_voice_playing_admin);
             bubbleLayout.setPadding(padding, 0, 0, 0);
         }
 
@@ -125,17 +117,9 @@ public class EaseChatRowVoice extends EaseChatRowFile {
 
     public void startVoicePlayAnimation() {
         if (message.direct() == EMMessage.Direct.RECEIVE) {
-            if(EaseIMHelper.getInstance().isAdmin()){
-                voiceImageView.setImageResource(R.drawable.em_voice_from_icon_admin);
-            } else {
-                voiceImageView.setImageResource(R.drawable.em_voice_from_icon);
-            }
+            voiceImageView.setImageResource(R.drawable.em_voice_from_icon_admin);
         } else {
-            if(EaseIMHelper.getInstance().isAdmin()){
-                voiceImageView.setImageResource(R.drawable.em_voice_to_icon_admin);
-            } else {
-                voiceImageView.setImageResource(R.drawable.em_voice_to_icon);
-            }
+            voiceImageView.setImageResource(R.drawable.em_voice_to_icon_admin);
         }
         voiceAnimation = (AnimationDrawable) voiceImageView.getDrawable();
         voiceAnimation.start();
@@ -151,18 +135,10 @@ public class EaseChatRowVoice extends EaseChatRowFile {
             voiceAnimation.stop();
         }
 
-        if(EaseIMHelper.getInstance().isAdmin()){
-            if (message.direct() == EMMessage.Direct.RECEIVE) {
-                voiceImageView.setImageResource(R.drawable.ease_chatfrom_voice_playing_admin);
-            } else {
-                voiceImageView.setImageResource(R.drawable.ease_chatto_voice_playing_admin);
-            }
+        if (message.direct() == EMMessage.Direct.RECEIVE) {
+            voiceImageView.setImageResource(R.drawable.ease_chatfrom_voice_playing_admin);
         } else {
-            if (message.direct() == EMMessage.Direct.RECEIVE) {
-                voiceImageView.setImageResource(R.drawable.ease_chatfrom_voice_playing);
-            } else {
-                voiceImageView.setImageResource(R.drawable.ease_chatto_voice_playing);
-            }
+            voiceImageView.setImageResource(R.drawable.ease_chatto_voice_playing_admin);
         }
     }
 }

@@ -10,6 +10,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -98,7 +99,7 @@ public class ChatFragment extends EaseChatFragment implements OnRecallMessageRes
             if(event == null) {
                 return;
             }
-            if(event.isMessageChange()) {
+            if(event.isMessageChange() && !TextUtils.equals(EaseConstant.MESSAGE_UNREAD_CHANGE, event.event)) {
                 chatLayout.getChatMessageListLayout().refreshToLatest();
             }
         });
@@ -285,15 +286,8 @@ public class ChatFragment extends EaseChatFragment implements OnRecallMessageRes
             showProgressBar();
             chatLayout.recallMessage(message);
             return true;
-        } else if (item.getItemId() == R.id.action_chat_reTranslate) {
-            new AlertDialog.Builder(getContext())
-                    .setTitle(mContext.getString(R.string.using_translate))
-                    .setMessage(mContext.getString(R.string.retranslate_prompt))
-                    .setPositiveButton(mContext.getString(R.string.confirm), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            chatLayout.translateMessage(message, false);
-                        }
-                    }).show();
+        } else if (item.getItemId() == R.id.action_chat_roam) {
+            chatLayout.getChatMessageListLayout().loadBeforeMsgFromServer(message.getMsgId());
             return true;
         }
         return false;

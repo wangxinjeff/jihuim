@@ -46,11 +46,7 @@ public class EmojiconGridAdapter extends ArrayAdapter<EaseEmojicon>{
         }
 
         if(EaseSmileUtils.DELETE_KEY.equals(emojicon.getEmojiText())){
-            if(EaseIMHelper.getInstance().isAdmin()){
-                imageView.setImageResource(R.drawable.ease_delete_expression_admin);
-            } else {
-                imageView.setImageResource(R.drawable.ease_delete_expression);
-            }
+           imageView.setImageResource(R.drawable.ease_delete_expression_admin);
         }else{
             if(emojicon.getIcon() != 0){
                 imageView.setImageResource(emojicon.getIcon());

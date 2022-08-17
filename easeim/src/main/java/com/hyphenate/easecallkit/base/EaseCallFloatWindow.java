@@ -148,15 +148,9 @@ public class EaseCallFloatWindow {
         callTime = floatView.findViewById(R.id.call_time);
         callView = floatView.findViewById(R.id.call_view);
 
-        if(EaseIMHelper.getInstance().isAdmin()){
-            floatView.setBackground(ContextCompat.getDrawable(context, R.drawable.em_call_float_bg));
-            callView.setBackground(ContextCompat.getDrawable(context, R.drawable.em_call_float_time_bg));
-            callTime.setTextColor(ContextCompat.getColor(context, R.color.normal_text));
-        } else {
-            floatView.setBackground(ContextCompat.getDrawable(context, R.drawable.em_call_float_bg_dark));
-            callView.setBackground(ContextCompat.getDrawable(context, R.drawable.em_call_float_time_bg_dark));
-            callTime.setTextColor(ContextCompat.getColor(context, R.color.normal_text_color));
-        }
+        floatView.setBackground(ContextCompat.getDrawable(context, R.drawable.em_call_float_bg));
+        callView.setBackground(ContextCompat.getDrawable(context, R.drawable.em_call_float_time_bg));
+        callTime.setTextColor(ContextCompat.getColor(context, R.color.normal_text));
 
 
         if(floatView instanceof ViewGroup) {

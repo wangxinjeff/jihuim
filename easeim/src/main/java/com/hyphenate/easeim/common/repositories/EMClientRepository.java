@@ -26,6 +26,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import okhttp3.Call;
@@ -123,27 +124,6 @@ public class EMClientRepository extends BaseEMRepository{
     }
 
     /**
-     * 极狐APP登录
-     * @param username
-     * @param password
-     * @param callBack
-     */
-    public void loginWithCustomer(String username, String password, EMCallBack callBack){
-        loginToServer(username, password, new EMCallBack() {
-            @Override
-            public void onSuccess() {
-                getServiceGroups(callBack);
-
-            }
-
-            @Override
-            public void onError(int i, String s) {
-                callBack.onError(i, s);
-            }
-        });
-    }
-
-    /**
      * 登录环信
      * @param userName
      * @param pwd
@@ -218,12 +198,7 @@ public class EMClientRepository extends BaseEMRepository{
         EMClient.getInstance().logout(true, new EMCallBack() {
             @Override
             public void onSuccess() {
-                if(EaseIMHelper.getInstance().isAdmin()){
-                    logoutWithAdmin(callBack);
-                } else {
-                    EaseIMHelper.getInstance().logoutSuccess();
-                    callBack.onSuccess();
-                }
+                logoutWithAdmin(callBack);
             }
 
             @Override
@@ -231,12 +206,7 @@ public class EMClientRepository extends BaseEMRepository{
                 EMClient.getInstance().logout(false, new EMCallBack() {
                     @Override
                     public void onSuccess() {
-                        if(EaseIMHelper.getInstance().isAdmin()){
-                            logoutWithAdmin(callBack);
-                        } else {
-                            EaseIMHelper.getInstance().logoutSuccess();
-                            callBack.onSuccess();
-                        }
+                        logoutWithAdmin(callBack);
                     }
 
                     @Override
@@ -283,60 +253,6 @@ public class EMClientRepository extends BaseEMRepository{
 
     private void closeDb() {
         EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication()).closeDb();
-    }
-
-    /**
-     * 极狐app获取专属服务群列表
-     * @param callBack
-     */
-    public void getServiceGroups(EMCallBack callBack){
-        OkHttpClient client = new OkHttpClient();
-        Headers headers = new Headers.Builder()
-                .add("Authorization", EMClient.getInstance().getAccessToken())
-                .add("username", EaseIMHelper.getInstance().getCurrentUser())
-                .build();
-        Request request = new Request.Builder()
-                .url(EaseIMHelper.getInstance().getServerHost()+"/v2/group/chatgroups/users/"+ EaseIMHelper.getInstance().getCurrentUser() + "/action")
-                .headers(headers)
-                .get()
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                callBack.onSuccess();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String responseBody = response.body().string();
-                if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
-                    try {
-                        JSONObject result = new JSONObject(responseBody);
-                        String status = result.optString("status");
-                        if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
-                            JSONArray entity = result.getJSONArray("entity");
-                            if(entity.length() > 0){
-                                JSONObject json = new JSONObject();
-                                for(int i = 0; i < entity.length(); i ++){
-                                    JSONObject item = entity.getJSONObject(i);
-                                    String groupId = item.optString("groupId");
-                                    String groupName = item.optString("groupName");
-                                    json.put(groupId, groupName);
-                                }
-                                EaseIMHelper.getInstance().getModel().setServiceGroup(json.toString());
-                            }
-                            callBack.onSuccess();
-                        } else {
-                            callBack.onError(EMError.GENERAL_ERROR, "fetch service groups failed");
-                        }
-                    } catch (JSONException e) {
-                        callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
-                    }
-                } else {
-                    callBack.onError(EMError.GENERAL_ERROR, "fetch service groups failed");
-                }
-            }
-        });
     }
 
     /**
@@ -431,148 +347,15 @@ public class EMClientRepository extends BaseEMRepository{
                         String status = result.optString("status");
                         if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
                             JSONObject entity = result.getJSONObject("entity");
-                            JSONArray rtcChannels = entity.getJSONArray("rtcChannels");
+                            JSONObject rtcChannels = entity.getJSONObject("rtcChannels");
                             List<EaseUserAccount> userAccounts = new ArrayList<>();
-                            if(rtcChannels.length() > 0){
-                                for(int i =0; i< rtcChannels.length(); i++){
-                                    String item = rtcChannels.getString(i);
-                                    String subItem = item.substring(2, item.length() - 2);
-                                    String[] subItems = subItem.split(", ");
-                                    String[] uIds = subItems[0].split("=");
-                                    String[] channels = subItems[1].split("=");
-                                    String[] userNames = subItems[2].split("=");
-                                    EMLog.e("getUid:", uIds[1] + " = " + channels[1] + " = " + userNames[1]);
-                                    if(TextUtils.equals(String.valueOf(uid), uIds[1])){
-                                        EaseIMHelper.getInstance().setEaseCallKitUserInfo(userNames[1]);
-                                    }
-
-                                    userAccounts.add(new EaseUserAccount(Integer.parseInt(uIds[1]), userNames[1]));
+                            for (Iterator<String> it = rtcChannels.keys(); it.hasNext(); ) {
+                                String name = it.next();
+                                String id = rtcChannels.optString(name);
+                                if(TextUtils.equals(String.valueOf(uid), id)){
+                                    EaseIMHelper.getInstance().setEaseCallKitUserInfo(name);
                                 }
-                            }
-                            EaseThreadManager.getInstance().runOnMainThread(() -> callBack.onUserAccount(userAccounts));
-                        } else {
-                            callBack.onSetUserAccountError(EMError.GENERAL_ERROR, "fetch agora uid failed");
-                        }
-
-                    } catch (JSONException e) {
-                        callBack.onSetUserAccountError(EMError.GENERAL_ERROR, e.getMessage());
-                    }
-                } else {
-                    callBack.onSetUserAccountError(EMError.GENERAL_ERROR, "fetch agora uid failed");
-                }
-            }
-        });
-    }
-
-    /**
-     * 极狐app端获取通话rtc token
-     * @param userName
-     * @param channelName
-     * @param callBack
-     */
-    public void getRtcTokenWithCustomer(String userName, String channelName, EaseCallKitTokenCallback callBack){
-        try {
-            OkHttpClient client = new OkHttpClient();
-            MediaType JSON = MediaType.get("application/json; charset=utf-8");
-            JSONObject json = new JSONObject();
-            json.put("username", userName);
-            json.put("channelName", channelName);
-
-            RequestBody body = RequestBody.create(JSON, json.toString());
-            Headers headers = new Headers.Builder()
-                    .add("Authorization", EMClient.getInstance().getAccessToken())
-                    .add("username", EaseIMHelper.getInstance().getCurrentUser())
-                    .build();
-            Request request = new Request.Builder()
-                    .url(EaseIMHelper.getInstance().getServerHost() + "/v1/rtc/token")
-                    .headers(headers)
-                    .post(body)
-                    .build();
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    callBack.onGetTokenError(EMError.GENERAL_ERROR, e.getMessage());
-                }
-
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    String responseBody = response.body().string();
-                    if (response.code() == 200 && !TextUtils.isEmpty(responseBody)) {
-                        try {
-                            JSONObject result = new JSONObject(responseBody);
-                            String status = result.optString("status");
-                            if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
-                                JSONObject entity = result.getJSONObject("entity");
-                                String token = entity.optString("token");
-                                int uid = entity.optInt("uid");
-                                callBack.onSetToken(token, uid);
-                            } else {
-                                callBack.onGetTokenError(EMError.GENERAL_ERROR, "fetch rtc token failed");
-                            }
-
-                        } catch (JSONException e) {
-                            callBack.onGetTokenError(EMError.GENERAL_ERROR, e.getMessage());
-                        }
-                    } else {
-                        callBack.onGetTokenError(EMError.GENERAL_ERROR, "fetch rtc token failed");
-                    }
-                }
-            });
-        }catch(JSONException e){
-            callBack.onGetTokenError(EMError.GENERAL_ERROR, e.getMessage());
-        }
-    }
-
-    /**
-     * 极狐app端获取通话channel中的所有人
-     * @param uid
-     * @param channelName
-     * @param callBack
-     */
-    public void getAgoraUidWithCustomer(int uid, String channelName, EaseGetUserAccountCallback callBack){
-        OkHttpClient client = new OkHttpClient();
-
-        Headers headers = new Headers.Builder()
-                .add("Authorization", EMClient.getInstance().getAccessToken())
-                .add("username", EaseIMHelper.getInstance().getCurrentUser())
-                .build();
-        Request request = new Request.Builder()
-                .url(EaseIMHelper.getInstance().getServerHost() + "/v1/rtc/channle/" + channelName + "/show")
-                .headers(headers)
-                .get()
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                callBack.onSetUserAccountError(EMError.GENERAL_ERROR, e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String responseBody = response.body().string();
-                if (response.code() == 200 && !TextUtils.isEmpty(responseBody)) {
-                    try {
-                        JSONObject result = new JSONObject(responseBody);
-                        String status = result.optString("status");
-                        if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
-                            JSONObject entity = result.getJSONObject("entity");
-                            JSONArray rtcChannels = entity.getJSONArray("rtcChannels");
-                            List<EaseUserAccount> userAccounts = new ArrayList<>();
-                            if(rtcChannels.length() > 0){
-                                for(int i =0; i< rtcChannels.length(); i++){
-                                    String item = rtcChannels.getString(i);
-                                    String subItem = item.substring(2, item.length() - 2);
-                                    String[] subItems = subItem.split(", ");
-                                    String[] uIds = subItems[0].split("=");
-                                    String[] channels = subItems[1].split("=");
-                                    String[] userNames = subItems[2].split("=");
-                                    EMLog.e("getUid:", uIds[1] + " = " + channels[1] + " = " + userNames[1]);
-                                    if(TextUtils.equals(String.valueOf(uid), uIds[1])){
-                                        EaseIMHelper.getInstance().setEaseCallKitUserInfo(userNames[1]);
-                                    }
-
-                                    userAccounts.add(new EaseUserAccount(Integer.parseInt(uIds[1]), userNames[1]));
-                                }
+                                userAccounts.add(new EaseUserAccount(Integer.parseInt(id), name));
                             }
                             EaseThreadManager.getInstance().runOnMainThread(() -> callBack.onUserAccount(userAccounts));
                         } else {

@@ -15,7 +15,7 @@
         app:titleBarTitle="@string/em_single_set_title"
         app:titleBarTitleTextColor="?attr/normalTextColor"
         android:background="?attr/themeBgColor"
-        app:titleBarLeftImage="@drawable/em_icon_back"/>
+        app:titleBarLeftImage="@drawable/em_icon_back_admin"/>
 
     <com.hyphenate.easeim.common.widget.ArrowItemView
         android:id="@+id/item_user_info"

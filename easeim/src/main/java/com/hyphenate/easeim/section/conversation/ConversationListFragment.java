@@ -123,6 +123,7 @@ public class ConversationListFragment extends EaseConversationListFragment{
                                 EaseThreadManager.getInstance().runOnMainThread(() -> loadList(event));
                         });
                     }
+                } else if (TextUtils.equals(EaseConstant.MESSAGE_UNREAD_CHANGE, event.event)) {
                 } else {
                     loadList(event);
                 }

@@ -61,9 +61,7 @@ public class FileDetailsActivity extends BaseInitActivity implements EaseTitleBa
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         titleBar = findViewById(R.id.title_bar);
-        if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
-        }
+        titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
         fileTypeImg = findViewById(R.id.file_type);
         fileNameView = findViewById(R.id.file_name);
         fileSizeView = findViewById(R.id.file_size);

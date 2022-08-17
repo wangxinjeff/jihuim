@@ -83,7 +83,6 @@ public class GroupEditFragment extends BaseDialogFragment implements EaseTitleBa
         titleBar = findViewById(R.id.title_bar);
         etContent = findViewById(R.id.et_content);
         editRoot = findViewById(R.id.edit_root);
-        if(EaseIMHelper.getInstance().isAdmin()){
             editRoot.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.theme_float_bg));
             titleBar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.theme_bg));
             titleBar.getTitle().setTextColor(ContextCompat.getColor(getContext(), R.color.normal_text));
@@ -91,14 +90,6 @@ public class GroupEditFragment extends BaseDialogFragment implements EaseTitleBa
             titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
             etContent.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.theme_float_bg));
             etContent.setTextColor(ContextCompat.getColor(getContext(), R.color.normal_text));
-        } else {
-            editRoot.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.theme_float_bg_color));
-            titleBar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.theme_bg_color));
-            titleBar.getTitle().setTextColor(ContextCompat.getColor(getContext(), R.color.normal_text_color));
-            titleBar.getRightText().setTextColor(ContextCompat.getColor(getContext(), R.color.normal_text_color));
-            etContent.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.theme_float_bg_color));
-            etContent.setTextColor(ContextCompat.getColor(getContext(), R.color.normal_text_color));
-        }
 
 
         if(TextUtils.isEmpty(content)) {

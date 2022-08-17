@@ -56,13 +56,8 @@ public class GroupDetailMemberAdapter extends RecyclerView.Adapter<GroupDetailMe
                     memberClickListener.onAddClick();
                 }
             });
-            if(EaseIMHelper.getInstance().isAdmin()){
 //                holder.memberAvatar.setImageDrawable(ContextCompat.getDrawable(holder.mContext, R.drawable.icon_invite_admin));
                 Glide.with(holder.mContext).load(R.drawable.em_icon_invite_admin).into(holder.memberAvatar);
-            } else {
-//                holder.memberAvatar.setImageDrawable(ContextCompat.getDrawable(holder.mContext, R.drawable.icon_group_invite));
-                Glide.with(holder.mContext).load(R.drawable.em_icon_group_invite).into(holder.memberAvatar);
-            }
             holder.memberNick.setText(user.getNickname());
         } else if(TextUtils.equals(user.getUsername(), "em_removeUser") && position == 1){
             holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -92,9 +92,7 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         titleBar = findViewById(R.id.title_bar);
-        if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
-        }
+        titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
 
         rvList = findViewById(R.id.rl_user_list);
         userAvatar = findViewById(R.id.user_avatar);
@@ -149,7 +147,6 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
                 radioGroup.setOnCheckedChangeListener(null);
                 radioGroup.clearCheck();
                 addRadioGroupListener();
-                if(EaseIMHelper.getInstance().isAdmin()){
                     repository.searchUserWithAdmin(text, new ResultCallBack<List<String>>() {
                         @Override
                         public void onSuccess(List<String> data) {
@@ -173,32 +170,6 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
                             ToastUtils.showCenterToast("", "搜索失败:" + i + ":" + s, 0, Toast.LENGTH_SHORT);
                         }
                     });
-                } else {
-                    repository.searchUserWithCustomer(text, new ResultCallBack<List<String>>() {
-                        @Override
-                        public void onSuccess(List<String> data) {
-                            dismissLoading();
-                            runOnUiThread(() -> {
-                                if(data.size() > 0){
-                                    result = data.get(0);
-                                    resultView.setVisibility(View.VISIBLE);
-                                    userName.setText(result);
-                                } else {
-                                    resultView.setVisibility(View.GONE);
-                                    result = "";
-                                    ToastUtils.showCenterToast("", "搜索无结果", 0, Toast.LENGTH_SHORT);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onError(int i, String s) {
-                            dismissLoading();
-                            ToastUtils.showCenterToast("", "搜索失败:" + i + ":" + s, 0, Toast.LENGTH_SHORT);
-                        }
-                    });
-                }
-
             }
         });
     }
@@ -254,7 +225,6 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
                         waiters.add(user.getUsername());
                     }
                 }
-                if(EaseIMHelper.getInstance().isAdmin()){
                     repository.addMembersWithAdmin(groupId, customers, waiters, new EMCallBack() {
                         @Override
                         public void onSuccess() {
@@ -272,24 +242,6 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
                         }
                     });
 
-                } else {
-                    repository.addMembersWithCustomer(groupId, customers, waiters, new EMCallBack() {
-                        @Override
-                        public void onSuccess() {
-                            dismissLoading();
-                            ToastUtils.showCenterToast("", getString(R.string.em_invite_user_toast), 0, Toast.LENGTH_SHORT);
-                            runOnUiThread(() -> {
-                                setResult(RESULT_OK);
-                                finish();
-                            });
-                        }
-
-                        @Override
-                        public void onError(int i, String s) {
-                            dismissLoading();
-                        }
-                    });
-                }
             } else {
                 onBackPressed();
             }

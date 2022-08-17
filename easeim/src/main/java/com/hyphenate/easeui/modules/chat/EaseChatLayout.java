@@ -1005,12 +1005,6 @@ public class EaseChatLayout extends RelativeLayout implements IChatLayout, IHand
                         EMLog.i(TAG,"currentMsgId = "+message.getMsgId() + " timestamp = "+message.getMsgTime());
                     }else if(itemId == R.id.action_chat_recall) {
                         recallMessage(message);
-                    }else if(itemId == R.id.action_chat_translate) {
-                        translateMessage(message, true);
-                    }else if(itemId == R.id.action_chat_reTranslate){
-                        translateMessage(message, false);
-                    }else if(itemId == R.id.action_chat_hide) {
-                        hideTranslate(message);
                     }
                     return true;
                 }
@@ -1046,9 +1040,6 @@ public class EaseChatLayout extends RelativeLayout implements IChatLayout, IHand
         EMMessage.Type type = message.getType();
         menuHelper.findItemVisible(R.id.action_chat_copy, false);
         menuHelper.findItemVisible(R.id.action_chat_recall, false);
-        menuHelper.findItemVisible(R.id.action_chat_translate, false);
-        menuHelper.findItemVisible(R.id.action_chat_reTranslate, false);
-        menuHelper.findItemVisible(R.id.action_chat_hide, false);
         menuHelper.findItem(R.id.action_chat_delete).setTitle(getContext().getString(R.string.action_delete));
         menuHelper.findItemVisible(R.id.action_chat_label,true);
         if (!isReportYourSelf){

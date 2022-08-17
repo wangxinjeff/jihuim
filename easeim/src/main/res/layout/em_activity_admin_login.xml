@@ -13,7 +13,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/em_admin_login_bg"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         />
 
     <android.support.v7.widget.AppCompatImageView

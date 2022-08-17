@@ -14,7 +14,7 @@
         app:titleBarRightTitle="@string/finish"
         app:titleBarRightVisible="true"
         app:titleBarDisplayHomeAsUpEnabled="true"
-        app:titleBarLeftImage="@drawable/em_icon_back"
+        app:titleBarLeftImage="@drawable/em_icon_back_admin"
         app:titleBarTitleTextColor="?attr/normalTextColor"
         />
 

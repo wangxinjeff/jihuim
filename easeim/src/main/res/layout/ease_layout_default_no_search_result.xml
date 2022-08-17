@@ -8,7 +8,7 @@
     <ImageView
         android:layout_width="59dp"
         android:layout_height="59dp"
-        android:src="@drawable/em_icon_no_service" />
+        android:src="@drawable/em_icon_no_service_admin" />
 
     <TextView
         android:layout_width="wrap_content"

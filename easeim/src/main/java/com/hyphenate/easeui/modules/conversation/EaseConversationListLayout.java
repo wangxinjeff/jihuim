@@ -215,7 +215,6 @@ public class EaseConversationListLayout extends EaseBaseLayout implements IConve
             }
         });
 
-        if(EaseIMHelper.getInstance().isAdmin()){
             listAdapter.setOnItemLongClickListener(new OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(View view, int position) {
@@ -230,7 +229,6 @@ public class EaseConversationListLayout extends EaseBaseLayout implements IConve
                     return false;
                 }
             });
-        }
     }
 
     @Override

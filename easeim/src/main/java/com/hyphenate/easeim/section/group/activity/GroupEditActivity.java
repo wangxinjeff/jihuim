@@ -93,9 +93,7 @@ public class GroupEditActivity extends BaseInitActivity {
         systemNote = findViewById(R.id.system_note);
         serviceNote = findViewById(R.id.service_note);
 
-        if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
-        }
+        titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
 
         if(isShowNote){
             noteView.setVisibility(View.VISIBLE);

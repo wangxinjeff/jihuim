@@ -267,12 +267,8 @@ public abstract class EaseChatRow extends LinearLayout {
         this.itemClickListener = itemClickListener;
         this.itemActionCallback = itemActionCallback;
 
-        if(EaseIMHelper.getInstance().isAdmin()){
-            if(statusView != null){
-                statusView.setImageResource(R.drawable.ease_msg_state_fail_resend);
-            }
-
-
+        if(statusView != null){
+            statusView.setImageResource(R.drawable.ease_msg_state_fail_resend);
         }
 
         setUpBaseView();
@@ -663,7 +659,7 @@ public abstract class EaseChatRow extends LinearLayout {
     protected void onMessageSuccess() {
         EMLog.i(TAG, "onMessageSuccess");
         // Show "1 Read" if this msg is a ding-type msg.
-        if (isSender() && EaseDingMessageHelper.get().isDingMessage(message) && ackedView != null && ackedBg != null && EaseIMHelper.getInstance().isAdmin()) {
+        if (isSender() && EaseDingMessageHelper.get().isDingMessage(message) && ackedView != null && ackedBg != null) {
             ackedView.setVisibility(VISIBLE);
             ackedBg.setVisibility(VISIBLE);
             int count = message.groupAckCount();

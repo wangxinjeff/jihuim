@@ -196,7 +196,7 @@ public class ChatPresenter extends EaseChatPresenter {
             EMLog.d(TAG, "onMessageReceived id : " + message.getMsgId());
             EMLog.d(TAG, "onMessageReceived: " + message.getType());
 
-            if(EaseIMHelper.getInstance().isAdmin() && !EaseIMHelper.getInstance().getModel().getSettingMsgNotification()){
+            if(!EaseIMHelper.getInstance().getModel().getSettingMsgNotification()){
                 return;
             }
 
@@ -215,9 +215,8 @@ public class ChatPresenter extends EaseChatPresenter {
                     EaseThreadManager.getInstance().runOnMainThread(() -> InAppNotification.getInstance().show(message));
                     getNotifier().notify(message);
                 } else if(message.getChatType() == EMMessage.ChatType.Chat && !TextUtils.equals(message.getFrom(), EaseIMHelper.getInstance().getChatPageConId())){
-                    if(EaseIMHelper.getInstance().isAdmin()){
-                        getNotifier().notify(message);
-                    }
+                    EaseThreadManager.getInstance().runOnMainThread(() -> InAppNotification.getInstance().show(message));
+                    getNotifier().notify(message);
                 }
             } else {
                 // in background, do not refresh UI, notify it in notification bar

@@ -113,7 +113,6 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
 
         group = EaseIMHelper.getInstance().getGroupManager().getGroup(groupId);
 
-        if(EaseIMHelper.getInstance().isAdmin()){
             titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
             itemGroupNote.setVisibility(View.VISIBLE);
             itemGroupIntroduction.setItemShowDivider(true);
@@ -122,7 +121,6 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
                 itemGroupName.setItemShowArrow(true);
                 itemGroupMute.setVisibility(View.VISIBLE);
             }
-        }
 
         initGroupView();
     }
@@ -131,7 +129,7 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
     protected void initListener() {
         super.initListener();
         titleBar.setOnBackPressListener(this);
-        if(EaseIMHelper.getInstance().isAdmin() && isOwner()){
+        if(isOwner()){
             groupInfo.setOnClickListener(this);
             itemGroupName.setOnClickListener(this);
         }
@@ -278,19 +276,19 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
             GroupEditActivity.startEditForResult(mContext, getString(R.string.em_chat_group_detail_name),
                     group.getGroupName(),
                     GroupHelper.isOwner(group) ? getString(R.string.em_chat_group_detail_name_hint) : "",
-                    EaseIMHelper.getInstance().isAdmin() && GroupHelper.isOwner(group), groupId, REQUEST_CODE_GROUP_NAME);
+                    GroupHelper.isOwner(group), groupId, REQUEST_CODE_GROUP_NAME);
         } else if (id == R.id.item_group_notice) {//群公告
 //                showAnnouncementDialog();
             GroupEditActivity.startEditForResult(mContext, getString(R.string.em_chat_group_detail_announcement),
                     group.getAnnouncement(),
                     GroupHelper.isOwner(group) ? getString(R.string.em_chat_group_detail_announcement_hint) : "",
-                    EaseIMHelper.getInstance().isAdmin() && GroupHelper.isOwner(group),groupId,  REQUEST_CODE_GROUP_NOTICE);
+                    GroupHelper.isOwner(group),groupId,  REQUEST_CODE_GROUP_NOTICE);
         } else if (id == R.id.item_group_introduction) {//群介绍
 //                showIntroductionDialog();
             GroupEditActivity.startEditForResult(mContext, getString(R.string.em_chat_group_detail_introduction),
                     group.getDescription(),
                     GroupHelper.isOwner(group) ? getString(R.string.em_chat_group_detail_introduction_hint) : "",
-                    EaseIMHelper.getInstance().isAdmin() && GroupHelper.isOwner(group), groupId, REQUEST_CODE_GROUP_INTRO);
+                    GroupHelper.isOwner(group), groupId, REQUEST_CODE_GROUP_INTRO);
         } else if (id == R.id.item_group_mute) {
             GroupMuteActivity.startAction(mContext, groupId);
         } else if (id == R.id.item_group_note) {

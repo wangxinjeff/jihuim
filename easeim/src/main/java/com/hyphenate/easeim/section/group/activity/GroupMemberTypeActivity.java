@@ -61,9 +61,7 @@ public class GroupMemberTypeActivity extends BaseInitActivity implements EaseTit
 
         titleBar = findViewById(R.id.title_bar);
 
-        if(EaseIMHelper.getInstance().isAdmin()){
-            titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
-        }
+        titleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
 
         searchBar = findViewById(R.id.search_bar);
         searchBar.init(false);

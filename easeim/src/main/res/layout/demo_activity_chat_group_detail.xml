@@ -14,7 +14,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:titleBarTitle="@string/em_chat_group_detail_title"
-        app:titleBarLeftImage="@drawable/em_icon_back"
+        app:titleBarLeftImage="@drawable/em_icon_back_admin"
         app:titleBarTitleTextColor="?attr/normalTextColor"
         />
 

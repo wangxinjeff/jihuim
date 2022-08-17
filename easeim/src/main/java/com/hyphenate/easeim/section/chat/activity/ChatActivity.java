@@ -39,11 +39,7 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
 
     @Override
     protected int getLayoutId() {
-        if(EaseIMHelper.getInstance().isAdmin()){
-            setTheme(R.style.AdminChatTheme);
-        } else {
-            setTheme(R.style.CustomerChatTheme);
-        }
+        setTheme(R.style.AdminChatTheme);
         return R.layout.demo_activity_chat;
     }
 
@@ -59,10 +55,8 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         titleBarMessage = findViewById(R.id.title_bar_message);
-        if(EaseIMHelper.getInstance().isAdmin()){
-            titleBarMessage.setLeftImageResource(R.drawable.em_icon_back_admin);
-            titleBarMessage.setRightImageResource(R.drawable.em_icon_more_admin);
-        }
+        titleBarMessage.setLeftImageResource(R.drawable.em_icon_back_admin);
+        titleBarMessage.setRightImageResource(R.drawable.em_icon_more_admin);
         initChatFragment();
     }
 
@@ -98,7 +92,7 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
     @Override
     protected void initData() {
         super.initData();
-        if(EaseIMHelper.getInstance().isAdmin() && chatType == EaseConstant.CHATTYPE_GROUP){
+        if(chatType == EaseConstant.CHATTYPE_GROUP){
             titleBarMessage.getConIdView().setText("群组ID：" + conversationId);
             titleBarMessage.getConIdView().setVisibility(View.VISIBLE);
         }

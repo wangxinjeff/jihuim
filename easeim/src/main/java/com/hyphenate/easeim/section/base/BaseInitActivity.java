@@ -22,11 +22,7 @@ public abstract class BaseInitActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(EaseIMHelper.getInstance().isAdmin()){
-            setTheme(R.style.AdminTheme);
-        } else {
-            setTheme(R.style.CustomerTheme);
-        }
+        setTheme(R.style.AdminTheme);
         setContentView(getLayoutId());
         initSystemFit();
         initIntent(getIntent());

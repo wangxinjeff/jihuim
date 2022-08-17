@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/em_common_title_bar_height"
         app:titleBarRightTitle="@string/em_chat_group_save"
-        app:titleBarLeftImage="@drawable/em_icon_back"
+        app:titleBarLeftImage="@drawable/em_icon_back_admin"
         android:background="?attr/themeBgColor"
         app:titleBarTitleTextColor="?attr/normalTextColor"
         app:layout_constraintTop_toTopOf="parent"
