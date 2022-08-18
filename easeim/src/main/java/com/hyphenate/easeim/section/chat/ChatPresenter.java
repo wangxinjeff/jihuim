@@ -380,7 +380,7 @@ public class ChatPresenter extends EaseChatPresenter {
     public void onMessageRecalled(List<EMMessage> messages) {
 
         for (EMMessage msg : messages) {
-            if(msg.getChatType() == EMMessage.ChatType.GroupChat && EaseAtMessageHelper.get().isAtMeMsg(msg)){
+            if(msg.getChatType() == EMMessage.ChatType.GroupChat && EaseAtMessageHelper.get().isAtMeMessage(msg)){
                 EaseAtMessageHelper.get().removeAtMeGroup(msg.getTo());
             }
             EMMessage msgNotification = EMMessage.createReceiveMessage(EMMessage.Type.TXT);

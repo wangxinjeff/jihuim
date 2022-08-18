@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -293,6 +294,7 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
             }
             if(event.isContactChange()) {
                 EaseUserUtils.setUserNick(group.getOwner(), itemGroupOwner.getTvContent());
+                itemGroupOwner.getTvContent().requestLayout();
                 if(memberAdapter != null){
                     memberAdapter.notifyDataSetChanged();
                 }
