@@ -390,6 +390,7 @@
     <string name="em_new_group_includ_customer">选择成员必须包含客户</string>
     <string name="em_group_mute_success">禁言成功</string>
     <string name="em_save_success">保存成功</string>
+    <string name="em_save_failed">保存失败</string>
 
     <string name="album_name_all">全部</string>
     <string name="button_preview">预览</string>
@@ -417,4 +418,5 @@
     <string name="em_not_setting">未设置</string>
 
     <string name="em_joined_group">加入了群聊</string>
+    <string name="em_content_not_empty">内容不能为空</string>
 </resources>

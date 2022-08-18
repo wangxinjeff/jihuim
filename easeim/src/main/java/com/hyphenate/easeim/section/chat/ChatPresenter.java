@@ -341,7 +341,7 @@ public class ChatPresenter extends EaseChatPresenter {
     public void onMessageRecalled(List<EMMessage> messages) {
 
         for (EMMessage msg : messages) {
-            if(msg.getChatType() == EMMessage.ChatType.GroupChat && EaseAtMessageHelper.get().isAtMeMsg(msg)){
+            if(msg.getChatType() == EMMessage.ChatType.GroupChat && EaseAtMessageHelper.get().isAtMeMessage(msg)){
                 EaseAtMessageHelper.get().removeAtMeGroup(msg.getTo());
             }
             EMMessage msgNotification = EMMessage.createReceiveMessage(EMMessage.Type.TXT);
@@ -384,9 +384,6 @@ public class ChatPresenter extends EaseChatPresenter {
         @Override
         public void onConnected() {
             EMLog.i(TAG, "onConnected");
-            if(!EaseIMHelper.getInstance().isLoggedIn()) {
-                return;
-            }
             if(!isGroupsSyncedWithServer) {
                 EMLog.i(TAG, "isGroupsSyncedWithServer");
                 new EMGroupManagerRepository().getAllGroups(new ResultCallBack<List<EMGroup>>() {

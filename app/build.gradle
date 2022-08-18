@@ -26,7 +26,6 @@ android {
         multiDexEnabled true
         //为了兼容5.0以下使用vector图标
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         //指定room.schemaLocation生成的文件路径  处理Room 警告 Schema export Error
         javaCompileOptions {
@@ -77,14 +76,13 @@ dependencies {
     implementation project(path: ':easeim')
     testImplementation 'junit:junit:4.12'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.1.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.2.0'
     // resolve 64k limit
     implementation 'com.android.support:multidex:1.0.3'
-    implementation 'com.baidu.lbsyun:BaiduMapSDK_Map:7.4.0'
+    implementation 'com.baidu.lbsyun:BaiduMapSDK_Map-Navi:7.4.0'
     implementation 'com.baidu.lbsyun:BaiduMapSDK_Search:7.4.0'
     implementation 'com.baidu.lbsyun:BaiduMapSDK_Util:7.4.0'
     implementation 'com.baidu.lbsyun:BaiduMapSDK_Location:9.1.8'
+    implementation "android.arch.lifecycle:extensions:1.1.1"
 }
 
 // ADD THIS AT THE BOTTOM

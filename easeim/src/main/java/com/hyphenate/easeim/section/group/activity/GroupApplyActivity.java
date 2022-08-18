@@ -57,7 +57,7 @@ public class GroupApplyActivity extends BaseInitActivity implements OnRefreshLoa
     protected void initData() {
         super.initData();
         list = new ArrayList<>();
-
+        fetchGroupApply();
     }
 
     @Override

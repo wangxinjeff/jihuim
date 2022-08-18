@@ -388,6 +388,7 @@
     <string name="em_new_group_includ_customer">Selected member must include customer</string>
     <string name="em_group_mute_success">Mute success</string>
     <string name="em_save_success">Save success</string>
+    <string name="em_save_failed">Save failed</string>
 
     <string name="album_name_all">All Media</string>
 
@@ -415,4 +416,5 @@
     <string name="em_check_network">Please check the network Settings</string>
     <string name="em_not_setting">Not setting</string>
     <string name="em_joined_group">Joined the group</string>
+    <string name="em_content_not_empty">Content can not is empty</string>
 </resources>

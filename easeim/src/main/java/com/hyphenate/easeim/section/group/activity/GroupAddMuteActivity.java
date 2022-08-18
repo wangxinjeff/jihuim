@@ -23,6 +23,7 @@ import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.group.adapter.GroupAddMuteAdapter;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.widget.EaseTitleBar;
+import com.hyphenate.util.EMLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +129,8 @@ public class GroupAddMuteActivity extends BaseInitActivity {
 
                     @Override
                     public void onError(int i, String s) {
-
+                        EMLog.e("mute", "mute failed:" + i + " : " + s);
+                        ToastUtils.showCenterToast("", getString(R.string.em_group_mute_failed), 0 ,Toast.LENGTH_SHORT);
                     }
                 });
             }

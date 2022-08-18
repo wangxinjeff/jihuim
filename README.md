@@ -1,9 +1,10 @@
-# 极狐端/运管端
+# 运管端
 --------
 ## 集成使用文档
 
-### 配置appkey
-在项目的AndroidManifest.xml中配置环信的appkey和百度地图的appkey
+### 配置
+在项目的AndroidManifest.xml配置以下几项
+1.环信的appkey和百度地图的appkey
 ```
 <!-- 设置环信应用的AppKey -->
 <meta-data android:name="EASEMOB_APPKEY"  android:value="${EASEMOB_APPKEY}" />
@@ -12,71 +13,43 @@
 <meta-data
    android:name="com.baidu.lbsapi.API_KEY"
    android:value="${BAIDU_LOCATION_APPKEY}" />
-```    
-
-### 极狐APP
-1.初始化
-Application里调用EaseIMHelper初始化
+```  
+2.FileProvider
+ ```
+          <provider
+              android:name="androidx.core.content.FileProvider"
+              android:authorities="${applicationId}.fileProvider"
+              android:grantUriPermissions="true"
+              android:exported="false"
+              >
+              <meta-data
+                  android:name="android.support.FILE_PROVIDER_PATHS"
+                  android:resource="@xml/file_paths"
+                  />
+          </provider>
 ```
-EaseIMHelper.getInstance().init(this);
+在res下创建xml目录，创建file_paths.xml文件,配置以下内容
 ```
-
-初始化IM
-```
-EaseIMHelper.getInstance().initChat(false);
-```
-
-2.登录
-```
-EaseIMHelper.getInstance().loginChat(username, password, new EMCallBack(){});
-```
-
-3.设置极狐aid和token
-```
-EaseIMHelper.getInstance().setAid(aid);
-EaseIMHelper.getInstance().setAidToken(token);
-```
-
-4.跳转聊天页面
-//跳转专属服务群
-```
-EaseIMHelper.getInstance().startChat(MainActivity.this, EaseConstant.CON_TYPE_EXCLUSIVE);
+  <?xml version="1.0" encoding="utf-8"?>
+  <paths>
+      <external-path path="Android/data/${applicationId}/" name="files_root" />
+      <external-path path="." name="external_storage_root" />
+  </paths>
 ```
 
-//跳转我的聊天
+在project build.gradle配置
 ```
-EaseIMHelper.getInstance().startChat(MainActivity.this, EaseConstant.CON_TYPE_MY_CHAT);
-```
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.3.0' // add plugin
+    }
+}
+```  
 
-5.获取未读数
-```
-EaseIMHelper.getInstance().getChatUnread(new EMValueCallBack<Map<String, Integer>>() {
-	        @Override
-            public void onSuccess(Map<String, Integer> stringIntegerMap) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                    	//专属群未读数
-                        stringIntegerMap.get(EaseConstant.UNREAD_EXCLUSIVE_GROUP);
-                        //其他聊天未读数
-                        stringIntegerMap.get(EaseConstant.UNREAD_MY_CHAT);
-                    }
-                });
-            }
-
-            @Override
-            public void onError(int i, String s) {
-
-            }
-});
-```
-
-6.退出登录
-```
-EaseIMHelper.getInstance().logoutChat(new EMCallBack(){});
-```
-
-### 运管端
+### api
 1.初始化
 Application里调用EaseIMHelper初始化
 ```

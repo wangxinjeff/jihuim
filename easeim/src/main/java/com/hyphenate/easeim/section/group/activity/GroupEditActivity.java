@@ -20,6 +20,7 @@ import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.widget.EaseTitleBar;
+import com.hyphenate.util.EMLog;
 
 import java.util.List;
 
@@ -175,12 +176,16 @@ public class GroupEditActivity extends BaseInitActivity {
                             editContent.setSelection(editContent.getText().length());
                         }
                     } else if(TextUtils.equals(getString(R.string.em_chat_group_save), titleBar.getRightText().getText().toString())){
-                        showLoading();
                         if(isShowNote){
                             updateContent = serviceNote.getText().toString();
                         } else {
                             updateContent = editContent.getText().toString();
                         }
+                        if(TextUtils.isEmpty(updateContent)){
+                            ToastUtils.showCenterToast("", getString(R.string.em_content_not_empty), 0 , Toast.LENGTH_SHORT);
+                            return;
+                        }
+                        showLoading();
                         if(TextUtils.equals(title, getString(R.string.em_chat_group_detail_name))){
                             //修改群名称
                             EMGroupManagerRepository.getInstance().setGroupName(groupId, editContent.getText().toString(), new ResultCallBack<String>() {
@@ -194,7 +199,8 @@ public class GroupEditActivity extends BaseInitActivity {
                                 @Override
                                 public void onError(int i, String s) {
                                     dismissLoading();
-
+                                    EMLog.e("edit", "change groupName failed:" + i + " : " + s);
+                                    ToastUtils.showCenterToast("", getString(R.string.em_save_failed), 0 , Toast.LENGTH_SHORT);
                                 }
                             });
                         } else if(TextUtils.equals(title, getString(R.string.em_chat_group_detail_announcement))){
@@ -210,6 +216,8 @@ public class GroupEditActivity extends BaseInitActivity {
                                 @Override
                                 public void onError(int i, String s) {
                                     dismissLoading();
+                                    EMLog.e("edit", "change announcement failed:" + i + " : " + s);
+                                    ToastUtils.showCenterToast("", getString(R.string.em_save_failed), 0 , Toast.LENGTH_SHORT);
                                 }
                             });
                         } else if(TextUtils.equals(title, getString(R.string.em_chat_group_detail_introduction))){
@@ -225,6 +233,8 @@ public class GroupEditActivity extends BaseInitActivity {
                                 @Override
                                 public void onError(int i, String s) {
                                     dismissLoading();
+                                    EMLog.e("edit", "change description failed:" + i + " : " + s);
+                                    ToastUtils.showCenterToast("", getString(R.string.em_save_failed), 0 , Toast.LENGTH_SHORT);
                                 }
                             });
                         } else if(TextUtils.equals(title, getString(R.string.em_group_note))){
@@ -240,6 +250,8 @@ public class GroupEditActivity extends BaseInitActivity {
                                 @Override
                                 public void onError(int i, String s) {
                                     dismissLoading();
+                                    EMLog.e("edit", "note save failed:" + i + " : " + s);
+                                    ToastUtils.showCenterToast("", getString(R.string.em_save_failed), 0 , Toast.LENGTH_SHORT);
                                 }
                             });
                         }
