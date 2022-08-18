@@ -3,7 +3,8 @@
 ## 集成使用文档
 
 ### 配置appkey
-在项目的AndroidManifest.xml中配置环信的appkey和百度地图的appkey
+在项目的AndroidManifest.xml中配置以下几项
+环信的appkey和百度地图的appkey
 ```
 <!-- 设置环信应用的AppKey -->
 <meta-data android:name="EASEMOB_APPKEY"  android:value="${EASEMOB_APPKEY}" />
@@ -12,7 +13,30 @@
 <meta-data
    android:name="com.baidu.lbsapi.API_KEY"
    android:value="${BAIDU_LOCATION_APPKEY}" />
-```    
+```   
+
+ FileProvider
+```
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false"
+            >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"
+                />
+        </provider>
+```
+在res下创建xml目录，创建file_paths.xml文件,配置以下内容
+```
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-path path="Android/data/${applicationId}/" name="files_root" />
+    <external-path path="." name="external_storage_root" />
+</paths>
+```
 
 ### 极狐APP
 1.初始化
@@ -31,13 +55,18 @@ EaseIMHelper.getInstance().initChat(false);
 EaseIMHelper.getInstance().loginChat(username, password, new EMCallBack(){});
 ```
 
-3.设置极狐aid和token
+3.退出登录
+```
+EaseIMHelper.getInstance().logoutChat(new EMCallBack(){});
+```
+
+4.设置极狐aid和token
 ```
 EaseIMHelper.getInstance().setAid(aid);
 EaseIMHelper.getInstance().setAidToken(token);
 ```
 
-4.跳转聊天页面
+5.跳转聊天页面
 //跳转专属服务群
 ```
 EaseIMHelper.getInstance().startChat(MainActivity.this, EaseConstant.CON_TYPE_EXCLUSIVE);
@@ -48,7 +77,7 @@ EaseIMHelper.getInstance().startChat(MainActivity.this, EaseConstant.CON_TYPE_EX
 EaseIMHelper.getInstance().startChat(MainActivity.this, EaseConstant.CON_TYPE_MY_CHAT);
 ```
 
-5.获取未读数
+6.获取未读数
 ```
 EaseIMHelper.getInstance().getChatUnread(new EMValueCallBack<Map<String, Integer>>() {
 	        @Override
@@ -71,9 +100,41 @@ EaseIMHelper.getInstance().getChatUnread(new EMValueCallBack<Map<String, Integer
 });
 ```
 
-6.退出登录
+7.设置server地址
 ```
-EaseIMHelper.getInstance().logoutChat(new EMCallBack(){});
+EaseIMHelper.getInstance().setServerHost("");
+```
+
+8.未读数变更通知
+```
+LiveDataBus.get().with(EaseConstant.MESSAGE_CHANGE_CHANGE, EaseEvent.class).observe(this, event -> {
+            if(event == null) {
+                return;
+            }
+            if(event.isMessageChange()) {
+                // 处理刷新UI
+            }
+        });
+```
+
+9.app内横幅通知
+```
+// 设置横幅的小图标和名称
+InAppNotification.getInstance().setNotifyName("极狐App")
+                .setNotifyIcon(R.drawable.em_chatfrom_voice_playing_f3);
+
+// 在需要展示横幅的activity里添加代码
+    @Override
+    protected void onResume() {
+        super.onResume();
+        InAppNotification.getInstance().init(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        InAppNotification.getInstance().hideNotification();
+    }
 ```
 
 ### 运管端

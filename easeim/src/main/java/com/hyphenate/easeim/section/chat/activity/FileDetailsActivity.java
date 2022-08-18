@@ -120,6 +120,7 @@ public class FileDetailsActivity extends BaseInitActivity implements EaseTitleBa
                     public void run() {
                         progressBar.setVisibility(View.GONE);
                         startBtn.setText(getString(R.string.em_open_file));
+                        startBtn.setClickable(true);
                         EaseCompat.openFile(FileDetailsActivity.this, fileMessageBody.getLocalUri());
                     }
                 });
@@ -131,6 +132,7 @@ public class FileDetailsActivity extends BaseInitActivity implements EaseTitleBa
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.GONE);
+                        startBtn.setClickable(true);
                         ToastUtils.showCenterToast("", getString(R.string.em_try_again_later), 0, Toast.LENGTH_SHORT);
                     }
                 });
@@ -154,6 +156,7 @@ public class FileDetailsActivity extends BaseInitActivity implements EaseTitleBa
                     if(EaseCommonUtils.isNetConnection(FileDetailsActivity.this)){
                         EMClient.getInstance().chatManager().downloadAttachment(message);
                         progressBar.setVisibility(View.VISIBLE);
+                        startBtn.setClickable(false);
                     } else {
                         ToastUtils.showCenterToast("", getString(R.string.em_try_again_later), 0, Toast.LENGTH_SHORT);
                     }
