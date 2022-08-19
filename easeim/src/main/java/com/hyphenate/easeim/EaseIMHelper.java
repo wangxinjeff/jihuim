@@ -18,6 +18,7 @@ import com.hyphenate.chat.EMChatRoomManager;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMContactManager;
 import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMGroupManager;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMOptions;
@@ -67,6 +68,7 @@ import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.easeui.model.EaseNotifier;
 import com.hyphenate.easeui.provider.EaseSettingsProvider;
 import com.hyphenate.easeui.provider.EaseUserProfileProvider;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.push.EMPushConfig;
 import com.hyphenate.push.EMPushHelper;
@@ -402,22 +404,22 @@ public class EaseIMHelper {
         /**
          * NOTE:你需要设置自己申请的账号来使用三方推送功能，详见集成文档
          */
-        EMPushConfig.Builder builder = new EMPushConfig.Builder(context);
-
-        builder.enableVivoPush(); // 需要在AndroidManifest.xml中配置appId和appKey
-        if(miAppId != null && miAppkey != null && TextUtils.isEmpty(miAppId) && TextUtils.isEmpty(miAppkey)){
-            builder.enableMiPush(miAppId, miAppkey);
-        }
-        if(mzAppId != null && mzAppkey != null && TextUtils.isEmpty(mzAppId) && TextUtils.isEmpty(mzAppkey)){
-            builder.enableMeiZuPush(mzAppId, mzAppkey);
-        }
-        if(oppoAppkey != null && oppoAppSecret != null && TextUtils.isEmpty(oppoAppkey) && TextUtils.isEmpty(oppoAppSecret)){
-            builder.enableOppoPush(oppoAppkey,
-                    oppoAppSecret);
-        }
-
-        builder.enableHWPush(); // 需要在AndroidManifest.xml中配置appId
-        options.setPushConfig(builder.build());
+//        EMPushConfig.Builder builder = new EMPushConfig.Builder(context);
+//
+//        builder.enableVivoPush(); // 需要在AndroidManifest.xml中配置appId和appKey
+//        if(miAppId != null && miAppkey != null && !TextUtils.isEmpty(miAppId) && !TextUtils.isEmpty(miAppkey)){
+//            builder.enableMiPush(miAppId, miAppkey);
+//        }
+//        if(mzAppId != null && mzAppkey != null && !TextUtils.isEmpty(mzAppId) && !TextUtils.isEmpty(mzAppkey)){
+//            builder.enableMeiZuPush(mzAppId, mzAppkey);
+//        }
+//        if(oppoAppkey != null && oppoAppSecret != null && !TextUtils.isEmpty(oppoAppkey) && !TextUtils.isEmpty(oppoAppSecret)){
+//            builder.enableOppoPush(oppoAppkey,
+//                    oppoAppSecret);
+//        }
+//
+//        builder.enableHWPush(); // 需要在AndroidManifest.xml中配置appId
+//        options.setPushConfig(builder.build());
 
         return options;
     }
@@ -1121,6 +1123,25 @@ public class EaseIMHelper {
             userInfo.put(EaseConstant.MESSAGE_ATTR_USER_NICK, user.getNickname());
             userInfo.put(EaseConstant.MESSAGE_ATTR_USER_AVATAR, user.getAvatar() != null ? user.getAvatar() : "");
             message.setAttribute(EaseConstant.MESSAGE_ATTR_USER_INFO, userInfo);
+
+            String title = "新消息";
+            String content = "请点击查看";
+            if(message.getChatType() == EMMessage.ChatType.Chat){
+                title = user.getNickname();
+                content = EaseCommonUtils.getMessageDigest(message, application, false);
+            } else if(message.getChatType() == EMMessage.ChatType.GroupChat){
+                EMGroup group = getGroupManager().getGroup(message.getTo());
+                if(group != null){
+                    title = group.getGroupName();
+                }
+                content = EaseCommonUtils.getMessageDigest(message, application, true);
+            }
+            JSONObject pushExt = new JSONObject();
+            pushExt.put("em_push_title", title);
+            pushExt.put("em_push_content", content);
+            pushExt.put("em_alert_title", title);
+            pushExt.put("em_alert_body", content);
+            message.setAttribute("em_apns_ext", pushExt);
         } catch (JSONException e) {
             e.printStackTrace();
         }

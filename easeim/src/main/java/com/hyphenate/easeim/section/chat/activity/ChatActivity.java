@@ -1,10 +1,12 @@
 package com.hyphenate.easeim.section.chat.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -19,6 +21,7 @@ import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.chat.fragment.ChatFragment;
 import com.hyphenate.easeim.section.chat.viewmodel.ChatViewModel;
 import com.hyphenate.easeim.section.chat.viewmodel.MessageViewModel;
+import com.hyphenate.easeim.section.conference.ConferenceInviteActivity;
 import com.hyphenate.easeim.section.group.GroupHelper;
 import com.hyphenate.easeim.section.group.activity.GroupDetailActivity;
 import com.hyphenate.easeui.EaseIM;
@@ -29,6 +32,9 @@ import com.hyphenate.easeui.provider.EaseUserProfileProvider;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 import com.hyphenate.util.EMLog;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBackPressListener, EaseTitleBar.OnRightClickListener, ChatFragment.OnFragmentInfoListener {
     private EaseTitleBar titleBarMessage;
@@ -72,6 +78,15 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
             titleBarMessage.setRightImageResource(R.drawable.em_icon_more_admin);
         }
         initChatFragment();
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(
+                Manifest.permission.RECORD_AUDIO
+        ).subscribe(granted -> {
+            if(granted){
+            }else{
+                Toast.makeText(this, "请确认开启权限", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initChatFragment() {

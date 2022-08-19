@@ -15,7 +15,7 @@ import com.hyphenate.easeim.common.utils.MD5;
 import com.hyphenate.util.EMLog;
 
 public class EaseDbHelper {
-    private static final String TAG = "DemoDbHelper";
+    private static final String TAG = "EaseDbHelper";
     private static EaseDbHelper instance;
     private Context mContext;
     private String currentUser;

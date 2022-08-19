@@ -136,7 +136,6 @@ public class EaseHandleMessagePresenterImpl extends EaseHandleMessagePresenter {
             }
             return;
         }
-        addMessageAttributes(message);
         if (chatType == EaseConstant.CHATTYPE_GROUP){
             message.setChatType(EMMessage.ChatType.GroupChat);
             if(EaseIMHelper.getInstance().isAdmin()){
@@ -145,6 +144,7 @@ public class EaseHandleMessagePresenterImpl extends EaseHandleMessagePresenter {
         }else if(chatType == EaseConstant.CHATTYPE_CHATROOM){
             message.setChatType(EMMessage.ChatType.ChatRoom);
         }
+        addMessageAttributes(message);
         message.setMessageStatusCallback(new EMCallBack() {
             @Override
             public void onSuccess() {
