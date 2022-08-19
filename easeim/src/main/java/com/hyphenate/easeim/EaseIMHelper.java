@@ -116,7 +116,7 @@ public class EaseIMHelper {
     private Application application;
     private UserActivityLifecycleCallbacks mLifecycleCallbacks = new UserActivityLifecycleCallbacks();
     private EMClientRepository clientRepository;
-    private String serverHost = "";
+    private String serverHost = "http://182.92.236.214:12005/";
 
     private String miAppkey;
     private String miAppId;
