@@ -116,7 +116,7 @@ public class EaseIMHelper {
     private Application application;
     private UserActivityLifecycleCallbacks mLifecycleCallbacks = new UserActivityLifecycleCallbacks();
     private EMClientRepository clientRepository;
-    private String serverHost = "http://182.92.236.214:12005/";
+    private String serverHost = "";
 
     private String miAppkey;
     private String miAppId;
@@ -158,7 +158,7 @@ public class EaseIMHelper {
     public void init(Application application, String host){
         this.application = application;
         easeModel = new EaseModel(application);
-        if(TextUtils.isEmpty(host)){
+        if(!TextUtils.isEmpty(host)){
             serverHost = host;
         }
 //        Properties props = new Properties();
