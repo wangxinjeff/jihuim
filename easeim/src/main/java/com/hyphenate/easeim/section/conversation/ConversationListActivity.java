@@ -15,20 +15,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 
-import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMPushConfigs;
-import com.hyphenate.chat.EMUserInfo;
 import com.hyphenate.easecallkit.base.EaseCallType;
 
 import com.hyphenate.easeim.EaseIMHelper;
-import com.hyphenate.easeim.common.manager.HMSPushHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.common.permission.PermissionsManager;
 import com.hyphenate.easeim.common.permission.PermissionsResultAction;
-import com.hyphenate.easeim.common.repositories.EMPushManagerRepository;
-import com.hyphenate.easeim.common.utils.PreferenceManager;
 import com.hyphenate.easeim.common.utils.PushUtils;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.section.av.MultipleVideoActivity;
@@ -40,15 +34,11 @@ import com.hyphenate.easeim.section.group.activity.NewGroupActivity;
 import com.hyphenate.easeim.section.search.SearchGroupChatActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.manager.EaseThreadManager;
 import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.widget.EaseTitleBar;
-import com.hyphenate.util.EMLog;
-import com.hyphenate.chat.EMUserInfo.*;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;

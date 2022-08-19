@@ -565,7 +565,7 @@ public class EMContactManagerRepository extends BaseEMRepository{
                             .add("username", EaseIMHelper.getInstance().getCurrentUser())
                             .build();
                     Request request = new Request.Builder()
-                            .url(EaseIMHelper.getInstance().getServerHost()+"/v1/gov/arcfox/user/"+EaseIMHelper.getInstance().getCurrentUser())
+                            .url(EaseIMHelper.getInstance().getServerHost()+"v1/gov/arcfox/user/"+EaseIMHelper.getInstance().getCurrentUser())
                             .headers(headers)
                             .post(body)
                             .build();
@@ -630,7 +630,7 @@ public class EMContactManagerRepository extends BaseEMRepository{
                             .add("username", EaseIMHelper.getInstance().getCurrentUser())
                             .build();
                     Request request = new Request.Builder()
-                            .url(EaseIMHelper.getInstance().getServerHost()+"/v2/gov/arcfox/user/"+EaseIMHelper.getInstance().getCurrentUser())
+                            .url(EaseIMHelper.getInstance().getServerHost()+"v2/gov/arcfox/user/"+EaseIMHelper.getInstance().getCurrentUser())
                             .headers(headers)
                             .post(body)
                             .build();

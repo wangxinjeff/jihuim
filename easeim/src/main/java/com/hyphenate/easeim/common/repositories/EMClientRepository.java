@@ -151,7 +151,7 @@ public class EMClientRepository extends BaseEMRepository{
             json.put("password", password);
             RequestBody body = RequestBody.create(JSON, json.toString());
             Request request = new Request.Builder()
-                    .url(EaseIMHelper.getInstance().getServerHost()+"/v2/gov/arcfox/login")
+                    .url(EaseIMHelper.getInstance().getServerHost()+"v2/gov/arcfox/login")
                     .post(body)
                     .build();
             client.newCall(request).enqueue(new Callback() {
@@ -249,7 +249,7 @@ public class EMClientRepository extends BaseEMRepository{
                 .add("username", EaseIMHelper.getInstance().getCurrentUser())
                 .build();
         Request request = new Request.Builder()
-                .url(EaseIMHelper.getInstance().getServerHost()+"/v2/gov/arcfox/transport/"+ EaseIMHelper.getInstance().getCurrentUser() + "/logout")
+                .url(EaseIMHelper.getInstance().getServerHost()+"v2/gov/arcfox/transport/"+ EaseIMHelper.getInstance().getCurrentUser() + "/logout")
                 .headers(headers)
                 .get()
                 .build();
@@ -384,7 +384,7 @@ public class EMClientRepository extends BaseEMRepository{
                 .add("username", EaseIMHelper.getInstance().getCurrentUser())
                 .build();
         Request request = new Request.Builder()
-                .url(EaseIMHelper.getInstance().getServerHost()+"/v2/group/chatgroups/users/"+ EaseIMHelper.getInstance().getCurrentUser() + "/action")
+                .url(EaseIMHelper.getInstance().getServerHost()+"v2/group/chatgroups/users/"+ EaseIMHelper.getInstance().getCurrentUser() + "/action")
                 .headers(headers)
                 .get()
                 .build();
@@ -447,7 +447,7 @@ public class EMClientRepository extends BaseEMRepository{
                     .add("username", EaseIMHelper.getInstance().getCurrentUser())
                     .build();
             Request request = new Request.Builder()
-                    .url(EaseIMHelper.getInstance().getServerHost() + "/v2/rtc/token")
+                    .url(EaseIMHelper.getInstance().getServerHost() + "v2/rtc/token")
                     .headers(headers)
                     .post(body)
                     .build();
@@ -500,7 +500,7 @@ public class EMClientRepository extends BaseEMRepository{
                 .add("username", EaseIMHelper.getInstance().getCurrentUser())
                 .build();
         Request request = new Request.Builder()
-                .url(EaseIMHelper.getInstance().getServerHost() + "/v2/rtc/channle/" + channelName + "/show")
+                .url(EaseIMHelper.getInstance().getServerHost() + "v2/rtc/channle/" + channelName + "/show")
                 .headers(headers)
                 .get()
                 .build();
@@ -564,7 +564,7 @@ public class EMClientRepository extends BaseEMRepository{
                     .add("username", EaseIMHelper.getInstance().getCurrentUser())
                     .build();
             Request request = new Request.Builder()
-                    .url(EaseIMHelper.getInstance().getServerHost() + "/v1/rtc/token")
+                    .url(EaseIMHelper.getInstance().getServerHost() + "v1/rtc/token")
                     .headers(headers)
                     .post(body)
                     .build();
@@ -617,7 +617,7 @@ public class EMClientRepository extends BaseEMRepository{
                 .add("username", EaseIMHelper.getInstance().getCurrentUser())
                 .build();
         Request request = new Request.Builder()
-                .url(EaseIMHelper.getInstance().getServerHost() + "/v1/rtc/channle/" + channelName + "/show")
+                .url(EaseIMHelper.getInstance().getServerHost() + "v1/rtc/channle/" + channelName + "/show")
                 .headers(headers)
                 .get()
                 .build();

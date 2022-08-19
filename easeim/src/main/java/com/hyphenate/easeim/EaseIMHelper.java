@@ -116,7 +116,7 @@ public class EaseIMHelper {
     private Application application;
     private UserActivityLifecycleCallbacks mLifecycleCallbacks = new UserActivityLifecycleCallbacks();
     private EMClientRepository clientRepository;
-    private String serverHost = "http://182.92.236.214:12005";
+    private String serverHost = "http://182.92.236.214:12005/";
 
     private String miAppkey;
     private String miAppId;
@@ -155,26 +155,29 @@ public class EaseIMHelper {
         return serverHost;
     }
 
-    public void init(Application application){
+    public void init(Application application, String host){
         this.application = application;
         easeModel = new EaseModel(application);
-        Properties props = new Properties();
-        try {
-            InputStream inputStream = application.getAssets().open("config.properties");
-            props.load(inputStream);
-            miAppkey = props.getProperty("MI_PUSH_APPKEY");
-            miAppId = props.getProperty("MI_PUSH_APPID");
-
-            mzAppkey = props.getProperty("MEIZU_PUSH_APPKEY");
-            mzAppId = props.getProperty("MEIZU_PUSH_APPID");
+        if(TextUtils.isEmpty(host)){
+            serverHost = host;
+        }
+//        Properties props = new Properties();
+//        try {
+//            InputStream inputStream = application.getAssets().open("config.properties");
+//            props.load(inputStream);
+//            miAppkey = props.getProperty("MI_PUSH_APPKEY");
+//            miAppId = props.getProperty("MI_PUSH_APPID");
+//
+//            mzAppkey = props.getProperty("MEIZU_PUSH_APPKEY");
+//            mzAppId = props.getProperty("MEIZU_PUSH_APPID");
 
 //            oppoAppkey = props.getProperty("OPPO_PUSH_APPKEY");
 //            oppoAppSecret = props.getProperty("OPPO_PUSH_APPSECRET");
 
 //            fcmSenderId = props.getProperty("FCM_SENDERID");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void initChat(boolean isAdmin){
@@ -1145,10 +1148,6 @@ public class EaseIMHelper {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setServerHost(String host){
-        serverHost = host;
     }
 
     /**

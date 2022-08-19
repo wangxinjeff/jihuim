@@ -35,7 +35,7 @@ public class DemoApplication extends Application implements Thread.UncaughtExcep
     }
 
     private void initHx() {
-        EaseIMHelper.getInstance().init(this);
+        EaseIMHelper.getInstance().init(this, "http://182.92.236.214:12005/");
 //        InAppNotification.getInstance().setNotifyName("极狐App")
 //                .setNotifyIcon(R.drawable.ease_chatfrom_voice_playing_f3);
         // init hx sdk

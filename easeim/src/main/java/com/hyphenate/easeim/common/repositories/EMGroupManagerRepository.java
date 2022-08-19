@@ -633,7 +633,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             .add("username", EaseIMHelper.getInstance().getCurrentUser())
                             .build();
                     Request request = new Request.Builder()
-                            .url(EaseIMHelper.getInstance().getServerHost()+"/v4/users/"+EaseIMHelper.getInstance().getCurrentUser()+"/group/"+groupId+"/modGroup")
+                            .url(EaseIMHelper.getInstance().getServerHost()+"v4/users/"+EaseIMHelper.getInstance().getCurrentUser()+"/group/"+groupId+"/modGroup")
                             .headers(headers)
                             .post(body)
                             .build();
@@ -888,7 +888,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             .add("username", EaseIMHelper.getInstance().getCurrentUser())
                             .build();
                     Request request = new Request.Builder()
-                            .url(EaseIMHelper.getInstance().getServerHost()+"/v4/users/" + EaseIMHelper.getInstance().getCurrentUser() + "/group/"+groupId+"/addUsers/inviter/"+EaseIMHelper.getInstance().getCurrentUser())
+                            .url(EaseIMHelper.getInstance().getServerHost()+"v4/users/" + EaseIMHelper.getInstance().getCurrentUser() + "/group/"+groupId+"/addUsers/inviter/"+EaseIMHelper.getInstance().getCurrentUser())
                             .headers(headers)
                             .post(body)
                             .build();
@@ -956,7 +956,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             .add("username", EaseIMHelper.getInstance().getCurrentUser())
                             .build();
                     Request request = new Request.Builder()
-                            .url(EaseIMHelper.getInstance().getServerHost()+"/v4/users/" + EaseIMHelper.getInstance().getCurrentUser()
+                            .url(EaseIMHelper.getInstance().getServerHost()+"v4/users/" + EaseIMHelper.getInstance().getCurrentUser()
                                     + "/group/"+groupId+"/addUsers/inviter/"+EaseIMHelper.getInstance().getCurrentUser() + "/APP")
                             .headers(headers)
                             .post(body)
@@ -1154,7 +1154,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             .add("username", EaseIMHelper.getInstance().getCurrentUser())
                             .build();
                     Request request = new Request.Builder()
-                            .url(EaseIMHelper.getInstance().getServerHost()+"/v2/group/chatgroups/users/state")
+                            .url(EaseIMHelper.getInstance().getServerHost()+"v2/group/chatgroups/users/state")
                             .headers(headers)
                             .post(body)
                             .build();
@@ -1239,7 +1239,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             .add("username", EaseIMHelper.getInstance().getCurrentUser())
                             .build();
                     Request request = new Request.Builder()
-                            .url(EaseIMHelper.getInstance().getServerHost()+"/v2/group/chatgroups/users/"+EaseIMHelper.getInstance().getCurrentUser()+"/state")
+                            .url(EaseIMHelper.getInstance().getServerHost()+"v2/group/chatgroups/users/"+EaseIMHelper.getInstance().getCurrentUser()+"/state")
                             .headers(headers)
                             .post(body)
                             .build();
@@ -1492,7 +1492,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             .add("username", EaseIMHelper.getInstance().getCurrentUser())
                             .build();
                     Request request = new Request.Builder()
-                            .url(EaseIMHelper.getInstance().getServerHost()+"/v4/users/" + EaseIMHelper.getInstance().getCurrentUser() + "/group/createGroup")
+                            .url(EaseIMHelper.getInstance().getServerHost()+"v4/users/" + EaseIMHelper.getInstance().getCurrentUser() + "/group/createGroup")
                             .headers(headers)
                             .post(body)
                             .build();
@@ -1604,7 +1604,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             .add("username", EaseIMHelper.getInstance().getCurrentUser())
                             .build();
                     Request request = new Request.Builder()
-                            .url(EaseIMHelper.getInstance().getServerHost()+"/v4/users/" + EaseIMHelper.getInstance().getCurrentUser() + "/group/"+groupId+"/getGroupInfo")
+                            .url(EaseIMHelper.getInstance().getServerHost()+"v4/users/" + EaseIMHelper.getInstance().getCurrentUser() + "/group/"+groupId+"/getGroupInfo")
                             .headers(headers)
                             .get()
                             .build();
@@ -1663,7 +1663,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             .add("username", EaseIMHelper.getInstance().getCurrentUser())
                             .build();
                     Request request = new Request.Builder()
-                            .url(EaseIMHelper.getInstance().getServerHost()+"/v4/users/"+EaseIMHelper.getInstance().getCurrentUser()+"/group/"+groupId+"/modGroup")
+                            .url(EaseIMHelper.getInstance().getServerHost()+"v4/users/"+EaseIMHelper.getInstance().getCurrentUser()+"/group/"+groupId+"/modGroup")
                             .headers(headers)
                             .post(body)
                             .build();
@@ -1728,7 +1728,7 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             .add("username", EaseIMHelper.getInstance().getCurrentUser())
                             .build();
                     Request request = new Request.Builder()
-                            .url(EaseIMHelper.getInstance().getServerHost()+"/v4/users/"+ EaseIMHelper.getInstance().getCurrentUser() + "/group/listGroup")
+                            .url(EaseIMHelper.getInstance().getServerHost()+"v4/users/"+ EaseIMHelper.getInstance().getCurrentUser() + "/group/listGroup")
                             .headers(headers)
                             .post(body)
                             .build();

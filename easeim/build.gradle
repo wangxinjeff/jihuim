@@ -67,17 +67,6 @@ dependencies {
     api files('libs/hyphenatechat_3.9.4.1.jar')
     compileOnly files('libs/mi_push_v3.6.12.jar')
     compileOnly files('libs/pinyin4j-2.5.0.jar')
-    compileOnly files('libs/vivo_push_v3.0.0.4_484.jar')
-    // hms push
-    api 'com.huawei.hms:push:4.0.2.300'
-    // meizu push
-    implementation 'com.meizu.flyme.internet:push-internal:4.0.4@aar'//配置集成sdk
-    //oppo push
-//    implementation (name:'oppo_push_3.0.0',ext:'aar')
-    //oppo push需添加以下依赖
-//    implementation 'com.google.code.gson:gson:2.6.2'
-//    implementation 'commons-codec:commons-codec:1.6'
-//    implementation 'androidx.annotation:annotation:1.1.0'
     // fresh and load more
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'

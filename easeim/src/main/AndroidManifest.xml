@@ -268,14 +268,17 @@
             android:launchMode="singleTask"/>
         <!--展示大图-->
         <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <!--地图-->
         <activity android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <!--视频列表-->
         <!--播放视频-->
         <activity android:name="com.hyphenate.easeui.ui.EaseShowVideoActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <!--视频通话-->
         <activity
             android:name=".section.av.VideoCallActivity"
@@ -296,11 +299,11 @@
             android:name=".section.conference.ConferenceInviteActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-        <!--添加现有好友-->
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTask"/>
         <activity android:name=".section.chat.activity.PickAtUserActivity"
-            android:screenOrientation="portrait"/>
-        <!--转发好友列表-->
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <!--群组详情-->
         <activity android:name=".section.group.activity.GroupDetailActivity"
             android:launchMode="singleTask"
