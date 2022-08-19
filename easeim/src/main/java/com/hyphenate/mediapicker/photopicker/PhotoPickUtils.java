@@ -28,11 +28,12 @@ public class PhotoPickUtils {
          * RxPermissions 参考：https://blog.csdn.net/qq_43546258/article/details/107712028
          */
         RxPermissions rxPermissions = new RxPermissions(fragment);
-        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(granted ->{
+        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(granted ->{
                     if(granted){
                         startMatisse(true, config, Matisse.from(fragment));
                     } else {
-                        Toast.makeText(fragment.getContext(), R.string.em_permission_request_denied, Toast.LENGTH_LONG)
+                        Toast.makeText(fragment.getContext(), "请确认开启读写存储权限", Toast.LENGTH_LONG)
                         .show();
                     }
             }
@@ -46,11 +47,12 @@ public class PhotoPickUtils {
 
         RxPermissions rxPermissions = new RxPermissions(fragmentActivity);
         rxPermissions.request(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(granted ->{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(granted ->{
                     if(granted){
                         startMatisse(true, config, Matisse.from(fragmentActivity));
                     } else {
-                        Toast.makeText(fragmentActivity, R.string.em_permission_request_denied, Toast.LENGTH_LONG)
+                        Toast.makeText(fragmentActivity, "请确认开启读写存储权限", Toast.LENGTH_LONG)
                         .show();
                     }
                 }

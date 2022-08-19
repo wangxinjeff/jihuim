@@ -162,7 +162,7 @@ public class EMChatManagerRepository extends BaseEMRepository{
                             .add("username", EaseIMHelper.getInstance().getCurrentUser())
                             .build();
                     Request request = new Request.Builder()
-                            .url(EaseIMHelper.getInstance().getServerHost()+"/v4/gov/arcfox/transport/"+EaseIMHelper.getInstance().getCurrentUser()+ "/getOrders")
+                            .url(EaseIMHelper.getInstance().getServerHost()+"v4/gov/arcfox/transport/"+EaseIMHelper.getInstance().getCurrentUser()+ "/getOrders")
                             .headers(headers)
                             .post(body)
                             .build();

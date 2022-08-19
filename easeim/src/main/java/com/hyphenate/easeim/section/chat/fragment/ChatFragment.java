@@ -161,7 +161,7 @@ public class ChatFragment extends EaseChatFragment implements OnRecallMessageRes
                     intent.putExtra(EaseConstant.EXTRA_CONFERENCE_GROUP_ID, conversationId);
                     getContext().startActivity(intent);
                 }else{
-                    Toast.makeText(getActivity(), "请确认开启权限", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "请确认开启录音，相机权限", Toast.LENGTH_SHORT).show();
                 }
             });
         }

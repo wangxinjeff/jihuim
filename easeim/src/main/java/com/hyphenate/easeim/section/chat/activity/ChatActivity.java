@@ -1,11 +1,13 @@
 package com.hyphenate.easeim.section.chat.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -22,6 +24,7 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.easeui.provider.EaseUserProfileProvider;
 import com.hyphenate.easeui.widget.EaseTitleBar;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBackPressListener, EaseTitleBar.OnRightClickListener, ChatFragment.OnFragmentInfoListener {
     private EaseTitleBar titleBarMessage;
@@ -58,6 +61,15 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
         titleBarMessage.setLeftImageResource(R.drawable.em_icon_back_admin);
         titleBarMessage.setRightImageResource(R.drawable.em_icon_more_admin);
         initChatFragment();
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(
+                Manifest.permission.RECORD_AUDIO
+        ).subscribe(granted -> {
+            if(granted){
+            }else{
+                Toast.makeText(this, "请确认开启权限", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initChatFragment() {

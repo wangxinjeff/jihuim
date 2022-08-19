@@ -59,10 +59,10 @@ public class ChatRowNotice extends EaseChatRow {
                             return;
                         }
                     }
-                    EaseUserUtils.setUserNick(user, name);
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }
+                EaseUserUtils.setUserNick(user, name);
             } else if(TextUtils.equals(createCall, EaseConstant.CONFERENCE_STATE_END)){
                 name.setVisibility(GONE);
                 content.setText(context.getString(R.string.em_call_over));

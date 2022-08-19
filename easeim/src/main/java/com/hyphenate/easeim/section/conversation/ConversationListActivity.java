@@ -17,17 +17,14 @@ import android.widget.Toast;
 
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMPushConfigs;
 import com.hyphenate.chat.EMUserInfo;
 import com.hyphenate.easecallkit.base.EaseCallType;
 
 import com.hyphenate.easeim.EaseIMHelper;
-import com.hyphenate.easeim.common.manager.HMSPushHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.common.permission.PermissionsManager;
 import com.hyphenate.easeim.common.permission.PermissionsResultAction;
-import com.hyphenate.easeim.common.repositories.EMPushManagerRepository;
 import com.hyphenate.easeim.common.utils.PreferenceManager;
 import com.hyphenate.easeim.common.utils.PushUtils;
 import com.hyphenate.easeim.common.utils.ToastUtils;
@@ -40,7 +37,6 @@ import com.hyphenate.easeim.section.group.activity.NewGroupActivity;
 import com.hyphenate.easeim.section.search.SearchGroupChatActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.manager.EaseThreadManager;
 import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.widget.EaseTitleBar;
@@ -176,8 +172,6 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
         ChatPresenter.getInstance().init();
 
 //        requestPermissions();
-        // 获取华为 HMS 推送 token
-        HMSPushHelper.getInstance().getHMSToken(this);
 
         //判断是否为来电推送
         if(PushUtils.isRtcCall){

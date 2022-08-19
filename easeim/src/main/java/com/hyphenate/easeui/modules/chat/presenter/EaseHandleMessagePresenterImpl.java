@@ -136,13 +136,13 @@ public class EaseHandleMessagePresenterImpl extends EaseHandleMessagePresenter {
             }
             return;
         }
-        addMessageAttributes(message);
         if (chatType == EaseConstant.CHATTYPE_GROUP){
             message.setChatType(EMMessage.ChatType.GroupChat);
             message.setIsNeedGroupAck(true);
         }else if(chatType == EaseConstant.CHATTYPE_CHATROOM){
             message.setChatType(EMMessage.ChatType.ChatRoom);
         }
+        addMessageAttributes(message);
         message.setMessageStatusCallback(new EMCallBack() {
             @Override
             public void onSuccess() {
