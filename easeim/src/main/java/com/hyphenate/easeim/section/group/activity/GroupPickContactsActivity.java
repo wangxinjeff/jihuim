@@ -25,9 +25,11 @@ import com.hyphenate.easeim.section.group.delegate.PickContactDelegate;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.group.adapter.GroupPickContactsAdapter;
 import com.hyphenate.easeim.section.group.viewmodels.GroupPickContactsViewModel;
+import com.hyphenate.easeui.EaseIM;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseEvent;
+import com.hyphenate.easeui.provider.EaseUserProfileProvider;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
@@ -167,7 +169,14 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                EaseUserProfileProvider profileProvider = EaseIM.getInstance().getUserProvider();
                 EaseUser user = new EaseUser(result);
+                if(profileProvider != null){
+                    EaseUser easeUser = profileProvider.getUser(result);
+                    if(easeUser != null){
+                        user = easeUser;
+                    }
+                }
 
                 RadioButton radioButton = findViewById(checkedId);
                 if(TextUtils.equals(radioButton.getText(), getString(R.string.em_service_personnel))){
