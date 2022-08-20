@@ -5,12 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 
 import com.baidu.mapapi.search.core.PoiInfo;
-import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 
 public class EaseBaiduMapAdapter extends EaseBaseRecyclerViewAdapter<PoiInfo>{
@@ -32,7 +30,7 @@ public class EaseBaiduMapAdapter extends EaseBaseRecyclerViewAdapter<PoiInfo>{
 
     @Override
     public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        return new EaseMapViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.map_result_item, parent, false));
+        return new EaseMapViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.em_map_result_item, parent, false));
     }
 
     class EaseMapViewHolder extends EaseBaseRecyclerViewAdapter.ViewHolder<PoiInfo> {

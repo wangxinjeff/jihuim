@@ -14,7 +14,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
@@ -38,7 +37,7 @@ public class WebViewActivity extends BaseInitActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_activity_base_webview;
+        return R.layout.em_activity_base_webview;
     }
 
     @Override

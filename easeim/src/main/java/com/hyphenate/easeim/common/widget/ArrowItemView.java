@@ -47,7 +47,7 @@ public class ArrowItemView extends ConstraintLayout {
     }
 
     public void init(Context context, AttributeSet attrs) {
-        root = LayoutInflater.from(context).inflate(R.layout.demo_layout_item_arrow, this);
+        root = LayoutInflater.from(context).inflate(R.layout.em_layout_item_arrow, this);
         avatar = findViewById(R.id.avatar);
         tvTitle = findViewById(R.id.tv_title);
         tvContent = findViewById(R.id.tv_content);

@@ -15,7 +15,6 @@ import android.support.v4.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
-import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.EaseIM;
 import com.hyphenate.easeui.domain.EaseUser;
@@ -33,7 +32,7 @@ public class GroupDetailMemberAdapter extends RecyclerView.Adapter<GroupDetailMe
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.group_detail_member_item, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.em_group_detail_member_item, parent, false));
     }
 
     @Override

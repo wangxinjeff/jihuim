@@ -1,6 +1,5 @@
 package com.hyphenate.easeui.ui;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 
@@ -73,7 +71,7 @@ public class GroupReadAckListFragment extends BaseInitFragment{
 
         @Override
         public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
-            return new AckViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.member_list_item, parent, false));
+            return new AckViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.em_member_list_item, parent, false));
         }
 
         class AckViewHolder extends EaseBaseRecyclerViewAdapter.ViewHolder<String>{

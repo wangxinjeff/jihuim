@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.util.EMLog;
 
@@ -143,7 +142,7 @@ public class EaseCallFloatWindow {
         layoutParams.type = EaseCallKitUtils.getSupportedWindowType();
         layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM;
 
-        floatView = LayoutInflater.from(context).inflate(R.layout.activity_float_window, null);
+        floatView = LayoutInflater.from(context).inflate(R.layout.em_activity_float_window, null);
         floatView.setFocusableInTouchMode(true);
         callTime = floatView.findViewById(R.id.call_time);
         callView = floatView.findViewById(R.id.call_view);

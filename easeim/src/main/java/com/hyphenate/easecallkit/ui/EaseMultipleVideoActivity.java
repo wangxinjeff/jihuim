@@ -515,7 +515,7 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.CustomerTheme);
-        setContentView(R.layout.activity_ease_multiple_video);
+        setContentView(R.layout.em_activity_ease_multiple_video);
         //初始化
         if(savedInstanceState == null){
             initParams(getIntent().getExtras());
@@ -1817,7 +1817,7 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
     public void exitChannelDisplay() {
         AlertDialog.Builder builder = new AlertDialog.Builder(EaseMultipleVideoActivity.this);
         final AlertDialog dialog = builder.create();
-        View dialogView = View.inflate(EaseMultipleVideoActivity.this, R.layout.activity_exit_channel, null);
+        View dialogView = View.inflate(EaseMultipleVideoActivity.this, R.layout.em_activity_exit_channel, null);
         dialog.setView(dialogView);
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

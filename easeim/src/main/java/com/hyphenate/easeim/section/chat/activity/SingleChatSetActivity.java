@@ -9,7 +9,6 @@ import android.view.View;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
-import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
@@ -45,7 +44,7 @@ public class SingleChatSetActivity extends BaseInitActivity implements EaseTitle
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_activity_single_chat_set;
+        return R.layout.em_activity_single_chat_set;
     }
 
     @Override

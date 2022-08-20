@@ -730,7 +730,7 @@ public class EasyVideoPlayer extends FrameLayout
     private void initControlsFrame() {
         final LayoutInflater li = LayoutInflater.from(getContext());
         // Inflate controls
-        mControlsFrame = li.inflate(R.layout.easy_include_controls, this, false);
+        mControlsFrame = li.inflate(R.layout.ease_include_controls, this, false);
         final LayoutParams controlsLp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         controlsLp.gravity = Gravity.BOTTOM;
         addView(mControlsFrame, controlsLp);

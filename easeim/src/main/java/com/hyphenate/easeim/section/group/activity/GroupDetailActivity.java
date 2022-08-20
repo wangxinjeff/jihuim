@@ -79,7 +79,7 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_activity_chat_group_detail;
+        return R.layout.em_activity_chat_group_detail;
     }
 
     @Override

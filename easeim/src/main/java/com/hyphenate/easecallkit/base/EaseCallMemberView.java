@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.RequestOptions;
 import com.hyphenate.easeim.R;
@@ -73,7 +72,7 @@ public class EaseCallMemberView extends RelativeLayout {
     public EaseCallMemberView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        LayoutInflater.from(context).inflate(R.layout.avtivity_call_member, this);
+        LayoutInflater.from(context).inflate(R.layout.em_avtivity_call_member, this);
         init();
     }
 

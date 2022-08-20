@@ -44,7 +44,7 @@ public class PickAtUserActivity extends BaseInitActivity implements OnItemClickL
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_activity_chat_pick_at_user;
+        return R.layout.em_activity_chat_pick_at_user;
     }
 
     @Override

@@ -29,7 +29,7 @@ public class TestActivity extends BaseInitActivity implements View.OnClickListen
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_activity_test;
+        return R.layout.em_activity_test;
     }
 
     @Override

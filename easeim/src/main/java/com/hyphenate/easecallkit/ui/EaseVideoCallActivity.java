@@ -356,7 +356,7 @@ public class EaseVideoCallActivity extends EaseBaseCallActivity implements View.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ease_video_call);
+        setContentView(R.layout.em_activity_ease_video_call);
 
         //初始化
         if(savedInstanceState == null){
@@ -1763,7 +1763,7 @@ public class EaseVideoCallActivity extends EaseBaseCallActivity implements View.
     public void exitChannelDisplay() {
         AlertDialog.Builder builder = new AlertDialog.Builder(EaseVideoCallActivity.this);
         final AlertDialog dialog = builder.create();
-        View dialogView = View.inflate(EaseVideoCallActivity.this, R.layout.activity_exit_channel, null);
+        View dialogView = View.inflate(EaseVideoCallActivity.this, R.layout.em_activity_exit_channel, null);
         dialog.setView(dialogView);
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

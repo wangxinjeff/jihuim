@@ -293,7 +293,7 @@ public class ChatFragment extends EaseChatFragment implements OnRecallMessageRes
     }
 
     private void showProgressBar() {
-        View view = View.inflate(mContext, R.layout.demo_layout_progress_recall, null);
+        View view = View.inflate(mContext, R.layout.em_layout_progress_recall, null);
         dialog = new Dialog(mContext,R.style.dialog_recall);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setContentView(view, layoutParams);

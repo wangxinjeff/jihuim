@@ -10,7 +10,6 @@ import android.view.View;
 import android.support.v4.app.Fragment;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
-import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.search.adapter.SectionPagerAdapter;
@@ -44,7 +43,7 @@ public class SearchHistoryChatActivity extends BaseInitActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_search_history;
+        return R.layout.em_activity_search_history;
     }
 
     @Override

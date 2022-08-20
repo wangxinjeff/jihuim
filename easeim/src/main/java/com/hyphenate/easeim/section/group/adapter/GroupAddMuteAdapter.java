@@ -10,7 +10,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 
 import com.bumptech.glide.Glide;
@@ -28,7 +27,7 @@ public class GroupAddMuteAdapter extends EaseBaseRecyclerViewAdapter<EaseUser>{
 
     @Override
     public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        return new GroupMuteViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.demo_widget_contact_item, parent, false));
+        return new GroupMuteViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.em_widget_contact_item, parent, false));
     }
 
     class GroupMuteViewHolder extends ViewHolder<EaseUser> {

@@ -4,7 +4,6 @@ package com.hyphenate.easeim.section.conference.adapter;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ public class InviteSelectedAdapter extends EaseBaseRecyclerViewAdapter<String> {
 
     @Override
     public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        return new InviteViewHolder(LayoutInflater.from(mContext).inflate(R.layout.invite_selected_item, parent, false));
+        return new InviteViewHolder(LayoutInflater.from(mContext).inflate(R.layout.em_invite_selected_item, parent, false));
     }
 
     @Override

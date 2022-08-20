@@ -1,7 +1,6 @@
 package com.hyphenate.easeim.section.conference;
 
 import android.app.Activity;
-import android.arch.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,7 +16,6 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.easecallkit.EaseCallKit;
 
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
@@ -27,7 +25,6 @@ import com.hyphenate.easeim.section.conference.adapter.ConferenceInviteAdapter;
 import com.hyphenate.easeim.section.conference.adapter.InviteSelectedAdapter;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.manager.EaseThreadManager;
 import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.widget.EaseTitleBar;
@@ -54,7 +51,7 @@ public class ConferenceInviteActivity extends BaseInitActivity implements View.O
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_conference_invite;
+        return R.layout.em_activity_conference_invite;
     }
 
     @Override

@@ -37,7 +37,7 @@ public class GroupApplyActivity extends BaseInitActivity implements OnRefreshLoa
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_group_apply;
+        return R.layout.em_activity_group_apply;
     }
 
     @Override

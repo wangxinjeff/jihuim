@@ -85,7 +85,7 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_activity_conversation_list;
+        return R.layout.em_activity_conversation_list;
     }
 
     @Override
@@ -104,7 +104,7 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
         disconnectView = findViewById(R.id.disconnect_view);
         switchToHome();
 
-        popView = LayoutInflater.from(this).inflate(R.layout.pop_conversation_list, null, false);
+        popView = LayoutInflater.from(this).inflate(R.layout.em_pop_conversation_list, null, false);
         notifyView = popView.findViewById(R.id.notify_view);
         searchView = popView.findViewById(R.id.search_view);
         createView = popView.findViewById(R.id.create_view);

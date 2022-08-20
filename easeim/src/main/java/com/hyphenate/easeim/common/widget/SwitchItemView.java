@@ -45,7 +45,7 @@ public class SwitchItemView extends ConstraintLayout {
     }
 
     public void init(Context context, AttributeSet attrs) {
-        root = LayoutInflater.from(context).inflate(R.layout.demo_layout_item_switch, this);
+        root = LayoutInflater.from(context).inflate(R.layout.em_layout_item_switch, this);
         tvTitle = findViewById(R.id.tv_title);
         tvHint = findViewById(R.id.tv_hint);
         viewDivider = findViewById(R.id.view_divider);

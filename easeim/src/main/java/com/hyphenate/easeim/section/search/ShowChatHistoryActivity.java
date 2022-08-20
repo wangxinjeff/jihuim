@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
@@ -33,7 +32,7 @@ public class ShowChatHistoryActivity extends BaseInitActivity implements EaseCha
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_show_history;
+        return R.layout.em_activity_show_history;
     }
 
     @Override

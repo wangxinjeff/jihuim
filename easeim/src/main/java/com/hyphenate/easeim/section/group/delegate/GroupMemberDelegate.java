@@ -23,7 +23,7 @@ public class GroupMemberDelegate extends EaseAdapterDelegate<EaseUser, GroupMemb
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, String tag) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.member_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.em_member_list_item, parent, false);
         return new ViewHolder(view);
     }
 

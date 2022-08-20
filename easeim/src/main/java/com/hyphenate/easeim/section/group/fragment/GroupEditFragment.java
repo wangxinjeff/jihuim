@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 
-import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.section.base.BaseActivity;
 import com.hyphenate.easeim.section.base.BaseDialogFragment;
@@ -49,7 +48,7 @@ public class GroupEditFragment extends BaseDialogFragment implements EaseTitleBa
 
     @Override
     public int getLayoutId() {
-        return R.layout.demo_fragment_group_edit;
+        return R.layout.em_fragment_group_edit;
     }
 
     @Override

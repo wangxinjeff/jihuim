@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 
@@ -35,7 +34,7 @@ public class SearchGroupChatAdapter extends EaseBaseRecyclerViewAdapter<SearchRe
 
     @Override
     public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        return new GroupChatViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.search_group_chat_item, parent, false));
+        return new GroupChatViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.em_search_group_chat_item, parent, false));
     }
 
     private class GroupChatViewHolder extends ViewHolder<SearchResult>{

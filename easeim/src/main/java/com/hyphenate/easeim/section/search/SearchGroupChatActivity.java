@@ -1,6 +1,5 @@
 package com.hyphenate.easeim.section.search;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
@@ -17,10 +16,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import android.support.annotation.Nullable;
-
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.model.SearchResult;
 import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
@@ -51,7 +47,7 @@ public class SearchGroupChatActivity extends BaseInitActivity implements View.On
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_search_group_chat;
+        return R.layout.em_activity_search_group_chat;
     }
 
     @Override
@@ -62,7 +58,7 @@ public class SearchGroupChatActivity extends BaseInitActivity implements View.On
         searchContent = findViewById(R.id.search_content);
         searchStart = findViewById(R.id.search_start);
 
-        popView = LayoutInflater.from(this).inflate(R.layout.pop_search_group_chat, null, false);
+        popView = LayoutInflater.from(this).inflate(R.layout.em_pop_search_group_chat, null, false);
         item1 = popView.findViewById(R.id.item1);
         item2 = popView.findViewById(R.id.item2);
         item3 = popView.findViewById(R.id.item3);

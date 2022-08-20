@@ -10,18 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import android.support.annotation.Nullable;
-
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMNormalFileMessageBody;
-import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeui.EaseIM;
 import com.hyphenate.easeui.adapter.EaseBaseRecyclerViewAdapter;
-import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.provider.EaseUserProfileProvider;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseDateUtils;
 import com.hyphenate.easeui.utils.EaseEditTextUtils;
@@ -41,7 +35,7 @@ public class SearchAllAdapter extends EaseBaseRecyclerViewAdapter<EMMessage> {
 
     @Override
     public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        return new SearchAllViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.demo_item_row_chat_history, parent, false));
+        return new SearchAllViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.em_item_row_chat_history, parent, false));
     }
 
     public void setKeyword(String keyword) {

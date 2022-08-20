@@ -2,8 +2,6 @@ package com.hyphenate.easecallkit.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -17,7 +15,6 @@ import android.widget.TextView;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.utils.EaseUserUtils;
-import com.hyphenate.util.EMLog;
 
 import com.hyphenate.easecallkit.utils.EaseCallKitUtils;
 import com.hyphenate.easecallkit.widget.EaseImageView;
@@ -55,7 +52,7 @@ public class EaseCommingCallView extends FrameLayout {
     }
 
     private void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.activity_comming_call, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.em_activity_comming_call, this);
         mBtnReject = findViewById(R.id.btn_reject);
         mBtnPickup = findViewById(R.id.btn_pickup);
         mInviterName = findViewById(R.id.tv_nick);

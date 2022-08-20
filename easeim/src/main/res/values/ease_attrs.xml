@@ -365,23 +365,23 @@
     <attr name="btnUnClick" format="color"/>
     <attr name="btnClick" format="color"/>
 
-    <attr name="toolbar" format="reference"/>
-    <attr name="album.dropdown.title.color" format="reference|color"/>
-    <attr name="album.dropdown.count.color" format="reference|color"/>
-    <attr name="album.element.color" format="reference|color"/>
-    <attr name="album.thumbnail.placeholder" format="reference|color"/>
-    <attr name="album.emptyView" format="reference"/>
-    <attr name="album.emptyView.textColor" format="reference|color"/>
-    <attr name="listPopupWindowStyle" format="reference"/>
-    <attr name="page.bg" format="reference|color"/>
-    <attr name="bottomToolbar.bg" format="reference|color"/>
-    <attr name="bottomToolbar.preview.textColor" format="reference|color"/>
-    <attr name="bottomToolbar.apply.textColor" format="reference|color"/>
-    <attr name="preview.bottomToolbar.back.textColor" format="reference|color"/>
-    <attr name="preview.bottomToolbar.apply.textColor" format="reference|color"/>
-    <attr name="item.placeholder" format="reference|color"/>
-    <attr name="item.checkCircle.backgroundColor" format="reference|color"/>
-    <attr name="item.checkCircle.borderColor" format="reference|color"/>
-    <attr name="capture.textColor" format="reference|color"/>
+    <attr name="emtoolbar" format="reference"/>
+    <attr name="emalbum.dropdown.title.color" format="reference|color"/>
+    <attr name="emalbum.dropdown.count.color" format="reference|color"/>
+    <attr name="emalbum.element.color" format="reference|color"/>
+    <attr name="emalbum.thumbnail.placeholder" format="reference|color"/>
+    <attr name="emalbum.emptyView" format="reference"/>
+    <attr name="emalbum.emptyView.textColor" format="reference|color"/>
+    <attr name="emlistPopupWindowStyle" format="reference"/>
+    <attr name="empage.bg" format="reference|color"/>
+    <attr name="embottomToolbar.bg" format="reference|color"/>
+    <attr name="embottomToolbar.preview.textColor" format="reference|color"/>
+    <attr name="embottomToolbar.apply.textColor" format="reference|color"/>
+    <attr name="empreview.bottomToolbar.back.textColor" format="reference|color"/>
+    <attr name="empreview.bottomToolbar.apply.textColor" format="reference|color"/>
+    <attr name="emitem.placeholder" format="reference|color"/>
+    <attr name="emitem.checkCircle.backgroundColor" format="reference|color"/>
+    <attr name="emitem.checkCircle.borderColor" format="reference|color"/>
+    <attr name="emcapture.textColor" format="reference|color"/>
 
 </resources>

@@ -3,7 +3,6 @@ package com.hyphenate.easeim.section.conference.adapter;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +10,15 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import android.support.annotation.Nullable;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
-import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.EaseIM;
 import com.hyphenate.easeui.adapter.EaseBaseRecyclerViewAdapter;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.provider.EaseUserProfileProvider;
-import com.hyphenate.easeui.utils.EaseCommonUtils;
-import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseImageView;
-import com.hyphenate.util.EMLog;
 
 public class ConferenceInviteAdapter extends EaseBaseRecyclerViewAdapter<EaseUser> {
 
@@ -38,7 +31,7 @@ public class ConferenceInviteAdapter extends EaseBaseRecyclerViewAdapter<EaseUse
 
     @Override
     public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        return new InviteViewHolder(LayoutInflater.from(mContext).inflate(R.layout.demo_widget_contact_item, parent, false));
+        return new InviteViewHolder(LayoutInflater.from(mContext).inflate(R.layout.em_widget_contact_item, parent, false));
     }
 
     @Override

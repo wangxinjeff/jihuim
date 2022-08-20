@@ -112,7 +112,7 @@ public class InAppNotification implements Runnable {
 //    }
 
     private void initView(){
-        mView = LayoutInflater.from(mRootView.getContext()).inflate(R.layout.in_app_notify_layout, mRootView, false);
+        mView = LayoutInflater.from(mRootView.getContext()).inflate(R.layout.em_in_app_notify_layout, mRootView, false);
         iconView = mView.findViewById(R.id.notify_icon);
         titleView = mView.findViewById(R.id.notify_title);
         nameView = mView.findViewById(R.id.notify_name);

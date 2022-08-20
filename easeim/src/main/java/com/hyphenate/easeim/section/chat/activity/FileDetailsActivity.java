@@ -18,7 +18,6 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMNormalFileMessageBody;
-import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
@@ -48,7 +47,7 @@ public class FileDetailsActivity extends BaseInitActivity implements EaseTitleBa
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_file_details;
+        return R.layout.em_activity_file_details;
     }
 
     @Override

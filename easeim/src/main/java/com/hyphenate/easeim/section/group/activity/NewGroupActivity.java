@@ -1,6 +1,5 @@
 package com.hyphenate.easeim.section.group.activity;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyphenate.easeim.R;
-import com.hyphenate.easeim.common.interfaceOrImplement.OnResourceParseCallback;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.utils.ToastUtils;
@@ -65,7 +63,7 @@ public class NewGroupActivity extends BaseInitActivity implements EaseTitleBar.O
 
     @Override
     protected int getLayoutId() {
-        return R.layout.demo_activity_new_group;
+        return R.layout.em_activity_new_group;
     }
 
     @Override

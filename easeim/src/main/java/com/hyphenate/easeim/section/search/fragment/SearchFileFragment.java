@@ -1,8 +1,6 @@
 package com.hyphenate.easeim.section.search.fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,16 +8,13 @@ import android.view.View;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMNormalFileMessageBody;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.widget.SearchBar;
 import com.hyphenate.easeim.section.base.BaseInitFragment;
 import com.hyphenate.easeim.section.chat.activity.FileDetailsActivity;
 import com.hyphenate.easeim.section.search.adapter.SearchAllAdapter;
 import com.hyphenate.easeui.interfaces.OnItemClickListener;
-import com.hyphenate.util.EMLog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFileFragment extends BaseInitFragment {
@@ -31,7 +26,7 @@ public class SearchFileFragment extends BaseInitFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_search_file;
+        return R.layout.em_fragment_search_file;
     }
 
     @Override

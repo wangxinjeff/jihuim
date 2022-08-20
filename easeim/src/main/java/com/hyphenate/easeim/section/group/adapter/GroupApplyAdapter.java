@@ -19,7 +19,7 @@ public class GroupApplyAdapter extends EaseBaseRecyclerViewAdapter<GroupApplyBea
 
     @Override
     public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        return new GroupApplyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.group_apply_item, parent, false));
+        return new GroupApplyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.em_group_apply_item, parent, false));
     }
 
     public void setOnGroupApplyListener(OnGroupApplyListener listener){

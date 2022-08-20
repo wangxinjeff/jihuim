@@ -1,6 +1,5 @@
 package com.hyphenate.easeim.section.search.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,7 +32,7 @@ public class SearchMultiMediaFragment extends BaseInitFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_multimedia;
+        return R.layout.em_fragment_multimedia;
     }
 
     @Override
