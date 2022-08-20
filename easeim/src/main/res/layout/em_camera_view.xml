@@ -48,13 +48,13 @@
     </LinearLayout>
 
 
-    <com.hyphenate.mediapicker.cameralibrary.CaptureLayout
+    <com.hyphenate.mediapicker.cameralibrary.EMCaptureLayout
         android:id="@+id/capture_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"/>
 
-    <com.hyphenate.mediapicker.cameralibrary.FocusView
+    <com.hyphenate.mediapicker.cameralibrary.EMFocusView
         android:id="@+id/fouce_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

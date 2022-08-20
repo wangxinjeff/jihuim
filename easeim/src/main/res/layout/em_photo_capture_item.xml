@@ -14,11 +14,11 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<com.hyphenate.mediapicker.internal.ui.widget.SquareFrameLayout
+<com.hyphenate.mediapicker.internal.ui.widget.EMSquareFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?item.placeholder"
+    android:background="?attr/emitem.placeholder"
     android:foreground="?selectableItemBackground">
 
     <TextView
@@ -29,8 +29,8 @@
         android:drawablePadding="8dp"
         android:drawableTop="@drawable/em_ic_photo_camera_white_24dp"
         android:gravity="center"
-        android:text="@string/photo_grid_capture"
-        android:textColor="?capture.textColor"
+        android:text="@string/em_photo_grid_capture"
+        android:textColor="?attr/emcapture.textColor"
         android:textSize="14sp"/>
 
-</com.hyphenate.mediapicker.internal.ui.widget.SquareFrameLayout>
+</com.hyphenate.mediapicker.internal.ui.widget.EMSquareFrameLayout>

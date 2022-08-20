@@ -1,11 +1,13 @@
 package com.hyphenate.easeim;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 
+import com.hyphenate.EMCallBack;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -16,6 +18,9 @@ import com.hyphenate.easeim.common.widget.InAppNotification;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.model.EaseEvent;
+import com.hyphenate.push.EMPushHelper;
+import com.hyphenate.util.EMLog;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,6 +65,20 @@ public class MainActivity extends BaseInitActivity implements View.OnClickListen
         });
 
         refreshUI();
+        MiPushClient.registerPush(this, "2882303761517426801", "5381742660801");
+        String token = MiPushClient.getRegId(this);
+        EMLog.e("empushhelper", "token:" + token);
+        EMClient.getInstance().pushManager().bindDeviceToken("2882303761517426801", token, new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                EMLog.e("empushhelper", "bind success");
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                EMLog.e("empushhelper", "bind failed:" + i +":" +s);
+            }
+        });
     }
 
     private void refreshUI(){

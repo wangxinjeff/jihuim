@@ -353,22 +353,22 @@
 
         <!-- 拍照、拍摄短视频 -->
         <activity
-            android:name="com.hyphenate.mediapicker.camera.CameraActivity"
+            android:name="com.hyphenate.mediapicker.camera.EMCameraActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|layoutDirection"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <!--知乎图片选择器-->
         <activity
-            android:name="com.hyphenate.mediapicker.ui.MatisseActivity"
+            android:name="com.hyphenate.mediapicker.ui.EMMatisseActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hyphenate.mediapicker.internal.ui.AlbumPreviewActivity"
+            android:name="com.hyphenate.mediapicker.internal.ui.EMAlbumPreviewActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hyphenate.mediapicker.internal.ui.SelectedPreviewActivity"
+            android:name="com.hyphenate.mediapicker.internal.ui.EMSelectedPreviewActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 

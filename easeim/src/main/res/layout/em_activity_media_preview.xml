@@ -19,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <com.hyphenate.mediapicker.internal.ui.widget.PreviewViewPager
+    <com.hyphenate.mediapicker.internal.ui.widget.EMPreviewViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/preview_bottom_toolbar_bg"
+        android:background="@color/em_preview_bottom_toolbar_bg"
         android:elevation="4dp"
         tools:targetApi="lollipop">
 
@@ -41,8 +41,8 @@
             android:foreground="?selectableItemBackground"
             android:padding="16dp"
             android:layout_gravity="start"
-            android:text="@string/button_back"
-            android:textColor="?attr/preview.bottomToolbar.back.textColor"
+            android:text="@string/em_button_back"
+            android:textColor="?attr/empreview.bottomToolbar.back.textColor"
             android:textSize="16sp"/>
 
 
@@ -65,7 +65,7 @@
                 tools:showIn="@layout/em_activity_matisse">
 
 
-                <com.hyphenate.mediapicker.internal.ui.widget.CheckRadioView
+                <com.hyphenate.mediapicker.internal.ui.widget.EMCheckRadioView
                     android:id="@+id/original"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
@@ -80,8 +80,8 @@
                     android:enabled="true"
                     android:paddingStart="4dp"
                     android:paddingLeft="4dp"
-                    android:text="@string/button_original"
-                    android:textColor="?attr/preview.bottomToolbar.back.textColor"
+                    android:text="@string/em_button_original"
+                    android:textColor="?attr/empreview.bottomToolbar.back.textColor"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="@color/preview_bottom_size"
+                android:textColor="@color/em_preview_bottom_size"
                 android:textSize="16sp"
                 android:visibility="gone"/>
         </LinearLayout>
@@ -107,8 +107,8 @@
             android:layout_gravity="end"
             android:foreground="?selectableItemBackground"
             android:padding="16dp"
-            android:text="@string/button_apply_default"
-            android:textColor="?attr/preview.bottomToolbar.apply.textColor"
+            android:text="@string/em_button_apply_default"
+            android:textColor="?attr/empreview.bottomToolbar.apply.textColor"
             android:textSize="16sp"/>
 
     </FrameLayout>
@@ -121,7 +121,7 @@
         android:layout_margin="8dp"
         android:fitsSystemWindows="true">
 
-        <com.hyphenate.mediapicker.internal.ui.widget.CheckView
+        <com.hyphenate.mediapicker.internal.ui.widget.EMCheckView
             android:id="@+id/check_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

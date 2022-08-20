@@ -316,69 +316,69 @@
 
     //====================================== Theme Zhihu ===========================================
 
-    <style name="Matisse.Zhihu" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/zhihu_primary</item>
-        <item name="colorPrimaryDark">@color/zhihu_primary_dark</item>
-        <item name="toolbar">@style/Toolbar.Zhihu</item>
-        <item name="album.dropdown.title.color">@color/zhihu_album_dropdown_title_text</item>
-        <item name="album.dropdown.count.color">@color/zhihu_album_dropdown_count_text</item>
-        <item name="album.element.color">@android:color/white</item>
-        <item name="album.thumbnail.placeholder">@color/zhihu_album_dropdown_thumbnail_placeholder</item>
-        <item name="album.emptyView">@drawable/em_ic_empty_zhihu</item>
-        <item name="album.emptyView.textColor">@color/zhihu_album_empty_view</item>
-        <item name="item.placeholder">@color/zhihu_item_placeholder</item>
-        <item name="item.checkCircle.backgroundColor">@color/zhihu_item_checkCircle_backgroundColor</item>
-        <item name="item.checkCircle.borderColor">@color/zhihu_item_checkCircle_borderColor</item>
-        <item name="page.bg">@color/zhihu_page_bg</item>
-        <item name="bottomToolbar.bg">@color/zhihu_bottom_toolbar_bg</item>
-        <item name="bottomToolbar.preview.textColor">@color/em_bottom_toolbar_preview</item>
-        <item name="bottomToolbar.apply.textColor">@color/em_bottom_toolbar_apply</item>
-        <item name="preview.bottomToolbar.back.textColor">@color/zhihu_preview_bottom_toolbar_back_text</item>
-        <item name="preview.bottomToolbar.apply.textColor">@color/em_preview_bottom_toolbar_apply</item>
-        <item name="listPopupWindowStyle">@style/Popup.Zhihu</item>
-        <item name="capture.textColor">@color/zhihu_capture</item>
+    <style name="EMMatisse.Zhihu" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/em_zhihu_primary</item>
+        <item name="colorPrimaryDark">@color/em_zhihu_primary_dark</item>
+        <item name="emtoolbar">@style/EMToolbar.Zhihu</item>
+        <item name="emalbum.dropdown.title.color">@color/em_zhihu_album_dropdown_title_text</item>
+        <item name="emalbum.dropdown.count.color">@color/em_zhihu_album_dropdown_count_text</item>
+        <item name="emalbum.element.color">@android:color/white</item>
+        <item name="emalbum.thumbnail.placeholder">@color/em_zhihu_album_dropdown_thumbnail_placeholder</item>
+        <item name="emalbum.emptyView">@drawable/em_ic_empty_zhihu</item>
+        <item name="emalbum.emptyView.textColor">@color/em_zhihu_album_empty_view</item>
+        <item name="emitem.placeholder">@color/em_zhihu_item_placeholder</item>
+        <item name="emitem.checkCircle.backgroundColor">@color/em_zhihu_item_checkCircle_backgroundColor</item>
+        <item name="emitem.checkCircle.borderColor">@color/em_zhihu_item_checkCircle_borderColor</item>
+        <item name="empage.bg">@color/em_zhihu_page_bg</item>
+        <item name="embottomToolbar.bg">@color/em_zhihu_bottom_toolbar_bg</item>
+        <item name="embottomToolbar.preview.textColor">@color/em_bottom_toolbar_preview</item>
+        <item name="embottomToolbar.apply.textColor">@color/em_bottom_toolbar_apply</item>
+        <item name="empreview.bottomToolbar.back.textColor">@color/em_zhihu_preview_bottom_toolbar_back_text</item>
+        <item name="empreview.bottomToolbar.apply.textColor">@color/em_preview_bottom_toolbar_apply</item>
+        <item name="emlistPopupWindowStyle">@style/EMPopup.Zhihu</item>
+        <item name="emcapture.textColor">@color/em_zhihu_capture</item>
     </style>
 
-    <style name="Toolbar.Zhihu" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="EMToolbar.Zhihu" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
 
     </style>
 
-    <style name="Popup.Zhihu" parent="Widget.AppCompat.Light.ListPopupWindow">
-        <item name="android:popupBackground">@color/zhihu_album_popup_bg</item>
+    <style name="EMPopup.Zhihu" parent="Widget.AppCompat.Light.ListPopupWindow">
+        <item name="android:popupBackground">@color/em_zhihu_album_popup_bg</item>
     </style>
 
     //===================================== Theme Dracula ==========================================
 
-    <style name="Matisse.Dracula" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/dracula_primary</item>
-        <item name="colorPrimaryDark">@color/dracula_primary_dark</item>
-        <item name="toolbar">@style/Toolbar.Dracula</item>
-        <item name="album.dropdown.title.color">@color/dracula_album_dropdown_title_text</item>
-        <item name="album.dropdown.count.color">@color/dracula_album_dropdown_count_text</item>
-        <item name="album.element.color">@android:color/white</item>
-        <item name="album.thumbnail.placeholder">@color/theme_float_bg_color</item>
-        <item name="album.emptyView">@drawable/em_ic_empty_dracula</item>
-        <item name="album.emptyView.textColor">@color/dracula_album_empty_view</item>
-        <item name="item.placeholder">@color/theme_float_bg_color</item>
-        <item name="item.checkCircle.backgroundColor">@color/dracula_item_checkCircle_backgroundColor</item>
-        <item name="item.checkCircle.borderColor">@color/dracula_item_checkCircle_borderColor</item>
-        <item name="page.bg">@color/theme_bg_color</item>
-        <item name="bottomToolbar.bg">@color/theme_float_bg_color</item>
-        <item name="bottomToolbar.preview.textColor">@color/em_dracula_bottom_toolbar_preview</item>
-        <item name="bottomToolbar.apply.textColor">@color/em_dracula_bottom_toolbar_apply</item>
-        <item name="preview.bottomToolbar.back.textColor">@color/dracula_preview_bottom_toolbar_back_text</item>
-        <item name="preview.bottomToolbar.apply.textColor">@color/em_dracula_preview_bottom_toolbar_apply</item>
-        <item name="android:listPopupWindowStyle">@style/Popup.Dracula</item>
-        <item name="listPopupWindowStyle">@style/Popup.Dracula</item>
-        <item name="capture.textColor">@color/dracula_capture</item>
+    <style name="EMMatisse.Dracula" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/em_dracula_primary</item>
+        <item name="colorPrimaryDark">@color/em_dracula_primary_dark</item>
+        <item name="emtoolbar">@style/EMToolbar.Dracula</item>
+        <item name="emalbum.dropdown.title.color">@color/em_dracula_album_dropdown_title_text</item>
+        <item name="emalbum.dropdown.count.color">@color/em_dracula_album_dropdown_count_text</item>
+        <item name="emalbum.element.color">@android:color/white</item>
+        <item name="emalbum.thumbnail.placeholder">@color/theme_float_bg_color</item>
+        <item name="emalbum.emptyView">@drawable/em_ic_empty_dracula</item>
+        <item name="emalbum.emptyView.textColor">@color/em_dracula_album_empty_view</item>
+        <item name="emitem.placeholder">@color/theme_float_bg_color</item>
+        <item name="emitem.checkCircle.backgroundColor">@color/em_dracula_item_checkCircle_backgroundColor</item>
+        <item name="emitem.checkCircle.borderColor">@color/em_dracula_item_checkCircle_borderColor</item>
+        <item name="empage.bg">@color/theme_bg_color</item>
+        <item name="embottomToolbar.bg">@color/theme_float_bg_color</item>
+        <item name="embottomToolbar.preview.textColor">@color/em_dracula_bottom_toolbar_preview</item>
+        <item name="embottomToolbar.apply.textColor">@color/em_dracula_bottom_toolbar_apply</item>
+        <item name="empreview.bottomToolbar.back.textColor">@color/em_dracula_preview_bottom_toolbar_back_text</item>
+        <item name="empreview.bottomToolbar.apply.textColor">@color/em_dracula_preview_bottom_toolbar_apply</item>
+        <item name="android:listPopupWindowStyle">@style/EMPopup.Dracula</item>
+        <item name="emlistPopupWindowStyle">@style/EMPopup.Dracula</item>
+        <item name="emcapture.textColor">@color/em_dracula_capture</item>
         <item name="android:navigationBarColor">@color/theme_float_bg_color</item>
     </style>
 
-    <style name="Toolbar.Dracula" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="EMToolbar.Dracula" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
 
     </style>
 
-    <style name="Popup.Dracula" parent="Widget.AppCompat.ListPopupWindow">
+    <style name="EMPopup.Dracula" parent="Widget.AppCompat.ListPopupWindow">
         <item name="android:popupBackground">@color/theme_float_bg_color</item>
     </style>
 </resources>

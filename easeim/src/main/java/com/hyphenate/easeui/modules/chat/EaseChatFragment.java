@@ -7,9 +7,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,13 +18,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.constants.EaseConstant;
-import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.manager.EaseDingMessageHelper;
 import com.hyphenate.easeui.modules.chat.interfaces.OnAddMsgAttrsBeforeSendEvent;
 import com.hyphenate.easeui.modules.chat.interfaces.OnChatLayoutListener;
@@ -40,23 +35,19 @@ import com.hyphenate.easeui.ui.base.EaseBaseFragment;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseCompat;
 import com.hyphenate.easeui.utils.EaseFileUtils;
-import com.hyphenate.easeui.utils.Glide4Engine;
+import com.hyphenate.mediapicker.engine.impl.EMGlideEngine;
 import com.hyphenate.util.EMLog;
-import com.hyphenate.util.PathUtil;
 import com.hyphenate.util.VersionUtils;
-import com.hyphenate.mediapicker.Matisse;
+import com.hyphenate.mediapicker.EMMatisse;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import com.hyphenate.mediapicker.SmartMediaPicker;
-import com.hyphenate.mediapicker.config.Constant;
-import com.hyphenate.mediapicker.config.MediaPickerEnum;
+import com.hyphenate.mediapicker.EMSmartMediaPicker;
+import com.hyphenate.mediapicker.config.EMConstant;
+import com.hyphenate.mediapicker.config.EMMediaPickerEnum;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutListener, OnMenuChangeListener, OnAddMsgAttrsBeforeSendEvent, OnChatRecordTouchListener, OnTranslateMessageListener {
     protected static final int REQUEST_CODE_MAP = 1;
@@ -235,15 +226,15 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
                 onActivityResultForLocalFiles(data);
             }else if(requestCode == REQUEST_CODE_SELECT_VIDEO) {
                 onActivityResultForLocalVideos(data);
-            } else if(requestCode == Constant.REQUEST_CODE_CHOOSE){
-                chatLayout.sendImageMessage(Matisse.obtainResult(data).get(0), true);
-            } else if(requestCode == Constant.CAMERA_RESULT_CODE){
-                List<String> resultData = SmartMediaPicker.getResultData(getContext(), requestCode, resultCode, data);
+            } else if(requestCode == EMConstant.REQUEST_CODE_CHOOSE){
+                chatLayout.sendImageMessage(EMMatisse.obtainResult(data).get(0), true);
+            } else if(requestCode == EMConstant.CAMERA_RESULT_CODE){
+                List<String> resultData = EMSmartMediaPicker.getResultData(getContext(), requestCode, resultCode, data);
                 if (resultData != null && resultData.size() > 0) {
                     if(resultData.get(0).contains(".jpg")){
                         chatLayout.sendImageMessage(Uri.parse(resultData.get(0)), true);
                     } else if(resultData.get(0).contains(".mp4")){
-                        chatLayout.sendVideoMessage(Uri.parse(resultData.get(0)), SmartMediaPicker.getVideoDuration(getContext(), EaseCompat.getUriForFile(getContext(), new File(resultData.get(0)))));
+                        chatLayout.sendVideoMessage(Uri.parse(resultData.get(0)), EMSmartMediaPicker.getVideoDuration(getContext(), EaseCompat.getUriForFile(getContext(), new File(resultData.get(0)))));
                     }
                 }
             }
@@ -281,7 +272,7 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
 //                new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, EaseCompat.getUriForFile(getContext(), cameraFile)),
 //                REQUEST_CODE_CAMERA);
 
-        SmartMediaPicker.builder(this)
+        EMSmartMediaPicker.builder(this)
                 //最大图片选择数目 如果不需要图片 将数目设置为0
                 .withMaxImageSelectable(1)
                 //最大视频选择数目 如果不需要视频 将数目设置为0
@@ -299,11 +290,11 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
                 //最大图片大小 单位MB
                 .withMaxImageSize(10)
                 //设置图片加载引擎
-                .withImageEngine(new Glide4Engine())
+                .withImageEngine(new EMGlideEngine())
                 //前置摄像头拍摄是否镜像翻转图像
                 .withIsMirror(true)
                 //弹出类别，默认弹出底部选择栏，也可以选择单独跳转
-                .withMediaPickerType(MediaPickerEnum.CAMERA)
+                .withMediaPickerType(EMMediaPickerEnum.CAMERA)
                 .build(getContext())
                 .show();
     }
@@ -312,7 +303,7 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
      * select local image
      */
     protected void selectPicFromLocal() {
-        SmartMediaPicker.builder(this)
+        EMSmartMediaPicker.builder(this)
                 //最大图片选择数目 如果不需要图片 将数目设置为0
                 .withMaxImageSelectable(1)
                 //最大视频选择数目 如果不需要视频 将数目设置为0
@@ -330,11 +321,11 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
                 //最大图片大小 单位MB
                 .withMaxImageSize(10)
                 //设置图片加载引擎
-                .withImageEngine(new Glide4Engine())
+                .withImageEngine(new EMGlideEngine())
                 //前置摄像头拍摄是否镜像翻转图像
                 .withIsMirror(true)
                 //弹出类别，默认弹出底部选择栏，也可以选择单独跳转
-                .withMediaPickerType(MediaPickerEnum.PHOTO_PICKER)
+                .withMediaPickerType(EMMediaPickerEnum.PHOTO_PICKER)
                 .build(getContext())
                 .show();
     }

@@ -18,7 +18,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/album_item_height">
 
-    <com.hyphenate.mediapicker.internal.ui.widget.RoundedRectangleImageView
+    <com.hyphenate.mediapicker.internal.ui.widget.EMRoundedRectangleImageView
         android:id="@+id/album_cover"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -35,7 +35,7 @@
         android:layout_toEndOf="@id/album_cover"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="?attr/album.dropdown.title.color"
+        android:textColor="?attr/emalbum.dropdown.title.color"
         android:textSize="16sp"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/album_cover" />
@@ -50,7 +50,7 @@
         android:layout_toEndOf="@id/album_cover"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="?album.dropdown.count.color"
+        android:textColor="?attr/emalbum.dropdown.count.color"
         android:textSize="14sp"
         android:layout_alignLeft="@id/album_name"
         android:layout_toRightOf="@id/album_cover" />

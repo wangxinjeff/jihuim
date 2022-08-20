@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
 
-    <com.hyphenate.mediapicker.cameralibrary.JCameraView
+    <com.hyphenate.mediapicker.cameralibrary.JEMCameraView
         android:id="@+id/jcameraview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -65,7 +65,6 @@ dependencies {
     // resolve 64k limit
     implementation 'com.android.support:multidex:1.0.3'
     api files('libs/hyphenatechat_3.9.4.1.jar')
-    compileOnly files('libs/mi_push_v3.6.12.jar')
     compileOnly files('libs/pinyin4j-2.5.0.jar')
     // fresh and load more
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
