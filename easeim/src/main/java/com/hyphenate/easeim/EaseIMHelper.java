@@ -63,6 +63,7 @@ import com.hyphenate.easeui.delegate.EaseVideoAdapterDelegate;
 import com.hyphenate.easeui.delegate.EaseVoiceAdapterDelegate;
 import com.hyphenate.easeui.domain.EaseAvatarOptions;
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.manager.EaseAtMessageHelper;
 import com.hyphenate.easeui.manager.EaseMessageTypeSetManager;
 import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.easeui.model.EaseNotifier;
@@ -1145,6 +1146,9 @@ public class EaseIMHelper {
             pushExt.put("em_alert_title", title);
             pushExt.put("em_alert_body", content);
             message.setAttribute("em_apns_ext", pushExt);
+            if(EaseAtMessageHelper.get().isAtMessage(message)){
+                message.setAttribute("em_force_notification", true);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

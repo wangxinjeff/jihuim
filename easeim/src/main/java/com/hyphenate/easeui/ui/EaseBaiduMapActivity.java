@@ -129,10 +129,8 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 	private LinearLayout inputView;
 	private LinearLayout searchIconView;
 	private ConstraintLayout searchResultView;
-	private boolean moveToPoi = false;
 
 	private SuggestionSearch suggestionSearch;
-	private String city;
 
 	public static void actionStartForResult(Fragment fragment, int requestCode) {
 		Intent intent = new Intent(fragment.getContext(), EaseBaiduMapActivity.class);
@@ -269,7 +267,6 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 						actionId == EditorInfo.IME_ACTION_DONE ||
 						event != null && KeyEvent.KEYCODE_ENTER == event.getKeyCode() &&
 								KeyEvent.ACTION_DOWN == event.getAction()){
-					moveToPoi = true;
 					searchNearBy(searchView.getText().toString());
 					return true;
 				} else {
@@ -435,9 +432,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 				public void run() {
 					adapter.clearSelect();
 					adapter.setData(nearList);
-					if(moveToPoi){
-						moveToPoi(nearList.get(0));
-					}
+					moveToPoi(nearList.get(0));
 				}
 			});
 		} else {
@@ -484,7 +479,6 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 		} else if (id == R.id.search_empty) {
 			searchView.setText("");
 		} else if (id == R.id.search_start) {
-			moveToPoi = true;
 			searchNearBy(searchView.getText().toString());
 		} else if (id == R.id.search_close) {
 			resetSearchBar();
@@ -503,7 +497,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 		public void onReceive(Context context, Intent intent) {
 			String action = intent.getAction();
 			if(TextUtils.equals(action, SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_ERROR)) {
-				showErrorToast(getResources().getString(R.string.please_check));
+//				showErrorToast(getResources().getString(R.string.please_check));
 			}else if(TextUtils.equals(action, SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR)) {
 				showErrorToast(getResources().getString(R.string.Network_error));
 			}
@@ -521,12 +515,16 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 	class MyLocationListener extends BDAbstractLocationListener {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
-			if (location == null || "4.9E-324".equals(location.getLatitude())) {
+			if (location == null) {
+				return;
+			}
+
+			if("4.9E-324".equals(String.valueOf(location.getLatitude()))){
 				return;
 			}
 
 			if (lastLocation != null) {
-				if (lastLocation.getLatitude() == location.getLatitude() && lastLocation.getLongitude() == location.getLongitude()) {
+				if (lastLocation.getLatitude() == location.getLatitude() && lastLocation.getLongitude() == location.getLongitude() && TextUtils.equals(lastLocation.getCity(), location.getCity())) {
 					Log.d(TAG, "same location, skip refresh");
 					return;
 				}
@@ -560,11 +558,11 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 				Log.e(TAG, poiInfo.toString());
 				nearList.add(poiInfo);
 			}
-			mLocClient.stop();
-			mLocClient.unRegisterLocationListener(this);
 
-			moveToPoi = false;
-			searchNearBy("大厦");
+			if(!TextUtils.isEmpty(lastLocation.getCity())){
+				mLocClient.stop();
+				searchNearBy("大厦");
+			}
 		}
 	}
 
@@ -586,10 +584,13 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 //				option.pageCapacity(30);
 //				mPoiSearch.searchNearby(option);
 
-				// 搜索城市Poi
-				PoiCitySearchOption citySearchOption = new PoiCitySearchOption();
-				citySearchOption.city(lastLocation.getCity()).keyword(key).pageNum(0);
-				mPoiSearch.searchInCity(citySearchOption);
+				if(lastLocation != null && !TextUtils.isEmpty(lastLocation.getCity())){
+					EMLog.e(TAG, "city:"+lastLocation.getCity());
+					// 搜索城市Poi
+					PoiCitySearchOption citySearchOption = new PoiCitySearchOption();
+					citySearchOption.city(lastLocation.getCity()).keyword(key).pageNum(0).pageCapacity(20);
+					mPoiSearch.searchInCity(citySearchOption);
+				}
 			}
 		});
 	}

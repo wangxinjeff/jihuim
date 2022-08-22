@@ -195,4 +195,8 @@ public class SearchBar extends LinearLayout implements View.OnClickListener {
         searchView.setTextColor(color);
         searchShow.setTextColor(color);
     }
+
+    public void setSearchShowText(String text){
+        searchShow.setText(text);
+    }
 }

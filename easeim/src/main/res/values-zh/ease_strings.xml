@@ -416,4 +416,5 @@
     <string name="em_not_setting">未设置</string>
 
     <string name="em_joined_group">加入了群聊</string>
+    <string name="em_input_phone_search">请输入手机号搜索用户</string>
 </resources>
