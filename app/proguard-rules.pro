@@ -190,3 +190,8 @@
 -keep public class org.codehaus.* { *; }
 -keep public class java.nio.* { *; }
 #----------okhttp end--------------
+
+-dontwarn com.hyphenate.easeim.common.livedatas.**
+-keep class com.hyphenate.easeim.common.livedatas.** { *; }
+-keep class androidx.lifecycle.** { *; }
+-keep class androidx.arch.core.** { *; }

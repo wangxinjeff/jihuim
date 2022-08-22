@@ -15,6 +15,8 @@ import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.utils.EaseVoiceLengthUtils;
 import com.hyphenate.util.EMLog;
 
+import java.io.File;
+
 public class EaseChatRowVoice extends EaseChatRowFile {
     private static final String TAG = EaseChatRowVoice.class.getSimpleName();
     private ImageView voiceImageView;

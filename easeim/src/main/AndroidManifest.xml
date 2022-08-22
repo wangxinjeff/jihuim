@@ -40,6 +40,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <!-- 允许程序修改声音设置信息 -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- IM SDK required end -->
 
     <!-- 百度地图定位配置(其他定位权限SDK必需权限中已包含) start -->

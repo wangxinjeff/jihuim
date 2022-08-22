@@ -29,8 +29,10 @@ import android.text.TextUtils;
 import androidx.core.app.NotificationCompat;
 
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.section.chat.activity.ChatActivity;
 import com.hyphenate.easeui.EaseIM;
 import com.hyphenate.easeim.R;
@@ -217,85 +219,36 @@ public class EaseNotifier {
 //            int fromUsersNum = fromUsers.size();
             String contentTitle = appContext.getString(R.string.new_message);
             String notifyText = appContext.getString(R.string.new_message);
-            String memberId = message.getFrom();
-            String nick = memberId;
-            if(message.getChatType() == EMMessage.ChatType.GroupChat) {
-                String groupId = message.getTo();
-                contentTitle = EMClient.getInstance().groupManager().getGroup(groupId).getGroupName();
-                try {
-                    JSONObject userInfo = message.getJSONObjectAttribute(EaseConstant.MESSAGE_ATTR_USER_INFO);
-                    if(userInfo != null){
-                        nick = userInfo.optString(EaseConstant.MESSAGE_ATTR_USER_NICK);
-                    } else {
-                        EaseUserProfileProvider profileProvider = EaseIM.getInstance().getUserProvider();
-                        if (profileProvider != null) {
-                            EaseUser user = profileProvider.getUser(memberId);
-                            if (user != null) {
-                                nick = user.getNickname();
-                            }
-                        }
-                    }
-                }catch (HyphenateException e){
+
+        if(message.getChatType() == EMMessage.ChatType.GroupChat) {
+            EMGroup group = EaseIMHelper.getInstance().getGroupManager().getGroup(message.getTo());
+            contentTitle = String.format("[%s]", group != null ? group.getGroupName() : message.getTo());
+            notifyText = EaseCommonUtils.getMessageDigest(message, appContext, true);
+        } if(message.getChatType() == EMMessage.ChatType.Chat){
+            notifyText = EaseCommonUtils.getMessageDigest(message, appContext, false);
+            try {
+                JSONObject userInfo = message.getJSONObjectAttribute(EaseConstant.MESSAGE_ATTR_USER_INFO);
+                if(userInfo != null){
+                    contentTitle = userInfo.optString(EaseConstant.MESSAGE_ATTR_USER_NICK);
+                } else {
                     EaseUserProfileProvider profileProvider = EaseIM.getInstance().getUserProvider();
                     if (profileProvider != null) {
-                        EaseUser user = profileProvider.getUser(memberId);
-                        if (user != null) {
-                            nick = user.getNickname();
-                        }
-                    }
-                }
-                notifyText = nick + ":";
-            } else if(message.getChatType() == EMMessage.ChatType.Chat){
-                try {
-                    JSONObject userInfo = message.getJSONObjectAttribute(EaseConstant.MESSAGE_ATTR_USER_INFO);
-                    if(userInfo != null){
-                        nick = userInfo.optString(EaseConstant.MESSAGE_ATTR_USER_NICK);
-                        contentTitle = nick;
-                    } else {
-                        EaseUserProfileProvider profileProvider = EaseIM.getInstance().getUserProvider();
-                        if (profileProvider != null) {
-                            EaseUser user = profileProvider.getUser(memberId);
-                            if (user != null) {
-                                contentTitle = user.getNickname();
-                                nick = user.getNickname();
-                            }
-                        }
-                    }
-                }catch (HyphenateException e){
-                    EaseUserProfileProvider profileProvider = EaseIM.getInstance().getUserProvider();
-                    if (profileProvider != null) {
-                        EaseUser user = profileProvider.getUser(memberId);
+                        EaseUser user = profileProvider.getUser(message.getFrom());
                         if (user != null) {
                             contentTitle = user.getNickname();
-                            nick = user.getNickname();
                         }
                     }
                 }
+            }catch (HyphenateException e){
                 EaseUserProfileProvider profileProvider = EaseIM.getInstance().getUserProvider();
                 if (profileProvider != null) {
-                    EaseUser user = profileProvider.getUser(memberId);
+                    EaseUser user = profileProvider.getUser(message.getFrom());
                     if (user != null) {
                         contentTitle = user.getNickname();
-                        nick = user.getNickname();
                     }
                 }
-                notifyText = "";
             }
-                switch (message.getType()){
-                    case TXT:
-                        notifyText += ((EMTextMessageBody)message.getBody()).getMessage();
-                        break;
-                    case IMAGE:
-                        notifyText += appContext.getString(R.string.picture);
-                        break;
-                    case LOCATION:
-                        notifyText += String.format(appContext.getString(R.string.location_recv), nick);
-                        break;
-                    case FILE:
-                        notifyText += appContext.getString(R.string.file);
-                        break;
-                }
-
+        }
 
             NotificationCompat.Builder builder = generateBaseBuilder(notifyText);
             builder.setContentTitle(contentTitle);

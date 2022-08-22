@@ -631,6 +631,7 @@ public class EMClientRepository extends BaseEMRepository{
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String responseBody = response.body().string();
                 if (response.code() == 200 && !TextUtils.isEmpty(responseBody)) {
+                    EMLog.e("getUid:", responseBody);
                     try {
                         JSONObject result = new JSONObject(responseBody);
                         String status = result.optString("status");
@@ -645,6 +646,7 @@ public class EMClientRepository extends BaseEMRepository{
                                     EaseIMHelper.getInstance().setEaseCallKitUserInfo(name);
                                 }
                                 userAccounts.add(new EaseUserAccount(Integer.parseInt(id), name));
+                                EMLog.e("getUid:", "uid = " + id + ", name = " + name);
                             }
                             EaseThreadManager.getInstance().runOnMainThread(() -> callBack.onUserAccount(userAccounts));
                         } else {
