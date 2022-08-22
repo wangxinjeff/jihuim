@@ -417,4 +417,5 @@
     <string name="em_not_setting">Not setting</string>
     <string name="em_joined_group">Joined the group</string>
     <string name="em_content_not_empty">Content can not is empty</string>
+    <string name="em_input_phone_search">Please input phone search</string>
 </resources>

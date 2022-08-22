@@ -111,6 +111,7 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
 
         searchBar = findViewById(R.id.search_bar);
         searchBar.init(true);
+        searchBar.setSearchShowText(getString(R.string.em_input_phone_search));
 
         selectedTitle = findViewById(R.id.selected_title);
         resultTitle = findViewById(R.id.result_title);
