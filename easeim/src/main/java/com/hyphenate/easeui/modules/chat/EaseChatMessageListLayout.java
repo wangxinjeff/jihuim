@@ -181,6 +181,7 @@ public class EaseChatMessageListLayout extends RelativeLayout implements IChatMe
         rvList.setLayoutManager(layoutManager);
 
         messageAdapter = new EaseMessageAdapter();
+        messageAdapter.setHasStableIds(true);
         rvList.setAdapter(messageAdapter);
 
         registerChatType();

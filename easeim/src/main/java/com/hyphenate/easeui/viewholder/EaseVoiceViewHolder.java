@@ -71,7 +71,13 @@ public class EaseVoiceViewHolder extends EaseChatRowViewHolder{
             final String st = getContext().getResources().getString(R.string.Is_download_voice_click_later);
             if (message.status() == EMMessage.Status.SUCCESS) {
                 if (EMClient.getInstance().getOptions().getAutodownloadThumbnail()) {
-                    play(message);
+                    String localPath = ((EMVoiceMessageBody) message.getBody()).getLocalUrl();
+                    File file = new File(localPath);
+                    if (file.exists() && file.isFile()) {
+                        play(message);
+                    } else {
+                        asyncDownloadVoice(message);
+                    }
                 } else {
                     EMVoiceMessageBody voiceBody = (EMVoiceMessageBody) message.getBody();
                     EMLog.i(TAG, "Voice body download status: " + voiceBody.downloadStatus());

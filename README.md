@@ -51,9 +51,9 @@ buildscript {
 
 ### api
 1.初始化
-Application里调用EaseIMHelper初始化
+Application里调用EaseIMHelper初始化，传入server url
 ```
-EaseIMHelper.getInstance().init(this);
+EaseIMHelper.getInstance().init(this, "http://182.92.236.214:12005/);
 ```
 
 初始化IM

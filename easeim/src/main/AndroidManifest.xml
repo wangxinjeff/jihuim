@@ -57,25 +57,25 @@
         <!--<uses-library android:name="org.apache.http.legacy" android:required="false"/>-->
 
         <!-- 声明SDK所需的service SDK核心功能-->
-        <service
-            android:name="com.hyphenate.chat.EMChatService"
-            android:exported="true"/>
-        <service android:name="com.hyphenate.chat.EMJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            android:exported="true"
-            />
+<!--        <service-->
+<!--            android:name="com.hyphenate.chat.EMChatService"-->
+<!--            android:exported="true"/>-->
+<!--        <service android:name="com.hyphenate.chat.EMJobService"-->
+<!--            android:permission="android.permission.BIND_JOB_SERVICE"-->
+<!--            android:exported="true"-->
+<!--            />-->
         <!-- 声明SDK所需的receiver -->
-        <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
-                <data android:scheme="package"/>
-            </intent-filter>
-            <!-- 可选filter -->
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.USER_PRESENT" />
-            </intent-filter>
-        </receiver>
+<!--        <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.PACKAGE_REMOVED"/>-->
+<!--                <data android:scheme="package"/>-->
+<!--            </intent-filter>-->
+<!--            &lt;!&ndash; 可选filter &ndash;&gt;-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.BOOT_COMPLETED"/>-->
+<!--                <action android:name="android.intent.action.USER_PRESENT" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
 
         <!-- 适配Android 7.0, 需要将下方的com.hyphenate.easeim替换为你的app包名 -->
         <provider
@@ -117,7 +117,6 @@
         <activity android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
-        <!--视频列表-->
         <!--播放视频-->
         <activity android:name="com.hyphenate.easeui.ui.EaseShowVideoActivity"
             android:screenOrientation="portrait"
@@ -151,8 +150,6 @@
         <activity android:name=".section.group.activity.GroupDetailActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
-        <!--聊天室详情-->
-        <!--群分享文件-->
         <!--邀请群成员-->
         <activity android:name=".section.group.activity.GroupPickContactsActivity"
             android:launchMode="singleTask"
@@ -173,8 +170,6 @@
         <activity android:name=".section.chat.activity.SingleChatSetActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
-        <!--聊天历史-->
-        <!--选择用户名片 -->
         <!--已读回执列表-->
         <activity android:name="com.hyphenate.easeui.ui.EaseDingAckUserListActivity"
             android:screenOrientation="portrait"
@@ -184,7 +179,6 @@
         <activity android:name="com.hyphenate.easeui.ui.EaseShowLocalVideoActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
-        <!--创群预选成员-->
         <!--WebView加载网页-->
         <activity android:name=".section.base.WebViewActivity"
             android:launchMode="singleTask"

@@ -180,3 +180,8 @@ public static java.lang.String TABLENAME;
 -dontwarn net.sqlcipher.database.**
 # If you do NOT use RxJava:
 -dontwarn rx.**
+
+-dontwarn com.hyphenate.easeim.common.livedatas.**
+-keep class com.hyphenate.easeim.common.livedatas.** { *; }
+-keep class android.arch.lifecycle.** { *; }
+-keep class android.arch.core.** { *; }
