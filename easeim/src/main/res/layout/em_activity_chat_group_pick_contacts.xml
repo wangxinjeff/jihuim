@@ -83,6 +83,8 @@
             android:layout_alignBottom="@+id/user_avatar"
             android:gravity="center_vertical"
             android:text="name"
+            android:lines="1"
+            android:ellipsize="end"
             />
 
         <RadioGroup

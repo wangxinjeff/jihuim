@@ -18,6 +18,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="name"
+        android:lines="1"
+        android:ellipsize="end"
+        android:maxWidth="200dp"
         android:textColor="?attr/normalTextColor"
         android:textSize="@dimen/em_size_normal" />
 

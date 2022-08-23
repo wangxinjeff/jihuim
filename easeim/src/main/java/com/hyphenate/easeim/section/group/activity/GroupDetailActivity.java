@@ -235,7 +235,9 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
             @Override
             public void onSuccess(String value) {
                 runOnUiThread(() -> {
-                    itemGroupNotice.getTvBContent().setText(value);
+                    if(!TextUtils.isEmpty(value)){
+                        itemGroupNotice.getTvBContent().setText(value);
+                    }
                 });
             }
 
