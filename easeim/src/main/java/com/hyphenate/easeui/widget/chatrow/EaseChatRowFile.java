@@ -87,6 +87,10 @@ public class EaseChatRowFile extends EaseChatRow {
             fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.em_icon_file_docx));
         } else if (fileMessageBody.getFileName().contains(".ppt")){
             fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.em_icon_file_ppt));
+        } else if (fileMessageBody.getFileName().contains(".mp4")){
+            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.em_icon_file_mp4));
+        } else if (fileMessageBody.getFileName().contains(".mov")){
+            fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.em_icon_file_mov));
         } else {
             fileTypeImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.em_icon_file_other));
         }

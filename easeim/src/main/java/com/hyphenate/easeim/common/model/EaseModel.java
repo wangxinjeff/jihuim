@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * DemoModel主要用于SP存取及一些数据库的存取
@@ -222,6 +223,14 @@ public class EaseModel {
      */
     public void saveUnSendMsg(String toChatUsername, String content) {
         EasePreferenceManager.getInstance().saveUnSendMsgInfo(toChatUsername, content);
+    }
+
+    public void saveUnSendAtList(String toChatUsername, Set<String> content){
+        EasePreferenceManager.getInstance().saveUnSendAtList(toChatUsername, content);
+    }
+
+    public Set<String> getUnSendAtList(String toChatUsername){
+        return EasePreferenceManager.getInstance().getUnSendAtList(toChatUsername);
     }
 
     public String getUnSendMsg(String toChatUsername) {

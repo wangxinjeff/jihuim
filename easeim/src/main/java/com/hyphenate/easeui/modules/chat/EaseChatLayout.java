@@ -388,7 +388,7 @@ public class EaseChatLayout extends RelativeLayout implements IChatLayout, IHand
 
     @Override
     public String getInputContent() {
-        return inputMenu.getPrimaryMenu().getEditText().getText().toString().trim();
+        return inputMenu.getPrimaryMenu().getEditText().getText().toString();
     }
 
     @Override

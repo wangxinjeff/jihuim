@@ -276,10 +276,13 @@ public class ChatPresenter extends EaseChatPresenter {
     @Override
     public void onCmdMessageReceived(List<EMMessage> messages) {
         super.onCmdMessageReceived(messages);
-        EaseEvent event = EaseEvent.create(EaseConstant.MESSAGE_CHANGE_CMD_RECEIVE, EaseEvent.TYPE.MESSAGE);
 
         EaseCallKit.getInstance().onCmdMessageReceived(messages);
+
         for(EMMessage message : messages){
+            EMCmdMessageBody body = (EMCmdMessageBody)message.getBody();
+            EaseEvent event = EaseEvent.create(EaseConstant.MESSAGE_CHANGE_CMD_RECEIVE, EaseEvent.TYPE.MESSAGE, body.action());
+
             if(message.getChatType() == EMMessage.ChatType.GroupChat){
                 String callState = message.getStringAttribute(EaseConstant.MESSAGE_ATTR_CALL_STATE, "");
                 if(!TextUtils.isEmpty(callState)){
@@ -341,7 +344,6 @@ public class ChatPresenter extends EaseChatPresenter {
                     }
                 }
             } else if(message.getChatType() == EMMessage.ChatType.Chat){
-                EMCmdMessageBody body = (EMCmdMessageBody)message.getBody();
                 if(TextUtils.equals("requestJoinGroupEvent", body.action())){
                     event = EaseEvent.create(EaseConstant.MESSAGE_CHANGE_CMD_RECEIVE, EaseEvent.TYPE.MESSAGE, EaseConstant.NEW_GROUP_APPLY);
                 } else if(TextUtils.equals("event", body.action())){
@@ -362,9 +364,8 @@ public class ChatPresenter extends EaseChatPresenter {
 
                 }
             }
+            messageChangeLiveData.with(EaseConstant.MESSAGE_CHANGE_CHANGE).postValue(event);
         }
-
-        messageChangeLiveData.with(EaseConstant.MESSAGE_CHANGE_CHANGE).postValue(event);
     }
 
     @Override

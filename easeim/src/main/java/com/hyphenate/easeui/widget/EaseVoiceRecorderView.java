@@ -105,7 +105,7 @@ public class EaseVoiceRecorderView extends RelativeLayout {
                 ContextCompat.getDrawable(context, R.drawable.em_record_animate_07)};
 
         wakeLock = ((PowerManager) context.getSystemService(Context.POWER_SERVICE)).newWakeLock(
-                PowerManager.SCREEN_DIM_WAKE_LOCK, "demo");
+                PowerManager.SCREEN_DIM_WAKE_LOCK, "easeim:voiceRecorder");
     }
 
     private void countdownHint(){
