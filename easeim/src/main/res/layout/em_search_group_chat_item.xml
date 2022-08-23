@@ -18,6 +18,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:lines="1"
+        android:ellipsize="end"
         android:layout_marginStart="@dimen/margin_start_normal"
         android:textSize="@dimen/em_size_normal"
         android:textColor="?attr/normalTextColor"

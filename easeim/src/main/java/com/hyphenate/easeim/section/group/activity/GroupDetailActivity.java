@@ -191,7 +191,9 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
             parseResource(response, new OnResourceParseCallback<String>() {
                 @Override
                 public void onSuccess(String data) {
-                    itemGroupNotice.getTvBContent().setText(data);
+                    if(!TextUtils.isEmpty(data)){
+                        itemGroupNotice.getTvBContent().setText(data);
+                    }
                 }
             });
         });
@@ -391,12 +393,20 @@ public class GroupDetailActivity extends BaseInitActivity implements EaseTitleBa
                 case REQUEST_CODE_GROUP_NOTICE:
 //                    //修改群公告
 //                    viewModel.setGroupAnnouncement(groupId, content);
-                    itemGroupNotice.getTvBContent().setText(content);
+                    if(TextUtils.isEmpty(content)){
+                        itemGroupNotice.getTvBContent().setText(getString(R.string.em_not_setting));
+                    } else {
+                        itemGroupNotice.getTvBContent().setText(content);
+                    }
                     break;
                 case REQUEST_CODE_GROUP_INTRO:
 //                    //修改群介绍
 //                    viewModel.setGroupDescription(groupId, content);
-                    itemGroupIntroduction.getTvBContent().setText(content);
+                    if(TextUtils.isEmpty(content)){
+                        itemGroupIntroduction.getTvBContent().setText(getString(R.string.em_not_setting));
+                    } else {
+                        itemGroupIntroduction.getTvBContent().setText(content);
+                    }
                     break;
                 case REQUEST_CODE_GROUP_NOTE:
 //                    //修改运营备注
