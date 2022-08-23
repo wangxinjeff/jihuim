@@ -27,6 +27,7 @@ import com.hyphenate.easeim.section.chat.activity.PickAtUserActivity;
 import com.hyphenate.easeim.section.conference.ConferenceInviteActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.manager.EaseAtMessageHelper;
 import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.easeui.modules.chat.EaseChatFragment;
 import com.hyphenate.easeui.modules.chat.interfaces.IChatExtendMenu;
@@ -37,7 +38,10 @@ import com.hyphenate.easeui.ui.EaseDingAckUserListActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class ChatFragment extends EaseChatFragment implements OnRecallMessageResultListener {
@@ -81,8 +85,17 @@ public class ChatFragment extends EaseChatFragment implements OnRecallMessageRes
         resetChatExtendMenu();
 //        addItemMenuAction();
 
-        chatLayout.getChatInputMenu().getPrimaryMenu().getEditText().setText(getUnSendMsg());
+        String content = getUnSendMsg();
+        chatLayout.getChatInputMenu().getPrimaryMenu().getEditText().setText(content);
+        chatLayout.getChatInputMenu().getPrimaryMenu().getEditText().setSelection(content.length());
         chatLayout.turnOnTypingMonitor(EaseIMHelper.getInstance().getModel().isShowMsgTyping());
+
+        Set<String> atUsers = getUnSendAtList();
+        if(atUsers != null){
+            for(String username : atUsers){
+                EaseAtMessageHelper.get().addAtUser(username);
+            }
+        }
 
         LiveDataBus.get().with(EaseConstant.MESSAGE_CHANGE_CHANGE).postValue(new EaseEvent(EaseConstant.MESSAGE_CHANGE_CHANGE, EaseEvent.TYPE.MESSAGE));
 
@@ -232,6 +245,13 @@ public class ChatFragment extends EaseChatFragment implements OnRecallMessageRes
         if(mContext != null && mContext.isFinishing()) {
             if(chatLayout.getChatInputMenu() != null) {
                 saveUnSendMsg(chatLayout.getInputContent());
+                List<String> users = EaseAtMessageHelper.get().getAtMessageUsernames(chatLayout.getInputContent());
+                if(users != null){
+                    Set<String> set = new HashSet<>(users);
+                    saveUnSendAtList(set);
+                } else {
+                    saveUnSendAtList(new HashSet<>());
+                }
                 LiveDataBus.get().with(EaseConstant.MESSAGE_NOT_SEND).postValue(true);
             }
         }
@@ -249,6 +269,14 @@ public class ChatFragment extends EaseChatFragment implements OnRecallMessageRes
 
     private String getUnSendMsg() {
         return EaseIMHelper.getInstance().getModel().getUnSendMsg(conversationId);
+    }
+
+    private void saveUnSendAtList(Set<String> set) {
+        EaseIMHelper.getInstance().getModel().saveUnSendAtList(conversationId, set);
+    }
+
+    private Set<String> getUnSendAtList() {
+        return EaseIMHelper.getInstance().getModel().getUnSendAtList(conversationId);
     }
 
     @Override

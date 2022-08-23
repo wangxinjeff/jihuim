@@ -90,17 +90,6 @@
                 android:textSize="@dimen/em_size_normal"
                 android:text="@string/em_service_note"
                 />
-            
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/em_icon_edit"
-                android:layout_toEndOf="@+id/service_note_text"
-                android:layout_alignTop="@+id/service_note_text"
-                android:layout_alignBottom="@+id/service_note_text"
-                android:scaleType="center"
-                android:layout_marginStart="@dimen/margin_small"
-                />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/service_note"

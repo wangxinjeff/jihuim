@@ -215,7 +215,9 @@ public class InAppNotification implements Runnable {
             mValueAnimator = null;
         }
         handler.removeCallbacks(this);
-        exitAnim(mView.getTranslationY(), getMaxTranslationY());
+        if(mView != null){
+            exitAnim(mView.getTranslationY(), getMaxTranslationY());
+        }
     }
 
     private float getMaxTranslationY() {

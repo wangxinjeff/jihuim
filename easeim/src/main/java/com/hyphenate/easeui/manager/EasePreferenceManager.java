@@ -74,6 +74,15 @@ public class EasePreferenceManager {
         return mSharedPreferences.getString(toChatUsername, "");
     }
 
+    public void saveUnSendAtList(String toChatUsername, Set<String> content) {
+        editor.putStringSet(toChatUsername+"at", content);
+        editor.apply();
+    }
+
+    public Set<String> getUnSendAtList(String toChatUsername) {
+        return mSharedPreferences.getStringSet(toChatUsername+"at", null);
+    }
+
     public void putString(String key, String value) {
         editor.putString(key, value);
         editor.commit();
