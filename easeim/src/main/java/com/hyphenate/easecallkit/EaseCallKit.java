@@ -870,7 +870,7 @@ public class EaseCallKit {
                     bundle.putString("username", fromUserId);
                     intent.putExtras(bundle);
                     appContext.startActivity(intent);
-                    if (Build.VERSION.SDK_INT >= 29 && isAppRunningForeground(appContext)) {
+                    if (Build.VERSION.SDK_INT >= 29 && !isAppRunningForeground(appContext)) {
                         info = appContext.getString(R.string.alert_request_multiple_video, userName);
                         notifier.notify(intent, appContext.getString(R.string.new_call_invite), info);
                     }

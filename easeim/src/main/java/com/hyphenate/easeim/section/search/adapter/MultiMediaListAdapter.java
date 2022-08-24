@@ -25,7 +25,7 @@ import com.hyphenate.easeui.widget.EaseImageView;
 public class MultiMediaListAdapter extends EaseBaseRecyclerViewAdapter<EMMessage> {
     @Override
     public int getEmptyLayoutId() {
-        return R.layout.em_empty_layout;
+        return R.layout.ease_layout_no_data_admin;
     }
 
     @Override

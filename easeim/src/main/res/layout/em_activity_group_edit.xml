@@ -35,6 +35,7 @@
         android:textColor="?attr/normalTextColor"
         android:background="?attr/themeFloatBgColor"
         app:layout_constraintTop_toBottomOf="@+id/title_bar"
+        android:textSize="@dimen/em_size_normal"
         />
 
     <LinearLayout

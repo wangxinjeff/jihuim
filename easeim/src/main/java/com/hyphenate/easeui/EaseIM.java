@@ -256,17 +256,17 @@ public class EaseIM {
         return new EaseSettingsProvider() {
             @Override
             public boolean isMsgNotifyAllowed(EMMessage message) {
-                return false;
+                return true;
             }
 
             @Override
             public boolean isMsgSoundAllowed(EMMessage message) {
-                return false;
+                return true;
             }
 
             @Override
             public boolean isMsgVibrateAllowed(EMMessage message) {
-                return false;
+                return true;
             }
 
             @Override
