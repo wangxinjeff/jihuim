@@ -98,6 +98,7 @@
     <string name="not_add_service_group">您当前未加入任何专属服务群</string>
     <string name="say_what">说点啥...</string>
     <string name="new_message">新消息</string>
+    <string name="em_click_chat">请点击查看</string>
     <string name="new_call_invite">通话邀请</string>
 
     <string name="em_app_name">环信</string>

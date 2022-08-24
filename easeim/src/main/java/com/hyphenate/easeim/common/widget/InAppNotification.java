@@ -230,6 +230,7 @@ public class InAppNotification implements Runnable {
             mRootView.removeView(mView);
         }
         hide();
+        mView = null;
     }
 
     @Override

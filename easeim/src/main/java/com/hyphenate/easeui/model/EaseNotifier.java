@@ -18,6 +18,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -92,8 +93,10 @@ public class EaseNotifier {
         if (Build.VERSION.SDK_INT >= 26) {
             // Create the notification channel for Android 8.0
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
-                    "hyphenate chatuidemo message default channel.", NotificationManager.IMPORTANCE_DEFAULT);
-            channel.setVibrationPattern(VIBRATION_PATTERN);
+                    "在线消息通知", NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setSound(null, null);
+            channel.enableVibration(false);
+//            channel.setVibrationPattern(VIBRATION_PATTERN);
             notificationManager.createNotificationChannel(channel);
         }
 
@@ -200,9 +203,9 @@ public class EaseNotifier {
                 Notification notification = builder.build();
                 notificationManager.notify(NOTIFY_ID, notification);
 
-                if (Build.VERSION.SDK_INT < 26) {
+//                if (Build.VERSION.SDK_INT < 26) {
                     vibrateAndPlayTone(null);
-                }
+//                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -218,7 +221,7 @@ public class EaseNotifier {
     protected void handleMessage(EMMessage message) {
 //            int fromUsersNum = fromUsers.size();
             String contentTitle = appContext.getString(R.string.new_message);
-            String notifyText = appContext.getString(R.string.new_message);
+            String notifyText = appContext.getString(R.string.em_click_chat);
 
         if(message.getChatType() == EMMessage.ChatType.GroupChat) {
             EMGroup group = EaseIMHelper.getInstance().getGroupManager().getGroup(message.getTo());
@@ -262,9 +265,9 @@ public class EaseNotifier {
             Notification notification = builder.build();
             notificationManager.notify(NOTIFY_ID, notification);
 
-            if (Build.VERSION.SDK_INT < 26) {
-                vibrateAndPlayTone(message);
-            }
+//            if (Build.VERSION.SDK_INT < 26) {
+//                vibrateAndPlayTone(message);
+//            }
     }
 
     /**
@@ -290,7 +293,10 @@ public class EaseNotifier {
                 .setContentText(content)
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setSound(null)
+                .setVibrate(null)
+                .setDefaults(NotificationCompat.FLAG_ONLY_ALERT_ONCE);
     }
 
     /**
@@ -313,7 +319,28 @@ public class EaseNotifier {
                 .setCategory(NotificationCompat.CATEGORY_CALL)
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
-                .setFullScreenIntent(fullScreenPendingIntent, true);
+                .setFullScreenIntent(fullScreenPendingIntent, true)
+                .setContentIntent(fullScreenPendingIntent)
+                .setSound(null)
+                .setVibrate(null)
+                .setDefaults(NotificationCompat.FLAG_ONLY_ALERT_ONCE);
+    }
+
+    public void vibrate(){
+        if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT) {
+            EMLog.e(TAG, "in slient mode now");
+            return;
+        }
+        AudioAttributes audioAttributes = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            audioAttributes = new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION) //key
+                    .build();
+            vibrator.vibrate(VIBRATION_PATTERN, -1, audioAttributes);
+        } else {
+            vibrator.vibrate(VIBRATION_PATTERN, -1);
+        }
     }
 
     /**
@@ -345,7 +372,12 @@ public class EaseNotifier {
                 return;
             }
             if (settingsProvider.isMsgVibrateAllowed(message)) {
-                vibrator.vibrate(VIBRATION_PATTERN, -1);
+                vibrate();
+            }
+
+            if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE){
+                EMLog.e(TAG, "in vibrate mode now");
+                return;
             }
 
             if (settingsProvider.isMsgSoundAllowed(message)) {

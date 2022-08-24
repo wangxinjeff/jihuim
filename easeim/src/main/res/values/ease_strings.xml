@@ -99,6 +99,7 @@
     <string name="not_add_service_group">You are not currently enrolled in any service group</string>
     <string name="say_what">Say what</string>
     <string name="new_message">New Message</string>
+    <string name="em_click_chat">Please click</string>
     <string name="new_call_invite">New call invite</string>
 
     <string name="confirm">OK</string>

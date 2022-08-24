@@ -213,7 +213,7 @@ public class ChatPresenter extends EaseChatPresenter {
             EMLog.d(TAG, "onMessageReceived id : " + message.getMsgId());
             EMLog.d(TAG, "onMessageReceived: " + message.getType());
 
-            if(EaseIMHelper.getInstance().isAdmin() && !EaseIMHelper.getInstance().getModel().getSettingMsgNotification()){
+            if(TextUtils.equals(message.getFrom(), EaseIMHelper.getInstance().getCurrentUser())){
                 return;
             }
 
@@ -221,6 +221,9 @@ public class ChatPresenter extends EaseChatPresenter {
                 if(EaseAtMessageHelper.get().isAtMeMessage(message)) {
 
                 } else {
+                    if(EaseIMHelper.getInstance().isAdmin() && !EaseIMHelper.getInstance().getModel().getSettingMsgNotification()){
+                        return;
+                    }
                     // 如果设置群组离线消息免打扰，则不进行消息通知
                     List<String> disabledIds = EaseIMHelper.getInstance().getPushManager().getNoPushGroups();
                     if(disabledIds != null && disabledIds.contains(message.conversationId())) {
@@ -228,6 +231,9 @@ public class ChatPresenter extends EaseChatPresenter {
                     }
                 }
             } else if(message.getChatType() == EMMessage.ChatType.Chat){
+                if(EaseIMHelper.getInstance().isAdmin() && !EaseIMHelper.getInstance().getModel().getSettingMsgNotification()){
+                    return;
+                }
                 List<String> noPushUserIds = EaseIMHelper.getInstance().getPushManager().getNoPushUsers();
                 if(noPushUserIds != null && noPushUserIds.contains(message.conversationId())) {
                     return;
@@ -238,15 +244,18 @@ public class ChatPresenter extends EaseChatPresenter {
                 if (message.getChatType() == EMMessage.ChatType.GroupChat && !TextUtils.equals(message.getTo(), EaseIMHelper.getInstance().getChatPageConId())) {
                     EaseThreadManager.getInstance().runOnMainThread(() -> InAppNotification.getInstance().show(message));
                     getNotifier().notify(message);
+                    getNotifier().vibrate();
                 } else if(message.getChatType() == EMMessage.ChatType.Chat && !TextUtils.equals(message.getFrom(), EaseIMHelper.getInstance().getChatPageConId())){
                     if(EaseIMHelper.getInstance().isAdmin()){
                         getNotifier().notify(message);
+                        getNotifier().vibrate();
                     }
                 }
             } else {
                 // in background, do not refresh UI, notify it in notification bar
 //                if (!DemoApplication.getInstance().getLifecycleCallbacks().isFront()) {
                     getNotifier().notify(message);
+                    getNotifier().vibrateAndPlayTone(message);
 //                }
             }
 
@@ -629,7 +638,7 @@ public class ChatPresenter extends EaseChatPresenter {
             // save accept message
             EMClient.getInstance().chatManager().saveMessage(msg);
             // notify the accept message
-            getNotifier().vibrateAndPlayTone(msg);
+//            getNotifier().vibrateAndPlayTone(msg);
 
             EaseEvent event = EaseEvent.create(EaseConstant.MESSAGE_GROUP_JOIN_ACCEPTED, EaseEvent.TYPE.MESSAGE);
             messageChangeLiveData.with(EaseConstant.MESSAGE_CHANGE_CHANGE).postValue(event);
@@ -1108,7 +1117,7 @@ public class ChatPresenter extends EaseChatPresenter {
 
     private void notifyNewInviteMessage(EMMessage msg) {
         // notify there is new message
-        getNotifier().vibrateAndPlayTone(null);
+//        getNotifier().vibrateAndPlayTone(null);
     }
 
     private void updateContactNotificationStatus(String from, String reason, InviteMessageStatus status) {

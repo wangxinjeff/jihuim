@@ -16,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMVideoMessageBody;
+import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.adapter.EaseBaseRecyclerViewAdapter;
 import com.hyphenate.easeui.utils.EaseFileUtils;
@@ -24,7 +25,7 @@ import com.hyphenate.easeui.widget.EaseImageView;
 public class MultiMediaListAdapter extends EaseBaseRecyclerViewAdapter<EMMessage> {
     @Override
     public int getEmptyLayoutId() {
-        return R.layout.em_empty_layout;
+        return EaseIMHelper.getInstance().isAdmin()? R.layout.ease_layout_no_data_admin : R.layout.ease_layout_no_data;
     }
 
     @Override
