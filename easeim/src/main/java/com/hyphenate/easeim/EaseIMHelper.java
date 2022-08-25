@@ -832,5 +832,18 @@ public class EaseIMHelper {
      */
     public void bindDeviceToken(String notifierName, String deviceToken){
         getModel().setDeviceToken(notifierName, deviceToken);
+        if(EMClient.getInstance().isLoggedIn()){
+            EMClient.getInstance().pushManager().bindDeviceToken(notifierName, deviceToken, new EMCallBack() {
+                @Override
+                public void onSuccess() {
+                    EMLog.e("EMPushManager", "bindDeviceToken success");
+                }
+
+                @Override
+                public void onError(int i, String s) {
+                    EMLog.e("EMPushManager", "bindDeviceToken failed: " + i + ", " +s);
+                }
+            });
+        }
     }
 }
