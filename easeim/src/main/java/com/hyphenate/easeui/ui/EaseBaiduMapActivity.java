@@ -368,6 +368,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements EaseTitleB
 
 	@Override
 	public void onBackPress(View view) {
+		EaseCommonUtils.hideSoftKeyBoard(searchView);
 		onBackPressed();
 	}
 

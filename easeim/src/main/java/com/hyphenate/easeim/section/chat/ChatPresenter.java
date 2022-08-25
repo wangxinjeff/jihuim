@@ -243,11 +243,12 @@ public class ChatPresenter extends EaseChatPresenter {
             if(EaseIMHelper.getInstance().getLifecycleCallbacks().isFront()) {
                 if (message.getChatType() == EMMessage.ChatType.GroupChat && !TextUtils.equals(message.getTo(), EaseIMHelper.getInstance().getChatPageConId())) {
                     EaseThreadManager.getInstance().runOnMainThread(() -> InAppNotification.getInstance().show(message));
-                    getNotifier().notify(message);
+//                    getNotifier().notify(message);
                     getNotifier().vibrate();
                 } else if(message.getChatType() == EMMessage.ChatType.Chat && !TextUtils.equals(message.getFrom(), EaseIMHelper.getInstance().getChatPageConId())){
                     if(EaseIMHelper.getInstance().isAdmin()){
-                        getNotifier().notify(message);
+                        EaseThreadManager.getInstance().runOnMainThread(() -> InAppNotification.getInstance().show(message));
+//                        getNotifier().notify(message);
                         getNotifier().vibrate();
                     }
                 }
@@ -436,20 +437,20 @@ public class ChatPresenter extends EaseChatPresenter {
 
             if(!isGroupsSyncedWithServer) {
                 EMLog.i(TAG, "isGroupsSyncedWithServer");
-                new EMGroupManagerRepository().getAllGroups(new ResultCallBack<List<EMGroup>>() {
-                    @Override
-                    public void onSuccess(List<EMGroup> value) {
-                        //加载完群组信息后，刷新会话列表页面，保证展示群组名称
-                        EMLog.i(TAG, "isGroupsSyncedWithServer success");
-                        EaseEvent event = EaseEvent.create(EaseConstant.GROUP_CHANGE, EaseEvent.TYPE.GROUP);
-                        messageChangeLiveData.with(EaseConstant.GROUP_CHANGE).postValue(event);
-                    }
-
-                    @Override
-                    public void onError(int error, String errorMsg) {
-
-                    }
-                });
+//                new EMGroupManagerRepository().getAllGroups(new ResultCallBack<List<EMGroup>>() {
+//                    @Override
+//                    public void onSuccess(List<EMGroup> value) {
+//                        //加载完群组信息后，刷新会话列表页面，保证展示群组名称
+//                        EMLog.i(TAG, "isGroupsSyncedWithServer success");
+//                        EaseEvent event = EaseEvent.create(EaseConstant.GROUP_CHANGE, EaseEvent.TYPE.GROUP);
+//                        messageChangeLiveData.with(EaseConstant.GROUP_CHANGE).postValue(event);
+//                    }
+//
+//                    @Override
+//                    public void onError(int error, String errorMsg) {
+//
+//                    }
+//                });
                 isGroupsSyncedWithServer = true;
             }
             if(!isPushConfigsWithServer) {
@@ -472,18 +473,18 @@ public class ChatPresenter extends EaseChatPresenter {
             EMLog.i(TAG, "onDisconnected ="+error);
             String event = null;
             if (error == EMError.USER_REMOVED) {
-                event = EaseConstant.ACCOUNT_REMOVED;
+                event = EaseConstant.ACCOUNT_CONFLICT;
             } else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE
                     || error == EMError.USER_BIND_ANOTHER_DEVICE
                     || error == EMError.USER_DEVICE_CHANGED
                     || error == EMError.USER_LOGIN_TOO_MANY_DEVICES) {
                 event = EaseConstant.ACCOUNT_CONFLICT;
             } else if (error == EMError.SERVER_SERVICE_RESTRICTED) {
-                event = EaseConstant.ACCOUNT_FORBIDDEN;
+                event = EaseConstant.ACCOUNT_CONFLICT;
             } else if (error == EMError.USER_KICKED_BY_CHANGE_PASSWORD) {
-                event = EaseConstant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD;
+                event = EaseConstant.ACCOUNT_CONFLICT;
             } else if (error == EMError.USER_KICKED_BY_OTHER_DEVICE) {
-                event = EaseConstant.ACCOUNT_KICKED_BY_OTHER_DEVICE;
+                event = EaseConstant.ACCOUNT_CONFLICT;
             } else if (error == EMError.NETWORK_ERROR){
                 event = EaseConstant.ACCOUNT_DIS;
             }

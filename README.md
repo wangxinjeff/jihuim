@@ -100,12 +100,7 @@ EaseIMHelper.getInstance().getChatUnread(new EMValueCallBack<Map<String, Integer
 });
 ```
 
-7.设置server地址
-```
-EaseIMHelper.getInstance().setServerHost("");
-```
-
-8.未读数变更通知
+7.未读数变更通知
 ```
 LiveDataBus.get().with(EaseConstant.MESSAGE_CHANGE_CHANGE, EaseEvent.class).observe(this, event -> {
             if(event == null) {
@@ -117,7 +112,7 @@ LiveDataBus.get().with(EaseConstant.MESSAGE_CHANGE_CHANGE, EaseEvent.class).obse
         });
 ```
 
-9.app内横幅通知
+8.app内横幅通知
 ```
 // 设置横幅的小图标和名称
 InAppNotification.getInstance().setNotifyName("极狐App")
@@ -180,24 +175,10 @@ EaseIMHelper.getInstance().getChatUnread(new EMValueCallBack<Map<String, Integer
 ```
 
 ### 离线推送集成
-在项目的AndroidManifest.xml中配置vivo push的appid和appkey
+获取到厂商token，在环信登录之后调用api上传
 ```
-<meta-data
-   android:name="com.vivo.push.api_key"
-   android:value="${VIVO_PUSH_APPKEY}" />
-<meta-data
-   android:name="com.vivo.push.app_id"
-   android:value="${VIVO_PUSH_APPID}" />
+EMClient.getInstance().pushManager().bindDeviceToken(nofifierName, deviceToken, new EMCallBack() {});
 ```
-
-在main目录下创建assets/config.properties文件，配置其他离线推送参数
-```
-MEIZU_PUSH_APPID=xxx
-MEIZU_PUSH_APPKEY=xxx
-MI_PUSH_APPID=xxx
-MI_PUSH_APPKEY=xxx
-```
-华为推送需要在项目里导入agconnect-services.json
 
 如果报错Manifest冲突在gradle.properties里添加
 android.useNewApkCreator=false

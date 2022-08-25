@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.hyphenate.easeim.R;
+import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.mediapicker.cameralibrary.JEMCameraView;
 import com.hyphenate.mediapicker.cameralibrary.listener.EMClickListener;
 import com.hyphenate.mediapicker.cameralibrary.listener.EMErrorListener;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
  * @author : BaoZhou
  * @date : 2018/7/12 21:40
  */
-public class EMCameraActivity extends AppCompatActivity {
+public class EMCameraActivity extends BaseInitActivity {
     private JEMCameraView jCameraView;
     /**
      * BUTTON_STATE_ONLY_CAPTURE = 0x101;      //只能拍照
@@ -42,18 +43,21 @@ public class EMCameraActivity extends AppCompatActivity {
     public int duration;
 
     public boolean isMirror;
+    
+    @Override
+    protected int getLayoutId() {
+        return R.layout.em_camera_layout;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    protected void initView(Bundle savedInstanceState) {
+        super.initView(savedInstanceState);
         buttonState = getIntent().getIntExtra(EMConstant.BUTTON_STATE, JEMCameraView.BUTTON_STATE_BOTH);
         duration = getIntent().getIntExtra(EMConstant.DURATION, 10 * 1000);
         isMirror = getIntent().getBooleanExtra(EMConstant.IS_MIRROR, true);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        setContentView(R.layout.em_camera_layout);
         jCameraView = findViewById(R.id.jcameraview);
         //设置视频保存路径
         jCameraView.setFeatures(JEMCameraView.BUTTON_STATE_BOTH);

@@ -149,14 +149,14 @@ public class MainActivity extends BaseInitActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
-//        InAppNotification.getInstance().init(this);
+        InAppNotification.getInstance().init(this);
     }
 
 
     @Override
     protected void onPause() {
         super.onPause();
-//        InAppNotification.getInstance().hideNotification();
+        InAppNotification.getInstance().hideNotification();
     }
 
 }
