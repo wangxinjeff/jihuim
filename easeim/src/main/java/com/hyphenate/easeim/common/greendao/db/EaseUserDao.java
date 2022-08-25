@@ -15,7 +15,7 @@ import com.hyphenate.easeui.domain.EaseUser;
 /** 
  * DAO for table "EASE_USER".
 */
-public class EaseUserDao extends AbstractDao<EaseUser, Void> {
+public class EaseUserDao extends AbstractDao<EaseUser, String> {
 
     public static final String TABLENAME = "EASE_USER";
 
@@ -24,7 +24,7 @@ public class EaseUserDao extends AbstractDao<EaseUser, Void> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Username = new Property(0, String.class, "username", false, "USERNAME");
+        public final static Property Username = new Property(0, String.class, "username", true, "USERNAME");
         public final static Property Nickname = new Property(1, String.class, "nickname", false, "NICKNAME");
         public final static Property IsOwner = new Property(2, boolean.class, "isOwner", false, "IS_OWNER");
         public final static Property InitialLetter = new Property(3, String.class, "initialLetter", false, "INITIAL_LETTER");
@@ -53,7 +53,7 @@ public class EaseUserDao extends AbstractDao<EaseUser, Void> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"EASE_USER\" (" + //
-                "\"USERNAME\" TEXT NOT NULL ," + // 0: username
+                "\"USERNAME\" TEXT PRIMARY KEY NOT NULL ," + // 0: username
                 "\"NICKNAME\" TEXT," + // 1: nickname
                 "\"IS_OWNER\" INTEGER NOT NULL ," + // 2: isOwner
                 "\"INITIAL_LETTER\" TEXT," + // 3: initialLetter
@@ -178,8 +178,8 @@ public class EaseUserDao extends AbstractDao<EaseUser, Void> {
     }
 
     @Override
-    public Void readKey(Cursor cursor, int offset) {
-        return null;
+    public String readKey(Cursor cursor, int offset) {
+        return cursor.getString(offset + 0);
     }    
 
     @Override
@@ -222,20 +222,22 @@ public class EaseUserDao extends AbstractDao<EaseUser, Void> {
      }
     
     @Override
-    protected final Void updateKeyAfterInsert(EaseUser entity, long rowId) {
-        // Unsupported or missing PK type
-        return null;
+    protected final String updateKeyAfterInsert(EaseUser entity, long rowId) {
+        return entity.getUsername();
     }
     
     @Override
-    public Void getKey(EaseUser entity) {
-        return null;
+    public String getKey(EaseUser entity) {
+        if(entity != null) {
+            return entity.getUsername();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public boolean hasKey(EaseUser entity) {
-        // TODO
-        return false;
+        throw new UnsupportedOperationException("Unsupported for entities with a non-null key");
     }
 
     @Override

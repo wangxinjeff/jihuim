@@ -329,6 +329,7 @@ public class EaseNotifier {
             EMLog.e(TAG, "in slient mode now");
             return;
         }
+        // 参考:https://www.jianshu.com/p/3ec9158b2041
         AudioAttributes audioAttributes = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             audioAttributes = new AudioAttributes.Builder()

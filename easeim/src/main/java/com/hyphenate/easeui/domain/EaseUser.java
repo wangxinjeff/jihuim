@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Transient;
 
 @Entity
@@ -29,6 +30,7 @@ public class EaseUser implements Parcelable {
      * the user name assigned from app, which should be unique in the application
      */
     @NonNull
+    @Id
     private String username;
     private String nickname;
 

@@ -824,4 +824,13 @@ public class EaseIMHelper {
     public void setAidToken(String token){
         getModel().setAidToken(token);
     }
+
+    /**
+     * 设置推送证书
+     * @param notifierName
+     * @param deviceToken
+     */
+    public void bindDeviceToken(String notifierName, String deviceToken){
+        getModel().setDeviceToken(notifierName, deviceToken);
+    }
 }

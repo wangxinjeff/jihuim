@@ -52,8 +52,9 @@ public class FetchUserRunnable implements Runnable{
                 String[] userIds = new String[size];
                 for (int i = 0; i < size; i++) {
                     userIds[i] = infoList.getUserId();
+                    EMLog.i(TAG, "FetchUserRunnable exec  userId:" +userIds[i]);
                 }
-                EMLog.i(TAG, "FetchUserRunnable exec  userId:" + userIds.toString());
+
                 EMClient.getInstance().userInfoManager().fetchUserInfoByUserId(userIds, new EMValueCallBack<Map<String, EMUserInfo>>() {
                     @Override
                     public void onSuccess(Map<String, EMUserInfo> userInfos) {

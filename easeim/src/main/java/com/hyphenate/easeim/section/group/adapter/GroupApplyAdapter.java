@@ -50,9 +50,20 @@ public class GroupApplyAdapter extends EaseBaseRecyclerViewAdapter<GroupApplyBea
 
         @Override
         public void setData(GroupApplyBean item, int position) {
-            customerName.setText(item.getUserName());
+            if(TextUtils.isEmpty(item.getUserNickName())){
+                customerName.setText(item.getUserName());
+            } else {
+                customerName.setText(item.getUserNickName());
+            }
+
             groupName.setText(item.getGroupName());
-            inviterName.setText(item.getInviterName());
+
+            if(TextUtils.isEmpty(item.getInviterNickName())){
+                inviterName.setText(item.getInviterName());
+            } else {
+                inviterName.setText(item.getInviterNickName());
+            }
+
             if(item.isOperated()){
                 btnRefused.setVisibility(View.GONE);
                 btnAgree.setVisibility(View.GONE);

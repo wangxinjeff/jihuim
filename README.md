@@ -91,25 +91,31 @@ EaseIMHelper.getInstance().getChatUnread(new EMValueCallBack<Map<String, Integer
 });
 ```
 
-### 离线推送集成
-在项目的AndroidManifest.xml中配置vivo push的appid和appkey
+5.app内横幅通知
 ```
-<meta-data
-   android:name="com.vivo.push.api_key"
-   android:value="${VIVO_PUSH_APPKEY}" />
-<meta-data
-   android:name="com.vivo.push.app_id"
-   android:value="${VIVO_PUSH_APPID}" />
+// 设置横幅的小图标和名称
+InAppNotification.getInstance().setNotifyName("极狐App")
+                .setNotifyIcon(R.drawable.em_chatfrom_voice_playing_f3);
+
+// 在需要展示横幅的activity里添加代码
+    @Override
+    protected void onResume() {
+        super.onResume();
+        InAppNotification.getInstance().init(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        InAppNotification.getInstance().hideNotification();
+    }
 ```
 
-在main目录下创建assets/config.properties文件，配置其他离线推送参数
+### 离线推送集成
+获取到厂商推送之后调用api设置给sdk
 ```
-MEIZU_PUSH_APPID=xxx
-MEIZU_PUSH_APPKEY=xxx
-MI_PUSH_APPID=xxx
-MI_PUSH_APPKEY=xxx
+EaseIMHelper.getInstance().bindDeviceToken(notifierName, deviceToken);
 ```
-华为推送需要在项目里导入agconnect-services.json
 
 如果报错Manifest冲突在gradle.properties里添加
 android.useNewApkCreator=false

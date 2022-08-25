@@ -15,6 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 
+import com.hyphenate.EMCallBack;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMUserInfo;
@@ -170,6 +171,19 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
         initViewModel();
         fetchSelfInfo();
         ChatPresenter.getInstance().init();
+        if(!TextUtils.isEmpty(EaseIMHelper.getInstance().getModel().getDeviceToken())){
+            EMClient.getInstance().pushManager().bindDeviceToken(EaseIMHelper.getInstance().getModel().getNotifierName(), EaseIMHelper.getInstance().getModel().getDeviceToken(), new EMCallBack() {
+                @Override
+                public void onSuccess() {
+                    EMLog.e("EMPushManager", "bindDeviceToken success");
+                }
+
+                @Override
+                public void onError(int i, String s) {
+                    EMLog.e("EMPushManager", "bindDeviceToken failed: " + i + ", " +s);
+                }
+            });
+        }
 
 //        requestPermissions();
 

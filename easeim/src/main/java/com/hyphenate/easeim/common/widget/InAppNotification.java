@@ -27,7 +27,9 @@ import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.section.chat.activity.ChatActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.easeui.utils.EaseUserUtils;
 
 /**
  * Author: cpf
@@ -185,10 +187,15 @@ public class InAppNotification implements Runnable {
         // 默认传进来的是群消息
         this.message = message;
         if(mView != null){
-            EMGroup group = EaseIMHelper.getInstance().getGroupManager().getGroup(message.getTo());
-            titleView.setText(String.format("[%s]", group != null ? group.getGroupName() : message.getTo()));
-            contentView.setText(EaseCommonUtils.getMessageDigest(message, activity.getApplicationContext(), true));
-
+            if(message.getChatType() == EMMessage.ChatType.Chat){
+                EaseUser user = EaseUserUtils.getUserInfo(message.getFrom());
+                titleView.setText(String.format("[%s]", user == null ? message.getFrom() : user.getNickname()));
+                contentView.setText(EaseCommonUtils.getMessageDigest(message, activity.getApplicationContext(), false));
+            } else if (message.getChatType() == EMMessage.ChatType.GroupChat){
+                EMGroup group = EaseIMHelper.getInstance().getGroupManager().getGroup(message.getTo());
+                titleView.setText(String.format("[%s]", group != null ? group.getGroupName() : message.getTo()));
+                contentView.setText(EaseCommonUtils.getMessageDigest(message, activity.getApplicationContext(), true));
+            }
             if (mHeight == 0) {
                 mHeight = measureHeight();
             } else {

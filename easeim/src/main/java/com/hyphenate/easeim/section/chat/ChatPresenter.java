@@ -226,10 +226,11 @@ public class ChatPresenter extends EaseChatPresenter {
             if(EaseIMHelper.getInstance().getLifecycleCallbacks().isFront()) {
                 if (message.getChatType() == EMMessage.ChatType.GroupChat && !TextUtils.equals(message.getTo(), EaseIMHelper.getInstance().getChatPageConId())) {
                     EaseThreadManager.getInstance().runOnMainThread(() -> InAppNotification.getInstance().show(message));
-                    getNotifier().notify(message);
+//                    getNotifier().notify(message);
                     getNotifier().vibrate();
                 } else if(message.getChatType() == EMMessage.ChatType.Chat && !TextUtils.equals(message.getFrom(), EaseIMHelper.getInstance().getChatPageConId())){
-                    getNotifier().notify(message);
+                    EaseThreadManager.getInstance().runOnMainThread(() -> InAppNotification.getInstance().show(message));
+//                    getNotifier().notify(message);
                     getNotifier().vibrate();
                 }
             } else {
@@ -394,20 +395,20 @@ public class ChatPresenter extends EaseChatPresenter {
             EMLog.i(TAG, "onConnected");
             if(!isGroupsSyncedWithServer) {
                 EMLog.i(TAG, "isGroupsSyncedWithServer");
-                new EMGroupManagerRepository().getAllGroups(new ResultCallBack<List<EMGroup>>() {
-                    @Override
-                    public void onSuccess(List<EMGroup> value) {
-                        //加载完群组信息后，刷新会话列表页面，保证展示群组名称
-                        EMLog.i(TAG, "isGroupsSyncedWithServer success");
-                        EaseEvent event = EaseEvent.create(EaseConstant.GROUP_CHANGE, EaseEvent.TYPE.GROUP);
-                        messageChangeLiveData.with(EaseConstant.GROUP_CHANGE).postValue(event);
-                    }
-
-                    @Override
-                    public void onError(int error, String errorMsg) {
-
-                    }
-                });
+//                EMGroupManagerRepository.getInstance().getAllGroups(new ResultCallBack<List<EMGroup>>() {
+//                    @Override
+//                    public void onSuccess(List<EMGroup> value) {
+//                        //加载完群组信息后，刷新会话列表页面，保证展示群组名称
+//                        EMLog.i(TAG, "isGroupsSyncedWithServer success");
+//                        EaseEvent event = EaseEvent.create(EaseConstant.GROUP_CHANGE, EaseEvent.TYPE.GROUP);
+//                        messageChangeLiveData.with(EaseConstant.GROUP_CHANGE).postValue(event);
+//                    }
+//
+//                    @Override
+//                    public void onError(int error, String errorMsg) {
+//
+//                    }
+//                });
                 isGroupsSyncedWithServer = true;
             }
             if(!isPushConfigsWithServer) {
@@ -415,6 +416,7 @@ public class ChatPresenter extends EaseChatPresenter {
                 //首先获取push配置，否则获取push配置项会为空
                 new EMPushManagerRepository().fetchPushConfigsFromServer();
                 isPushConfigsWithServer = true;
+                LiveDataBus.get().with(EaseConstant.FETCH_CONFIG).postValue(new EaseEvent(EaseConstant.CONFIG_NO_PUSH, EaseEvent.TYPE.CONFIG));
             }
 
             LiveDataBus.get().with(EaseConstant.ACCOUNT_CHANGE).postValue(new EaseEvent(EaseConstant.ACCOUNT_CONNECT, EaseEvent.TYPE.ACCOUNT));

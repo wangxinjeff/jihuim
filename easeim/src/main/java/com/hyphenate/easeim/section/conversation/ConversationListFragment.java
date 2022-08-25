@@ -130,6 +130,16 @@ public class ConversationListFragment extends EaseConversationListFragment{
             }
         });
 
+        messageChange.with(EaseConstant.FETCH_CONFIG, EaseEvent.class).observe(getViewLifecycleOwner(), event -> {
+            if(event == null) {
+                return;
+            }
+            if(event.isConfigChange()){
+                loadList(event);
+            }
+        });
+
+
         messageChange.with(EaseConstant.GROUP_CHANGE, EaseEvent.class).observe(getViewLifecycleOwner(), this::loadList);
         messageChange.with(EaseConstant.CHAT_ROOM_CHANGE, EaseEvent.class).observe(getViewLifecycleOwner(), this::loadList);
         messageChange.with(EaseConstant.CONVERSATION_DELETE, EaseEvent.class).observe(getViewLifecycleOwner(), this::loadList);
@@ -157,7 +167,8 @@ public class ConversationListFragment extends EaseConversationListFragment{
         if(change.isMessageChange() || change.isNotifyChange()
                 || change.isGroupLeave() || change.isChatRoomLeave()
                 || change.isContactChange()
-                || change.type == EaseEvent.TYPE.CHAT_ROOM || change.isGroupChange()) {
+                || change.type == EaseEvent.TYPE.CHAT_ROOM || change.isGroupChange()
+        || change.isConfigChange()) {
             conversationListLayout.loadDefaultData();
         }
     }
