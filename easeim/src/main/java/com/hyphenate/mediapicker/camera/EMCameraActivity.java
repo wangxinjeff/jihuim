@@ -12,6 +12,7 @@ import android.widget.Toast;
 import android.support.v7.app.AppCompatActivity;
 
 import com.hyphenate.easeim.R;
+import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.mediapicker.cameralibrary.JEMCameraView;
 import com.hyphenate.mediapicker.cameralibrary.listener.EMClickListener;
 import com.hyphenate.mediapicker.cameralibrary.listener.EMErrorListener;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
  * @author : BaoZhou
  * @date : 2018/7/12 21:40
  */
-public class EMCameraActivity extends AppCompatActivity {
+public class EMCameraActivity extends BaseInitActivity {
     private JEMCameraView jCameraView;
     /**
      * BUTTON_STATE_ONLY_CAPTURE = 0x101;      //只能拍照
@@ -126,6 +127,93 @@ public class EMCameraActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.em_camera_layout;
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        super.initView(savedInstanceState);
+        buttonState = getIntent().getIntExtra(EMConstant.BUTTON_STATE, JEMCameraView.BUTTON_STATE_BOTH);
+        duration = getIntent().getIntExtra(EMConstant.DURATION, 10 * 1000);
+        isMirror = getIntent().getBooleanExtra(EMConstant.IS_MIRROR, true);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        jCameraView = findViewById(R.id.jcameraview);
+        //设置视频保存路径
+        jCameraView.setFeatures(JEMCameraView.BUTTON_STATE_BOTH);
+        jCameraView.setMediaQuality(JEMCameraView.MEDIA_QUALITY_MIDDLE);
+        jCameraView.setDuration(duration);
+        jCameraView.setMirror(isMirror);
+        jCameraView.setEMErrorListener(new EMErrorListener() {
+            @Override
+            public void onError() {
+                //错误监听
+                Intent intent = new Intent();
+                setResult(103, intent);
+                finishActivityWithAnim();
+            }
+
+            @Override
+            public void AudioPermissionError() {
+                Toast.makeText(EMCameraActivity.this, "需要打开录音权限?", Toast.LENGTH_SHORT).show();
+            }
+        });
+        if (buttonState != 0)
+            jCameraView.setFeatures(buttonState);
+        else {
+            jCameraView.setFeatures(JEMCameraView.BUTTON_STATE_BOTH);
+        }
+        //JCameraView监听
+        if (JEMCameraView.BUTTON_STATE_ONLY_CAPTURE == buttonState) {//只拍照
+            jCameraView.setTip("轻触拍照");
+        } else if (JEMCameraView.BUTTON_STATE_ONLY_RECORDER == buttonState) {//只拍摄
+            jCameraView.setTip("长按拍摄");
+        } else {
+            jCameraView.setTip("轻触拍照，长按录制视频");
+        }
+        jCameraView.setJCameraListener(new EMJCameraListener() {
+            @Override
+            public void captureSuccess(Bitmap bitmap) {
+                //获取图片bitmap
+                String path = EMFileUtil.saveBitmap("capture_photo", bitmap);
+                ArrayList<String> paths = new ArrayList<>(1);
+                paths.add(path);
+                Intent intent = new Intent();
+                intent.putExtra(EMConstant.CAMERA_PATH, paths);
+                setResult(RESULT_OK, intent);
+                finishActivityWithAnim();
+            }
+
+            @Override
+            public void recordSuccess(String url, Bitmap firstFrame) {
+                //获取视频路径
+                ArrayList<String> paths = new ArrayList<>(1);
+                paths.add(url);
+                Intent intent = new Intent();
+                intent.putExtra(EMConstant.CAMERA_PATH, paths);
+                setResult(RESULT_OK, intent);
+                finishActivityWithAnim();
+            }
+
+        });
+
+        jCameraView.setLeftEMClickListener(new EMClickListener() {
+            @Override
+            public void onClick() {
+                EMCameraActivity.this.finishActivityWithAnim();
+            }
+        });
+        jCameraView.setRightEMClickListener(new EMClickListener() {
+            @Override
+            public void onClick() {
+                Toast.makeText(EMCameraActivity.this, "Right", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

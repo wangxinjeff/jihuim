@@ -431,18 +431,18 @@ public class ChatPresenter extends EaseChatPresenter {
             EMLog.i(TAG, "onDisconnected ="+error);
             String event = null;
             if (error == EMError.USER_REMOVED) {
-                event = EaseConstant.ACCOUNT_REMOVED;
+                event = EaseConstant.ACCOUNT_CONFLICT;
             } else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE
                     || error == EMError.USER_BIND_ANOTHER_DEVICE
                     || error == EMError.USER_DEVICE_CHANGED
                     || error == EMError.USER_LOGIN_TOO_MANY_DEVICES) {
                 event = EaseConstant.ACCOUNT_CONFLICT;
             } else if (error == EMError.SERVER_SERVICE_RESTRICTED) {
-                event = EaseConstant.ACCOUNT_FORBIDDEN;
+                event = EaseConstant.ACCOUNT_CONFLICT;
             } else if (error == EMError.USER_KICKED_BY_CHANGE_PASSWORD) {
-                event = EaseConstant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD;
+                event = EaseConstant.ACCOUNT_CONFLICT;
             } else if (error == EMError.USER_KICKED_BY_OTHER_DEVICE) {
-                event = EaseConstant.ACCOUNT_KICKED_BY_OTHER_DEVICE;
+                event = EaseConstant.ACCOUNT_CONFLICT;
             } else if (error == EMError.NETWORK_ERROR){
                 event = EaseConstant.ACCOUNT_DIS;
             }

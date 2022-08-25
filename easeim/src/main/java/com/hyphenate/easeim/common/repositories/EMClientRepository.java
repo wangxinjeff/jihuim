@@ -198,7 +198,10 @@ public class EMClientRepository extends BaseEMRepository{
         EMClient.getInstance().logout(true, new EMCallBack() {
             @Override
             public void onSuccess() {
-                logoutWithAdmin(callBack);
+//                logoutWithAdmin(callBack);
+                EMLog.e("EaseIM", "logout success");
+                EaseIMHelper.getInstance().logoutSuccess();
+                callBack.onSuccess();
             }
 
             @Override
@@ -206,11 +209,15 @@ public class EMClientRepository extends BaseEMRepository{
                 EMClient.getInstance().logout(false, new EMCallBack() {
                     @Override
                     public void onSuccess() {
-                        logoutWithAdmin(callBack);
+//                        logoutWithAdmin(callBack);
+                        EMLog.e("EaseIM", "logout success");
+                        EaseIMHelper.getInstance().logoutSuccess();
+                        callBack.onSuccess();
                     }
 
                     @Override
                     public void onError(int i, String s) {
+                        EMLog.e("EaseIM", "logout failed: " + i + ", " +s);
                         callBack.onError(i, s);
                     }
                 });

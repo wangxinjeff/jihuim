@@ -59,7 +59,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mContext = this;
         clearFragmentsBeforeCreate();
-//        registerAccountObservable();
+        registerAccountObservable();
     }
 
     /**
@@ -74,13 +74,11 @@ public class BaseActivity extends AppCompatActivity {
                 return;
             }
             String accountEvent = event.event;
-            if(TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_REMOVED) ||
-                TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD) ||
-                TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_KICKED_BY_OTHER_DEVICE)) {
+            if(TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_CONFLICT) ) {
                 EaseIMHelper.getInstance().logoutChat(new EMCallBack() {
                     @Override
                     public void onSuccess() {
-                        finishOtherActivities();
+//                        finishOtherActivities();
 //                        startActivity(new Intent(mContext, LoginActivity.class));
                         finish();
                     }
@@ -88,7 +86,6 @@ public class BaseActivity extends AppCompatActivity {
                     @Override
                     public void onError(int code, String error) {
                         EMLog.e("logout", "logout error: error code = "+code + " error message = "+error);
-                        showToast("logout error: error code = "+code + " error message = "+error);
                     }
 
                     @Override
@@ -96,11 +93,6 @@ public class BaseActivity extends AppCompatActivity {
 
                     }
                 });
-            }else if(TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_CONFLICT)
-                    || TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_REMOVED)
-                    || TextUtils.equals(accountEvent, EaseConstant.ACCOUNT_FORBIDDEN)) {
-                EaseIMHelper.getInstance().logoutChat(null);
-                showExceptionDialog(accountEvent);
             }
         });
     }

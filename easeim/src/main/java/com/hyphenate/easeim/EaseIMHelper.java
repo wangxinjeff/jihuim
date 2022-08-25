@@ -832,7 +832,7 @@ public class EaseIMHelper {
      */
     public void bindDeviceToken(String notifierName, String deviceToken){
         getModel().setDeviceToken(notifierName, deviceToken);
-        if(EMClient.getInstance().isLoggedIn()){
+        if(EMClient.getInstance().isSdkInited() && EMClient.getInstance().isLoggedIn()){
             EMClient.getInstance().pushManager().bindDeviceToken(notifierName, deviceToken, new EMCallBack() {
                 @Override
                 public void onSuccess() {
