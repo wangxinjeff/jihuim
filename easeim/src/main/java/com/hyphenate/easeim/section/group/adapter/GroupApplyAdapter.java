@@ -50,7 +50,7 @@ public class GroupApplyAdapter extends EaseBaseRecyclerViewAdapter<GroupApplyBea
 
         @Override
         public void setData(GroupApplyBean item, int position) {
-            if(TextUtils.isEmpty(item.getUserNickName())){
+            if(TextUtils.isEmpty(item.getUserNickName()) || TextUtils.equals("null", item.getUserNickName())){
                 customerName.setText(item.getUserName());
             } else {
                 customerName.setText(item.getUserNickName());
@@ -58,7 +58,7 @@ public class GroupApplyAdapter extends EaseBaseRecyclerViewAdapter<GroupApplyBea
 
             groupName.setText(item.getGroupName());
 
-            if(TextUtils.isEmpty(item.getInviterNickName())){
+            if(TextUtils.isEmpty(item.getInviterNickName()) || TextUtils.equals("null", item.getInviterNickName())){
                 inviterName.setText(item.getInviterName());
             } else {
                 inviterName.setText(item.getInviterNickName());

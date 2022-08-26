@@ -882,71 +882,11 @@ public class EMGroupManagerRepository extends BaseEMRepository{
     }
 
     /**
-     * 极狐app搜索用户
-     * @param keyword
-     * @return
-     */
-    public void searchUserWithCustomer(String keyword, ResultCallBack<List<String>> callBack) {
-        try{
-            MediaType JSON = MediaType.get("application/json; charset=utf-8");
-            OkHttpClient client = new OkHttpClient();
-            JSONObject json = new JSONObject();
-            json.put("username", keyword);
-            RequestBody body = RequestBody.create(JSON, json.toString());
-
-            Headers headers = new Headers.Builder()
-                    .add("Authorization", EMClient.getInstance().getAccessToken())
-                    .add("username", EaseIMHelper.getInstance().getCurrentUser())
-                    .build();
-            Request request = new Request.Builder()
-                    .url(EaseIMHelper.getInstance().getServerHost()+"v1/gov/arcfox/user/"+EaseIMHelper.getInstance().getCurrentUser())
-                    .headers(headers)
-                    .post(body)
-                    .build();
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
-                }
-
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    String responseBody = response.body().string();
-                    if(response.code() == 200 && !TextUtils.isEmpty(responseBody)){
-                        try {
-                            JSONObject result = new JSONObject(responseBody);
-                            String status = result.optString("status");
-                            if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
-                                JSONArray entities = result.getJSONArray("entities");
-                                List<String> list = new ArrayList<>();
-                                if(entities.length() > 0){
-                                    JSONObject item = entities.getJSONObject(0);
-                                    list.add(item.optString("userName"));
-                                }
-                                callBack.onSuccess(list);
-                            } else {
-                                callBack.onError(EMError.GENERAL_ERROR, "search user failed");
-                            }
-                        } catch (JSONException e) {
-                            callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
-                        }
-                    } else {
-                        callBack.onError(EMError.GENERAL_ERROR, "search user failed");
-                    }
-                }
-            });
-        }catch(JSONException e){
-            e.printStackTrace();
-            callBack.onError(EMError.GENERAL_ERROR, e.getMessage());
-        }
-    }
-
-    /**
      * 运管端搜索用户
      * @param keyword
      * @return
      */
-    public void searchUserWithAdmin(String keyword, ResultCallBack<List<String>> callBack) {
+    public void searchUserWithAdmin(String keyword, ResultCallBack<List<EaseUser>> callBack) {
         try{
             MediaType JSON = MediaType.get("application/json; charset=utf-8");
             OkHttpClient client = new OkHttpClient();
@@ -978,10 +918,16 @@ public class EMGroupManagerRepository extends BaseEMRepository{
                             String status = result.optString("status");
                             if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
                                 JSONArray entities = result.getJSONArray("entities");
-                                List<String> list = new ArrayList<>();
+                                List<EaseUser> list = new ArrayList<>();
                                 if(entities.length() > 0){
                                     JSONObject item = entities.getJSONObject(0);
-                                    list.add(item.optString("userName"));
+                                    EaseUser user = new EaseUser();
+                                    user.setUsername(item.optString("userName"));
+                                    if(!TextUtils.equals("null", item.optString("nickName"))){
+                                        user.setNickname(item.optString("nickName"));
+                                    }
+                                    user.setAvatar(item.optString("avatar"));
+                                    list.add(user);
                                 }
                                 callBack.onSuccess(list);
                             } else {

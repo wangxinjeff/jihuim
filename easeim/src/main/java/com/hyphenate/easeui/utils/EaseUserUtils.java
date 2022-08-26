@@ -66,7 +66,8 @@ public class EaseUserUtils {
             } catch (Exception e) {
                 //use default avatar
                 Glide.with(context).load(user.getAvatar())
-                        .apply(RequestOptions.bitmapTransform(new CircleCrop()).error(R.drawable.ease_default_avatar))
+                        .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                        .error(R.drawable.ease_default_avatar)
                         .into(imageView);
 //                Glide.with(context).load(user.getAvatar())
 //                        .apply(RequestOptions.placeholderOf(R.drawable.ease_default_avatar)
@@ -95,7 +96,8 @@ public class EaseUserUtils {
         } catch (Exception e) {
             //use default avatar
             Glide.with(context).load(avatar)
-                    .apply(RequestOptions.bitmapTransform(new CircleCrop()).error(R.drawable.ease_default_avatar))
+                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                    .error(R.drawable.ease_default_avatar)
                     .into(imageView);
 //            Glide.with(context).load(avatar)
 //                    .apply(RequestOptions.placeholderOf(R.drawable.ease_default_avatar)

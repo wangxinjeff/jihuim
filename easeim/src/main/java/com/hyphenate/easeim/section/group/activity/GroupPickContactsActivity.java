@@ -11,6 +11,9 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
@@ -19,19 +22,13 @@ import com.google.android.flexbox.JustifyContent;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
-import com.hyphenate.easeim.common.livedatas.LiveDataBus;
 import com.hyphenate.easeim.common.repositories.EMGroupManagerRepository;
 import com.hyphenate.easeim.common.utils.ToastUtils;
 import com.hyphenate.easeim.common.widget.SearchBar;
 import com.hyphenate.easeim.section.group.delegate.PickContactDelegate;
 import com.hyphenate.easeim.section.base.BaseInitActivity;
 import com.hyphenate.easeim.section.group.adapter.GroupPickContactsAdapter;
-import com.hyphenate.easeui.EaseIM;
-import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.model.EaseEvent;
-import com.hyphenate.easeui.provider.EaseUserProfileProvider;
-import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
 import java.util.ArrayList;
@@ -54,7 +51,7 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
     private RadioGroup radioGroup;
     private RadioButton rbService;
     private RadioButton rbCustomer;
-    private String result = "";
+    private EaseUser result;
     private boolean isOwner;
 
     private SearchBar searchBar;
@@ -153,19 +150,22 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
                 radioGroup.setOnCheckedChangeListener(null);
                 radioGroup.clearCheck();
                 addRadioGroupListener();
-                    repository.searchUserWithAdmin(text, new ResultCallBack<List<String>>() {
+                    repository.searchUserWithAdmin(text, new ResultCallBack<List<EaseUser>>() {
                         @Override
-                        public void onSuccess(List<String> data) {
+                        public void onSuccess(List<EaseUser> data) {
                             dismissLoading();
                             runOnUiThread(() -> {
                                 if(data.size() > 0){
                                     result = data.get(0);
                                     resultView.setVisibility(View.VISIBLE);
-                                    EaseUserUtils.setUserNick(result, userName);
-                                    EaseUserUtils.setUserAvatar(mContext, result, userAvatar);
+                                    userName.setText(result.getNickname());
+                                    Glide.with(mContext).load(result.getAvatar())
+                                            .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                            .error(R.drawable.ease_default_avatar)
+                                            .into(userAvatar);
                                 } else {
                                     resultView.setVisibility(View.GONE);
-                                    result = "";
+                                    result = null;
                                     ToastUtils.showCenterToast("", "搜索无结果", 0, Toast.LENGTH_SHORT);
                                 }
                             });
@@ -179,51 +179,25 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
                     });
             }
         });
-
-        LiveDataBus.get().with(EaseConstant.CONTACT_UPDATE, EaseEvent.class).observe(this, event -> {
-            if(event == null) {
-                return;
-            }
-
-            if(event.isContactChange()) {
-                if(resultView.getVisibility() == View.VISIBLE){
-                    EaseUserUtils.setUserNick(result, userName);
-                    EaseUserUtils.setUserAvatar(mContext, result, userAvatar);
-                }
-            }
-        });
     }
 
     private void addRadioGroupListener(){
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                EaseUserProfileProvider profileProvider = EaseIM.getInstance().getUserProvider();
-                EaseUser user = new EaseUser(result);
-                if(profileProvider != null){
-                    EaseUser easeUser = profileProvider.getUser(result);
-                    if(easeUser != null){
-                        user = easeUser;
-                    }
-                }
-
                 RadioButton radioButton = findViewById(checkedId);
-                if(TextUtils.equals(radioButton.getText(), getString(R.string.em_service_personnel))){
-                    user.setCustomer(false);
-                } else {
-                    user.setCustomer(true);
-                }
+                result.setCustomer(!TextUtils.equals(radioButton.getText(), getString(R.string.em_service_personnel)));
                 for(EaseUser item : selectedList){
-                    if(TextUtils.equals(item.getUsername(), user.getUsername())){
+                    if(TextUtils.equals(item.getUsername(), result.getUsername())){
                         int index = selectedList.indexOf(item);
                         selectedList.remove(item);
-                        selectedList.add(index, user);
+                        selectedList.add(index, result);
                         adapter.setData(selectedList);
                         refreshSelectedView();
                         return;
                     }
                 }
-                selectedList.add(user);
+                selectedList.add(result);
                 adapter.setData(selectedList);
                 refreshSelectedView();
             }
@@ -237,12 +211,16 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
 
     @Override
     public void onRightClick(View view) {
-        showLoading();
+        if(selectedList.size() <= 0 && resultView.getVisibility() == View.VISIBLE){
+            ToastUtils.showCenterToast("", "请选择用户身份", 0, Toast.LENGTH_SHORT);
+            return;
+        }
         if(isCreate){
             NewGroupActivity.actionStart(mContext, (ArrayList<EaseUser>) selectedList);
             finish();
         } else {
             if(selectedList.size() > 0){
+                showLoading();
                 List<String> customers = new ArrayList<>();
                 List<String> waiters = new ArrayList<>();
                 for (EaseUser user : selectedList) {
@@ -283,7 +261,7 @@ public class GroupPickContactsActivity extends BaseInitActivity implements EaseT
     @Override
     public void onMemberRemove(EaseUser item) {
         selectedList.remove(item);
-        if(TextUtils.equals(result, item.getUsername())){
+        if(TextUtils.equals(result.getUsername(), item.getUsername())){
             radioGroup.setOnCheckedChangeListener(null);
             radioGroup.clearCheck();
             addRadioGroupListener();

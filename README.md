@@ -111,6 +111,18 @@ InAppNotification.getInstance().setNotifyName("极狐App")
     }
 ```
 
+6.强制下线通知
+ ```
+  LiveDataBus.get().with(EaseConstant.ACCOUNT_CHANGE, EaseEvent.class).observe(this, event -> {
+              if(event == null || !event.isAccountChange()) {
+                  return;
+              }
+  
+              if(TextUtils.equals(event.event, EaseConstant.ACCOUNT_CONFLICT) ) {
+                  
+              }
+          });
+```
 ### 离线推送集成
 获取到厂商推送之后调用api设置给sdk
 ```
