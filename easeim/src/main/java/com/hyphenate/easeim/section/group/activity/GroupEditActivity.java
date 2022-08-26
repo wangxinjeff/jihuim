@@ -184,7 +184,9 @@ public class GroupEditActivity extends BaseInitActivity {
                     systemNoteText = data.get(0);
                     serviceNoteText = data.get(1);
                     systemNote.setText(systemNoteText);
-                    serviceNote.setText(serviceNoteText);
+                    if(!(TextUtils.isEmpty(serviceNoteText) || TextUtils.equals("null", serviceNoteText))){
+                        serviceNote.setText(serviceNoteText);
+                    }
                 }
 
                 @Override

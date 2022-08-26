@@ -20,7 +20,7 @@ public class GroupPickContactsViewModel extends AndroidViewModel {
     private SingleSourceLiveData<Resource<List<String>>> groupMembers;
     private SingleSourceLiveData<Resource<List<EaseUser>>> contacts;
     private SingleSourceLiveData<Resource<Boolean>> addMembersObservable;
-    private SingleSourceLiveData<Resource<List<String>>> searchContactsObservable;
+    private SingleSourceLiveData<Resource<List<EaseUser>>> searchContactsObservable;
 
     public GroupPickContactsViewModel(@NonNull Application application) {
         super(application);
@@ -60,7 +60,7 @@ public class GroupPickContactsViewModel extends AndroidViewModel {
         addMembersObservable.setSource(repository.addMembersWithCustomer(groupId, customers, waiters));
     }
 
-    public LiveData<Resource<List<String>>> getSearchContactsObservable() {
+    public LiveData<Resource<List<EaseUser>>> getSearchContactsObservable() {
         return searchContactsObservable;
     }
 

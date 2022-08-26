@@ -549,10 +549,10 @@ public class EMContactManagerRepository extends BaseEMRepository{
      * @param keyword
      * @return
      */
-    public LiveData<Resource<List<String>>> searchUserWithCustomer(String keyword) {
-        return new NetworkOnlyResource<List<String>>() {
+    public LiveData<Resource<List<EaseUser>>> searchUserWithCustomer(String keyword) {
+        return new NetworkOnlyResource<List<EaseUser>>() {
             @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<List<String>>> callBack) {
+            protected void createCall(@NonNull ResultCallBack<LiveData<List<EaseUser>>> callBack) {
                 try{
                     MediaType JSON = MediaType.get("application/json; charset=utf-8");
                     OkHttpClient client = new OkHttpClient();
@@ -584,10 +584,16 @@ public class EMContactManagerRepository extends BaseEMRepository{
                                     String status = result.optString("status");
                                     if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
                                         JSONArray entities = result.getJSONArray("entities");
-                                        List<String> list = new ArrayList<>();
+                                        List<EaseUser> list = new ArrayList<>();
                                         if(entities.length() > 0){
                                             JSONObject item = entities.getJSONObject(0);
-                                            list.add(item.optString("userName"));
+                                            EaseUser user = new EaseUser();
+                                            user.setUsername(item.optString("userName"));
+                                            if(!TextUtils.equals("null", item.optString("nickName"))){
+                                                user.setNickname(item.optString("nickName"));
+                                            }
+                                            user.setAvatar(item.optString("avatar"));
+                                            list.add(user);
                                         }
                                         callBack.onSuccess(createLiveData(list));
                                     } else {
@@ -614,10 +620,10 @@ public class EMContactManagerRepository extends BaseEMRepository{
      * @param keyword
      * @return
      */
-    public LiveData<Resource<List<String>>> searchUserWithAdmin(String keyword) {
-        return new NetworkOnlyResource<List<String>>() {
+    public LiveData<Resource<List<EaseUser>>> searchUserWithAdmin(String keyword) {
+        return new NetworkOnlyResource<List<EaseUser>>() {
             @Override
-            protected void createCall(@NonNull ResultCallBack<LiveData<List<String>>> callBack) {
+            protected void createCall(@NonNull ResultCallBack<LiveData<List<EaseUser>>> callBack) {
                 try{
                     MediaType JSON = MediaType.get("application/json; charset=utf-8");
                     OkHttpClient client = new OkHttpClient();
@@ -649,10 +655,16 @@ public class EMContactManagerRepository extends BaseEMRepository{
                                     String status = result.optString("status");
                                     if(TextUtils.equals("OK", status) || TextUtils.equals("SUCCEED", status)){
                                         JSONArray entities = result.getJSONArray("entities");
-                                        List<String> list = new ArrayList<>();
+                                        List<EaseUser> list = new ArrayList<>();
                                         if(entities.length() > 0){
                                             JSONObject item = entities.getJSONObject(0);
-                                            list.add(item.optString("userName"));
+                                            EaseUser user = new EaseUser();
+                                            user.setUsername(item.optString("userName"));
+                                            if(!TextUtils.equals("null", item.optString("nickName"))){
+                                                user.setNickname(item.optString("nickName"));
+                                            }
+                                            user.setAvatar(item.optString("avatar"));
+                                            list.add(user);
                                         }
                                         callBack.onSuccess(createLiveData(list));
                                     } else {

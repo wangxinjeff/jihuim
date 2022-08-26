@@ -1,4 +1,4 @@
-# 极狐端/运管端
+# 极狐端
 --------
 ## 集成使用文档
 
@@ -132,48 +132,18 @@ InAppNotification.getInstance().setNotifyName("极狐App")
     }
 ```
 
-### 运管端
-1.初始化
-Application里调用EaseIMHelper初始化
+9.强制下线通知
 ```
-EaseIMHelper.getInstance().init(this);
-```
-
-初始化IM
-```
-EaseIMHelper.getInstance().initChat(true);
-```
-
-2.跳转登录界面
-```
-startActivity(new Intent(this, AdminLoginActivity.class));
-```
-
-3.退出登录
-```
-EaseIMHelper.getInstance().logoutChat(new EMCallBack(){});
-```
-4.获取未读数
-```
-EaseIMHelper.getInstance().getChatUnread(new EMValueCallBack<Map<String, Integer>>() {
-	        @Override
-            public void onSuccess(Map<String, Integer> stringIntegerMap) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                    	//未读总数
-                        stringIntegerMap.get(EaseConstant.UNREAD_TOTAL);
-                    }
-                });
+LiveDataBus.get().with(EaseConstant.ACCOUNT_CHANGE, EaseEvent.class).observe(this, event -> {
+            if(event == null || !event.isAccountChange()) {
+                return;
             }
 
-            @Override
-            public void onError(int i, String s) {
-
+            if(TextUtils.equals(event.event, EaseConstant.ACCOUNT_CONFLICT) ) {
+                
             }
-});
+        });
 ```
-
 ### 离线推送集成
 获取到厂商token，在环信登录之后调用api上传
 ```

@@ -472,24 +472,20 @@ public class ChatPresenter extends EaseChatPresenter {
         public void onDisconnected(int error) {
             EMLog.i(TAG, "onDisconnected ="+error);
             String event = null;
-            if (error == EMError.USER_REMOVED) {
-                event = EaseConstant.ACCOUNT_CONFLICT;
-            } else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE
+            if (error == EMError.USER_REMOVED
+                    || error == EMError.USER_LOGIN_ANOTHER_DEVICE
                     || error == EMError.USER_BIND_ANOTHER_DEVICE
                     || error == EMError.USER_DEVICE_CHANGED
-                    || error == EMError.USER_LOGIN_TOO_MANY_DEVICES) {
-                event = EaseConstant.ACCOUNT_CONFLICT;
-            } else if (error == EMError.SERVER_SERVICE_RESTRICTED) {
-                event = EaseConstant.ACCOUNT_CONFLICT;
-            } else if (error == EMError.USER_KICKED_BY_CHANGE_PASSWORD) {
-                event = EaseConstant.ACCOUNT_CONFLICT;
-            } else if (error == EMError.USER_KICKED_BY_OTHER_DEVICE) {
+                    || error == EMError.USER_LOGIN_TOO_MANY_DEVICES
+                    || error == EMError.SERVER_SERVICE_RESTRICTED
+                    || error == EMError.USER_KICKED_BY_CHANGE_PASSWORD
+                    || error == EMError.USER_KICKED_BY_OTHER_DEVICE) {
                 event = EaseConstant.ACCOUNT_CONFLICT;
             } else if (error == EMError.NETWORK_ERROR){
                 event = EaseConstant.ACCOUNT_DIS;
             }
             if(!TextUtils.isEmpty(event)) {
-                LiveDataBus.get().with(EaseConstant.ACCOUNT_CHANGE).postValue(new EaseEvent(event, EaseEvent.TYPE.ACCOUNT));
+                LiveDataBus.get().with(EaseConstant.ACCOUNT_CHANGE).postValue(EaseEvent.create(event, EaseEvent.TYPE.ACCOUNT, String.valueOf(error)));
                 EMLog.i(TAG, event);
             }
         }
