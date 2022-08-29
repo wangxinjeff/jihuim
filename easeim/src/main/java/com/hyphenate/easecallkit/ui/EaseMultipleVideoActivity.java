@@ -596,6 +596,18 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
             //主叫加入频道
             initEngineAndJoinChannel();
         }
+
+        callConferenceViewGroup.setOnPageStatusListener(new EaseCallMemberViewGroup.OnPageStatusListener() {
+            @Override
+            public void onPageCountChange(int count) {
+                EMLog.e(TAG, "pageCount: " + count);
+            }
+
+            @Override
+            public void onPageScroll(int page) {
+                EMLog.e(TAG, "pageScroll: " + page);
+            }
+        });
     }
 
     private void initParams(Bundle bundle){

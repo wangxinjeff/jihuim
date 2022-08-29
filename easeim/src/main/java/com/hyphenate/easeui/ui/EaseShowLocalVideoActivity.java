@@ -5,15 +5,24 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
+import androidx.appcompat.widget.AppCompatImageView;
+
+import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.ui.base.EaseBaseActivity;
 import com.hyphenate.easeui.player.EasyVideoCallback;
 import com.hyphenate.easeui.player.EasyVideoPlayer;
+import com.hyphenate.easeui.utils.StatusBarCompat;
 
 public class EaseShowLocalVideoActivity extends EaseBaseActivity implements EasyVideoCallback {
     private EasyVideoPlayer evpPlayer;
     private Uri uri;
+    private RelativeLayout backView;
+    private AppCompatImageView iconBack;
 
     public static void actionStart(Context context, String path) {
         Intent intent = new Intent(context, EaseShowLocalVideoActivity.class);
@@ -53,10 +62,21 @@ public class EaseShowLocalVideoActivity extends EaseBaseActivity implements Easy
 
     public void initView() {
         evpPlayer = findViewById(R.id.evp_player);
+        backView = findViewById(R.id.back_view);
+        iconBack = findViewById(R.id.icon_back);
+        if(EaseIMHelper.getInstance().isAdmin()){
+            iconBack.setImageResource(R.drawable.em_icon_back_normal);
+        }
     }
 
     public void initListener() {
         evpPlayer.setCallback(this);
+        backView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void initData() {

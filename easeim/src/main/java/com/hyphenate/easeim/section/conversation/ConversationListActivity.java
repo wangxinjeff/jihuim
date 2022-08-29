@@ -98,7 +98,7 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
             mTitleBar.setTitle(getString(R.string.my_chat));
         } else if(conversationsType == EaseConstant.CON_TYPE_ADMIN){
             mTitleBar.setTitle(getString(R.string.my_conversations));
-            mTitleBar.setLeftLayoutVisibility(View.GONE);
+            mTitleBar.setLeftImageResource(R.drawable.em_icon_back_admin);
             mTitleBar.setRightImageResource(R.drawable.em_home_menu_add);
         }
         disconnectView = findViewById(R.id.disconnect_view);

@@ -12,11 +12,14 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatImageView;
+
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMVideoMessageBody;
+import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.ui.base.EaseBaseActivity;
 import com.hyphenate.easeui.utils.EaseFileUtils;
@@ -33,6 +36,8 @@ public class EaseShowVideoActivity extends EaseBaseActivity {
 	private LinearLayout loadFailedView;
 	private ProgressBar progressBar;
 	private Uri localFilePath;
+	private RelativeLayout backView;
+	private AppCompatImageView iconBack;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,18 @@ public class EaseShowVideoActivity extends EaseBaseActivity {
 		setContentView(R.layout.ease_showvideo_activity);
 		progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 		loadFailedView = findViewById(R.id.load_failed_view);
+
+		backView = findViewById(R.id.back_view);
+		iconBack = findViewById(R.id.icon_back);
+		if(EaseIMHelper.getInstance().isAdmin()){
+			iconBack.setImageResource(R.drawable.em_icon_back_normal);
+		}
+		backView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onBackPressed();
+			}
+		});
 
 		final EMMessage message = getIntent().getParcelableExtra("msg");
 		if (!(message.getBody() instanceof EMVideoMessageBody)) {
@@ -101,6 +118,9 @@ public class EaseShowVideoActivity extends EaseBaseActivity {
 
 					@Override
 					public void run() {
+						if(isFinishing() || isDestroyed()){
+							return;
+						}
 						runOnUiThread(() -> progressBar.setVisibility(View.GONE));
 						showLocalVideo(((EMVideoMessageBody)message.getBody()).getLocalUri());
 					}

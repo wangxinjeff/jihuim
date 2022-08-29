@@ -355,7 +355,7 @@
 
     <string name="em_order_id">订单号</string>
     <string name="em_phone_number">客户手机号</string>
-    <string name="em_win_code">WIN码</string>
+    <string name="em_win_code">VIN码</string>
 
     <string name="em_open_notify">打开消息提醒</string>
     <string name="em_close_notify">关闭消息提醒</string>

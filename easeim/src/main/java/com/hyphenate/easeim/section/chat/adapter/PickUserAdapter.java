@@ -56,12 +56,12 @@ public class PickUserAdapter extends EaseBaseRecyclerViewAdapter<EaseUser> {
             Log.e("TAG", "GroupContactAdapter header = "+header);
             mHeader.setVisibility(View.GONE);
             // 是否显示字母
-            if(position == 0 || (header != null && !header.equals(EaseCommonUtils.getLetter(getItem(position - 1).getNickname())))) {
-                if(!TextUtils.isEmpty(header)) {
-                    mHeader.setVisibility(View.VISIBLE);
-                    mHeader.setText(header);
-                }
-            }
+//            if(position == 0 || (header != null && !header.equals(EaseCommonUtils.getLetter(getItem(position - 1).getNickname())))) {
+//                if(!TextUtils.isEmpty(header)) {
+//                    mHeader.setVisibility(View.VISIBLE);
+//                    mHeader.setText(header);
+//                }
+//            }
 //            EaseUserProfileProvider provider = EaseIM.getInstance().getUserProvider();
 //            if (provider != null){
 //                EaseUser easeUser = provider.getUser(item.getUsername());

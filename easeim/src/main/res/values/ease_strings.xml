@@ -354,7 +354,7 @@
 
     <string name="em_order_id">Order id</string>
     <string name="em_phone_number">Phone num</string>
-    <string name="em_win_code">WIN code</string>
+    <string name="em_win_code">VIN code</string>
     <string name="em_open_notify">Open notify</string>
     <string name="em_close_notify">Close notify</string>
     <string name="em_call_join_group">Please join the group</string>

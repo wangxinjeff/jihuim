@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.section.base.BaseInitFragment;
 import com.hyphenate.easeim.section.search.adapter.MultiMediaListAdapter;
@@ -30,6 +32,7 @@ public class SearchMultiMediaFragment extends BaseInitFragment {
     private MultiMediaListAdapter adapter;
     private EMConversation conversation;
     private String conversationId;
+    private AppCompatImageView iconNoData;
 
     public SearchMultiMediaFragment(String conversationId) {
         this.conversationId = conversationId;
@@ -44,6 +47,12 @@ public class SearchMultiMediaFragment extends BaseInitFragment {
     @Override
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
+        iconNoData = findViewById(R.id.icon_no_data);
+        if(EaseIMHelper.getInstance().isAdmin()){
+            iconNoData.setImageResource(R.drawable.em_icon_no_service_admin);
+        } else {
+            iconNoData.setImageResource(R.drawable.em_icon_no_service);
+        }
         mediaList = findViewById(R.id.rl_media_list);
         mediaList.setLayoutManager(new GridLayoutManager(getContext(), 4));
 
@@ -103,6 +112,9 @@ public class SearchMultiMediaFragment extends BaseInitFragment {
                 }
             }
             adapter.setData(data);
+            if(data.size() > 0){
+                iconNoData.setVisibility(View.GONE);
+            }
         }
     }
 }

@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,7 @@ import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.ui.base.EaseBaseActivity;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
@@ -63,6 +65,8 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 	private LinearLayout loadView;
 	private LinearLayout loadFailedView;
 	private FrameLayout iconDownload;
+	private RelativeLayout backView;
+	private AppCompatImageView iconBack;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -74,6 +78,12 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 		loadView = findViewById(R.id.load_view);
 		loadFailedView = findViewById(R.id.load_failed_view);
 		iconDownload = findViewById(R.id.icon_download);
+		backView = findViewById(R.id.back_view);
+		iconBack = findViewById(R.id.icon_back);
+		if(EaseIMHelper.getInstance().isAdmin()){
+			iconBack.setImageResource(R.drawable.em_icon_back_normal);
+		}
+
 		Uri uri = getIntent().getParcelableExtra("uri");
 		String msgId = getIntent().getExtras().getString("messageId");
 		EMLog.d(TAG, "show big msgId:" + msgId );
@@ -112,6 +122,13 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 					//保存图片到相册
 					SaveImage(bitmap);
 				}
+			}
+		});
+
+		backView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onBackPressed();
 			}
 		});
 	}
