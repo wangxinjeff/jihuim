@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import android.support.annotation.Nullable;
@@ -64,6 +65,7 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 	private LinearLayout loadView;
 	private LinearLayout loadFailedView;
 	private FrameLayout iconDownload;
+	private RelativeLayout backView;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -75,6 +77,8 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 		loadView = findViewById(R.id.load_view);
 		loadFailedView = findViewById(R.id.load_failed_view);
 		iconDownload = findViewById(R.id.icon_download);
+		backView = findViewById(R.id.back_view);
+
 		Uri uri = getIntent().getParcelableExtra("uri");
 		String msgId = getIntent().getExtras().getString("messageId");
 		EMLog.d(TAG, "show big msgId:" + msgId );
@@ -113,6 +117,13 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 					//保存图片到相册
 					SaveImage(bitmap);
 				}
+			}
+		});
+
+		backView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onBackPressed();
 			}
 		});
 	}

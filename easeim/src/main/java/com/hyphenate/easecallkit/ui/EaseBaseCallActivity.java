@@ -7,11 +7,12 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 
 import com.hyphenate.easecallkit.base.EaseCallFloatWindow;
+import com.hyphenate.easeui.ui.base.EaseBaseActivity;
 
 /**
  * As the base call activity, the common code can be put in
  */
-public class EaseBaseCallActivity extends AppCompatActivity {
+public class EaseBaseCallActivity extends EaseBaseActivity {
     protected final int REQUEST_CODE_OVERLAY_PERMISSION = 1002;
     //用于防止多次打开请求悬浮框页面
     protected boolean requestOverlayPermission;

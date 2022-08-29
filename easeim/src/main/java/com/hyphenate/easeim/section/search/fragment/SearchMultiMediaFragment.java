@@ -3,6 +3,7 @@ package com.hyphenate.easeim.section.search.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -29,6 +30,7 @@ public class SearchMultiMediaFragment extends BaseInitFragment {
     private MultiMediaListAdapter adapter;
     private EMConversation conversation;
     private String conversationId;
+    private AppCompatImageView iconNoData;
 
     @Override
     protected int getLayoutId() {
@@ -38,6 +40,7 @@ public class SearchMultiMediaFragment extends BaseInitFragment {
     @Override
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
+        iconNoData = findViewById(R.id.icon_no_data);
         mediaList = findViewById(R.id.rl_media_list);
         mediaList.setLayoutManager(new GridLayoutManager(getContext(), 4));
 
@@ -101,6 +104,9 @@ public class SearchMultiMediaFragment extends BaseInitFragment {
                 }
             }
             adapter.setData(data);
+            if(data.size() > 0){
+                iconNoData.setVisibility(View.GONE);
+            }
         }
     }
 }

@@ -163,8 +163,11 @@ public class EaseCallMemberView extends RelativeLayout {
         }
         if (isAudioOff) {
             audioOffView.setVisibility(VISIBLE);
+            talkingView.setVisibility(GONE);
         } else {
             audioOffView.setVisibility(GONE);
+            talkingView.setImageResource(R.drawable.ease_mic_level_on);
+            talkingView.setVisibility(VISIBLE);
         }
     }
 

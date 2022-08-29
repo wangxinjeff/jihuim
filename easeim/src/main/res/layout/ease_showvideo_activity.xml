@@ -2,10 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="#000"
     android:animateLayoutChanges="true"
      >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        >
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -42,4 +47,23 @@
             />
 
     </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/back_view"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/em_common_title_bar_height"
+        android:minWidth="50dp"
+        >
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/em_icon_back_normal"
+            android:scaleType="centerInside"
+            android:layout_centerInParent="true"
+            />
+
+    </RelativeLayout>
 </RelativeLayout>

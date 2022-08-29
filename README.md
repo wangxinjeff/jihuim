@@ -106,7 +106,7 @@ InAppNotification.getInstance().setNotifyName("极狐App")
 
     @Override
     protected void onPause() {
-        super.onPause();
+        super.onPause(); 
         InAppNotification.getInstance().hideNotification();
     }
 ```

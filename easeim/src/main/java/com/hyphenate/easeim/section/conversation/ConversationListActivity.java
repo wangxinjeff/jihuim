@@ -100,7 +100,6 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
         mTitleBar = findViewById(R.id.title_bar_main);
         titleBarUnread = findViewById(R.id.apply_unread);
         mTitleBar.setTitle(getString(R.string.my_conversations));
-        mTitleBar.setLeftLayoutVisibility(View.GONE);
         mTitleBar.setRightImageResource(R.drawable.em_home_menu_add);
         disconnectView = findViewById(R.id.disconnect_view);
         switchToHome();

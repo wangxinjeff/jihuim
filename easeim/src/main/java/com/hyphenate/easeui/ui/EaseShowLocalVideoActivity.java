@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.ui.base.EaseBaseActivity;
@@ -14,6 +16,7 @@ import com.hyphenate.easeui.player.EasyVideoPlayer;
 public class EaseShowLocalVideoActivity extends EaseBaseActivity implements EasyVideoCallback {
     private EasyVideoPlayer evpPlayer;
     private Uri uri;
+    private RelativeLayout backView;
 
     public static void actionStart(Context context, String path) {
         Intent intent = new Intent(context, EaseShowLocalVideoActivity.class);
@@ -53,10 +56,17 @@ public class EaseShowLocalVideoActivity extends EaseBaseActivity implements Easy
 
     public void initView() {
         evpPlayer = findViewById(R.id.evp_player);
+        backView = findViewById(R.id.back_view);
     }
 
     public void initListener() {
         evpPlayer.setCallback(this);
+        backView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void initData() {

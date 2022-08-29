@@ -59,12 +59,12 @@ public class PickUserAdapter extends EaseBaseRecyclerViewAdapter<EaseUser> {
                 return;
             }
 
-            if(position == 0 || (header != null && !header.equals(EaseCommonUtils.getLetter(getItem(position - 1).getNickname())))) {
-                if(!TextUtils.isEmpty(header)) {
-                    mHeader.setVisibility(View.VISIBLE);
-                    mHeader.setText(header);
-                }
-            }
+//            if(position == 0 || (header != null && !header.equals(EaseCommonUtils.getLetter(getItem(position - 1).getNickname())))) {
+//                if(!TextUtils.isEmpty(header)) {
+//                    mHeader.setVisibility(View.VISIBLE);
+//                    mHeader.setText(header);
+//                }
+//            }
 //            EaseUserProfileProvider provider = EaseIM.getInstance().getUserProvider();
 //            if (provider != null){
 //                EaseUser easeUser = provider.getUser(item.getUsername());
