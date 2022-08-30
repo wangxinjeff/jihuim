@@ -181,9 +181,9 @@ public class EaseCallMemberView extends RelativeLayout {
     public void setSpeak(boolean speak,int volume) {
         if(speak){
               int value = 1;
-              value = volume/15  ;
-              if(value > 14){
-                  value =14;
+              value = volume/15;
+              if(value > 13){
+                  value =13;
               }
               if(value == 1){
                   talkingView.setImageResource(R.drawable.ease_mic_level_01);

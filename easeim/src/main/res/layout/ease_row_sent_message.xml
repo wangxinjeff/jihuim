@@ -33,7 +33,7 @@
             android:layout_toStartOf="@id/iv_userhead"
             android:minWidth="30dp"
             android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:paddingEnd="15dp"
             android:paddingTop="9dp"
             android:paddingBottom="9dp"
             android:layout_below="@id/tv_userid"

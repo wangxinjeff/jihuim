@@ -280,7 +280,7 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
                 //图片选择器是否显示数字
                 .withCountable(false)
                 //最大视频长度
-                .withMaxVideoLength(15 * 1000)
+                .withMaxVideoLength(30 * 1000)
                 //最大视频文件大小 单位MB
                 .withMaxVideoSize(10)
                 //最大图片高度 默认1920
@@ -311,7 +311,7 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
                 //图片选择器是否显示数字
                 .withCountable(false)
                 //最大视频长度
-                .withMaxVideoLength(15 * 1000)
+                .withMaxVideoLength(30 * 1000)
                 //最大视频文件大小 单位MB
                 .withMaxVideoSize(10)
                 //最大图片高度 默认1920

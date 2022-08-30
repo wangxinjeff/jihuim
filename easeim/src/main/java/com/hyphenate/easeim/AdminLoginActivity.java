@@ -59,7 +59,11 @@ public class AdminLoginActivity extends BaseInitActivity implements View.OnClick
         unVisibleIcon = findViewById(R.id.un_visible);
         rootView = findViewById(R.id.root_view);
 
-        phoneView.setText(EaseIMHelper.getInstance().getCurrentLoginUser());
+        if(!TextUtils.isEmpty(EaseIMHelper.getInstance().getCurrentLoginUser())){
+            phoneView.setText(EaseIMHelper.getInstance().getCurrentLoginUser());
+            emptyIcon.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override

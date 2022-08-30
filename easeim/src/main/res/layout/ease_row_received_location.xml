@@ -55,7 +55,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:layout_toEndOf="@+id/icon_location"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="9dp"
                 tools:text="数码大厦A座（北京市海淀区）"
                 android:textStyle="bold"
