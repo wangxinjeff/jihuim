@@ -94,6 +94,7 @@
                 android:hint="@string/say_what"
                 android:textSize="@dimen/em_size_normal"
                 android:textColor="?attr/inputTextColor"
+                android:textColorHint="?attr/inputHintColor"
                 />
 
         </FrameLayout>

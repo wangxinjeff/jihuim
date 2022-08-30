@@ -93,6 +93,7 @@ import io.agora.rtc.video.VideoEncoderConfiguration;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.hyphenate.easecallkit.utils.EaseMsgUtils.CALL_INVITE_EXT;
 import static com.hyphenate.easecallkit.utils.EaseMsgUtils.CALL_TIMER_CALL_TIME;
+import static com.hyphenate.easecallkit.utils.EaseMsgUtils.CALL_TIMER_INVITE;
 import static com.hyphenate.easecallkit.utils.EaseMsgUtils.CALL_TIMER_TIMEOUT;
 import static io.agora.rtc.Constants.CHANNEL_PROFILE_LIVE_BROADCASTING;
 import static io.agora.rtc.Constants.CLIENT_ROLE_BROADCASTER;
@@ -1084,7 +1085,8 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
         public void stopTime() {
             Log.e(TAG, "stopTime");
             removeMessages(CALL_TIMER_CALL_TIME);
-            removeMessages(EaseMsgUtils.CALL_TIMER_TIMEOUT);
+            removeMessages(CALL_TIMER_TIMEOUT);
+            removeMessages(CALL_TIMER_INVITE);
         }
 
         @Override
@@ -1140,6 +1142,11 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
             }else if(msg.what == CALL_TIMER_CALL_TIME){
                 timePassed++;
                 updateTime(this);
+            } else if (msg.what == CALL_TIMER_INVITE){
+                if(mUidsList.size() == 1 && TextUtils.equals(mUidsList.get(0).getUserAccount(), EMClient.getInstance().getCurrentUser())){
+                    exitChannel(true);
+                    stopTime();
+                }
             }
             super.handleMessage(msg);
         }
@@ -1211,6 +1218,8 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
             EaseIMHelper.getInstance().addMsgAttrsBeforeSend(textMsg);
             textMsg.setStatus(EMMessage.Status.SUCCESS);
             EMClient.getInstance().chatManager().saveMessage(textMsg);
+
+            timehandler.sendEmptyMessageDelayed(CALL_TIMER_INVITE, 1000 * 30);
         }
 
         //开始定时器
@@ -1564,7 +1573,7 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
                     }
                 }
 
-                if(isSendEnd && mUidsList.size() <= 1 && TextUtils.equals(mUidsList.get(0).getUserAccount(), EMClient.getInstance().getCurrentUser())){
+                if(isSendEnd && mUidsList.size() == 1 && TextUtils.equals(mUidsList.get(0).getUserAccount(), EMClient.getInstance().getCurrentUser())){
                     // 最后退出通话的发送结束消息
                     JSONObject json = EaseCallKit.getInstance().getInviteExt();
 //                    EMMessage message = EMMessage.createTextSendMessage("callState", json.optString("groupId"));

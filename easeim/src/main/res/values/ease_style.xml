@@ -93,6 +93,7 @@
         <item name="inputViewTextColor">@color/input_view_text</item>
         <item name="inputViewBgColor">@color/input_view_bg</item>
         <item name="inputTextColor">@color/input_text</item>
+        <item name="inputHintColor">@color/input_hint_text</item>
 
         <item name="resultNameColor">@color/result_name</item>
         <item name="checkNameColor">@color/check_name</item>
@@ -154,6 +155,7 @@
         <item name="inputViewTextColor">@color/input_view_text_color</item>
         <item name="inputViewBgColor">@color/input_view_bg_color</item>
         <item name="inputTextColor">@color/input_text_color</item>
+        <item name="inputHintColor">@color/input_hint_text_color</item>
 
         <item name="resultNameColor">@color/result_name_color</item>
         <item name="checkNameColor">@color/check_name_color</item>

@@ -347,6 +347,7 @@
     <attr name="inputViewTextColor" format="color"/>
     <attr name="inputViewBgColor" format="color"/>
     <attr name="inputTextColor" format="color"/>
+    <attr name="inputHintColor" format="color"/>
     <attr name="msgBubbleBg" format="color"/>
     <attr name="msgTextColor" format="color"/>
     <attr name="chatRowFileSize" format="color"/>

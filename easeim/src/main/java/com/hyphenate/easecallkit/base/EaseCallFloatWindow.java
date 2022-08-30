@@ -209,25 +209,25 @@ public class EaseCallFloatWindow {
         });
         avatarView = (ImageView) floatView.findViewById(R.id.iv_avatar);
 
-        floatView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Class<? extends EaseBaseCallActivity> callClass = EaseCallKit.getInstance().getCurrentCallClass();
-                Log.e("TAG", "current call class: "+callClass);
-                if(callClass != null) {
-                    Intent intent = new Intent(context, callClass);
-                    intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-                    if(callType != EaseCallType.CONFERENCE_CALL) {
-                        intent.putExtra("uId", singleCallInfo != null ? singleCallInfo.remoteUid : 0);
-                    }
-                    intent.putExtra("isClickByFloat", true);
-                    EaseCallKit.getInstance().getAppContext().startActivity(intent);
-                }else {
-                   EMLog.e(TAG, "Current call class is null, please not call EaseCallKit.getInstance().releaseCall() before the call is finished");
-                }
-                //dismiss();
-            }
-        });
+//        floatView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Class<? extends EaseBaseCallActivity> callClass = EaseCallKit.getInstance().getCurrentCallClass();
+//                Log.e("TAG", "current call class: "+callClass);
+//                if(callClass != null) {
+//                    Intent intent = new Intent(context, callClass);
+//                    intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+//                    if(callType != EaseCallType.CONFERENCE_CALL) {
+//                        intent.putExtra("uId", singleCallInfo != null ? singleCallInfo.remoteUid : 0);
+//                    }
+//                    intent.putExtra("isClickByFloat", true);
+//                    EaseCallKit.getInstance().getAppContext().startActivity(intent);
+//                }else {
+//                   EMLog.e(TAG, "Current call class is null, please not call EaseCallKit.getInstance().releaseCall() before the call is finished");
+//                }
+//                //dismiss();
+//            }
+//        });
 
         floatView.setOnTouchListener(new View.OnTouchListener() {
             boolean result = false;
@@ -264,10 +264,27 @@ public class EaseCallFloatWindow {
                         windowManager.updateViewLayout(floatView, layoutParams);
                         break;
                     case MotionEvent.ACTION_UP:
-                        smoothScrollToBorder();
+                        if(result){
+                            smoothScrollToBorder();
+                        } else {
+                            Class<? extends EaseBaseCallActivity> callClass = EaseCallKit.getInstance().getCurrentCallClass();
+                            Log.e("TAG", "current call class: "+callClass);
+                            if(callClass != null) {
+                                Intent intent = new Intent(context, callClass);
+                                intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+                                if(callType != EaseCallType.CONFERENCE_CALL) {
+                                    intent.putExtra("uId", singleCallInfo != null ? singleCallInfo.remoteUid : 0);
+                                }
+                                intent.putExtra("isClickByFloat", true);
+                                EaseCallKit.getInstance().getAppContext().startActivity(intent);
+                            }else {
+                                EMLog.e(TAG, "Current call class is null, please not call EaseCallKit.getInstance().releaseCall() before the call is finished");
+                            }
+                        }
+
                         break;
                 }
-                return result;
+                return true;
             }
         });
     }
