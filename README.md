@@ -124,7 +124,7 @@ InAppNotification.getInstance().setNotifyName("极狐App")
           });
 ```
 ### 离线推送集成
-获取到厂商推送之后调用api设置给sdk
+获取到厂商token之后调用api设置给sdk
 ```
 EaseIMHelper.getInstance().bindDeviceToken(notifierName, deviceToken);
 ```
