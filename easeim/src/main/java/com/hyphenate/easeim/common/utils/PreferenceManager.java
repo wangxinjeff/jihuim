@@ -87,6 +87,8 @@ public class PreferenceManager {
 	private static String SHARED_KEY_AID = "shared_key_app_aid";
 	private static String SHARED_KEY_AID_TOKEN = "shared_key_app_aid_token";
 	private static String SHARED_KEY_SERVICE_GROUP = "shared_key_app_service_group";
+	private static String SHARED_KEY_DEVICE_TOKEN = "shared_key_device_token";
+	private static String SHARED_KEY_NOTIFIER_NAME = "shared_key_notifier_name";
 
 	@SuppressLint("CommitPrefEdits")
 	private PreferenceManager(Context cxt) {
@@ -634,6 +636,25 @@ public class PreferenceManager {
 
 	public String getServiceGroupJson(){
 		return mSharedPreferences.getString(SHARED_KEY_SERVICE_GROUP, "");
+	}
+
+	public void setDeviceToken(String deviceToken){
+		editor.putString(SHARED_KEY_DEVICE_TOKEN, deviceToken);
+		editor.apply();
+	}
+
+	public String getDeviceToken(){
+		return mSharedPreferences.getString(SHARED_KEY_DEVICE_TOKEN, "");
+	}
+
+
+	public void setNotifierName(String deviceToken){
+		editor.putString(SHARED_KEY_NOTIFIER_NAME, deviceToken);
+		editor.apply();
+	}
+
+	public String getNotifierName(){
+		return mSharedPreferences.getString(SHARED_KEY_NOTIFIER_NAME, "");
 	}
 
 }

@@ -346,8 +346,8 @@
     <string name="em_search_file">文件</string>
     <string name="em_image_and_video">图片及视频</string>
     <string name="em_show_chat_history">显示聊天记录</string>
-    <string name="em_initiated_call">发起音视频通话</string>
-    <string name="em_call_over">音视频通话已经结束</string>
+    <string name="em_initiated_call">发起了语音通话</string>
+    <string name="em_call_over">语音通话已经结束</string>
     <string name="em_message_notify">消息提醒</string>
     <string name="em_search_group">搜索群聊</string>
     <string name="em_create_group">创建群组</string>

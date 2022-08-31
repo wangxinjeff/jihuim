@@ -314,6 +314,19 @@ public class EaseModel {
         return PreferenceManager.getInstance().getServiceGroupJson();
     }
 
+    public String getNotifierName(){
+        return PreferenceManager.getInstance().getNotifierName();
+    }
+
+    public String getDeviceToken(){
+        return PreferenceManager.getInstance().getDeviceToken();
+    }
+
+    public void setDeviceToken(String notifierName,  String deviceToken){
+        PreferenceManager.getInstance().setNotifierName(notifierName);
+        PreferenceManager.getInstance().setDeviceToken(deviceToken);
+    }
+
     enum Key{
         VibrateAndPlayToneOn,
         VibrateOn,

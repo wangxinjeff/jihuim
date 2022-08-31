@@ -75,7 +75,11 @@ public class EaseEvent implements Serializable {
         return type == TYPE.GROUP_NAME;
     }
 
+    public boolean isConfigChange() {
+        return type == TYPE.CONFIG;
+    }
+
     public enum TYPE {
-        GROUP, GROUP_LEAVE, GROUP_NAME, CONTACT, MESSAGE, NOTIFY, CHAT_ROOM, CHAT_ROOM_LEAVE, ACCOUNT
+        GROUP, GROUP_LEAVE, GROUP_NAME, CONTACT, MESSAGE, NOTIFY, CHAT_ROOM, CHAT_ROOM_LEAVE, ACCOUNT, CONFIG
     }
 }

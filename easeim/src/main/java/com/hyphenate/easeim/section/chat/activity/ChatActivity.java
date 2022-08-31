@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeim.EaseIMHelper;
@@ -221,7 +222,11 @@ public class ChatActivity extends BaseInitActivity implements EaseTitleBar.OnBac
 
     @Override
     public void onChatError(int code, String errorMsg) {
-        showToast(errorMsg);
+        if(code == EMError.USER_MUTED){
+            showToast(getString(R.string.em_group_yourself_mute));
+        } else {
+            showToast(getString(R.string.send_failure_please));
+        }
     }
 
     @Override

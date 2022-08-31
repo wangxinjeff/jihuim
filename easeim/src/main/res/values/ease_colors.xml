@@ -78,7 +78,7 @@
     <color name="check_name_color">#7e7e7e</color>
     <color name="detail_divider_color">#2e2e2e</color>
 
-    <color name="send_bubble_bg_color">#305b77</color>
+    <color name="send_bubble_bg_color">#80305b77</color>
     <color name="send_text_color">#b9b9b9</color>
     <color name="receive_bubble_bg_color">#252525</color>
     <color name="voice_btn_normal_color">#3c3c3c</color>

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easecallkit.base.EaseCallType;
 
@@ -37,6 +38,7 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.widget.EaseTitleBar;
+import com.hyphenate.util.EMLog;
 
 import java.util.ArrayList;
 
@@ -148,10 +150,21 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
         super.initData();
         initViewModel();
         ChatPresenter.getInstance().init();
+        if(EaseIMHelper.getInstance().isAdmin()){
+            if(!TextUtils.isEmpty(EaseIMHelper.getInstance().getModel().getDeviceToken())){
+                EMClient.getInstance().pushManager().bindDeviceToken(EaseIMHelper.getInstance().getModel().getNotifierName(), EaseIMHelper.getInstance().getModel().getDeviceToken(), new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        EMLog.e("EMPushManager", "bindDeviceToken success");
+                    }
 
-//        requestPermissions();
-        // 获取华为 HMS 推送 token
-//        HMSPushHelper.getInstance().getHMSToken(this, "102920687");
+                    @Override
+                    public void onError(int i, String s) {
+                        EMLog.e("EMPushManager", "bindDeviceToken failed: " + i + ", " +s);
+                    }
+                });
+            }
+        }
 
         //判断是否为来电推送
         if(PushUtils.isRtcCall){

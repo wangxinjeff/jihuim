@@ -112,6 +112,19 @@ public class EMGroupManagerRepository extends BaseEMRepository{
         getGroupManager().asyncGetJoinedGroupsFromServer(new EMValueCallBack<List<EMGroup>>() {
             @Override
             public void onSuccess(List<EMGroup> value) {
+                for(EMGroup group : value){
+                    getGroupManager().asyncGetGroupFromServer(group.getGroupId(), new EMValueCallBack<EMGroup>() {
+                        @Override
+                        public void onSuccess(EMGroup emGroup) {
+
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+
+                        }
+                    });
+                }
                 if(callBack != null) {
                     callBack.onSuccess(value);
                 }

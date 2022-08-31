@@ -70,6 +70,8 @@ public interface EaseConstant {
     String DEFAULT_SYSTEM_MESSAGE_ID = "em_system";
     String DEFAULT_SYSTEM_MESSAGE_TYPE = "em_system_type";
 
+    String FETCH_CONFIG = "fetch_config";
+    String CONFIG_NO_PUSH = "no_push_config";
     String ACCOUNT_CHANGE = "account_change";
     String ACCOUNT_DIS = "account_disconnect";
     String ACCOUNT_CONNECT = "account_connect";

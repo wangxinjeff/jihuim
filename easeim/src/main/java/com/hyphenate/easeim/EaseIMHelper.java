@@ -1054,4 +1054,26 @@ public class EaseIMHelper {
     public void setAidToken(String token){
         getModel().setAidToken(token);
     }
+
+    /**
+     * 设置推送证书
+     * @param notifierName
+     * @param deviceToken
+     */
+    public void bindDeviceToken(String notifierName, String deviceToken){
+        getModel().setDeviceToken(notifierName, deviceToken);
+        if(EMClient.getInstance().isSdkInited() && EMClient.getInstance().isLoggedIn()){
+            EMClient.getInstance().pushManager().bindDeviceToken(notifierName, deviceToken, new EMCallBack() {
+                @Override
+                public void onSuccess() {
+                    EMLog.e("EMPushManager", "bindDeviceToken success");
+                }
+
+                @Override
+                public void onError(int i, String s) {
+                    EMLog.e("EMPushManager", "bindDeviceToken failed: " + i + ", " +s);
+                }
+            });
+        }
+    }
 }

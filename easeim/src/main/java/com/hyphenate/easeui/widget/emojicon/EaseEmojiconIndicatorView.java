@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.widget.EImageView;
 import com.hyphenate.util.DensityUtil;
@@ -45,8 +46,13 @@ public class EaseEmojiconIndicatorView extends LinearLayout{
     private void init(Context context, AttributeSet attrs){
         this.context = context;
         dotHeight = DensityUtil.dip2px(context, dotHeight);
-        selectedBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.em_dot_emojicon_selected);
-        unselectedBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.em_dot_emojicon_unselected);
+        if(EaseIMHelper.getInstance().isAdmin()){
+            selectedBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.em_dot_emojicon_selected_admin);
+            unselectedBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.em_dot_emojicon_unselected_admin);
+        } else {
+            selectedBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.em_dot_emojicon_selected);
+            unselectedBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.em_dot_emojicon_unselected);
+        }
         setGravity(Gravity.CENTER_HORIZONTAL);
     }
     

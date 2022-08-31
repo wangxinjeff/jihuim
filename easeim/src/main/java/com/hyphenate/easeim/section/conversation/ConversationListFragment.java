@@ -182,6 +182,15 @@ public class ConversationListFragment extends EaseConversationListFragment{
             }
         });
 
+        messageChange.with(EaseConstant.FETCH_CONFIG, EaseEvent.class).observe(getViewLifecycleOwner(), event -> {
+            if(event == null) {
+                return;
+            }
+            if(event.isConfigChange()){
+                loadList(event);
+            }
+        });
+
         messageChange.with(EaseConstant.GROUP_CHANGE, EaseEvent.class).observe(getViewLifecycleOwner(), this::loadList);
         messageChange.with(EaseConstant.CHAT_ROOM_CHANGE, EaseEvent.class).observe(getViewLifecycleOwner(), this::loadList);
         messageChange.with(EaseConstant.CONVERSATION_DELETE, EaseEvent.class).observe(getViewLifecycleOwner(), this::loadList);

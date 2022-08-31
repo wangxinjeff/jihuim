@@ -459,6 +459,7 @@ public class ChatPresenter extends EaseChatPresenter {
                 new EMPushManagerRepository().fetchPushConfigsFromServer();
                 new EMClientRepository().fetchSelfInfo();
                 isPushConfigsWithServer = true;
+                LiveDataBus.get().with(EaseConstant.FETCH_CONFIG).postValue(new EaseEvent(EaseConstant.CONFIG_NO_PUSH, EaseEvent.TYPE.CONFIG));
             }
 
             LiveDataBus.get().with(EaseConstant.ACCOUNT_CHANGE).postValue(new EaseEvent(EaseConstant.ACCOUNT_CONNECT, EaseEvent.TYPE.ACCOUNT));
