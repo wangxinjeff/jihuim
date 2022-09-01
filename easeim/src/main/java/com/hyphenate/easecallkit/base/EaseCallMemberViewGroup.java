@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Pair;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Scroller;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.hyphenate.easeim.EaseIMHelper;
@@ -68,6 +71,16 @@ public class EaseCallMemberViewGroup extends ViewGroup {
    // Android系统认为touch事件为滑动事件的最小距离
    int touchSlop;
 
+   private Handler handler = new Handler(getContext().getMainLooper()){
+       @Override
+       public void handleMessage(@NonNull Message msg) {
+           if(pageIndex >= pageCount){
+               pageIndex = pageCount - 1;
+               scrollTo(pageIndex, true);
+           }
+       }
+   };
+
    public EaseCallMemberViewGroup(Context context) {
        super(context);
        init();
@@ -93,8 +106,16 @@ public class EaseCallMemberViewGroup extends ViewGroup {
        Point p = new Point();
        wm.getDefaultDisplay().getSize(p);
        pageWidth = p.x;
-       screenHeight = p.y;
+       screenHeight = pageWidth;
        touchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+       post(new Runnable() {
+           @Override
+           public void run() {
+               pageWidth = getWidth();
+               screenHeight = getHeight();
+               calculateChildrenParamsAndSet();
+           }
+       });
    }
 
 
@@ -522,6 +543,8 @@ public class EaseCallMemberViewGroup extends ViewGroup {
        int count = (getChildCount() - 1) / MAX_SIZE_PER_PAGE + 1;
        if (pageCount != count && onPageStatusListener != null) {
            onPageStatusListener.onPageCountChange(count);
+           handler.removeMessages(0);
+           handler.sendEmptyMessageDelayed(0, 1000);
        }
        pageCount = count;
    }
@@ -595,10 +618,10 @@ public class EaseCallMemberViewGroup extends ViewGroup {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 //        if (hasFocus) {
-            pageWidth = this.getMeasuredWidth();
-            screenHeight = this.getMeasuredHeight();
+//            pageWidth = this.getMeasuredWidth();
+//            screenHeight = this.getMeasuredHeight();
 //            EMLog.d(TAG, "onWindowFocusChanged, width= " + this.getMeasuredWidth() + " height= " + this.getMeasuredHeight());
-           calculateChildrenParamsAndSet();
+//           calculateChildrenParamsAndSet();
        // }
     }
 
@@ -628,4 +651,10 @@ public class EaseCallMemberViewGroup extends ViewGroup {
            onScreenModeChangeListener.onScreenModeChange(isFullScreenMode(), fullScreenView);
        }
    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        handler.removeMessages(0);
+    }
 }
