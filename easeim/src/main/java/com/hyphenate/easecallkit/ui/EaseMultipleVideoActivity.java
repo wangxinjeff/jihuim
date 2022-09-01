@@ -28,6 +28,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,8 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.constants.EaseConstant;
+import com.hyphenate.easeui.model.EaseEvent;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.util.EMLog;
 
 import org.json.JSONException;
@@ -152,6 +155,9 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
     private String invite_ext;
     private String agoraAppId = null;
     private boolean isNewConference = false;
+    private LinearLayout tagView;
+    private int selectPage = 0;
+    private List<ImageView> dotViews;
 
     private static final int PERMISSION_REQ_ID = 22;
     private static final String[] REQUESTED_PERMISSIONS = {
@@ -596,6 +602,7 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
         incomingCallView = (EaseCommingCallView)findViewById(R.id.incoming_call_view);
         callConferenceViewGroup = (EaseCallMemberViewGroup)findViewById(R.id.surface_view_group);
         inviteBtn = (ImageView)findViewById(R.id.btn_invite);
+        tagView = findViewById(R.id.page_tag_view);
         callTimeView = (TextView)findViewById(R.id.tv_call_time);
         micSwitch = (ImageButton) findViewById(R.id.btn_mic_switch);
         cameraSwitch = (ImageButton) findViewById(R.id.btn_camera_switch);
@@ -646,7 +653,65 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
             //主叫加入频道
             initEngineAndJoinChannel();
         }
+        callConferenceViewGroup.setOnPageStatusListener(new EaseCallMemberViewGroup.OnPageStatusListener() {
+            @Override
+            public void onPageCountChange(int count) {
+                if(isFinishing()){
+                    return;
+                }
+                if(dotViews == null){
+                    dotViews = new ArrayList<>();
+                }
+
+                if(count == 1){
+                    tagView.removeAllViews();
+                    dotViews.clear();
+                    return;
+                }
+
+                int size = dotViews.size();
+                if(count > size){
+                    for(int i = 0; i < (count - size); i ++){
+                        ImageView view = new ImageView(getBaseContext());
+                        view.setImageResource(R.drawable.ease_dot_emojicon_selected);
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        layoutParams.setMargins((int) EaseCommonUtils.dip2px(getBaseContext(), 4), 0, (int)EaseCommonUtils.dip2px(getBaseContext(), 4), 0);
+                        dotViews.add(view);
+                        tagView.addView(view, layoutParams);
+                    }
+                } else {
+                    for(int i = size - 1; i > count; i --){
+                        tagView.removeViewAt(i);
+                        dotViews.remove(i);
+                    }
+                }
+                if(selectPage == 0){
+                    dotViews.get(0).setImageResource(R.drawable.ease_dot_emojicon_unselected);
+                }
+            }
+
+            @Override
+            public void onPageScroll(int page) {
+                if(isFinishing()){
+                    return;
+                }
+                selectPage = page;
+                if(dotViews == null){
+                    return;
+                }
+
+                for(int i = 0; i < dotViews.size(); i ++){
+                    if(page == i){
+                        dotViews.get(i).setImageResource(R.drawable.ease_dot_emojicon_unselected);
+                    } else {
+                        dotViews.get(i).setImageResource(R.drawable.ease_dot_emojicon_selected);
+                    }
+                }
+            }
+        });
     }
+
+
 
     private void initParams(Bundle bundle){
         if(bundle != null) {
@@ -1630,6 +1695,7 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
                     EaseIMHelper.getInstance().addMsgAttrsBeforeSend(textMsg);
                     textMsg.setStatus(EMMessage.Status.SUCCESS);
                     EMClient.getInstance().chatManager().saveMessage(textMsg);
+                    LiveDataBus.get().with(EaseConstant.MESSAGE_CHANGE_CHANGE).postValue(new EaseEvent(EaseConstant.MESSAGE_CHANGE_CHANGE, EaseEvent.TYPE.MESSAGE));
                 }
 
                 if(isFloatWindowShowing()){
