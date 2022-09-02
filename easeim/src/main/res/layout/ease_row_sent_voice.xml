@@ -36,7 +36,7 @@
             android:layout_marginTop="2dp"
             app:arrow_direction="right"
             app:fill_color="?attr/msgBubbleBg"
-            app:stroke_color="?attr/msgBubbleBg"
+            app:stroke_color="@color/transparent"
             app:conner_radius="2dp"
             app:arrow_up_distance="10dp"
             >

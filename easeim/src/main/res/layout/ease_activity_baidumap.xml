@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="?attr/themeFloatBgColor"
+        android:background="?attr/themeBgColor"
         >
 
         <include layout="@layout/ease_layout_search"

@@ -199,7 +199,9 @@
                 app:arrowItemBContentShow="true"
                 app:arrowItemBContent="@string/em_not_setting"
                 app:arrowItemBContentColor="?attr/groupDetailContent"
-                style="@style/em_group_arrow_item"/>
+                style="@style/em_group_arrow_item"
+                android:layout_height="80dp"
+                />
 
             <com.hyphenate.easeim.common.widget.ArrowItemView
                 android:id="@+id/item_group_introduction"
@@ -214,7 +216,8 @@
                 app:arrowItemBContentShow="true"
                 app:arrowItemBContent="@string/em_not_setting"
                 app:arrowItemBContentColor="?attr/groupDetailContent"
-                style="@style/em_group_arrow_item"/>
+                style="@style/em_group_arrow_item"
+                android:layout_height="80dp"/>
 
             <com.hyphenate.easeim.common.widget.ArrowItemView
                 android:id="@+id/item_group_mute"

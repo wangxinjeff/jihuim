@@ -34,7 +34,7 @@
             android:layout_below="@id/tv_userid"
             app:arrow_direction="right"
             app:fill_color="?attr/msgBubbleBg"
-            app:stroke_color="?attr/msgBubbleBg"
+            app:stroke_color="@color/transparent"
             app:conner_radius="2dp"
             android:paddingEnd="14dp"
             android:paddingStart="10dp"

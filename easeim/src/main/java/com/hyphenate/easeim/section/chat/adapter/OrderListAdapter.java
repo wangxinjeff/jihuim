@@ -16,6 +16,11 @@ public class OrderListAdapter extends EaseBaseRecyclerViewAdapter<EMOrder> {
     private OnOrderClickSendListener listener;
 
     @Override
+    public int getEmptyLayoutId() {
+        return R.layout.ease_layout_no_data;
+    }
+
+    @Override
     public ViewHolder getViewHolder(ViewGroup parent, int viewType) {
         return new OrderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.em_order_item, parent, false));
     }

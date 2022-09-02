@@ -68,7 +68,8 @@
             tools:text="som"
             android:textColor="?attr/chatRowNick"
             android:layout_toRightOf="@id/iv_userhead"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:layout_marginBottom="2dp"/>
     </RelativeLayout>
 
 </LinearLayout>

@@ -32,6 +32,7 @@
             android:textSize="@dimen/em_size_small"
             android:textColor="?attr/chatRowNick"
             android:layout_toEndOf="@id/iv_userhead"
+            android:layout_marginBottom="2dp"
             android:visibility="gone" />
 
         <RelativeLayout
