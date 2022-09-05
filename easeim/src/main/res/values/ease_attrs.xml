@@ -366,6 +366,7 @@
     <attr name="conItemSelectColor" format="color"/>
     <attr name="btnUnClick" format="color"/>
     <attr name="btnClick" format="color"/>
+    <attr name="mapSearchBgColor" format="color"/>
 
     <attr name="emtoolbar" format="reference"/>
     <attr name="emalbum.dropdown.title.color" format="reference|color"/>
