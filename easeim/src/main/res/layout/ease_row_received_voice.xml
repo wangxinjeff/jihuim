@@ -32,7 +32,6 @@
             android:layout_toEndOf="@id/iv_userhead"
             android:layout_marginStart="@dimen/chat_bubble_margin_left"
             android:layout_below="@+id/tv_userid"
-            android:layout_marginTop="2dp"
             app:arrow_direction="left"
             app:fill_color="?attr/rmsgBubbleBg"
             app:stroke_color="?attr/rmsgBubbleBg"
@@ -93,6 +92,7 @@
             android:textSize="@dimen/em_size_small"
              android:textColor="?attr/chatRowNick"
             android:layout_toRightOf="@id/iv_userhead"
+             android:layout_marginBottom="2dp"
             android:visibility="gone" />
     </RelativeLayout>
 

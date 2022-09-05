@@ -45,6 +45,7 @@
     <dimen name="em_login_text_size">@dimen/em_size_big</dimen>
 
     <dimen name="em_margin_15">15dp</dimen>
+    <dimen name="em_margin_16">16dp</dimen>
     <dimen name="em_margin_10">10dp</dimen>
     <dimen name="em_margin_20">20dp</dimen>
     <dimen name="em_margin_30">30dp</dimen>

@@ -85,17 +85,14 @@ public class AdminLoginActivity extends BaseInitActivity implements View.OnClick
                 if(!TextUtils.isEmpty(phoneView.getText().toString().trim())){
                     emptyIcon.setVisibility(View.VISIBLE);
                     if(!TextUtils.isEmpty(passwordView.getText().toString().trim())){
-                        btnLogin.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.em_login_btn_bg));
                         btnLogin.setEnabled(true);
                         btnLogin.setTextColor(ContextCompat.getColor(mContext, R.color.white));
                     } else {
-                        btnLogin.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.em_login_btn_unable_bg));
                         btnLogin.setEnabled(false);
                         btnLogin.setTextColor(ContextCompat.getColor(mContext, R.color.con_content_time));
                     }
                 } else {
                     emptyIcon.setVisibility(View.INVISIBLE);
-                    btnLogin.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.em_login_btn_unable_bg));
                     btnLogin.setEnabled(false);
                     btnLogin.setTextColor(ContextCompat.getColor(mContext, R.color.con_content_time));
                 }
@@ -117,16 +114,13 @@ public class AdminLoginActivity extends BaseInitActivity implements View.OnClick
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!TextUtils.isEmpty(passwordView.getText().toString().trim())){
                     if(!TextUtils.isEmpty(phoneView.getText().toString().trim())){
-                        btnLogin.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.em_login_btn_bg));
                         btnLogin.setEnabled(true);
                         btnLogin.setTextColor(ContextCompat.getColor(mContext, R.color.white));
                     } else {
-                        btnLogin.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.em_login_btn_unable_bg));
                         btnLogin.setEnabled(false);
                         btnLogin.setTextColor(ContextCompat.getColor(mContext, R.color.con_content_time));
                     }
                 } else {
-                    btnLogin.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.em_login_btn_unable_bg));
                     btnLogin.setEnabled(false);
                     btnLogin.setTextColor(ContextCompat.getColor(mContext, R.color.con_content_time));
                 }
