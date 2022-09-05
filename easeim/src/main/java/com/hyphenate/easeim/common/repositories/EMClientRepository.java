@@ -203,7 +203,6 @@ public class EMClientRepository extends BaseEMRepository{
             @Override
             public void onSuccess() {
                 getServiceGroups(callBack);
-                new EMChatManagerRepository().fetchConversationsFromServer();
             }
 
             @Override
@@ -226,6 +225,7 @@ public class EMClientRepository extends BaseEMRepository{
                 EaseIMHelper.getInstance().getModel().setCurrentUserName(userName);
                 loginSuccess();
                 setAutoLogin(true);
+                new EMChatManagerRepository().fetchConversationsFromServer();
                 callBack.onSuccess();
             }
 

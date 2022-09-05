@@ -98,7 +98,7 @@ public class GroupDetailMemberAdapter extends RecyclerView.Adapter<GroupDetailMe
                 userData = data;
             } else {
                 if(data.size() > 12){
-                    userData = data.subList(0, 11);
+                    userData = data.subList(0, 12);
                 } else {
                     userData = data;
                 }

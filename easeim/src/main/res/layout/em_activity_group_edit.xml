@@ -25,11 +25,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="300dp"
-        android:layout_marginLeft="@dimen/em_margin_30"
-        android:layout_marginRight="@dimen/em_margin_30"
-        android:layout_marginStart="@dimen/em_margin_30"
-        android:layout_marginEnd="@dimen/em_margin_30"
-        android:paddingTop="10dp"
+        android:layout_marginStart="@dimen/em_margin_16"
+        android:layout_marginEnd="@dimen/em_margin_16"
+        android:paddingTop="@dimen/em_margin_16"
         tools:hint="请输入群公告"
         android:gravity="left|top"
         android:textColor="?attr/normalTextColor"
@@ -80,7 +78,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/themeFloatBgColor"
             android:layout_marginTop="12dp"
-            android:padding="20dp"
+            android:padding="16dp"
             >
 
             <androidx.appcompat.widget.AppCompatTextView

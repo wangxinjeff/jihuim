@@ -122,6 +122,13 @@ public class EaseCommonUtils {
                     }
                 }
             }
+
+            if(TextUtils.equals(":",nick) || TextUtils.isEmpty(nick)){
+                EaseUser user = EaseUserUtils.getUserInfo(message.getFrom());
+                if(user != null) {
+                    nick = user.getNickname() + ":";
+                }
+            }
         }
         switch (message.getType()) {
         case LOCATION:
