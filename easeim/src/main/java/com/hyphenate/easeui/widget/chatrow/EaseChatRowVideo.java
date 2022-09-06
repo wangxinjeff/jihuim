@@ -45,6 +45,9 @@ public class EaseChatRowVideo extends EaseChatRowFile {
         timeLengthView = (TextView) findViewById(R.id.chatting_length_iv);
         playView = (ImageView) findViewById(R.id.chatting_status_btn);
         percentageView = (TextView) findViewById(R.id.percentage);
+        if(percentageView != null){
+            percentageView.setVisibility(INVISIBLE);
+        }
 	}
 
 	@Override
