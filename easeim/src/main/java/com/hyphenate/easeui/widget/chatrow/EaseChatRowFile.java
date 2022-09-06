@@ -55,6 +55,9 @@ public class EaseChatRowFile extends EaseChatRow {
         fileSizeView = (TextView) findViewById(R.id.tv_file_size);
         fileStateView = (TextView) findViewById(R.id.tv_file_state);
         percentageView = (TextView) findViewById(R.id.percentage);
+        if(percentageView != null){
+            percentageView.setVisibility(INVISIBLE);
+        }
         fileTypeImg = findViewById(R.id.file_type);
 	}
 
@@ -117,8 +120,8 @@ public class EaseChatRowFile extends EaseChatRow {
     protected void onMessageCreate() {
         super.onMessageCreate();
         progressBar.setVisibility(View.VISIBLE);
-        if (percentageView != null)
-            percentageView.setVisibility(View.INVISIBLE);
+//        if (percentageView != null)
+//            percentageView.setVisibility(View.INVISIBLE);
         if (statusView != null)
             statusView.setVisibility(View.INVISIBLE);
     }
@@ -127,8 +130,8 @@ public class EaseChatRowFile extends EaseChatRow {
     protected void onMessageSuccess() {
         super.onMessageSuccess();
         progressBar.setVisibility(View.INVISIBLE);
-        if (percentageView != null)
-            percentageView.setVisibility(View.INVISIBLE);
+//        if (percentageView != null)
+//            percentageView.setVisibility(View.INVISIBLE);
         if (statusView != null)
             statusView.setVisibility(View.INVISIBLE);
         if (message.direct() == EMMessage.Direct.SEND)
@@ -141,8 +144,8 @@ public class EaseChatRowFile extends EaseChatRow {
     protected void onMessageError() {
         super.onMessageError();
         progressBar.setVisibility(View.INVISIBLE);
-        if (percentageView != null)
-            percentageView.setVisibility(View.INVISIBLE);
+//        if (percentageView != null)
+//            percentageView.setVisibility(View.INVISIBLE);
         if (statusView != null)
             statusView.setVisibility(View.VISIBLE);
     }
@@ -153,10 +156,10 @@ public class EaseChatRowFile extends EaseChatRow {
         if(progressBar.getVisibility() != VISIBLE) {
             progressBar.setVisibility(View.VISIBLE);
         }
-        if (percentageView != null) {
-            percentageView.setVisibility(View.VISIBLE);
-            percentageView.setText(message.progress() + "%");
-        }
+//        if (percentageView != null) {
+//            percentageView.setVisibility(View.VISIBLE);
+//            percentageView.setText(message.progress() + "%");
+//        }
         if (statusView != null)
             statusView.setVisibility(View.INVISIBLE);
     }

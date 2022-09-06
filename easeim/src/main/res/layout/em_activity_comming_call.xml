@@ -31,31 +31,31 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="43dp">
+        android:layout_marginTop="54dp">
 
 
         <RelativeLayout
             android:id="@+id/avatar_view"
             android:layout_width="match_parent"
-            android:layout_height="228dp"
+            android:layout_height="wrap_content"
             >
             <com.hyphenate.easeim.common.widget.SpreadView
-                android:layout_width="228dp"
-                android:layout_height="228dp"
+                android:layout_width="238dp"
+                android:layout_height="238dp"
                 android:layout_centerInParent="true"
                 app:spread_center_color="@android:color/white"
-                app:spread_delay_milliseconds="350"
-                app:spread_distance="23dp"
-                app:spread_radius="39dp"
+                app:spread_delay_milliseconds="55"
+                app:spread_distance="5"
+                app:spread_radius="40"
+                app:spread_max_radius="60"
                 app:spread_spread_color="@android:color/white"
                 />
 
             <com.hyphenate.easecallkit.widget.EaseImageView
                 android:id="@+id/iv_avatar"
-                android:layout_width="124dp"
-                android:layout_height="124dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="22dp"
                 android:src="@drawable/ease_default_avatar"/>
         </RelativeLayout>
 

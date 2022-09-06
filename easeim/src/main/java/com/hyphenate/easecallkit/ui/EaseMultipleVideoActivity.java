@@ -673,7 +673,7 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
                 if(count > size){
                     for(int i = 0; i < (count - size); i ++){
                         ImageView view = new ImageView(getBaseContext());
-                        view.setImageResource(R.drawable.em_call_page_selected);
+                        view.setImageResource(R.drawable.em_call_page_unselected);
                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                         layoutParams.setMargins((int) EaseCommonUtils.dip2px(getBaseContext(), 2), 0, (int)EaseCommonUtils.dip2px(getBaseContext(), 2), 0);
                         dotViews.add(view);
@@ -686,7 +686,7 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
                     }
                 }
                 if(selectPage == 0){
-                    dotViews.get(0).setImageResource(R.drawable.em_call_page_unselected);
+                    dotViews.get(0).setImageResource(R.drawable.em_call_page_selected);
                 }
             }
 
@@ -702,9 +702,9 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
 
                 for(int i = 0; i < dotViews.size(); i ++){
                     if(page == i){
-                        dotViews.get(i).setImageResource(R.drawable.em_call_page_unselected);
-                    } else {
                         dotViews.get(i).setImageResource(R.drawable.em_call_page_selected);
+                    } else {
+                        dotViews.get(i).setImageResource(R.drawable.em_call_page_unselected);
                     }
                 }
             }
