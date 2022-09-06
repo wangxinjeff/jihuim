@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData;
 
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.common.db.EaseDbHelper;
-import com.hyphenate.easeim.common.db.entity.MsgTypeManageEntity;
 import com.hyphenate.easeim.common.livedatas.SingleSourceLiveData;
 import com.hyphenate.easeim.common.net.ErrorCode;
 import com.hyphenate.easeim.common.net.Resource;
@@ -80,23 +79,4 @@ public class ConversationListViewModel extends AndroidViewModel {
         return readConversationObservable;
     }
 
-    /**
-     * 删除系统消息
-     * @param msg
-     */
-    public void deleteSystemMsg(MsgTypeManageEntity msg) {
-        try {
-            EaseDbHelper dbHelper = EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication());
-            if(dbHelper.getInviteMessageDao() != null) {
-                dbHelper.getInviteMessageDao().delete("type", msg.getType());
-            }
-            if(dbHelper.getMsgTypeManageDao() != null) {
-                dbHelper.getMsgTypeManageDao().delete(msg);
-            }
-            deleteConversationObservable.postValue(Resource.success(true));
-        } catch (Exception e) {
-            e.printStackTrace();
-            deleteConversationObservable.postValue(Resource.error(ErrorCode.EM_DELETE_SYS_MSG_ERROR, e.getMessage(), null));
-        }
-    }
 }

@@ -504,22 +504,6 @@ public class EaseIMHelper {
     }
 
     /**
-     * 向数据库中插入数据
-     * @param object
-     */
-    public void insert(Object object) {
-        easeModel.insert(object);
-    }
-
-    /**
-     * update
-     * @param object
-     */
-    public void update(Object object) {
-        easeModel.update(object);
-    }
-
-    /**
      * update user list
      * @param users
      */
@@ -588,29 +572,6 @@ public class EaseIMHelper {
     }
 
     /**
-     * 删除联系人
-     * @param username
-     * @return
-     */
-    public synchronized int deleteContact(String username) {
-        if(TextUtils.isEmpty(username)) {
-            return 0;
-        }
-        EaseDbHelper helper = EaseDbHelper.getInstance(application);
-        if(helper.getUserDao() == null) {
-            return 0;
-        }
-        int num = helper.getUserDao().deleteUser(username);
-        if(helper.getInviteMessageDao() != null) {
-            helper.getInviteMessageDao().deleteByFrom(username);
-        }
-        EMClient.getInstance().chatManager().deleteConversation(username, false);
-        getModel().deleteUsername(username, false);
-        Log.e(TAG, "delete num = "+num);
-        return num;
-    }
-
-    /**
      * 检查是否是第一次安装登录
      * 默认值是true, 需要在用api拉取完会话列表后，就其置为false.
      * @return
@@ -625,14 +586,6 @@ public class EaseIMHelper {
      */
     public void makeNotFirstInstall() {
         getModel().makeNotFirstInstall();
-    }
-
-    /**
-     * 检查会话列表是否从服务器返回数据
-     * @return
-     */
-    public boolean isConComeFromServer() {
-        return getModel().isConComeFromServer();
     }
 
     /**

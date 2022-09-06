@@ -14,8 +14,6 @@ import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeim.EaseIMHelper;
-import com.hyphenate.easeim.common.db.entity.InviteMessage;
-import com.hyphenate.easeim.common.db.entity.MsgTypeManageEntity;
 import com.hyphenate.easeim.common.interfaceOrImplement.ResultCallBack;
 import com.hyphenate.easeim.common.model.EMOrder;
 import com.hyphenate.easeim.common.net.ErrorCode;
@@ -90,26 +88,6 @@ public class EMChatManagerRepository extends BaseEMRepository{
                         topSortList.add(new Pair<>(Long.valueOf(extField), conversation));
                     }else {
                         sortList.add(new Pair<Long, Object>(conversation.getLastMessage().getMsgTime(), conversation));
-                    }
-                }
-            }
-        }
-        List<MsgTypeManageEntity> manageEntities = null;
-        if(getMsgTypeManageDao() != null) {
-            manageEntities = getMsgTypeManageDao().loadAllMsgTypeManage();
-        }
-        if(manageEntities != null && !manageEntities.isEmpty()) {
-            synchronized (EMChatManagerRepository.class) {
-                for (MsgTypeManageEntity manage : manageEntities) {
-                    String extField = manage.getExtField();
-                    if(!TextUtils.isEmpty(extField) && EaseCommonUtils.isTimestamp(extField)) {
-                        topSortList.add(new Pair<>(Long.valueOf(extField), manage));
-                    }else {
-                        Object lastMsg = manage.getLastMsg();
-                        if(lastMsg instanceof InviteMessage) {
-                            long time = ((InviteMessage) lastMsg).getTime();
-                            sortList.add(new Pair<>(time, manage));
-                        }
                     }
                 }
             }

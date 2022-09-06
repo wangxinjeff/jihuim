@@ -7,10 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
-import com.hyphenate.easeim.common.db.dao.AppKeyDao;
 import com.hyphenate.easeim.common.db.dao.EmUserDao;
-import com.hyphenate.easeim.common.db.dao.InviteMessageDao;
-import com.hyphenate.easeim.common.db.dao.MsgTypeManageDao;
 import com.hyphenate.easeim.common.utils.MD5;
 import com.hyphenate.util.EMLog;
 
@@ -82,30 +79,6 @@ public class EaseDbHelper {
             return mDatabase.userDao();
         }
         EMLog.i(TAG, "get userDao failed, should init db first");
-        return null;
-    }
-
-    public InviteMessageDao getInviteMessageDao() {
-        if(mDatabase != null) {
-            return mDatabase.inviteMessageDao();
-        }
-        EMLog.i(TAG, "get inviteMessageDao failed, should init db first");
-        return null;
-    }
-
-    public MsgTypeManageDao getMsgTypeManageDao() {
-        if(mDatabase != null) {
-            return mDatabase.msgTypeManageDao();
-        }
-        EMLog.i(TAG, "get msgTypeManageDao failed, should init db first");
-        return null;
-    }
-
-    public AppKeyDao getAppKeyDao() {
-        if(mDatabase != null) {
-            return mDatabase.appKeyDao();
-        }
-        EMLog.i(TAG, "get appKeyDao failed, should init db first");
         return null;
     }
 }

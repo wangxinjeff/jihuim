@@ -2,24 +2,16 @@ package com.hyphenate.easeim.common.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.text.TextUtils;
 
 import com.hyphenate.chat.EMChatRoom;
-import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.common.db.EaseDbHelper;
-import com.hyphenate.easeim.common.db.dao.AppKeyDao;
 import com.hyphenate.easeim.common.db.dao.EmUserDao;
-import com.hyphenate.easeim.common.db.entity.AppKeyEntity;
 import com.hyphenate.easeim.common.db.entity.EmUserEntity;
-import com.hyphenate.easeim.common.db.entity.InviteMessage;
-import com.hyphenate.easeim.common.db.entity.MsgTypeManageEntity;
-import com.hyphenate.easeim.common.manager.OptionsHelper;
 import com.hyphenate.easeim.common.utils.PreferenceManager;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.manager.EasePreferenceManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,49 +93,6 @@ public class EaseModel {
     public EaseDbHelper getDbHelper() {
         return EaseDbHelper.getInstance(EaseIMHelper.getInstance().getApplication());
     }
-
-    /**
-     * 向数据库中插入数据
-     * @param object
-     */
-    public void insert(Object object) {
-        EaseDbHelper dbHelper = getDbHelper();
-        if(object instanceof InviteMessage) {
-            if(dbHelper.getInviteMessageDao() != null) {
-                dbHelper.getInviteMessageDao().insert((InviteMessage) object);
-            }
-        }else if(object instanceof MsgTypeManageEntity) {
-            if(dbHelper.getMsgTypeManageDao() != null) {
-                dbHelper.getMsgTypeManageDao().insert((MsgTypeManageEntity) object);
-            }
-        }else if(object instanceof EmUserEntity) {
-            if(dbHelper.getUserDao() != null) {
-                dbHelper.getUserDao().insert((EmUserEntity) object);
-            }
-        }
-    }
-
-    /**
-     * update
-     * @param object
-     */
-    public void update(Object object) {
-        EaseDbHelper dbHelper = getDbHelper();
-        if(object instanceof InviteMessage) {
-            if(dbHelper.getInviteMessageDao() != null) {
-                dbHelper.getInviteMessageDao().update((InviteMessage) object);
-            }
-        }else if(object instanceof MsgTypeManageEntity) {
-            if(dbHelper.getMsgTypeManageDao() != null) {
-                dbHelper.getMsgTypeManageDao().update((MsgTypeManageEntity) object);
-            }
-        }else if(object instanceof EmUserEntity) {
-            if(dbHelper.getUserDao() != null) {
-                dbHelper.getUserDao().insert((EmUserEntity) object);
-            }
-        }
-    }
-
 
     /**
      * 查找有关用户用户属性过期的用户ID

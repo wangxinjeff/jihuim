@@ -315,8 +315,6 @@ public class EMClientRepository extends BaseEMRepository{
         loadAllConversationsAndGroups();
         //从服务器拉取加入的群，防止进入会话页面只显示id
         getAllJoinGroup();
-        // get contacts from server
-        getContactsFromServer();
         // get current user id
         String currentUser = EMClient.getInstance().getCurrentUser();
         EaseUser user = new EaseUser(currentUser);
@@ -328,23 +326,6 @@ public class EMClientRepository extends BaseEMRepository{
         loadAllConversationsAndGroups();
         //从服务器拉取加入的群，防止进入会话页面只显示id
         getAllJoinGroup();
-    }
-
-    private void getContactsFromServer() {
-        new EMContactManagerRepository().getContactList(new ResultCallBack<List<EaseUser>>() {
-            @Override
-            public void onSuccess(List<EaseUser> value) {
-                if(getUserDao() != null) {
-                    getUserDao().clearUsers();
-                    getUserDao().insert(EmUserEntity.parseList(value));
-                }
-            }
-
-            @Override
-            public void onError(int error, String errorMsg) {
-
-            }
-        });
     }
 
     private void getAllJoinGroup() {

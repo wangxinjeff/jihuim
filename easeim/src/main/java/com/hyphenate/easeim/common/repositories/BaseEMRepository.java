@@ -14,8 +14,6 @@ import com.hyphenate.chat.EMPushManager;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.common.db.EaseDbHelper;
 import com.hyphenate.easeim.common.db.dao.EmUserDao;
-import com.hyphenate.easeim.common.db.dao.InviteMessageDao;
-import com.hyphenate.easeim.common.db.dao.MsgTypeManageDao;
 import com.hyphenate.easeui.manager.EaseThreadManager;
 
 public class BaseEMRepository {
@@ -63,29 +61,12 @@ public class BaseEMRepository {
     }
 
     /**
-     * EMContactManager
-     * @return
-     */
-    public EMContactManager getContactManager() {
-        return EaseIMHelper.getInstance().getContactManager();
-    }
-
-    /**
      * EMGroupManager
      * @return
      */
     public EMGroupManager getGroupManager() {
         return EaseIMHelper.getInstance().getEMClient().groupManager();
     }
-
-    /**
-     * EMChatRoomManager
-     * @return
-     */
-    public EMChatRoomManager getChatRoomManager() {
-        return EaseIMHelper.getInstance().getChatroomManager();
-    }
-
 
     /**
      * EMPushManager
@@ -108,22 +89,6 @@ public class BaseEMRepository {
      */
     public EmUserDao getUserDao() {
         return EaseDbHelper.getInstance(getContext()).getUserDao();
-    }
-
-    /**
-     * get MsgTypeManageDao
-     * @return
-     */
-    public MsgTypeManageDao getMsgTypeManageDao() {
-        return EaseDbHelper.getInstance(getContext()).getMsgTypeManageDao();
-    }
-
-    /**
-     * get invite message dao
-     * @return
-     */
-    public InviteMessageDao getInviteMessageDao() {
-        return EaseDbHelper.getInstance(getContext()).getInviteMessageDao();
     }
 
     /**
