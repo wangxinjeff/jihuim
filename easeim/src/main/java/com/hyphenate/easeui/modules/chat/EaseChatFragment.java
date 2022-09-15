@@ -226,8 +226,18 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
                 onActivityResultForLocalFiles(data);
             }else if(requestCode == REQUEST_CODE_SELECT_VIDEO) {
                 onActivityResultForLocalVideos(data);
-            } else if(requestCode == EMConstant.REQUEST_CODE_CHOOSE){
-                chatLayout.sendImageMessage(EMMatisse.obtainResult(data).get(0), true);
+            } else if(requestCode == EMConstant.REQUEST_CODE_CHOOSE && data != null){
+                List<Uri> list = EMMatisse.obtainResult(data);
+                if(list.size() > 0){
+                    String mimeType = EaseCompat.getMimeType(mContext, list.get(0));
+                    if(mimeType != null){
+                        if(mimeType.startsWith("image")){
+                            chatLayout.sendImageMessage(list.get(0), true);
+                        } else if(mimeType.startsWith("video")) {
+                            chatLayout.sendVideoMessage(list.get(0), EMSmartMediaPicker.getVideoDuration(getContext(), list.get(0)));
+                        }
+                    }
+                }
             } else if(requestCode == EMConstant.CAMERA_RESULT_CODE){
                 List<String> resultData = EMSmartMediaPicker.getResultData(getContext(), requestCode, resultCode, data);
                 if (resultData != null && resultData.size() > 0) {
@@ -307,7 +317,7 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
                 //最大图片选择数目 如果不需要图片 将数目设置为0
                 .withMaxImageSelectable(1)
                 //最大视频选择数目 如果不需要视频 将数目设置为0
-                .withMaxVideoSelectable(0)
+                .withMaxVideoSelectable(1)
                 //图片选择器是否显示数字
                 .withCountable(false)
                 //最大视频长度

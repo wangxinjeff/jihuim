@@ -65,6 +65,7 @@ public class EMIncapableCause {
     public static void handleCause(Context context, EMIncapableCause cause) {
         if (cause == null)
             return;
+        Toast.makeText(context, cause.mMessage, Toast.LENGTH_SHORT).show();
 
         switch (cause.mForm) {
             case NONE:
