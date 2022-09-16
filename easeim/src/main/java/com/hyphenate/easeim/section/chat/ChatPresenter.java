@@ -54,6 +54,7 @@ import com.hyphenate.util.EMLog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -67,6 +68,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class ChatPresenter extends EaseChatPresenter {
     private static final String TAG = ChatPresenter.class.getSimpleName();
     private static final int HANDLER_SHOW_TOAST = 0;
+    private static final int HANDLER_FIRST_TIME = 1;
     private static ChatPresenter instance;
     private LiveDataBus messageChangeLiveData;
     private boolean isGroupsSyncedWithServer = false;
@@ -79,6 +81,10 @@ public class ChatPresenter extends EaseChatPresenter {
     private ChatConversationListener conversationListener;
 
     Queue<String> msgQueue = new ConcurrentLinkedQueue<>();
+
+    private boolean firstTime = true;
+    private List<EMMessage> tempMessages = new ArrayList<>();
+    private List<EMMessage> tempCmdMessages = new ArrayList<>();
 
     private ChatPresenter() {
         appContext = EaseIMHelper.getInstance().getApplication();
@@ -96,6 +102,7 @@ public class ChatPresenter extends EaseChatPresenter {
         EaseIMHelper.getInstance().getGroupManager().addGroupChangeListener(groupListener);
         //添加对会话的监听（监听已读回执）
         EaseIMHelper.getInstance().getChatManager().addConversationListener(conversationListener);
+        handler.sendEmptyMessageDelayed(HANDLER_FIRST_TIME, 5000);
     }
 
     public static ChatPresenter getInstance() {
@@ -148,6 +155,17 @@ public class ChatPresenter extends EaseChatPresenter {
                             Toast.makeText(appContext, str, Toast.LENGTH_SHORT).show();
                         }
                         break;
+                    case HANDLER_FIRST_TIME:
+                        firstTime = false;
+                        if(tempMessages.size() > 0){
+                            EaseCallKit.getInstance().onMessageReceived(tempMessages);
+                            tempMessages.clear();
+                        }
+                        if(tempCmdMessages.size() > 0){
+                            EaseCallKit.getInstance().onCmdMessageReceived(tempCmdMessages);
+                            tempCmdMessages.clear();
+                        }
+                        break;
                 }
             }
         };
@@ -173,13 +191,18 @@ public class ChatPresenter extends EaseChatPresenter {
     @Override
     public void onMessageReceived(List<EMMessage> messages) {
         super.onMessageReceived(messages);
-        EaseCallKit.getInstance().onMessageReceived(messages);
+        if(!firstTime){
+            EaseCallKit.getInstance().onMessageReceived(messages);
+        }
         // 通话邀请不处理
         for(EMMessage message : messages){
             String messageType = message.getStringAttribute(EaseMsgUtils.CALL_MSG_TYPE, "");
             //有关通话控制信令
             if(TextUtils.equals(messageType, EaseMsgUtils.CALL_MSG_INFO)
                     && !TextUtils.equals(message.getFrom(), EMClient.getInstance().getCurrentUser())){
+                if(firstTime){
+                    tempMessages.add(message);
+                }
                 return;
             }
         }
@@ -263,13 +286,17 @@ public class ChatPresenter extends EaseChatPresenter {
     @Override
     public void onCmdMessageReceived(List<EMMessage> messages) {
         super.onCmdMessageReceived(messages);
-
-        EaseCallKit.getInstance().onCmdMessageReceived(messages);
+        if(!firstTime) {
+            EaseCallKit.getInstance().onCmdMessageReceived(messages);
+        }
         for(EMMessage message : messages){
             String messageType = message.getStringAttribute(EaseMsgUtils.CALL_MSG_TYPE, "");
             //有关通话控制信令
             if(TextUtils.equals(messageType, EaseMsgUtils.CALL_MSG_INFO)
                     && !TextUtils.equals(message.getFrom(), EMClient.getInstance().getCurrentUser())){
+                if(firstTime){
+                    tempCmdMessages.add(message);
+                }
                 return;
             }
         }
