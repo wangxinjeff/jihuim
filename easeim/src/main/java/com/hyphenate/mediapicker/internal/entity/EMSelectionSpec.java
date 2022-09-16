@@ -92,7 +92,7 @@ public final class EMSelectionSpec {
         originalable = false;
         autoHideToobar = false;
         originalMaxSize = Integer.MAX_VALUE;
-        showPreview = true;
+        showPreview = false;
     }
 
     public boolean singleSelectionModeEnabled() {

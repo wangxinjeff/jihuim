@@ -136,7 +136,7 @@ public abstract class EMBasePreviewActivity extends AppCompatActivity implements
                         }
                     }
                 }
-//                updateApplyButton();
+                updateApplyButton();
 
                 if (mSpec.EMOnSelectedListener != null) {
                     mSpec.EMOnSelectedListener.onSelected(
@@ -174,7 +174,7 @@ public abstract class EMBasePreviewActivity extends AppCompatActivity implements
             }
         });
 
-//        updateApplyButton();
+        updateApplyButton();
     }
 
     @Override
@@ -195,11 +195,6 @@ public abstract class EMBasePreviewActivity extends AppCompatActivity implements
         if (v.getId() == R.id.button_back) {
             onBackPressed();
         } else if (v.getId() == R.id.button_apply) {
-            mSelectedCollection.clear();
-            EMItem item = mAdapter.getMediaItem(mPager.getCurrentItem());
-            if (assertAddSelection(item)) {
-                mSelectedCollection.add(item);
-            }
             sendBackResult(true);
             finish();
         }
@@ -287,12 +282,12 @@ public abstract class EMBasePreviewActivity extends AppCompatActivity implements
             mButtonApply.setText(getString(R.string.em_button_apply, selectedCount));
         }
 
-//        if (mSpec.originalable) {
-//            mOriginalLayout.setVisibility(View.VISIBLE);
-//            updateOriginalState();
-//        } else {
-//            mOriginalLayout.setVisibility(View.GONE);
-//        }
+        if (mSpec.originalable) {
+            mOriginalLayout.setVisibility(View.VISIBLE);
+            updateOriginalState();
+        } else {
+            mOriginalLayout.setVisibility(View.GONE);
+        }
     }
 
 

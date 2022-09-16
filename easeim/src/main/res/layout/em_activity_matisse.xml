@@ -55,8 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="?attr/embottomToolbar.bg"
-        android:visibility="gone">
+        android:background="?attr/embottomToolbar.bg">
 
         <TextView
             android:id="@+id/button_preview"

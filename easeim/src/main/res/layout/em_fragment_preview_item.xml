@@ -29,4 +29,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:src="@drawable/em_ic_play_circle_outline_white_48dp"/>
+
+    <com.hyphenate.easeui.player.EasyVideoPlayer
+        android:id="@+id/evp_player"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
 </FrameLayout>

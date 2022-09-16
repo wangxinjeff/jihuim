@@ -214,15 +214,15 @@ public class EMSelectedItemCollection {
     // depends
     private int currentMaxSelectable() {
         EMSelectionSpec spec = EMSelectionSpec.getInstance();
-        if (spec.maxSelectable > 0) {
-            return spec.maxSelectable;
-        } else if (mCollectionType == COLLECTION_IMAGE) {
+//        if (spec.maxSelectable > 0) {
+//            return spec.maxSelectable;
+//        } else if (mCollectionType == COLLECTION_IMAGE) {
             return spec.maxImageSelectable;
-        } else if (mCollectionType == COLLECTION_VIDEO) {
-            return spec.maxVideoSelectable;
-        } else {
-            return spec.maxSelectable;
-        }
+//        } else if (mCollectionType == COLLECTION_VIDEO) {
+//            return spec.maxVideoSelectable;
+//        } else {
+//            return spec.maxSelectable;
+//        }
     }
 
     public int getCollectionType() {
