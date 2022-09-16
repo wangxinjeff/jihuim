@@ -119,7 +119,7 @@ public final class EMMatisse {
      * @see EMSelectionCreator
      */
     public EMSelectionCreator choose(Set<EMMimeType> mimeTypes) {
-        return this.choose(mimeTypes, true);
+        return this.choose(mimeTypes, false);
     }
 
     /**

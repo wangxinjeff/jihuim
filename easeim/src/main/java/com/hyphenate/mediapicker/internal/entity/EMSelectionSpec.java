@@ -34,7 +34,7 @@ import java.util.Set;
 public final class EMSelectionSpec {
 
     public Set<EMMimeType> mimeTypeSet;
-    public boolean mediaTypeExclusive;
+    public boolean mediaTypeExclusive;//是否只能选择同类型文件
     public boolean showSingleMediaType;
     @StyleRes
     public int themeId;
@@ -56,7 +56,7 @@ public final class EMSelectionSpec {
     public boolean autoHideToobar;
     public int originalMaxSize;
     public EMOnCheckedListener onCheckedListener;
-    public boolean showPreview;
+    public boolean showPreview;//是否可以点击预览
 
     private EMSelectionSpec() {
     }
@@ -92,7 +92,7 @@ public final class EMSelectionSpec {
         originalable = false;
         autoHideToobar = false;
         originalMaxSize = Integer.MAX_VALUE;
-        showPreview = true;
+        showPreview = false;
     }
 
     public boolean singleSelectionModeEnabled() {

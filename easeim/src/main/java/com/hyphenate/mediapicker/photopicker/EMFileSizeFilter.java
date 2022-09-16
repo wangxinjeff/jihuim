@@ -71,10 +71,10 @@ public class EMFileSizeFilter extends EMFilter {
             if (item.size > mMaxImageSize) {
                 return new EMIncapableCause(EMIncapableCause.DIALOG,  context.getString(R.string.em_error_size,  mMaxImageSize / EMFilter.K / EMFilter.K));
             }
-            if (size.x > mMaxWidth || size.y > mMaxHeight || item.size > mMaxImageSize) {
-                return new EMIncapableCause(EMIncapableCause.DIALOG, context.getString(R.string.em_error_gif,mMaxHeight,mMaxWidth
-                        , String.valueOf(EMPhotoMetadataUtils.getSizeInMB(mMaxImageSize))));
-            }
+//            if (size.x > mMaxWidth || size.y > mMaxHeight || item.size > mMaxImageSize) {
+//                return new EMIncapableCause(EMIncapableCause.DIALOG, context.getString(R.string.em_error_gif,mMaxHeight,mMaxWidth
+//                        , String.valueOf(EMPhotoMetadataUtils.getSizeInMB(mMaxImageSize))));
+//            }
 
         }
 

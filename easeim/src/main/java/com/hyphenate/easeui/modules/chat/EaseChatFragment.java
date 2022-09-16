@@ -229,12 +229,14 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
             } else if(requestCode == EMConstant.REQUEST_CODE_CHOOSE && data != null){
                 List<Uri> list = EMMatisse.obtainResult(data);
                 if(list.size() > 0){
-                    String mimeType = EaseCompat.getMimeType(mContext, list.get(0));
-                    if(mimeType != null){
-                        if(mimeType.startsWith("image")){
-                            chatLayout.sendImageMessage(list.get(0), true);
-                        } else if(mimeType.startsWith("video")) {
-                            chatLayout.sendVideoMessage(list.get(0), EMSmartMediaPicker.getVideoDuration(getContext(), list.get(0)));
+                    for(int i = 0; i < list.size(); i ++){
+                        String mimeType = EaseCompat.getMimeType(mContext, list.get(i));
+                        if(mimeType != null){
+                            if(mimeType.startsWith("image")){
+                                chatLayout.sendImageMessage(list.get(i), true);
+                            } else if(mimeType.startsWith("video")) {
+                                chatLayout.sendVideoMessage(list.get(i), EMSmartMediaPicker.getVideoDuration(getContext(), list.get(i)));
+                            }
                         }
                     }
                 }
@@ -315,11 +317,11 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
     protected void selectPicFromLocal() {
         EMSmartMediaPicker.builder(this)
                 //最大图片选择数目 如果不需要图片 将数目设置为0
-                .withMaxImageSelectable(1)
+                .withMaxImageSelectable(9)
                 //最大视频选择数目 如果不需要视频 将数目设置为0
-                .withMaxVideoSelectable(1)
+                .withMaxVideoSelectable(9)
                 //图片选择器是否显示数字
-                .withCountable(false)
+                .withCountable(true)
                 //最大视频长度
                 .withMaxVideoLength(30 * 1000)
                 //最大视频文件大小 单位MB

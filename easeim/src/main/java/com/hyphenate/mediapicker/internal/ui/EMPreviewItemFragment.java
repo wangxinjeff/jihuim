@@ -19,6 +19,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.hyphenate.easeim.R;
+import com.hyphenate.easeui.player.EasyVideoCallback;
+import com.hyphenate.easeui.player.EasyVideoPlayer;
 import com.hyphenate.mediapicker.internal.entity.EMItem;
 import com.hyphenate.mediapicker.internal.entity.EMSelectionSpec;
 import com.hyphenate.mediapicker.internal.utils.EMPhotoMetadataUtils;
@@ -37,10 +40,12 @@ import com.hyphenate.mediapicker.listener.EMOnFragmentInteractionListener;
 import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
 
-public class EMPreviewItemFragment extends Fragment {
+public class EMPreviewItemFragment extends Fragment implements EasyVideoCallback {
 
     private static final String ARGS_ITEM = "args_item";
     private EMOnFragmentInteractionListener mListener;
+    private EasyVideoPlayer evpPlayer;
+    private Uri uri;
 
     public static EMPreviewItemFragment newInstance(EMItem item) {
         EMPreviewItemFragment fragment = new EMPreviewItemFragment();
@@ -65,16 +70,25 @@ public class EMPreviewItemFragment extends Fragment {
 
         View videoPlayButton = view.findViewById(R.id.video_play_button);
         if (item.isVideo()) {
+            uri = item.getContentUri();
+            evpPlayer = view.findViewById(R.id.evp_player);
+            evpPlayer.setAutoPlay(true);
+            evpPlayer.setCallback(this);
+
             videoPlayButton.setVisibility(View.VISIBLE);
             videoPlayButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setDataAndType(item.uri, "video/*");
-                    try {
-                        startActivity(intent);
-                    } catch (ActivityNotFoundException e) {
-                        Toast.makeText(getContext(), R.string.em_error_no_video_activity, Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(Intent.ACTION_VIEW);
+//                    intent.setDataAndType(item.uri, "video/*");
+//                    try {
+//                        startActivity(intent);
+//                    } catch (ActivityNotFoundException e) {
+//                        Toast.makeText(getContext(), R.string.em_error_no_video_activity, Toast.LENGTH_SHORT).show();
+//                    }
+                    if(uri != null) {
+                        evpPlayer.setVisibility(View.VISIBLE);
+                        evpPlayer.setSource(uri);
                     }
                 }
             });
@@ -126,5 +140,72 @@ public class EMPreviewItemFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(!isVisibleToUser && evpPlayer != null) {
+            evpPlayer.reset();
+            evpPlayer.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(evpPlayer != null) {
+            evpPlayer.pause();
+            evpPlayer.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(evpPlayer != null) {
+            evpPlayer.release();
+            evpPlayer = null;
+        }
+    }
+
+    @Override
+    public void onStarted(EasyVideoPlayer player) {
+
+    }
+
+    @Override
+    public void onPaused(EasyVideoPlayer player) {
+
+    }
+
+    @Override
+    public void onPreparing(EasyVideoPlayer player) {
+
+    }
+
+    @Override
+    public void onPrepared(EasyVideoPlayer player) {
+
+    }
+
+    @Override
+    public void onBuffering(int percent) {
+
+    }
+
+    @Override
+    public void onError(EasyVideoPlayer player, Exception e) {
+
+    }
+
+    @Override
+    public void onCompletion(EasyVideoPlayer player) {
+        evpPlayer.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onClickVideoFrame(EasyVideoPlayer player) {
+
     }
 }
