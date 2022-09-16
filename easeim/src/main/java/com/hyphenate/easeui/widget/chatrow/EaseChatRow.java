@@ -413,6 +413,7 @@ public abstract class EaseChatRow extends LinearLayout {
     protected void setAvatarAndNick() {
         try {
             JSONObject userInfo = message.getJSONObjectAttribute(EaseConstant.MESSAGE_ATTR_USER_INFO);
+            EaseUserUtils.getUserInfo(message.getFrom());
             if(userInfo != null){
                 String nick = userInfo.optString(EaseConstant.MESSAGE_ATTR_USER_NICK);
                 String avatar = userInfo.optString(EaseConstant.MESSAGE_ATTR_USER_AVATAR);

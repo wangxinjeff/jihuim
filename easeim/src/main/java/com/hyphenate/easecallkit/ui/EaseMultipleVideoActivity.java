@@ -44,6 +44,7 @@ import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeim.section.conference.ConferenceInviteActivity;
 import com.hyphenate.easeui.constants.EaseConstant;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseEvent;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.util.EMLog;
@@ -1362,11 +1363,11 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
                     }
                 });
 
-//                final EMMessage message = EMMessage.createTextSendMessage(getApplicationContext().getString(R.string.em_invited_to_make_multi_party_call), username);
-                EMMessage message = EMMessage.createSendMessage(EMMessage.Type.CMD);
-                EMCmdMessageBody body = new EMCmdMessageBody("callInvite");
-                message.addBody(body);
-                message.setTo(username);
+                EMMessage message = EMMessage.createTextSendMessage(getApplicationContext().getString(R.string.em_invited_to_make_multi_party_call), username);
+//                EMMessage message = EMMessage.createSendMessage(EMMessage.Type.CMD);
+//                EMCmdMessageBody body = new EMCmdMessageBody("callInvite");
+//                message.addBody(body);
+//                message.setTo(username);
                 message.setAttribute(EaseMsgUtils.CALL_ACTION, EaseCallAction.CALL_INVITE.state);
                 message.setAttribute(EaseMsgUtils.CALL_CHANNELNAME, channelName);
                 message.setAttribute(EaseMsgUtils.CALL_TYPE, callType.code);
@@ -1393,9 +1394,12 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
                 //增加推送字段
                 JSONObject extObject = new JSONObject();
                 try {
-                    String info = getApplication().getString(R.string.alert_request_multiple_video, EMClient.getInstance().getCurrentUser());
-                    extObject.putOpt("em_push_title", info);
+                    EaseUser user = EaseIMHelper.getInstance().getUserProfileManager().getCurrentUserInfo();
+                    String info = getApplication().getString(R.string.em_invited_to_make_multi_party_call);
+                    extObject.putOpt("em_push_title", user.getNickname());
                     extObject.putOpt("em_push_content", info);
+                    extObject.putOpt("em_alert_title", user.getNickname());
+                    extObject.putOpt("em_alert_body", info);
                     extObject.putOpt("isRtcCall", true);
                     extObject.putOpt("callType", EaseCallType.CONFERENCE_CALL.code);
                 } catch (JSONException e) {
@@ -1403,7 +1407,6 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
                 }
                 message.setAttribute("em_apns_ext", extObject);
 
-                final EMConversation conversation = EMClient.getInstance().chatManager().getConversation(username, EMConversation.EMConversationType.Chat, true);
                 message.setMessageStatusCallback(new EMCallBack() {
                     @Override
                     public void onSuccess() {

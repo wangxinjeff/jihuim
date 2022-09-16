@@ -173,11 +173,13 @@ public class ChatPresenter extends EaseChatPresenter {
     @Override
     public void onMessageReceived(List<EMMessage> messages) {
         super.onMessageReceived(messages);
+        EaseCallKit.getInstance().onMessageReceived(messages);
         // 通话邀请不处理
         for(EMMessage message : messages){
             String messageType = message.getStringAttribute(EaseMsgUtils.CALL_MSG_TYPE, "");
             //有关通话控制信令
-            if(TextUtils.equals(messageType, EaseMsgUtils.CALL_MSG_INFO)){
+            if(TextUtils.equals(messageType, EaseMsgUtils.CALL_MSG_INFO)
+                    && !TextUtils.equals(message.getFrom(), EMClient.getInstance().getCurrentUser())){
                 return;
             }
         }
@@ -263,6 +265,14 @@ public class ChatPresenter extends EaseChatPresenter {
         super.onCmdMessageReceived(messages);
 
         EaseCallKit.getInstance().onCmdMessageReceived(messages);
+        for(EMMessage message : messages){
+            String messageType = message.getStringAttribute(EaseMsgUtils.CALL_MSG_TYPE, "");
+            //有关通话控制信令
+            if(TextUtils.equals(messageType, EaseMsgUtils.CALL_MSG_INFO)
+                    && !TextUtils.equals(message.getFrom(), EMClient.getInstance().getCurrentUser())){
+                return;
+            }
+        }
 
         for(EMMessage message : messages){
             EMCmdMessageBody body = (EMCmdMessageBody)message.getBody();
