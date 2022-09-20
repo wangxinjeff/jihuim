@@ -1390,9 +1390,15 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
                 message.setAttribute(EaseMsgUtils.CALL_MSG_TYPE, EaseMsgUtils.CALL_MSG_INFO);
 
                 //增加推送字段
-                JSONObject extObject = new JSONObject();
                 try {
+                    JSONObject userInfo = new JSONObject();
                     EaseUser user = EaseIMHelper.getInstance().getCurrentUserInfo();
+                    userInfo.put(EaseConstant.MESSAGE_ATTR_USER_NAME, user.getUsername());
+                    userInfo.put(EaseConstant.MESSAGE_ATTR_USER_NICK, user.getNickname());
+                    userInfo.put(EaseConstant.MESSAGE_ATTR_USER_AVATAR, user.getAvatar() != null ? user.getAvatar() : "");
+                    message.setAttribute(EaseConstant.MESSAGE_ATTR_USER_INFO, userInfo);
+
+                    JSONObject extObject = new JSONObject();
                     String info = getApplicationContext().getString(R.string.em_invited_to_make_multi_party_call);
                     extObject.putOpt("em_push_title", user.getNickname());
                     extObject.putOpt("em_push_content", info);
@@ -1400,10 +1406,10 @@ public class EaseMultipleVideoActivity extends EaseBaseCallActivity implements V
                     extObject.putOpt("em_alert_body", info);
                     extObject.putOpt("isRtcCall", true);
                     extObject.putOpt("callType", EaseCallType.CONFERENCE_CALL.code);
+                    message.setAttribute("em_apns_ext", extObject);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                message.setAttribute("em_apns_ext", extObject);
 
                 message.setMessageStatusCallback(new EMCallBack() {
                     @Override
