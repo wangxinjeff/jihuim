@@ -294,13 +294,13 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
                 //最大视频长度
                 .withMaxVideoLength(30 * 1000)
                 //最大视频文件大小 单位MB
-                .withMaxVideoSize(10)
+                .withMaxVideoSize(100)
                 //最大图片高度 默认1920
                 .withMaxHeight(4032)
                 //最大图片宽度 默认1920
                 .withMaxWidth(4032)
                 //最大图片大小 单位MB
-                .withMaxImageSize(10)
+                .withMaxImageSize(100)
                 //设置图片加载引擎
                 .withImageEngine(new EMGlideEngine())
                 //前置摄像头拍摄是否镜像翻转图像
@@ -325,13 +325,13 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
                 //最大视频长度
                 .withMaxVideoLength(30 * 1000)
                 //最大视频文件大小 单位MB
-                .withMaxVideoSize(10)
+                .withMaxVideoSize(100)
                 //最大图片高度 默认1920
                 .withMaxHeight(4032)
                 //最大图片宽度 默认1920
                 .withMaxWidth(4032)
                 //最大图片大小 单位MB
-                .withMaxImageSize(10)
+                .withMaxImageSize(100)
                 //设置图片加载引擎
                 .withImageEngine(new EMGlideEngine())
                 //前置摄像头拍摄是否镜像翻转图像
