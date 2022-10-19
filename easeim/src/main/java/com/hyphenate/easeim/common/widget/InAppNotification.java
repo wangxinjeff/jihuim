@@ -122,7 +122,7 @@ public class InAppNotification implements Runnable {
         if(notifyIconResId > 0){
             iconView.setImageResource(notifyIconResId);
         }
-        if(TextUtils.isEmpty(notifyName)){
+        if(!TextUtils.isEmpty(notifyName)){
             nameView.setText(notifyName);
         }
         setTouchEvent();
