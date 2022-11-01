@@ -168,7 +168,7 @@ public class ConversationListFragment extends EaseConversationListFragment{
                 || change.isGroupLeave() || change.isChatRoomLeave()
                 || change.isContactChange()
                 || change.type == EaseEvent.TYPE.CHAT_ROOM || change.isGroupChange()
-        || change.isConfigChange()) {
+        || change.isConfigChange() || change.isGroupNameChange()) {
             conversationListLayout.loadDefaultData();
         }
     }

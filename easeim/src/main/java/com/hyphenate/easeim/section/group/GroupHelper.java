@@ -125,7 +125,7 @@ public class GroupHelper {
      */
     public static String getGroupName(String groupId) {
         EMGroup group = EMClient.getInstance().groupManager().getGroup(groupId);
-        if(group == null) {
+        if(group == null || group.getMemberCount() <= 0) {
             EaseIMHelper.getInstance().getGroupManager().asyncGetGroupFromServer(groupId, new EMValueCallBack<EMGroup>() {
                 @Override
                 public void onSuccess(EMGroup emGroup) {

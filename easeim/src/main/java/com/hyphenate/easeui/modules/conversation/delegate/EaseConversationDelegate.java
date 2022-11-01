@@ -15,6 +15,7 @@ import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeim.EaseIMHelper;
+import com.hyphenate.easeim.section.group.GroupHelper;
 import com.hyphenate.easeui.EaseIM;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.domain.EaseUser;
@@ -66,8 +67,7 @@ public class EaseConversationDelegate extends EaseDefaultConversationDelegate {
                 holder.mentioned.setVisibility(View.VISIBLE);
             }
             defaultAvatar = R.drawable.ease_group_icon;
-            EMGroup group = EMClient.getInstance().groupManager().getGroup(username);
-            showName = group != null ? group.getGroupName() : username;
+            showName = GroupHelper.getGroupName(username);
             List<String> noPushGroups = EMClient.getInstance().pushManager().getNoPushGroups();
             if(noPushGroups != null && noPushGroups.contains(username)){
                 holder.noPush.setVisibility(View.VISIBLE);

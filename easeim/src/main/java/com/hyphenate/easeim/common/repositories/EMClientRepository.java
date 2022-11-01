@@ -4,7 +4,9 @@ import android.text.TextUtils;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
+import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easecallkit.base.EaseCallKitTokenCallback;
 import com.hyphenate.easecallkit.base.EaseGetUserAccountCallback;
@@ -141,6 +143,25 @@ public class EMClientRepository extends BaseEMRepository{
                     public void onSuccess(List<EaseConversationInfo> data) {
                         // 拉取服务器的会话列表之后设置为不是初次登录
                         EaseIMHelper.getInstance().makeNotFirstInstall();
+                        // 获取会话对应的群组信息
+                        for(EaseConversationInfo info : data){
+                            if(info.getInfo() instanceof EMConversation){
+                                EMConversation conversation = (EMConversation) info.getInfo();
+                                if(conversation.getType() == EMConversation.EMConversationType.GroupChat){
+                                    getGroupManager().asyncGetGroupFromServer(conversation.conversationId(), new EMValueCallBack<EMGroup>() {
+                                        @Override
+                                        public void onSuccess(EMGroup emGroup) {
+
+                                        }
+
+                                        @Override
+                                        public void onError(int i, String s) {
+
+                                        }
+                                    });
+                                }
+                            }
+                        }
                     }
 
                     @Override
