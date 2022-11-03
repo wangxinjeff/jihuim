@@ -66,7 +66,9 @@ public class EMClientRepository extends BaseEMRepository{
         initDb();
         // 从本地数据库加载所有的对话及群组
         getChatManager().loadAllConversations();
-        getGroupManager().loadAllGroups();
+        EaseThreadManager.getInstance().runOnIOThread(() -> {
+            getGroupManager().loadAllGroups();
+        });
     }
 
     /**
@@ -137,6 +139,8 @@ public class EMClientRepository extends BaseEMRepository{
             public void onSuccess() {
                 EaseIMHelper.getInstance().getModel().setCurrentUserName(userName);
                 loginSuccess();
+                //从服务器拉取加入的群，防止进入会话页面只显示id
+                getAllJoinGroup();
                 setAutoLogin(true);
                 EMChatManagerRepository.getInstance().fetchConversationsFromServer(new ResultCallBack<List<EaseConversationInfo>>() {
                     @Override
@@ -258,8 +262,6 @@ public class EMClientRepository extends BaseEMRepository{
     public void loginSuccess(){
         // ** manually load all local groups and conversation
         loadAllConversationsAndGroups();
-        //从服务器拉取加入的群，防止进入会话页面只显示id
-        getAllJoinGroup();
     }
 
     private void getAllJoinGroup() {
