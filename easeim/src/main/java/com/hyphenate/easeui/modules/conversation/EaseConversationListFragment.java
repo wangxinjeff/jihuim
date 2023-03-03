@@ -32,9 +32,7 @@ public class EaseConversationListFragment extends EaseBaseFragment implements On
     public SwipeRefreshLayout srlRefresh;
     protected int conversationsType = EaseConstant.CON_TYPE_EXCLUSIVE;
 
-    public EaseConversationListFragment(int conversationsType) {
-        this.conversationsType = conversationsType;
-    }
+    public EaseConversationListFragment(){}
 
     @Nullable
     @Override
@@ -60,6 +58,11 @@ public class EaseConversationListFragment extends EaseBaseFragment implements On
     }
 
     public void initView(Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            conversationsType = bundle.getInt("conversationsType");
+        }
+
         llRoot = findViewById(R.id.ll_root);
         srlRefresh = findViewById(R.id.srl_refresh);
         conversationListLayout = findViewById(R.id.list_conversation);

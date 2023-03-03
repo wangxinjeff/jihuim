@@ -41,8 +41,8 @@ public class ConversationListFragment extends EaseConversationListFragment{
 
     private ConversationListViewModel mViewModel;
 
-    public ConversationListFragment(int conversationsType) {
-        super(conversationsType);
+    public ConversationListFragment(){
+        super();
     }
 
     @Override

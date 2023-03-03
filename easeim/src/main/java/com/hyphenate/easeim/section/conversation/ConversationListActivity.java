@@ -220,7 +220,10 @@ public class ConversationListActivity extends BaseInitActivity implements EaseTi
 
     private void switchToHome() {
         if(mConversationListFragment == null) {
-            mConversationListFragment = new ConversationListFragment(conversationsType);
+            mConversationListFragment = new ConversationListFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("conversationsType", conversationsType);
+            mConversationListFragment.setArguments(bundle);
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_main_fragment, mConversationListFragment, "conversation").commit();
     }
