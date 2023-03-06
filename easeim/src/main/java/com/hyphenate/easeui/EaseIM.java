@@ -17,6 +17,7 @@ import com.hyphenate.easeui.provider.EaseConversationInfoProvider;
 import com.hyphenate.easeui.provider.EaseEmojiconInfoProvider;
 import com.hyphenate.easeui.provider.EaseSettingsProvider;
 import com.hyphenate.easeui.provider.EaseUserProfileProvider;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -125,14 +126,7 @@ public class EaseIM {
      * @return
      */
     public boolean isMainProcess(Context context) {
-        int pid = android.os.Process.myPid();
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
-            if (appProcess.pid == pid) {
-                return context.getApplicationInfo().packageName.equals(appProcess.processName);
-            }
-        }
-        return false;
+        return EaseCommonUtils.isMainProcess(context);
     }
 
     private void initNotifier(){

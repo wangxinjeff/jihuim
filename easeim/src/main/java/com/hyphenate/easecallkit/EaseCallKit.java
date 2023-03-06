@@ -20,6 +20,7 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeim.EaseIMHelper;
 import com.hyphenate.easeim.R;
 import com.hyphenate.easeui.model.EaseNotifier;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.EasyUtils;
@@ -121,7 +122,7 @@ public class EaseCallKit {
         }
         removeMessageListener();
         appContext = context;
-        if (!isMainProcess(appContext)) {
+        if (!EaseCommonUtils.isMainProcess(appContext)) {
             Log.e(TAG, "enter the service process!");
             return false;
         }
@@ -704,18 +705,6 @@ public class EaseCallKit {
     public EaseNotifier getNotifier(){
         return notifier;
     }
-
-    private boolean isMainProcess(Context context) {
-        int pid = android.os.Process.myPid();
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
-            if (appProcess.pid == pid) {
-                return TextUtils.equals(context.getApplicationInfo().packageName, appProcess.processName);
-            }
-        }
-        return false;
-    }
-
 
     /**
      * 发送CMD回复信息

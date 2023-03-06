@@ -15,6 +15,7 @@ package com.hyphenate.easeui.utils;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
+import android.app.Application;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -36,6 +37,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.hyphenate.chat.EMConversation;
@@ -58,6 +60,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class EaseCommonUtils {
@@ -612,5 +615,74 @@ public class EaseCommonUtils {
             }
         }
         return file.getAbsolutePath();
+    }
+
+    /**
+     *  通过 Application 新的 API 获取进程名，无需反射，无需 IPC，效率最高。
+     */
+    public static String getCurrentProcessNameByApplication() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            return Application.getProcessName();
+        }
+        return null;
+    }
+    /**
+     *  通过反射 ActivityThread 获取进程名，避免了 ipc
+     */
+    public static String getCurrentProcessNameByActivityThread() {
+        String processName = null;
+        try {
+            final Method declaredMethod = Class.forName("android.app.ActivityThread", false, Application.class.getClassLoader())
+                    .getDeclaredMethod("currentProcessName", (Class<?>[]) new Class[0]);
+            declaredMethod.setAccessible(true);
+            final Object invoke = declaredMethod.invoke(null, new Object[0]);
+            if (invoke instanceof String) {
+                processName = (String) invoke;
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return processName;
+    }
+
+    /**
+     * 通过 ActivityManager 获取进程名，需要 IPC 通信
+     */
+    public static String getCurrentProcessNameByActivityManager(@NonNull Context context) {
+        int pid = android.os.Process.myPid();
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if(activityManager != null){
+            List<ActivityManager.RunningAppProcessInfo> runningAppList = activityManager.getRunningAppProcesses();
+            if(runningAppList != null){
+                for (ActivityManager.RunningAppProcessInfo appProcess : runningAppList) {
+                    if (appProcess.pid == pid) {
+                        return appProcess.processName;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 判断是否在主线程
+     * @param context
+     * @return
+     */
+    public static boolean isMainProcess(@NonNull Context context){
+        String processName = EaseCommonUtils.getCurrentProcessNameByApplication();
+        if(processName == null){
+            processName = EaseCommonUtils.getCurrentProcessNameByActivityThread();
+        }
+
+        if(processName == null){
+            processName = EaseCommonUtils.getCurrentProcessNameByActivityManager(context);
+        }
+
+        if(processName != null){
+            return TextUtils.equals(processName, context.getApplicationInfo().packageName);
+        } else {
+            return false;
+        }
     }
 }
